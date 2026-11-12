@@ -11,12 +11,12 @@
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="3M Construction | Builders for homes and workplaces">
 <meta property="og:description" content="New homes, renovations and extensions, and commercial fit-outs. One site supervisor from the first site visit to the final certificate.">
-<meta property="og:image" content="../../img/hero-site-2000.webp">
+<meta property="og:image" content="../../img/proj-tower-1600.webp">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FFD400'/%3E%3Crect x='3' y='3' width='58' height='58' fill='none' stroke='%23111' stroke-width='6'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Impact,Arial Black,Arial,sans-serif' font-weight='700' font-size='32' fill='%23111'%3E3M%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" imagesrcset="../../img/hero-site-1000.webp 1000w, ../../img/hero-site-2000.webp 2000w, ../../img/hero-site-3200.webp 3200w" imagesizes="(max-width:900px) 100vw, 44vw" fetchpriority="high">
+<link rel="preload" as="image" imagesrcset="../../img/proj-tower-800.webp 800w, ../../img/proj-tower-1600.webp 1600w" imagesizes="(max-width:900px) 100vw, 44vw" fetchpriority="high">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"GeneralContractor","name":"3M Construction","description":"New homes, renovations and extensions, and commercial fit-outs. One site supervisor from the first site visit to the final certificate."}
@@ -114,11 +114,28 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 
 /* ---------- hero: giant stacked type on a black panel, photo in a hard frame ---------- */
 .hero{position:relative;min-height:100svh;display:grid;grid-template-rows:1fr auto;background:var(--black);color:var(--white);padding-top:var(--top);overflow:hidden}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,4vw,64px);align-items:center;align-self:center;padding:clamp(28px,4vh,56px) 0}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,4vw,64px);align-items:center;align-self:center;padding:clamp(28px,4vh,56px) 0}
 .hero-text{text-align:center;display:grid;justify-items:center;gap:clamp(18px,2.6vh,28px)}
-.hero h1{font-size:clamp(2.75rem,min(14vw,11vh),7.4rem);line-height:.9;letter-spacing:.015em}
-.hero h1 .ln{display:block}
-.hero h1 .ln.y{color:var(--yellow)}
+.hero h1{display:grid;justify-items:center;font-size:clamp(2.75rem,min(14vw,11vh),7.4rem);line-height:.9;letter-spacing:.015em}
+/* each headline word sits in a clipped slot (.ck) so it can slam up from below; the word itself (.ln) carries a yellow block
+   with a black copy of the word (::before, from data-t) that wipes across it and leaves white type behind. the last word keeps its block */
+.hero h1 .ck{display:block;overflow:clip;padding:.12em .1em .08em;margin:-.12em -.1em -.08em;transition:transform .5s var(--ease)}
+.hero h1 .ln{position:relative;display:block;padding:0 .08em}
+.hero h1 .ln::before{content:attr(data-t);content:attr(data-t) / "";position:absolute;inset:0;padding:0 .08em;background:var(--yellow);color:var(--black);clip-path:inset(0 0 0 100%);pointer-events:none}
+.hero h1 .ln.y{color:var(--black)}
+.hero h1 .ln.y::before{clip-path:inset(0 0 0 0)}
+@media (hover:hover){.hero h1 .ck:hover{transform:translateY(-6px)}}
+/* the hazard tape under the header: sweeps across the screen on load and stays */
+.tape{position:absolute;left:0;right:0;top:var(--top);height:clamp(16px,2.4vh,22px);background:var(--hazard);z-index:3}
+/* the outlined 3M watermark: huge, faint, drifting on a native scroll timeline as the hero scrolls out */
+.wm{position:absolute;z-index:1;left:-.1em;bottom:-.1em;font:400 min(70vh,42vw)/1 var(--display);letter-spacing:-.01em;color:transparent;-webkit-text-stroke:2px var(--yellow);opacity:.2;user-select:none;pointer-events:none}
+.wm b{display:block;font-weight:400}
+@media (max-width:900px){.wm{left:auto;right:-.26em;bottom:auto;top:12vh;font-size:min(40vh,108vw);-webkit-text-stroke-width:1.5px}}
+@supports (animation-timeline:view()){
+  .hero{view-timeline:--hero block}
+  .wm b{animation:wm-drift linear both;animation-timeline:--hero;animation-range:exit}
+}
+@keyframes wm-drift{to{transform:translate3d(-6vw,24vh,0)}}
 .hero .lede{max-width:540px;font-size:clamp(16px,1.25vw,19px);line-height:1.55;color:#E6E6E2}
 .hero .acts{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 30px}
 .hero .acts .btn{min-height:60px;padding:0 36px;font-size:17px}
@@ -129,30 +146,38 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .creds span::before{content:"";width:8px;height:8px;background:var(--yellow)}
 .frame{position:relative;margin:0 14px 14px 0}
 .frame::before{content:"";position:absolute;inset:0;background:var(--yellow);transform:translate(14px,14px)}
-.frame img{position:relative;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 55%;border:var(--bd) solid var(--yellow)}
-.marquee{background:var(--yellow);color:var(--black);border-top:var(--bd) solid var(--black);border-bottom:var(--bd) solid var(--black);overflow:hidden;padding:10px 0;font:400 clamp(20px,1.7vw,26px)/1 var(--display);text-transform:uppercase;letter-spacing:.03em}
+.frame img{position:relative;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center;border:var(--bd) solid var(--yellow)}
+.marquee{position:relative;z-index:2;background:var(--yellow);color:var(--black);border-top:var(--bd) solid var(--black);border-bottom:var(--bd) solid var(--black);overflow:hidden;padding:10px 0;font:400 clamp(20px,1.7vw,26px)/1 var(--display);text-transform:uppercase;letter-spacing:.03em}
 .marquee-track{display:flex;width:max-content}
 .marquee-track span{display:inline-flex;align-items:center;gap:28px;padding-right:28px;white-space:nowrap}
 .marquee-track span::after{content:"";width:12px;height:12px;background:var(--black)}
 .js .marquee.live .marquee-track{animation:marq 34s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
 @keyframes marq{to{transform:translateX(-50%)}}
-/* hero intro: lines slide in from alternating sides, the frame from the right, then the lede and the button rise */
-.js .hero h1 .ln{opacity:0;transform:translateX(-70px);animation:from-l 1.2s var(--ease) forwards}
-.js .hero h1 .ln:nth-child(2){transform:translateX(70px);animation-name:from-r;animation-delay:.18s}
-.js .hero h1 .ln:nth-child(3){animation-delay:.36s}
-.js .hero .lede,.js .hero .acts,.js .hero .creds{opacity:0;transform:translateY(20px);animation:rise 1.2s var(--ease) forwards}
-.js .hero .lede{animation-delay:.8s}
-.js .hero .acts{animation-delay:1s}
-.js .hero .creds{animation-delay:1.1s}
-.js .hero .frame{opacity:0;transform:translateX(70px);animation:from-r 1.4s var(--ease) .5s forwards}
-@keyframes from-l{to{opacity:1;transform:none}}
+/* hero intro (under 2.2s): the tape sweeps across, the three words slam up 0.18s apart with a weighty spring while a yellow
+   block wipes across each, the frame lands from the right, then the lede and the button rise. only transform, opacity and clip-path move */
+.js .tape{transform:translateX(-101%);animation:sweep .85s cubic-bezier(.75,0,.18,1) .05s both}
+.js .hero h1 .ln{animation:slam .62s cubic-bezier(.3,0,.1,1) both;animation-delay:var(--d)}
+.js .hero h1 .ln::before{animation:wipe 1.1s both;animation-delay:calc(var(--d) + .08s)}
+.js .hero h1 .ln.y::before{animation-name:wipe-stay;animation-duration:.44s}
+.hero h1 .ck:nth-child(1) .ln{--d:.3s}.hero h1 .ck:nth-child(2) .ln{--d:.48s}.hero h1 .ck:nth-child(3) .ln{--d:.66s}
+.js .hero .lede,.js .hero .acts,.js .hero .creds{opacity:0;transform:translateY(20px);animation:rise .9s var(--ease) both}
+.js .hero .lede{animation-delay:1.05s}
+.js .hero .acts{animation-delay:1.18s}
+.js .hero .creds{animation-delay:1.28s}
+.js .hero .frame{opacity:0;transform:translateX(70px);animation:from-r 1.3s var(--ease) .55s both}
+.js .wm{animation:fade 1.6s ease-out .6s both}
+@keyframes sweep{to{transform:none}}
+@keyframes slam{0%{transform:translateY(118%)}58%{transform:translateY(-6%);animation-timing-function:cubic-bezier(.4,0,.6,1)}78%{transform:translateY(2.5%);animation-timing-function:cubic-bezier(.4,0,.6,1)}92%{transform:translateY(-.8%);animation-timing-function:cubic-bezier(.4,0,.6,1)}100%{transform:none}}
+@keyframes wipe{0%{clip-path:inset(0 100% 0 0);animation-timing-function:cubic-bezier(.7,0,.2,1)}40%,58%{clip-path:inset(0 0 0 0);animation-timing-function:cubic-bezier(.7,0,.2,1)}100%{clip-path:inset(0 0 0 100%)}}
+@keyframes wipe-stay{0%{clip-path:inset(0 100% 0 0);animation-timing-function:cubic-bezier(.7,0,.2,1)}100%{clip-path:inset(0 0 0 0)}}
 @keyframes from-r{to{opacity:1;transform:none}}
 @keyframes rise{to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}}
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:28px}
   .hero-text{order:1}.frame{order:2;margin:0 14px 14px 0}
-  .frame img{aspect-ratio:16/9}
+  .frame img{aspect-ratio:16/9;object-position:center 38%}
   .creds{display:none}
 }
 @media (max-width:600px){.hero .acts{flex-direction:column;gap:18px}.hero .acts .btn{width:100%;max-width:360px}}
@@ -310,7 +335,9 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--black);outline-o
 @media (max-width:600px){.js .rv.sl-l{transform:translateX(-32px)}.js .rv.sl-r{transform:translateX(32px)}}
 @media (prefers-reduced-motion:reduce){
   .js .rv{opacity:1;transform:none;transition:none}
-  .js .hero h1 .ln,.js .hero .lede,.js .hero .acts,.js .hero .creds,.js .hero .frame{animation:none;opacity:1;transform:none}
+  .js .hero h1 .ln,.js .hero h1 .ln::before,.js .hero .lede,.js .hero .acts,.js .hero .creds,.js .hero .frame,.js .tape,.js .wm,.wm b{animation:none;opacity:1;transform:none}
+  .js .wm{opacity:.2}
+  .hero h1 .ck{transition:none}
   .js .marquee.live .marquee-track{animation:none}
   .a,.q button .ic,.qbar,.nav,.nav a,.hdr,.btn,.btn::before,.svc,.filters button,.tlink{transition:none}
 }
@@ -344,9 +371,11 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--black);outline-o
 
 <main id="main">
 <section class="hero dark" id="top">
+  <div class="tape" aria-hidden="true"></div>
+  <div class="wm" aria-hidden="true"><b>3M</b></div>
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <h1><span class="ln">We build</span><span class="ln">homes and</span><span class="ln y">workplaces</span></h1>
+      <h1><span class="ck"><span class="ln" data-t="We build">We build</span></span><span class="ck"><span class="ln" data-t="homes and">homes and</span></span><span class="ck"><span class="ln y" data-t="workplaces">workplaces</span></span></h1>
       <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
       <div class="acts">
         <a class="btn" href="#contact">Get a quote</a>
@@ -360,7 +389,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--black);outline-o
       </div>
     </div>
     <div class="frame">
-      <img src="../../img/hero-site-2000.webp" srcset="../../img/hero-site-1000.webp 1000w, ../../img/hero-site-2000.webp 2000w, ../../img/hero-site-3200.webp 3200w" sizes="(max-width:900px) 100vw, 44vw" width="3200" height="1800" alt="A crew in hi-vis working on a concrete slab, seen from above" fetchpriority="high" decoding="async">
+      <img src="../../img/proj-tower-1600.webp" srcset="../../img/proj-tower-800.webp 800w, ../../img/proj-tower-1600.webp 1600w" sizes="(max-width:900px) 100vw, 44vw" width="1600" height="1200" alt="A glass apartment block under construction beside two tower cranes" fetchpriority="high" decoding="async">
     </div>
   </div>
   <div class="marquee" id="marquee" aria-hidden="true"><div class="marquee-track"><span>New homes</span><span>Renovations and extensions</span><span>Commercial fit-outs</span><span>Light commercial</span><span>New homes</span><span>Renovations and extensions</span><span>Commercial fit-outs</span><span>Light commercial</span></div></div>
