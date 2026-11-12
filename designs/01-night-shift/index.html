@@ -6,7 +6,7 @@
 <title>3M Construction | Residential and Commercial Builders</title>
 <meta name="description" content="3M Construction builds new homes, renovations and extensions, and commercial fit-outs. One site supervisor looks after your job from the first site visit to the final certificate.">
 <meta name="robots" content="noindex">
-<meta name="build" content="2026-11-12b">
+<meta name="build" content="2026-11-12c">
 <meta name="theme-color" content="#0A0E14">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_AU">
@@ -23,6 +23,7 @@
 <script src="../../assets/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script>
 <script src="../../assets/vendor/lenis.min.js?v=1.1.13" defer></script>
 <script src="../../assets/motion.js?v=1" defer></script>
+<script src="../../assets/cloud.js?v=1" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"GeneralContractor","name":"3M Construction","description":"New homes, renovations and extensions, and commercial fit-outs.","url":"https://example.com.au/"}
 </script>
@@ -147,7 +148,9 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 60%}
 @supports (animation-timeline:view()){.js .hero-img{animation:para linear both;animation-timeline:view();animation-range:exit 0% exit 100%}}
 @keyframes para{to{transform:translateY(14%)}}
-.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(10,14,20,.6) 0%,rgba(10,14,20,.42) 40%,rgba(10,14,20,.88) 100%)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(10,14,20,.78) 0%,rgba(10,14,20,.66) 40%,rgba(10,14,20,.94) 100%)}
+.cloud{position:absolute;inset:0;z-index:-1;pointer-events:none;display:block}
+.hero .lede{text-shadow:0 2px 18px rgba(10,14,20,.9)}
 .hero .grid-bg{z-index:-1;mask-image:radial-gradient(ellipse 60% 70% at 50% 55%,#000 20%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 55%,#000 20%,transparent 100%)}
 .orb{position:absolute;z-index:-1;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none;will-change:transform}
 .orb-a{width:46vw;height:46vw;max-width:620px;max-height:620px;left:-10vw;top:10%;background:radial-gradient(circle,rgba(242,169,27,.55),rgba(232,100,27,0) 65%)}
@@ -397,6 +400,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
   </div>
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="orb orb-a" aria-hidden="true"></div><div class="orb orb-b" aria-hidden="true"></div>
+  <canvas class="cloud" aria-hidden="true"></canvas>
   <div class="hero-in">
     <h1 id="h1"><span class="ln">Residential and</span><span class="ln gtext">commercial builders</span></h1>
     <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
