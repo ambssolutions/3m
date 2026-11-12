@@ -113,7 +113,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 /* ---------- hero: split with the widget ---------- */
 .hero{position:relative;min-height:100svh;background:var(--grey);display:grid;align-items:center;padding:calc(var(--top) + 28px) 0 40px}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:clamp(28px,4.5vw,72px);align-items:center}
-.hero-copy{display:grid;gap:20px;justify-items:start;text-align:left}
+.hero-copy{display:flex;flex-direction:column;align-items:flex-start;gap:20px;text-align:left;align-self:stretch;max-height:calc(100svh - var(--top) - 72px)}
 .hero h1{font-size:clamp(2rem,min(4.3vw,6.6vh),3.6rem);line-height:1.04;letter-spacing:-.03em}
 .hero .lede{max-width:540px;font-size:clamp(16.5px,1.25vw,19px);line-height:1.55;color:var(--muted)}
 .hero .acts{display:flex;align-items:center;gap:18px 26px;flex-wrap:wrap}
@@ -125,7 +125,27 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .js .hero-copy>:nth-child(2){animation-delay:.12s}
 .js .hero-copy>:nth-child(3){animation-delay:.24s}
 .js .hero-copy>:nth-child(4){animation-delay:.36s}
+.js .hero-copy>:nth-child(5){animation-delay:.48s}
 @keyframes rise{to{opacity:1;transform:none}}
+
+/* the house that builds itself as the visitor moves through the steps */
+.house{width:min(100%,340px);margin-top:auto;padding-top:8px}
+.house svg{display:block;width:100%;height:auto;overflow:visible}
+.house .p{opacity:0;transform-box:fill-box;transform-origin:50% 100%;transition:opacity .3s,transform .45s var(--ease)}
+.house .slab,.house .old{transform:translateY(12px)}
+.house .walls{transform:translateY(18px) scaleY(.82)}
+.house .win{transform:scale(.6);transform-origin:50% 50%}
+.house .roof{transform:translateY(-32px)}
+.house .awn{transform:translateY(-14px)}
+.house .door{transform:translateY(12px) scaleY(.6)}
+.house .lit{transform:none}
+.house[data-stage="1"] .on .s1,
+.house[data-stage="2"] .on :is(.s1,.s2),
+.house[data-stage="3"] .on :is(.s1,.s2,.s3),
+html:not(.js) .house .g-home .p{opacity:1;transform:none;transition:opacity .4s var(--ease) var(--d,0s),transform .9s cubic-bezier(.34,1.56,.64,1) var(--d,0s)}
+@media (max-width:900px){.house{width:min(100%,220px);margin:0 auto}}
+@media (max-width:599px){.house{display:none}}
+@media (prefers-reduced-motion:reduce){.house .p{transition:none!important}}
 
 /* the widget */
 .widget{padding:clamp(22px,2.6vw,32px);display:grid;gap:18px;position:relative}
@@ -135,8 +155,12 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .dots li{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--muted);counter-increment:d}
 .dots li::before{content:counter(d);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid var(--line);font-size:12.5px;color:var(--ink);transition:background .5s,border-color .5s,color .5s}
 .dots li+li::after{display:none}
+.dots .ln{display:none}
+.dots li+li .ln{display:block;order:-1;position:relative;width:26px;height:2px;border-radius:2px;background:var(--line);overflow:hidden}
+.dots .ln::after{content:"";position:absolute;inset:0;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .8s var(--ease)}
+.dots li.done+li .ln::after{transform:none}
 .dots li[aria-current]{color:var(--ink)}
-.dots li[aria-current]::before{background:var(--blue);border-color:var(--blue);color:#fff}
+.dots li[aria-current]::before{background:var(--blue);border-color:var(--blue);color:#fff;transition-delay:.4s}
 .dots li.done::before{background:var(--lime);border-color:var(--lime)}
 .steps-wrap{position:relative;overflow:hidden}
 .step{display:grid;gap:14px}
@@ -195,7 +219,7 @@ html:not(.js) .wnav .nav-back,html:not(.js) .wnav .nav-next{display:none}
 @media (max-width:900px){
   .hero{padding-top:calc(var(--top) + 20px);align-items:start}
   .hero .wrap{grid-template-columns:1fr;gap:26px}
-  .hero-copy{justify-items:center;text-align:center;gap:14px}
+  .hero-copy{align-items:center;text-align:center;gap:14px;align-self:auto;max-height:none}
   .hero h1{font-size:clamp(1.9rem,min(8.6vw,5.4vh),2.6rem)}
   .hero .lede{font-size:16px}
   .cred{justify-content:center}
@@ -345,7 +369,7 @@ html:not(.js) .wnav .nav-back,html:not(.js) .wnav .nav-next{display:none}
   .js .rv{opacity:1;transform:none;transition:none}
   .js .hero-copy>*,.js .widget,.js .step.enter,.js .step.leave,.js .step.enter .choice{animation:none;opacity:1;transform:none}
   .js .rv .chip{opacity:1;transform:none;transition:none}
-  .stepper .line i,.stage .n,.pcard,.srow,.btn,.btn-main::before,.nav,.nav a,.hdr,.qbar,.choice .cb,.dots li::before{transition:none}
+  .stepper .line i,.stage .n,.pcard,.srow,.btn,.btn-main::before,.nav,.nav a,.hdr,.qbar,.choice .cb,.dots li::before,.dots .ln::after{transition:none}
 }
 </style>
 </head>
@@ -386,14 +410,54 @@ html:not(.js) .wnav .nav-back,html:not(.js) .wnav .nav-next{display:none}
         <li data-need="hours" data-text="hours"></li>
         <li data-need="memberships" id="member-names"></li>
       </ul>
+      <div class="house" id="house" data-type="home" data-stage="0" aria-hidden="true">
+        <svg viewBox="0 0 320 200" fill="none" stroke="#101828" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+          <g class="site"><path d="M6 172h308"/><circle cx="22" cy="166" r="6" fill="#C6F135"/><circle cx="298" cy="166" r="6" fill="#C6F135"/></g>
+          <g class="g g-home on" data-house="home">
+            <rect class="p s1 slab" x="66" y="160" width="188" height="12" rx="2" fill="#C6F135"/>
+            <g class="p s2 walls"><rect x="78" y="98" width="164" height="62" fill="#fff"/></g>
+            <g class="p s2 win" style="--d:.18s"><rect x="96" y="114" width="30" height="26" rx="1" fill="#EEF2FF"/><rect class="p s3 lit" x="97" y="115" width="28" height="24" fill="#C6F135" stroke="none" style="--d:.55s"/><path d="M111 114v26M96 127h30"/></g>
+            <g class="p s2 win" style="--d:.28s"><rect x="194" y="114" width="30" height="26" rx="1" fill="#EEF2FF"/><path d="M209 114v26M194 127h30"/></g>
+            <g class="p s3 roof"><rect x="204" y="58" width="16" height="34" fill="#fff"/><path d="M60 102L160 42l100 60z" fill="#2A5BFF"/></g>
+            <g class="p s3 door" style="--d:.24s"><rect x="146" y="120" width="28" height="40" rx="2" fill="#2A5BFF"/><circle cx="167" cy="141" r="2" fill="#C6F135" stroke="none"/></g>
+          </g>
+          <g class="g g-ext" data-house="extension">
+            <g class="p s1 old"><rect x="36" y="160" width="124" height="12" rx="2" fill="#fff"/><rect x="46" y="100" width="108" height="60" fill="#fff"/><rect x="62" y="116" width="26" height="24" rx="1" fill="#EEF2FF"/><path d="M75 116v24M62 128h26"/><rect x="112" y="122" width="26" height="38" rx="2" fill="#fff"/><path d="M34 104l66-56 66 56z" fill="#2A5BFF"/></g>
+            <rect class="p s1 slab" x="160" y="160" width="128" height="12" rx="2" fill="#C6F135" style="--d:.14s"/>
+            <g class="p s2 walls"><rect x="164" y="112" width="120" height="48" fill="#fff"/></g>
+            <g class="p s2 win" style="--d:.2s"><rect x="176" y="122" width="54" height="30" rx="1" fill="#EEF2FF"/><rect class="p s3 lit" x="177" y="123" width="52" height="28" fill="#C6F135" stroke="none" style="--d:.55s"/><path d="M203 122v30"/></g>
+            <g class="p s3 roof"><rect x="158" y="104" width="130" height="10" rx="1" fill="#2A5BFF"/></g>
+            <g class="p s3 door" style="--d:.24s"><rect x="240" y="122" width="32" height="38" rx="2" fill="#2A5BFF"/><path d="M256 122v38"/></g>
+          </g>
+          <g class="g g-shop" data-house="shopfront">
+            <rect class="p s1 slab" x="66" y="160" width="188" height="12" rx="2" fill="#C6F135"/>
+            <g class="p s2 walls"><rect x="76" y="66" width="168" height="94" fill="#fff"/></g>
+            <g class="p s2 win" style="--d:.14s"><rect x="92" y="80" width="26" height="18" rx="1" fill="#EEF2FF"/><path d="M105 80v18"/></g>
+            <g class="p s2 win" style="--d:.22s"><rect x="147" y="80" width="26" height="18" rx="1" fill="#EEF2FF"/><path d="M160 80v18"/></g>
+            <g class="p s2 win" style="--d:.3s"><rect x="202" y="80" width="26" height="18" rx="1" fill="#EEF2FF"/><path d="M215 80v18"/></g>
+            <g class="p s2 win" style="--d:.38s"><rect x="88" y="118" width="74" height="42" rx="1" fill="#EEF2FF"/><rect class="p s3 lit" x="89" y="119" width="72" height="40" fill="#C6F135" stroke="none" style="--d:.55s"/><path d="M125 118v42"/></g>
+            <g class="p s3 roof"><rect x="66" y="56" width="188" height="12" rx="2" fill="#2A5BFF"/></g>
+            <g class="p s3 awn" style="--d:.16s"><path d="M82 108h140v8a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0a5 5 0 0 1-10 0z" fill="#2A5BFF"/></g>
+            <g class="p s3 door" style="--d:.3s"><rect x="180" y="118" width="34" height="42" rx="2" fill="#2A5BFF"/><circle cx="208" cy="140" r="2" fill="#C6F135" stroke="none"/></g>
+          </g>
+          <g class="g g-ware" data-house="warehouse">
+            <rect class="p s1 slab" x="36" y="160" width="248" height="12" rx="2" fill="#C6F135"/>
+            <g class="p s2 walls"><rect x="46" y="102" width="228" height="58" fill="#fff"/></g>
+            <g class="p s2 win" style="--d:.18s"><rect x="60" y="114" width="30" height="22" rx="1" fill="#EEF2FF"/><rect class="p s3 lit" x="61" y="115" width="28" height="20" fill="#C6F135" stroke="none" style="--d:.55s"/><path d="M75 114v22"/></g>
+            <g class="p s2 win" style="--d:.28s"><rect x="100" y="114" width="30" height="22" rx="1" fill="#EEF2FF"/><path d="M115 114v22"/></g>
+            <g class="p s3 roof"><path d="M36 106L160 68l124 38z" fill="#2A5BFF"/></g>
+            <g class="p s3 door" style="--d:.24s"><rect x="176" y="114" width="74" height="46" rx="2" fill="#2A5BFF"/><path d="M176 126h74M176 138h74M176 150h74"/></g>
+          </g>
+        </svg>
+      </div>
     </div>
 
     <form class="card widget" id="quote" data-enquiry data-subject="Quote request" novalidate aria-labelledby="quote-h">
       <h2 id="quote-h">Tell us about the job</h2>
       <ol class="dots" aria-label="Progress">
         <li id="dot-0" aria-current="step"><span>Type of job</span></li>
-        <li id="dot-1"><span>What you have</span></li>
-        <li id="dot-2"><span>Your details</span></li>
+        <li id="dot-1"><i class="ln"></i><span>What you have</span></li>
+        <li id="dot-2"><i class="ln"></i><span>Your details</span></li>
       </ol>
 
       <div class="steps-wrap">
@@ -684,8 +748,19 @@ html:not(.js) .wnav .nav-back,html:not(.js) .wnav .nav-next{display:none}
     steps.forEach(function(s,i){s.classList.toggle('on',i===cur)});
     dots.forEach(function(o,i){if(i===cur)o.setAttribute('aria-current','step');else o.removeAttribute('aria-current');o.classList.toggle('done',i<cur)});
     back.hidden=cur===0;next.hidden=cur===steps.length-1;send.hidden=cur!==steps.length-1;
+    build();
   }
   function picked(name){var el=$('input[name='+name+']:checked',f);return el?el.value:''}
+
+  /* the house beside the steps: slab, then walls and windows, then roof, door and a lit window. The job type picks the silhouette */
+  var house=d.getElementById('house'), HOUSE={'New home':'home','Renovation or extension':'extension','Commercial fit-out':'shopfront','Light commercial':'warehouse'}, sent=false, houseReady=false;
+  function build(){
+    if(!house||!houseReady)return;
+    var t=HOUSE[picked('type')]||'home';
+    if(house.getAttribute('data-type')!==t){house.setAttribute('data-type',t);$$('.g',house).forEach(function(g){g.classList.toggle('on',g.getAttribute('data-house')===t)})}
+    house.setAttribute('data-stage',sent?3:cur+1);
+  }
+  setTimeout(function(){houseReady=true;build()},reduce?0:700);
   function summary(){
     var parts=[picked('type'),picked('have'),picked('start')].filter(Boolean);
     sum.innerHTML='';if(!parts.length){sum.hidden=true;return}
@@ -713,12 +788,12 @@ html:not(.js) .wnav .nav-back,html:not(.js) .wnav .nav-next{display:none}
   }
   back.addEventListener('click',function(){status.textContent='';go(cur-1,true)});
   next.addEventListener('click',function(){if(validate(cur))go(cur+1)});
-  $$('input[type=radio]',f).forEach(function(r){r.addEventListener('change',function(){status.textContent=''})});
+  $$('input[type=radio]',f).forEach(function(r){r.addEventListener('change',function(){status.textContent='';sent=false;build()})});
   steps[0].classList.add('enter');setTimeout(function(){steps[0].classList.remove('enter')},1400);
   paint();
 
   /* "Quote this job" picks the type and opens step 2 */
-  $$('[data-pick]').forEach(function(a){a.addEventListener('click',function(){var r=$('input[name=type][value="'+a.getAttribute('data-pick')+'"]',f);if(r){r.checked=true;status.textContent='';if(cur===0)go(1);else if(cur===2)summary()}})});
+  $$('[data-pick]').forEach(function(a){a.addEventListener('click',function(){var r=$('input[name=type][value="'+a.getAttribute('data-pick')+'"]',f);if(r){r.checked=true;status.textContent='';sent=false;if(cur===0)go(1);else if(cur===2)summary();build()}})});
 
   /* send: endpoint if set, otherwise the visitor's email app */
   f.addEventListener('submit',function(e){
@@ -731,7 +806,7 @@ html:not(.js) .wnav .nav-back,html:not(.js) .wnav .nav-next{display:none}
     if(S.web3formsKey)data.access_key=S.web3formsKey;
     send.disabled=true;status.textContent='Sending…';
     fetch(S.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)}).then(function(r){if(!r.ok)throw 0;done_()}).catch(function(){status.textContent='Sorry, that did not send. Please call or email us instead.';send.disabled=false});
-    function done_(){f.reset();send.disabled=false;$$('[aria-invalid]',f).forEach(function(el){el.removeAttribute('aria-invalid')});go(0,true);setTimeout(function(){status.textContent='Thank you. We have your details and will call you within one business day.'},reduce?0:440)}
+    function done_(){f.reset();send.disabled=false;$$('[aria-invalid]',f).forEach(function(el){el.removeAttribute('aria-invalid')});sent=true;go(0,true);setTimeout(function(){status.textContent='Thank you. We have your details and will call you within one business day.'},reduce?0:440)}
   });
 
   /* phone quick bar: shows once the hero (and the widget in it) has scrolled away */
