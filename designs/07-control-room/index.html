@@ -130,11 +130,14 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .segs{list-style:none;margin:0;padding:14px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
 .seg{position:relative;display:grid;gap:6px;padding:12px 12px 12px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);min-width:0}
 .seg .bar{height:6px;border-radius:3px;background:var(--panel-2);border:1px solid var(--line);overflow:hidden;position:relative}
-.seg .bar i{position:absolute;inset:0;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease) 2.2s}
-.js .hero .seg.cur .bar i{transform:scaleX(1)}
+.seg .bar i{position:absolute;inset:0;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease)}
+.js .hero .seg.cur .bar i{transform:scaleX(1);transition-delay:2.2s}
+.js .hero .seg.lit .bar i{transform:scaleX(1);transition-delay:0s}
 .no-js .seg.cur .bar i,html:not(.js) .seg.cur .bar i{transform:none}
 .seg .n{font:600 12px/1 var(--mono);color:var(--muted);display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:4px}
-.seg.cur .n{color:var(--green)}
+.seg.cur .n,.seg.lit .n{color:var(--green)}
+.seg{transition:border-color .9s}
+.seg.lit{border-color:rgba(63,185,80,.5)}
 .seg .n em{font-style:normal;font-weight:500;font-size:11px;padding:3px 6px;border-radius:3px;background:var(--green-dim);color:var(--green);white-space:nowrap}
 .seg b{font:600 14px/1.3 var(--mono);color:var(--bright);letter-spacing:-.01em}
 .seg small{font-size:12.5px;line-height:1.4;color:var(--muted)}
@@ -164,10 +167,43 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
   .seg small{display:none}
   .seg:last-child{grid-column:auto}
   .board .panel-head{padding:9px 10px}
-  .legend{gap:10px}
+  .legend{display:none}
   .creds{display:none}
 }
-@media (max-height:700px) and (min-width:601px){.hero{padding-top:calc(var(--top) + 16px);padding-bottom:20px}.hero-in{gap:14px}.seg small{display:none}.creds{display:none}}
+@media (max-height:700px) and (min-width:601px){.hero{padding-top:calc(var(--top) + 16px);padding-bottom:20px}.hero-in{gap:14px}.seg small{display:none}.creds{display:none}.term{--tl:4}}
+
+/* ---------- showpiece: the build log types itself and lights the pipeline ---------- */
+.term{--tl:5;border-top:1px solid var(--line);text-align:left}
+.th{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 14px;font:500 12px/1.4 var(--mono);color:var(--muted);border-bottom:1px solid var(--line)}
+.th b{color:var(--ink);font-weight:600}
+.th .rd{white-space:nowrap}
+.th .rd b{color:var(--green);transition:color .6s}
+.tv{position:relative;overflow:auto;height:calc(var(--tl)*21px + 20px);padding:10px 14px;background:#0A0D12;border-radius:0 0 var(--r) var(--r);scrollbar-width:thin;scrollbar-color:var(--line-2) transparent}
+.js .term.run .tv{overflow:hidden}
+.tl{list-style:none;margin:0;padding:0;font:500 13px/21px var(--mono);color:var(--ink);transition:transform .7s var(--ease),opacity .6s;will-change:transform}
+.tl.fade{opacity:0}
+.tl.jump{transition:none}
+.tl li{white-space:pre-wrap;overflow-wrap:anywhere}
+.tl .k{display:inline-block;min-width:14ch;color:var(--green);vertical-align:top}
+.tl .t{color:var(--bright)}
+.tl .sub .k{color:var(--muted)}
+.tl .sub .t{color:var(--ink)}
+.tl .cmd .k{min-width:2ch;color:var(--amber)}
+.tcur{display:inline-block;width:.6em;height:1.05em;background:var(--green);vertical-align:-.15em;margin-left:1px}
+.js .term.live .tcur{animation:blink 1s steps(2,start) infinite}
+.scan{position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(rgba(63,185,80,.13),rgba(63,185,80,.05) 10px,rgba(63,185,80,0) 26px);transform:translateY(-100%)}
+.js .term.run.live:not(.lp) .scan{opacity:1;animation:scan 5.5s linear infinite}
+@keyframes scan{to{transform:translateY(100%)}}
+html:not(.js) .term{--tl:4}
+@media (max-width:600px){
+  .hero-in{gap:12px}
+  .term{--tl:3}
+  .th{padding:7px 10px}
+  .th-x{display:none}
+  .tv{padding:8px 10px;height:calc(var(--tl)*21px + 16px)}
+  .tl .k{min-width:0;margin-right:1ch}
+  .tl .sub{padding-left:2ch}
+}
 
 /* ---------- services board ---------- */
 .board-wrap{overflow:hidden}
@@ -376,6 +412,8 @@ form .btn{justify-self:start;min-height:48px;padding:0 24px}
   .js .hero .seg.cur .bar i{transform:none;transition:none}
   .js .live .dot{animation:none}
   .js .typed .caret{animation:none;opacity:0}
+  .js .term .tcur,.js .term .scan{animation:none;display:none}
+  .tl,.seg,.seg .bar i,.th .rd b{transition:none}
   .stage .rail .track i{transform:none;transition:none}
   .stage .rail .n{transition:none}
   .fold,.fold>div,.q button .ic,.rowbtn b svg,.qbar,.nav,.hdr,.lrow,.btn,.nav a,.tlink,.view button{transition:none}
@@ -428,6 +466,26 @@ form .btn{justify-self:start;min-height:48px;padding:0 24px}
         <li class="seg" style="--k:3"><span class="bar" aria-hidden="true"><i></i></span><span class="n">04</span><b>Walk-through and handover</b><small>signed off by <b>you</b></small></li>
         <li class="seg" style="--k:4"><span class="bar" aria-hidden="true"><i></i></span><span class="n">05</span><b>Final certificate and defects period</b><small>signed off by <b>your certifier</b></small></li>
       </ol>
+      <div class="term" id="term">
+        <div class="th"><span><b>build log</b><span class="th-x"> · one job, start to finish</span></span><span class="rd">stage <b id="tstage">01</b> / 05</span></div>
+        <div class="tv" tabindex="0" role="region" aria-label="Build log">
+          <ol class="tl">
+            <li class="cmd"><span class="k">&gt;</span><span class="t">job pipeline, five stages</span></li>
+            <li data-stage="1"><span class="k">stage 01</span><span class="t">Site visit and estimate</span></li>
+            <li class="sub"><span class="k">signed off by</span><span class="t">you</span></li>
+            <li data-stage="2"><span class="k">stage 02</span><span class="t">Design and approvals</span></li>
+            <li class="sub"><span class="k">signed off by</span><span class="t">your council or private certifier</span></li>
+            <li data-stage="3"><span class="k">stage 03</span><span class="t">The build</span></li>
+            <li class="sub"><span class="k">signed off by</span><span class="t">your certifier at each inspection</span></li>
+            <li data-stage="4"><span class="k">stage 04</span><span class="t">Walk-through and handover</span></li>
+            <li class="sub"><span class="k">signed off by</span><span class="t">you</span></li>
+            <li data-stage="5"><span class="k">stage 05</span><span class="t">Final certificate and defects period</span></li>
+            <li class="sub"><span class="k">signed off by</span><span class="t">your certifier</span></li>
+            <li class="cmd"><span class="k">&gt;</span><span class="t">all five stages signed off</span></li>
+          </ol>
+          <span class="scan" aria-hidden="true"></span>
+        </div>
+      </div>
     </div>
     <div class="creds" aria-label="Credentials">
       <span data-need="licence">licence <span data-text="licence"></span></span>
@@ -721,6 +779,57 @@ form .btn{justify-self:start;min-height:48px;padding:0 24px}
     });
     var caret=d.createElement('span');caret.className='caret';caret.setAttribute('aria-hidden','true');h1.appendChild(caret);
     requestAnimationFrame(function(){requestAnimationFrame(function(){h1.classList.add('typed')})});
+  }
+
+  /* showpiece: the build log types itself (about 28 characters a second) and lights each pipeline stage as it is named.
+     Runs only while the panel is on screen and the tab is visible; restarts about every 20s. Reduced motion shows the whole log at once. */
+  var term=d.getElementById('term');
+  if(term&&!reduce){
+    var tv=$('.tv',term), tl=$('.tl',term), rd=d.getElementById('tstage'), segEls=$$('.hero .seg'), lines=$$('li',tl), script=[];
+    var sr=d.createElement('p');sr.className='vh';sr.textContent='Build log. '+lines.map(function(l){return $$('span',l).map(function(s){return s.textContent.trim()}).join(' ')}).join('. ')+'.';
+    term.insertBefore(sr,tv);
+    tv.setAttribute('aria-hidden','true');tv.removeAttribute('tabindex');tv.removeAttribute('role');tv.removeAttribute('aria-label');
+    lines.forEach(function(li){
+      var segs=$$('span',li).map(function(s){var t=s.textContent;s.textContent='';var tn=d.createTextNode('');s.appendChild(tn);return {el:s,tn:tn,t:t}});
+      script.push({li:li,segs:segs,stage:+li.getAttribute('data-stage')||0});
+    });
+    var tcur=d.createElement('span');tcur.className='tcur';tcur.setAttribute('aria-hidden','true');
+    var L=0,S=0,C=0,timer=0,running=false,started=false,onScreen=true,phase='type';
+    if(lowPower)term.classList.add('lp');
+    term.classList.add('run');
+    function place(){script[L].segs[S].el.appendChild(tcur)}
+    function follow(){var li=script[L].li,over=li.offsetTop+li.offsetHeight+10-tv.clientHeight;tl.style.transform=over>0?'translateY(-'+over+'px)':''}
+    function light(n){if(segEls[n-1])segEls[n-1].classList.add('lit');rd.textContent='0'+n}
+    function step(){
+      if(!running)return;
+      var wait;
+      if(phase==='hold'){phase='clear';tl.classList.add('fade');wait=700}
+      else if(phase==='clear'){
+        script.forEach(function(ln){ln.segs.forEach(function(s){s.tn.data=''})});
+        segEls.forEach(function(s){s.classList.remove('lit')});rd.textContent='01';
+        L=S=C=0;tl.classList.add('jump');tl.style.transform='';void tl.offsetWidth;tl.classList.remove('jump');tl.classList.remove('fade');
+        place();phase='type';wait=600;
+      }else{
+        var ln=script[L],seg=ln.segs[S];
+        if(C<seg.t.length){var ch=seg.t.charAt(C++);seg.tn.data+=ch;wait=(ch===' '?30:24)+Math.random()*24}
+        else if(S<ln.segs.length-1){S++;C=0;place();wait=90}
+        else{
+          if(ln.stage)light(ln.stage);
+          L++;S=0;C=0;
+          if(L<script.length){place();follow();var nx=script[L];wait=(nx.stage?560:300)+Math.random()*160}
+          else{phase='hold';wait=2800}
+        }
+      }
+      timer=setTimeout(step,wait);
+    }
+    function sync(){
+      var on=onScreen&&!d.hidden;if(on===running)return;
+      running=on;clearTimeout(timer);
+      if(on){if(!started){started=true;place();timer=setTimeout(step,2300)}else timer=setTimeout(step,160)}
+    }
+    if('IntersectionObserver' in window){new IntersectionObserver(function(es){onScreen=es[0].isIntersecting;term.classList.toggle('live',onScreen);sync()}).observe(term)}
+    else{term.classList.add('live');sync()}
+    d.addEventListener('visibilitychange',sync);
   }
 
   /* ambient: the status dot only pulses while the header badge is on screen (it always is, but keep the pattern) */
