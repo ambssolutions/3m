@@ -376,16 +376,16 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--black);outline-o
   <div class="wrap hero-grid">
     <div class="hero-text">
       <h1><span class="ck"><span class="ln" data-t="We build">We build</span></span><span class="ck"><span class="ln" data-t="homes and">homes and</span></span><span class="ck"><span class="ln y" data-t="workplaces">workplaces</span></span></h1>
-      <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
+      <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area" hidden> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
       <div class="acts">
         <a class="btn" href="#contact">Get a quote</a>
         <a class="tlink" href="#projects">See recent work</a>
       </div>
       <div class="creds" aria-label="Credentials">
-        <span data-need="licence">Licensed builder <span data-text="licence"></span></span>
-        <span data-need="insurance" data-text="insurance"></span>
-        <span data-need="hours" data-text="hours"></span>
-        <span data-need="memberships" id="member-names"></span>
+        <span data-need="licence" hidden>Licensed builder <span data-text="licence"></span></span>
+        <span data-need="insurance" data-text="insurance" hidden></span>
+        <span data-need="hours" data-text="hours" hidden></span>
+        <span data-need="memberships" id="member-names" hidden></span>
       </div>
     </div>
     <div class="frame">
@@ -509,15 +509,15 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--black);outline-o
       <li class="rv sl-l"><b>Weekly updates</b><span>A short report with photos every week, and a current finish date.</span></li>
       <li class="rv sl-r"><b>Tidy site</b><span>Swept at the end of every day, and skips emptied before they overflow.</span></li>
     </ul>
-    <div data-need="team" id="team"></div>
+    <div data-need="team" id="team" hidden></div>
   </div>
 </section>
 
 <section class="sec" id="proof" aria-label="Numbers, reviews and memberships" data-need-any="stats testimonials memberships" hidden>
   <div class="wrap">
-    <div class="stats rv" data-need="stats" id="stats"></div>
-    <div data-need="testimonials"><div class="quotes rv" id="quotes"></div><p style="text-align:center;margin-top:28px"><a class="tlink" id="reviews-link" href="#" target="_blank" rel="noopener" data-need="reviewsUrl">Read our Google reviews</a></p></div>
-    <div class="members rv" data-need="memberships" id="members"></div>
+    <div class="stats rv" data-need="stats" id="stats" hidden></div>
+    <div data-need="testimonials" hidden><div class="quotes rv" id="quotes"></div><p style="text-align:center;margin-top:28px"><a class="tlink" id="reviews-link" href="#" target="_blank" rel="noopener" data-need="reviewsUrl" hidden>Read our Google reviews</a></p></div>
+    <div class="members rv" data-need="memberships" id="members" hidden></div>
   </div>
 </section>
 
@@ -556,13 +556,13 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--black);outline-o
         <p class="form-note">We use your details only to reply to your enquiry.</p>
       </form>
       <aside class="aside rv sl-r" style="--rd:150ms">
-        <div data-need-any="phone email address">
+        <div data-need-any="phone email address" hidden>
           <h3>Contact</h3>
           <dl>
-            <div data-need="phone"><dt>Phone</dt><dd><a id="phone-link" href="#"><span data-text="phone"></span></a></dd></div>
-            <div data-need="email"><dt>Email</dt><dd><a id="email-link" href="#"><span data-text="email"></span></a></dd></div>
-            <div data-need="address"><dt>Office</dt><dd><a id="map-link" href="#" target="_blank" rel="noopener"><span data-text="address"></span></a></dd></div>
-            <div data-need="hours"><dt>Hours</dt><dd data-text="hours"></dd></div>
+            <div data-need="phone" hidden><dt>Phone</dt><dd><a id="phone-link" href="#"><span data-text="phone"></span></a></dd></div>
+            <div data-need="email" hidden><dt>Email</dt><dd><a id="email-link" href="#"><span data-text="email"></span></a></dd></div>
+            <div data-need="address" hidden><dt>Office</dt><dd><a id="map-link" href="#" target="_blank" rel="noopener"><span data-text="address"></span></a></dd></div>
+            <div data-need="hours" hidden><dt>Hours</dt><dd data-text="hours"></dd></div>
           </dl>
         </div>
         <div>
@@ -590,12 +590,12 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--black);outline-o
   <div class="wrap">
     <a class="logo" href="#top" aria-label="3M Construction, home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#FFD400"/><rect x="3" y="3" width="58" height="58" fill="none" stroke="#111" stroke-width="6"/><text x="32" y="45" text-anchor="middle" font-family="Anton, Impact, 'Arial Black', Arial, sans-serif" font-size="30" fill="#111">3M</text></svg><span>3M Construction</span></a>
     <div class="cols">
-      <div><p class="tag">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor from the first site visit to the final certificate.</p></div>
+      <div><p class="tag">New homes, renovations and extensions, and commercial fit-outs<span data-need="area" hidden> across <span data-text="area"></span></span>. One site supervisor from the first site visit to the final certificate.</p></div>
       <div><h3>Services</h3><ul><li><a href="#services">New homes</a></li><li><a href="#services">Renovations and extensions</a></li><li><a href="#services">Commercial fit-outs</a></li><li><a href="#services">Light commercial</a></li></ul></div>
       <div><h3>Explore</h3><ul><li><a href="#process">How we work</a></li><li><a href="#projects">Projects</a></li><li><a href="#people">About</a></li><li><a href="#faq">Questions</a></li><li><a href="#contact">Get a quote</a></li><li><a href="../../privacy.html">Privacy</a></li></ul></div>
     </div>
     <div class="legal">
-      <p>&copy; <span id="year">2026</span> <span data-text="legalName">3M Construction</span><span data-need="abn">. ABN <span data-text="abn"></span></span><span data-need="licence">. Builder licence <span data-text="licence"></span></span></p>
+      <p>&copy; <span id="year">2026</span> <span data-text="legalName">3M Construction</span><span data-need="abn" hidden>. ABN <span data-text="abn"></span></span><span data-need="licence" hidden>. Builder licence <span data-text="licence"></span></span></p>
       <p>Some images on this website may be stock images or illustrative renders.</p>
       <p>Proudly designed by <a href="https://ambs.co.nz" target="_blank" rel="noopener">AMBS Solutions</a></p>
     </div>
@@ -603,7 +603,7 @@ input:focus,select:focus,textarea:focus{outline:3px solid var(--black);outline-o
 </footer>
 
 <div class="qbar" id="qbar" aria-label="Quick contact" inert>
-  <a class="q1" id="qbar-call" href="#" data-need="phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Call</a>
+  <a class="q1" id="qbar-call" href="#" data-need="phone" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Call</a>
   <a class="q2" href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M4 4h16v12H7l-3 3z"/></svg>Get a quote</a>
 </div>
 

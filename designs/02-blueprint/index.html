@@ -123,33 +123,87 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .hero-copy h1{font-size:clamp(32px,min(8.6vw,6.4vh),60px);line-height:1.06;max-width:22ch}
 .hero-copy .lede{max-width:62ch;color:var(--muted);font-size:clamp(15.5px,1.15vw,17.5px)}
 .acts{display:flex;align-items:center;justify-content:center;gap:12px 26px;flex-wrap:wrap;margin-top:4px}
-.draw{margin:0;min-height:0;display:flex;align-items:center;justify-content:center}
-.draw svg{display:block;width:100%;height:auto;max-height:clamp(150px,34vh,460px);max-width:1040px}
-.draw .cut{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
-.draw .thin{fill:none;stroke:var(--ink);stroke-width:.9;stroke-linejoin:round;stroke-linecap:round}
-.draw .faint{fill:none;stroke:var(--line-2);stroke-width:.8;stroke-linecap:round}
-.draw .dm{fill:none;stroke:var(--blue);stroke-width:.9;stroke-linejoin:round;stroke-linecap:round}
-.draw text{font:500 11px var(--mono);fill:var(--blue);letter-spacing:.06em}
-.draw text.lbl{fill:var(--muted);letter-spacing:.14em}
-.draw .tri{fill:var(--blue);stroke:none}
 .tblock{justify-self:end;display:flex;flex-wrap:wrap;border:1px solid var(--ink);background:var(--paper);max-width:100%}
+@media (min-width:901px){.hero-in{grid-template-rows:auto minmax(0,1fr)}.tblock{position:absolute;right:clamp(14px,3.5vw,48px);bottom:clamp(14px,2.2vh,22px);max-width:36%}}
+
+/* ---------- hero showpiece: the exploded isometric house ----------
+   Five layers (setout plan, slab, ground floor, first floor, roof) built from flat faces in a preserve-3d
+   scene. --s scales the model to the screen; line weights and labels divide by it so they stay crisp. */
+.stage{position:relative;min-height:0;margin:0;--s:.5;--k:.55;--x:-54px;--lw:calc(1.1px/var(--s))}
+@media (min-width:601px){.stage{--s:.64;--k:.8;--x:-34px}}
+@media (min-width:901px){.stage{--s:.76;--k:.6}}
+@media (min-width:901px) and (min-height:800px){.stage{--s:.86;--k:.85}}
+.model{position:absolute;left:calc(50% + var(--x)*var(--s));top:calc(50% + 52px*var(--s));width:0;height:0;transform-style:preserve-3d;transform:scale3d(var(--s),var(--s),var(--s)) rotateX(-36deg)}
+.turn{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;transform:rotateY(-40deg)}
+.layer{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d}
+.f{position:absolute;left:0;top:0;display:block;transform-origin:0 0;box-sizing:border-box;background:var(--white);border:var(--lw) solid var(--ink);backface-visibility:hidden}
+.f.two{backface-visibility:visible}
+.f.side{background:#EBF0F8}
+.f.top{background:#F3F5F9}
+.f.slab{background-color:#F3F5F9;background-image:repeating-linear-gradient(135deg,rgba(11,37,69,.22) 0 var(--lw),transparent 0 calc(6px/var(--s)))}
+.f.roof{background-color:#FBFCFE;background-image:repeating-linear-gradient(90deg,rgba(11,37,69,.16) 0 var(--lw),transparent 0 16px)}
+.f.gable{border:0;background:none;overflow:visible}
+.f.gable polygon{fill:#EBF0F8;stroke:var(--ink);stroke-width:var(--lw);stroke-linejoin:round}
+.w,.dr{position:absolute;box-sizing:border-box;border:var(--lw) solid var(--ink)}
+.w{background:rgba(29,78,216,.14) linear-gradient(var(--ink),var(--ink)) 50% 0/var(--lw) 100% no-repeat}
+.w::after{content:"";position:absolute;left:0;right:0;top:50%;height:var(--lw);background:var(--ink)}
+.dr{border-bottom:0;background:#fff}
+.setout{border:0;background:none;overflow:visible}
+.setout path,.setout rect,.setout circle{fill:none;stroke:var(--blue);stroke-width:var(--lw)}
+.setout .dash{stroke-dasharray:6 4}
+.setout .cutl{stroke:var(--ink);stroke-dasharray:14 4 2 4}
+.setout .arr{fill:var(--blue);stroke:none}
+.setout text{font:500 calc(13px/var(--s)) var(--mono);fill:var(--blue);letter-spacing:.1em}
+.lab{position:absolute;left:0;top:0;transform-origin:0 0;white-space:nowrap;font:500 calc(12px/var(--s))/1 var(--mono);color:var(--blue);text-transform:uppercase;letter-spacing:.05em}
+.lab b{position:relative;display:inline-block;font-weight:500;margin-left:calc(34px/var(--s));padding:calc(6px/var(--s)) calc(9px/var(--s));border:var(--lw) solid var(--blue);background:var(--paper);transform-origin:0 50%}
+.lab b::before{content:"";position:absolute;right:100%;top:50%;width:calc(34px/var(--s));height:var(--lw);margin-top:calc(var(--lw)*-.5);background:var(--blue)}
+.lab b::after{content:"";position:absolute;right:calc(100% + 31px/var(--s));top:50%;width:calc(6px/var(--s));height:calc(6px/var(--s));margin-top:calc(-3px/var(--s));background:var(--blue)}
+.l-set .lab{transform:translate3d(238px,16px,175px) rotateY(40deg) rotateX(36deg) translateY(-50%)}
+.l-slab .lab{transform:translate3d(176px,8px,113px) rotateY(40deg) rotateX(36deg) translateY(-50%)}
+.l-gnd .lab{transform:translate3d(168px,-46px,105px) rotateY(40deg) rotateX(36deg) translateY(-50%)}
+.l-first .lab{transform:translate3d(168px,-144px,105px) rotateY(40deg) rotateX(36deg) translateY(-50%)}
+.l-roof .lab{transform:translate3d(168px,-224px,72px) rotateY(40deg) rotateX(36deg) translateY(-50%)}
+/* intro: the layers fade in apart, bob once, then settle into one model over 2.4s; the labels pop in one by one;
+   the breathing loop (apart, hold, settle) runs only while the hero is on screen (.live) and not on touch screens */
+@media (prefers-reduced-motion:no-preference){
+  .js .layer{animation:settle 3.8s both,breathe 18s ease-in-out 4s infinite paused}
+  .js .hero.live .layer{animation-play-state:running,running}
+  .js .f{opacity:0;animation:fade .8s ease-out both .1s}
+  .js .lab b{opacity:0;animation:pop .9s var(--ease) both;animation-delay:calc(3s + var(--i)*.24s)}
+  @media (pointer:coarse){.js .layer{animation-name:settle,none}}
+}
+.js.lite .layer,.js.lite .f,.js.lite .lab b{animation:none;opacity:1}
+@keyframes settle{
+  0%{transform:translateY(calc(var(--ex)*var(--k)*1.2));animation-timing-function:ease-out}
+  16%{transform:translateY(calc(var(--ex)*var(--k)));animation-timing-function:ease-in-out}
+  36%{transform:translateY(calc(var(--ex)*var(--k)*1.08));animation-timing-function:cubic-bezier(.3,0,.1,1)}
+  100%{transform:translateY(0)}
+}
+@keyframes breathe{0%,28%{transform:translateY(0)}42%,56%{transform:translateY(calc(var(--ex)*var(--k)*.45))}72%,100%{transform:translateY(0)}}
+@keyframes pop{from{opacity:0;transform:scaleX(.4)}to{opacity:1;transform:none}}
+/* scroll-driven: the model turns 25 degrees on its own axis as the sheet scrolls away (native, no JS) */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .hero{view-timeline-name:--sheet;view-timeline-axis:block}
+    .turn{animation:turn linear both;animation-timeline:--sheet;animation-range:exit-crossing 0% exit-crossing 80%}
+    .js.lite .turn{animation:none}
+  }
+}
+@keyframes turn{from{transform:rotateY(-40deg)}to{transform:rotateY(-15deg)}}
 .tblock .cell{flex:1 1 150px;display:grid;gap:2px;padding:9px 16px 10px;border-left:1px solid var(--ink);border-top:1px solid var(--ink);margin:-1px 0 0 -1px}
 .tblock dt{font:500 10.5px/1.2 var(--mono);color:var(--blue);text-transform:uppercase}
 .tblock dd{margin:0;font-size:14px;font-weight:500;line-height:1.3;white-space:nowrap}
 @media (max-width:900px){.tblock{justify-self:stretch}.tblock .cell{flex-basis:calc(50% - 1px)}.tblock dd{white-space:normal}}
 @media (max-width:600px){.acts{flex-direction:column}.acts .btn{width:100%;max-width:360px}}
-@media (max-height:800px) and (min-width:601px){.draw svg{max-height:22vh}.hero-copy{gap:8px}.hero-in{gap:8px;padding-top:12px;padding-bottom:10px}.tblock .cell{padding:5px 12px 6px}.tblock dd{font-size:13px}}
+@media (max-height:800px) and (min-width:601px){.hero-copy{gap:8px}.hero-in{gap:8px;padding-top:12px;padding-bottom:10px}.tblock .cell{padding:5px 12px 6px}.tblock dd{font-size:13px}}
 
-/* hero intro: the drawing draws itself, then the copy settles (only when motion is welcome) */
+/* hero intro: the copy settles while the model assembles (only when motion is welcome) */
 @media (prefers-reduced-motion:no-preference){
-  .js .draw g[style] > *{stroke-dasharray:1;stroke-dashoffset:1;animation:draw .9s cubic-bezier(.45,0,.2,1) forwards;animation-delay:var(--t,0s)}
-  .js .draw text,.js .draw .tri{opacity:0;animation:fade .8s ease forwards 2.1s}
   .js .hero-copy>*{opacity:0;transform:translateY(10px);animation:rise 1.2s var(--ease) forwards .2s}
   .js .hero-copy>:nth-child(2){animation-delay:.4s}
   .js .hero-copy>:nth-child(3){animation-delay:.6s}
   .js .tblock{opacity:0;animation:fade 1s ease forwards 1.6s}
 }
-@keyframes draw{to{stroke-dashoffset:0}}
 @keyframes fade{to{opacity:1}}
 @keyframes rise{to{opacity:1;transform:none}}
 
@@ -397,82 +451,77 @@ form .btn{justify-self:start;min-width:260px}
   <div class="hero-in">
     <div class="hero-copy">
       <h1>Builders who work to the drawing.</h1>
-      <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
+      <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area" hidden> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
       <div class="acts">
         <a class="btn btn-orange" href="#contact">Get a quote</a>
         <a class="tlink" href="#projects">See recent work</a>
       </div>
     </div>
-    <figure class="draw" aria-hidden="true">
-      <svg viewBox="0 0 900 432" role="img" focusable="false">
-        <g class="thin" style="--t:0s">
-          <path pathLength="1" d="M40 362H860" style="stroke-width:1.4"/>
-          <path pathLength="1" d="M186 362v20h44v-20M670 362v20h44v-20"/>
-        </g>
-        <g class="faint" style="--t:.15s">
-          <path pathLength="1" d="M60 368l10 10M100 368l10 10M140 368l10 10M180 368l10 10M240 368l10 10M280 368l10 10M320 368l10 10M360 368l10 10M400 368l10 10M440 368l10 10M480 368l10 10M520 368l10 10M560 368l10 10M600 368l10 10M640 368l10 10M720 368l10 10M760 368l10 10M800 368l10 10M840 368l10 10"/>
-        </g>
-        <g class="cut" style="--t:.25s">
-          <path pathLength="1" d="M196 362V348H704V362"/>
-          <path pathLength="1" d="M206 348V222M694 348V222"/>
-        </g>
-        <g class="thin" style="--t:.45s">
-          <path pathLength="1" d="M214 348V222M686 348V222"/>
-          <path pathLength="1" d="M330 222v46"/>
-          <path pathLength="1" d="M198 258h16M198 312h16M690 258h16M690 312h16"/>
-        </g>
-        <g class="cut" style="--t:.65s">
-          <path pathLength="1" d="M196 222V210H704V222"/>
-          <path pathLength="1" d="M206 210V114M694 210V114"/>
-        </g>
-        <g class="thin" style="--t:.85s">
-          <path pathLength="1" d="M214 210V114M686 210V114"/>
-          <path pathLength="1" d="M214 114H686"/>
-          <path pathLength="1" d="M600 114v36"/>
-          <path pathLength="1" d="M198 140h16M198 190h16M690 140h16M690 190h16"/>
-        </g>
-        <g class="cut" style="--t:1.05s">
-          <path pathLength="1" d="M150 118L450 34L750 118"/>
-        </g>
-        <g class="thin" style="--t:1.2s">
-          <path pathLength="1" d="M170 126L450 48L730 126"/>
-          <path pathLength="1" d="M150 118v12M750 118v12"/>
-        </g>
-        <g class="thin" style="--t:1.35s">
-          <path pathLength="1" d="M424 348 L424 332.7 L439.5 332.7 L439.5 317.3 L455 317.3 L455 302 L470.5 302 L470.5 286.7 L486 286.7 L486 271.3 L501.5 271.3 L501.5 256 L517 256 L517 240.7 L532.5 240.7 L532.5 225.3 L548 225.3 L548 210 L563.5 210"/>
-        </g>
-        <g class="dm" style="--t:1.5s">
-          <path pathLength="1" d="M210 258v54M210 140v50M690 258v54M690 140v50"/>
-          <path pathLength="1" d="M206 386v26M694 386v26"/>
-          <path pathLength="1" d="M206 404H694"/>
-          <path pathLength="1" d="M216 399l-10 5 10 5M684 399l10 5-10 5"/>
-        </g>
-        <g class="dm" style="--t:1.75s">
-          <path pathLength="1" d="M704 362h108M704 210h108M752 118h60"/>
-          <path pathLength="1" d="M800 362V118"/>
-          <path pathLength="1" d="M795 352l5 10 5-10M795 128l5-10 5 10M795 210h10"/>
-        </g>
-        <path class="tri" d="M444 20h12l-6 12z"/>
-        <text x="450" y="14" text-anchor="middle">RIDGE</text>
-        <text x="450" y="397" text-anchor="middle">OVERALL</text>
-        <text x="820" y="366">GL</text>
-        <text x="820" y="214">FFL</text>
-        <text x="820" y="122">EAVES</text>
-        <text class="lbl" x="300" y="296" text-anchor="middle">GROUND FLOOR</text>
-        <text class="lbl" x="300" y="170" text-anchor="middle">FIRST FLOOR</text>
-        <text class="lbl" x="40" y="426">SECTION A-A</text>
-        <text class="lbl" x="860" y="426" text-anchor="end">NTS</text>
-      </svg>
+    <figure class="stage" aria-hidden="true">
+      <div class="model"><div class="turn">
+        <!-- 01 setout: the plan the house is set out from, with dimension lines and the section mark -->
+        <div class="layer l-set" style="--ex:64px">
+          <svg class="f setout" width="460" height="350" viewBox="0 0 460 350" focusable="false" style="transform:translate3d(-230px,16px,-175px) rotateX(90deg)">
+            <rect class="dash" x="62" y="62" width="336" height="226"/>
+            <path class="dm" d="M62 296v34M398 296v34M62 322H398"/>
+            <path class="arr" d="M62 322l11-4v8zM398 322l-11-4v8z"/>
+            <text x="230" y="344" text-anchor="middle">OVERALL</text>
+            <path class="dm" d="M20 62h34M20 288h34M28 62V288"/>
+            <path class="arr" d="M28 62l-4 11h8zM28 288l-4-11h8z"/>
+            <text x="16" y="175" text-anchor="middle" transform="rotate(-90 16 175)">DEPTH</text>
+            <path class="cutl" d="M62 175H420"/>
+            <path class="arr" d="M62 175l10-5v10z"/>
+            <circle cx="434" cy="175" r="12"/>
+            <text x="434" y="180" text-anchor="middle">A</text>
+            <path class="arr" d="M436 48l-7 16 7-5 7 5z"/>
+            <text x="436" y="38" text-anchor="middle">N</text>
+          </svg>
+          <span class="lab" style="--i:0"><b>01 Setout</b></span>
+        </div>
+        <!-- 02 slab -->
+        <div class="layer l-slab" style="--ex:32px">
+          <div class="f top" style="width:336px;height:226px;transform:translate3d(-168px,0,-113px) rotateX(90deg)"></div>
+          <div class="f slab" style="width:336px;height:16px;transform:translate3d(-168px,0,113px)"></div>
+          <div class="f slab side" style="width:226px;height:16px;transform:translate3d(168px,0,113px) rotateY(90deg)"></div>
+          <span class="lab" style="--i:1"><b>02 Slab</b></span>
+        </div>
+        <!-- 03 ground floor walls -->
+        <div class="layer l-gnd" style="--ex:0px">
+          <div class="f two" style="width:320px;height:92px;transform:translate3d(160px,-92px,-105px) rotateY(180deg)"><i class="w" style="left:60px;top:24px;width:60px;height:42px"></i><i class="w" style="left:200px;top:24px;width:60px;height:42px"></i></div>
+          <div class="f two side" style="width:210px;height:92px;transform:translate3d(-160px,-92px,-105px) rotateY(-90deg)"><i class="w" style="left:79px;top:24px;width:52px;height:42px"></i></div>
+          <div class="f" style="width:320px;height:92px;transform:translate3d(-160px,-92px,105px)"><i class="w" style="left:34px;top:24px;width:60px;height:42px"></i><i class="dr" style="left:147px;top:28px;width:26px;height:64px"></i><i class="w" style="left:226px;top:24px;width:60px;height:42px"></i></div>
+          <div class="f side" style="width:210px;height:92px;transform:translate3d(160px,-92px,105px) rotateY(90deg)"><i class="w" style="left:28px;top:24px;width:52px;height:42px"></i><i class="w" style="left:130px;top:24px;width:52px;height:42px"></i></div>
+          <span class="lab" style="--i:2"><b>03 Ground floor</b></span>
+        </div>
+        <!-- 04 first floor: plate and walls -->
+        <div class="layer l-first" style="--ex:-32px">
+          <div class="f top" style="width:320px;height:210px;transform:translate3d(-160px,-102px,-105px) rotateX(90deg)"></div>
+          <div class="f" style="width:320px;height:10px;transform:translate3d(-160px,-102px,105px)"></div>
+          <div class="f side" style="width:210px;height:10px;transform:translate3d(160px,-102px,105px) rotateY(90deg)"></div>
+          <div class="f two" style="width:320px;height:84px;transform:translate3d(160px,-186px,-105px) rotateY(180deg)"><i class="w" style="left:60px;top:20px;width:60px;height:42px"></i><i class="w" style="left:200px;top:20px;width:60px;height:42px"></i></div>
+          <div class="f two side" style="width:210px;height:84px;transform:translate3d(-160px,-186px,-105px) rotateY(-90deg)"><i class="w" style="left:79px;top:20px;width:52px;height:42px"></i></div>
+          <div class="f" style="width:320px;height:84px;transform:translate3d(-160px,-186px,105px)"><i class="w" style="left:34px;top:20px;width:60px;height:42px"></i><i class="w" style="left:130px;top:20px;width:60px;height:42px"></i><i class="w" style="left:226px;top:20px;width:60px;height:42px"></i></div>
+          <div class="f side" style="width:210px;height:84px;transform:translate3d(160px,-186px,105px) rotateY(90deg)"><i class="w" style="left:28px;top:20px;width:52px;height:42px"></i><i class="w" style="left:130px;top:20px;width:52px;height:42px"></i></div>
+          <span class="lab" style="--i:3"><b>04 First floor</b></span>
+        </div>
+        <!-- 05 roof: two slopes and the gable -->
+        <div class="layer l-roof" style="--ex:-64px">
+          <div class="f roof" style="width:356px;height:148px;transform:translate3d(178px,-256px,0) rotateY(180deg) rotateX(56.3deg)"></div>
+          <svg class="f gable" width="210" height="70" viewBox="0 0 210 70" focusable="false" style="transform:translate3d(160px,-256px,105px) rotateY(90deg)"><polygon points="0,70 105,0 210,70"/></svg>
+          <div class="f roof" style="width:356px;height:148px;transform:translate3d(-178px,-256px,0) rotateX(56.3deg)"></div>
+          <span class="lab" style="--i:4"><b>05 Roof</b></span>
+        </div>
+      </div></div>
     </figure>
     <dl class="tblock">
       <div class="cell"><dt>Project</dt><dd>Your home</dd></div>
       <div class="cell"><dt>Sheet</dt><dd>A-01</dd></div>
       <div class="cell"><dt>Rev</dt><dd>A</dd></div>
       <div class="cell"><dt>Drawn by</dt><dd>3M Construction</dd></div>
-      <div class="cell" data-need="licence"><dt>Licence</dt><dd data-text="licence"></dd></div>
-      <div class="cell" data-need="insurance"><dt>Insurance</dt><dd data-text="insurance"></dd></div>
-      <div class="cell" data-need="hours"><dt>Hours</dt><dd data-text="hours"></dd></div>
-      <div class="cell" data-need="memberships"><dt>Member of</dt><dd id="member-names"></dd></div>
+      <div class="cell" data-need="licence" hidden><dt>Licence</dt><dd data-text="licence"></dd></div>
+      <div class="cell" data-need="insurance" hidden><dt>Insurance</dt><dd data-text="insurance"></dd></div>
+      <div class="cell" data-need="hours" hidden><dt>Hours</dt><dd data-text="hours"></dd></div>
+      <div class="cell" data-need="memberships" hidden><dt>Member of</dt><dd id="member-names"></dd></div>
     </dl>
   </div>
 </section>
@@ -643,16 +692,16 @@ form .btn{justify-self:start;min-width:260px}
       <li><b>Weekly updates.</b> A short report with photos every week, and a current finish date.</li>
       <li><b>Tidy site.</b> Swept at the end of every day, and skips emptied before they overflow.</li>
     </ul>
-    <div data-need="team" id="team"></div>
+    <div data-need="team" id="team" hidden></div>
   </div>
 </section>
 
 <section class="sec" id="proof" aria-label="Numbers, reviews and memberships" data-need-any="stats testimonials memberships" hidden>
   <div class="wrap">
     <div class="dim rv" aria-hidden="true"><span class="ln"></span><span>S-01</span><span class="ln"></span></div>
-    <div class="stats rv" data-need="stats" id="stats"></div>
-    <div data-need="testimonials"><div class="quotes rv" id="quotes"></div><p style="text-align:center;margin-top:28px"><a class="tlink" id="reviews-link" href="#" target="_blank" rel="noopener" data-need="reviewsUrl">Read our Google reviews</a></p></div>
-    <div class="members rv" data-need="memberships" id="members"></div>
+    <div class="stats rv" data-need="stats" id="stats" hidden></div>
+    <div data-need="testimonials" hidden><div class="quotes rv" id="quotes"></div><p style="text-align:center;margin-top:28px"><a class="tlink" id="reviews-link" href="#" target="_blank" rel="noopener" data-need="reviewsUrl" hidden>Read our Google reviews</a></p></div>
+    <div class="members rv" data-need="memberships" id="members" hidden></div>
   </div>
 </section>
 
@@ -693,13 +742,13 @@ form .btn{justify-self:start;min-width:260px}
         <p class="form-note">We use your details only to reply to your enquiry. <a href="../../privacy.html">Privacy</a></p>
       </form>
       <aside class="aside rv" style="--rd:150ms">
-        <div data-need-any="phone email address">
+        <div data-need-any="phone email address" hidden>
           <h3>Contact</h3>
           <dl>
-            <div data-need="phone"><dt>Phone</dt><dd><a id="phone-link" href="#"><span data-text="phone"></span></a></dd></div>
-            <div data-need="email"><dt>Email</dt><dd><a id="email-link" href="#"><span data-text="email"></span></a></dd></div>
-            <div data-need="address"><dt>Office</dt><dd><a id="map-link" href="#" target="_blank" rel="noopener"><span data-text="address"></span></a></dd></div>
-            <div data-need="hours"><dt>Hours</dt><dd data-text="hours"></dd></div>
+            <div data-need="phone" hidden><dt>Phone</dt><dd><a id="phone-link" href="#"><span data-text="phone"></span></a></dd></div>
+            <div data-need="email" hidden><dt>Email</dt><dd><a id="email-link" href="#"><span data-text="email"></span></a></dd></div>
+            <div data-need="address" hidden><dt>Office</dt><dd><a id="map-link" href="#" target="_blank" rel="noopener"><span data-text="address"></span></a></dd></div>
+            <div data-need="hours" hidden><dt>Hours</dt><dd data-text="hours"></dd></div>
           </dl>
         </div>
         <div>
@@ -726,12 +775,12 @@ form .btn{justify-self:start;min-width:260px}
     <div class="dim" aria-hidden="true"><span class="ln"></span><span>END OF SET</span><span class="ln"></span></div>
     <a class="logo" href="#top" aria-label="3M Construction, home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="1.5" y="1.5" width="61" height="61" fill="#0B2545" stroke="#9FB4D9" stroke-width="2"/><text x="32" y="42" text-anchor="middle" font-family="IBM Plex Sans, Arial, sans-serif" font-weight="600" font-size="27" fill="#FFFFFF">3M</text></svg><span>3M Construction</span></a>
     <div class="cols">
-      <div><p class="tag">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor from the first site visit to the final certificate.</p></div>
+      <div><p class="tag">New homes, renovations and extensions, and commercial fit-outs<span data-need="area" hidden> across <span data-text="area"></span></span>. One site supervisor from the first site visit to the final certificate.</p></div>
       <div><h3>Services</h3><ul><li><a href="#services">New homes</a></li><li><a href="#services">Renovations and extensions</a></li><li><a href="#services">Commercial fit-outs</a></li><li><a href="#services">Light commercial</a></li></ul></div>
       <div><h3>Explore</h3><ul><li><a href="#process">How we work</a></li><li><a href="#projects">Projects</a></li><li><a href="#people">About</a></li><li><a href="#faq">Questions</a></li><li><a href="#contact">Get a quote</a></li><li><a href="../../privacy.html">Privacy</a></li></ul></div>
     </div>
     <div class="legal">
-      <p>&copy; <span id="year">2026</span> <span data-text="legalName">3M Construction</span><span data-need="abn">. ABN <span data-text="abn"></span></span><span data-need="licence">. Builder licence <span data-text="licence"></span></span></p>
+      <p>&copy; <span id="year">2026</span> <span data-text="legalName">3M Construction</span><span data-need="abn" hidden>. ABN <span data-text="abn"></span></span><span data-need="licence" hidden>. Builder licence <span data-text="licence"></span></span></p>
       <p>Some images on this website may be stock images or illustrative renders.</p>
       <p>Proudly designed by <a href="https://ambs.co.nz" target="_blank" rel="noopener">AMBS Solutions</a></p>
     </div>
@@ -739,7 +788,7 @@ form .btn{justify-self:start;min-width:260px}
 </footer>
 
 <div class="qbar" id="qbar" aria-label="Quick contact" inert>
-  <a class="q1" id="qbar-call" href="#" data-need="phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Call</a>
+  <a class="q1" id="qbar-call" href="#" data-need="phone" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Call</a>
   <a class="q2" href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v12H7l-3 3z"/></svg>Get a quote</a>
 </div>
 
@@ -806,6 +855,12 @@ form .btn{justify-self:start;min-width:260px}
     new IntersectionObserver(function(es){past=!es[0].isIntersecting&&es[0].boundingClientRect.bottom<=0;qb()}).observe(hero);
     new IntersectionObserver(function(es){over=es[0].isIntersecting;qb()}).observe(f);
   }
+
+  /* showpiece: the model's breathing loop runs only while the hero is on screen and the tab is visible */
+  var seen=true;
+  function live(){hero.classList.toggle('live',seen&&!d.hidden)}
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es){seen=es[0].isIntersecting;live()},{threshold:0}).observe(hero)}
+  d.addEventListener('visibilitychange',live);live();
 
   /* reveals: hairlines scale in from the left, blocks settle, table rows arrive in order */
   var rv=$$('.rv');

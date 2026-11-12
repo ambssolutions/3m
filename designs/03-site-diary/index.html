@@ -391,7 +391,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
   <div class="cover-head">
     <p class="issue sc rust"><span class="type">Site diary · 3M Construction</span></p>
     <h1 id="h1">A builder's <em>diary</em>, from site visit to keys.</h1>
-    <p class="stand">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
+    <p class="stand">New homes, renovations and extensions, and commercial fit-outs<span data-need="area" hidden> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
   </div>
   <figure class="cover">
     <div class="stage">
@@ -427,10 +427,10 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
     <a class="btn" href="#contact">Get a quote</a>
     <a class="tlink" href="#projects">See recent work</a>
     <div class="hero-strip sc" aria-label="Credentials">
-      <span data-need="licence">Licensed builder <span data-text="licence"></span></span>
-      <span data-need="insurance" data-text="insurance"></span>
-      <span data-need="hours" data-text="hours"></span>
-      <span data-need="memberships" id="member-names"></span>
+      <span data-need="licence" hidden>Licensed builder <span data-text="licence"></span></span>
+      <span data-need="insurance" data-text="insurance" hidden></span>
+      <span data-need="hours" data-text="hours" hidden></span>
+      <span data-need="memberships" id="member-names" hidden></span>
     </div>
   </div>
 </section>
@@ -583,15 +583,15 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
       <figure><img src="../../img/people-plans-1600.webp" srcset="../../img/people-plans-800.webp 800w, ../../img/people-plans-1600.webp 1102w" sizes="(max-width:600px) 50vw, 30vw" width="1102" height="1378" alt="A site supervisor marking up a set of plans" loading="lazy" decoding="async"><figcaption class="sc">Your site supervisor</figcaption></figure>
       <figure><img src="../../img/people-electrician-1600.webp" srcset="../../img/people-electrician-800.webp 800w, ../../img/people-electrician-1600.webp 1600w" sizes="(max-width:600px) 50vw, 30vw" width="1600" height="2000" alt="An electrician wiring a switchboard" loading="lazy" decoding="async"><figcaption class="sc">Licensed trades</figcaption></figure>
     </div>
-    <div data-need="team" id="team"></div>
+    <div data-need="team" id="team" hidden></div>
   </div>
 </section>
 
 <section class="sec" id="proof" aria-label="Numbers, reviews and memberships" data-need-any="stats testimonials memberships" hidden>
   <div class="wrap">
-    <div class="stats rv" data-need="stats" id="stats"></div>
-    <div data-need="testimonials"><div class="quotes rv" id="quotes"></div><p style="text-align:center;margin-top:32px"><a class="tlink" id="reviews-link" href="#" target="_blank" rel="noopener" data-need="reviewsUrl">Read our Google reviews</a></p></div>
-    <div class="members rv" data-need="memberships" id="members"></div>
+    <div class="stats rv" data-need="stats" id="stats" hidden></div>
+    <div data-need="testimonials" hidden><div class="quotes rv" id="quotes"></div><p style="text-align:center;margin-top:32px"><a class="tlink" id="reviews-link" href="#" target="_blank" rel="noopener" data-need="reviewsUrl" hidden>Read our Google reviews</a></p></div>
+    <div class="members rv" data-need="memberships" id="members" hidden></div>
   </div>
 </section>
 
@@ -630,13 +630,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
         <p class="form-note">We use your details only to reply to your enquiry.</p>
       </form>
       <aside class="aside rv" style="--rd:150ms">
-        <div data-need-any="phone email address">
+        <div data-need-any="phone email address" hidden>
           <h3>The site office</h3>
           <dl>
-            <div data-need="phone"><dt>Phone</dt><dd><a id="phone-link" href="#"><span data-text="phone"></span></a></dd></div>
-            <div data-need="email"><dt>Email</dt><dd><a id="email-link" href="#"><span data-text="email"></span></a></dd></div>
-            <div data-need="address"><dt>Office</dt><dd><a id="map-link" href="#" target="_blank" rel="noopener"><span data-text="address"></span></a></dd></div>
-            <div data-need="hours"><dt>Hours</dt><dd data-text="hours"></dd></div>
+            <div data-need="phone" hidden><dt>Phone</dt><dd><a id="phone-link" href="#"><span data-text="phone"></span></a></dd></div>
+            <div data-need="email" hidden><dt>Email</dt><dd><a id="email-link" href="#"><span data-text="email"></span></a></dd></div>
+            <div data-need="address" hidden><dt>Office</dt><dd><a id="map-link" href="#" target="_blank" rel="noopener"><span data-text="address"></span></a></dd></div>
+            <div data-need="hours" hidden><dt>Hours</dt><dd data-text="hours"></dd></div>
           </dl>
         </div>
         <div>
@@ -662,12 +662,12 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
   <div class="wrap">
     <a class="logo" href="#top" aria-label="3M Construction, home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="3" fill="#B5471F"/><rect x="4" y="4" width="56" height="56" fill="none" stroke="#F4EFE6" stroke-width="2"/><text x="32" y="43" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="600" font-size="28" fill="#F4EFE6">3M</text></svg><span>3M Construction</span></a>
     <div class="cols3">
-      <div><p class="tag">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor from the first site visit to the final certificate.</p></div>
+      <div><p class="tag">New homes, renovations and extensions, and commercial fit-outs<span data-need="area" hidden> across <span data-text="area"></span></span>. One site supervisor from the first site visit to the final certificate.</p></div>
       <div><h3>Services</h3><ul><li><a href="#services">New homes</a></li><li><a href="#services">Renovations and extensions</a></li><li><a href="#services">Commercial fit-outs</a></li><li><a href="#services">Light commercial</a></li></ul></div>
       <div><h3>Explore</h3><ul><li><a href="#process">How we work</a></li><li><a href="#projects">Projects</a></li><li><a href="#people">About</a></li><li><a href="#faq">Questions</a></li><li><a href="#contact">Get a quote</a></li><li><a href="../../privacy.html">Privacy</a></li></ul></div>
     </div>
     <div class="legal">
-      <p>&copy; <span id="year">2026</span> <span data-text="legalName">3M Construction</span><span data-need="abn">. ABN <span data-text="abn"></span></span><span data-need="licence">. Builder licence <span data-text="licence"></span></span></p>
+      <p>&copy; <span id="year">2026</span> <span data-text="legalName">3M Construction</span><span data-need="abn" hidden>. ABN <span data-text="abn"></span></span><span data-need="licence" hidden>. Builder licence <span data-text="licence"></span></span></p>
       <p>Some images on this website may be stock images or illustrative renders.</p>
       <p>Proudly designed by <a href="https://ambs.co.nz" target="_blank" rel="noopener">AMBS Solutions</a></p>
     </div>
@@ -675,7 +675,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 </footer>
 
 <div class="qbar" id="qbar" aria-label="Quick contact" inert>
-  <a class="q1" id="qbar-call" href="#" data-need="phone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Call</a>
+  <a class="q1" id="qbar-call" href="#" data-need="phone" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>Call</a>
   <a class="q2" href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v12H7l-3 3z"/></svg>Get a quote</a>
 </div>
 
