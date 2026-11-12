@@ -16,7 +16,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='4' fill='%23F4EFE6'/%3E%3Crect x='3' y='3' width='58' height='58' fill='none' stroke='%23B5471F' stroke-width='2'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-weight='600' font-size='30' fill='%23B5471F'%3E3M%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" imagesrcset="../../img/hero-site-1000.webp 1000w, ../../img/hero-site-2000.webp 2000w, ../../img/hero-site-3200.webp 3200w" imagesizes="(max-width:1100px) 100vw, 1040px" fetchpriority="high">
+<link rel="preload" as="image" imagesrcset="../../img/svc-renovations-800.webp 800w, ../../img/svc-renovations-1600.webp 1600w" imagesizes="(max-width:600px) 100vw, 560px" fetchpriority="high">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"GeneralContractor","name":"3M Construction","description":"New homes, renovations and extensions, and commercial fit-outs."}
@@ -120,9 +120,37 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .hero h1 em{font-style:italic;color:var(--rust)}
 .stand{max-width:720px;font-size:clamp(15.5px,1.2vw,18px);line-height:1.5;color:var(--ink-2)}
 .cover{margin:0;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:10px}
-.cover .ph{min-height:0;position:relative;border:1px solid var(--rule-2);padding:6px;background:var(--paper)}
-.cover img{width:100%;height:100%;min-height:0;object-fit:cover;object-position:center 55%}
 .cover figcaption{text-align:center}
+/* the diary: three bound pages that turn like a book (CSS 3D, clipped at the spine) */
+.stage{min-height:0;width:100%;position:relative;container-type:size}
+.book{position:relative;height:100%;width:min(100%,190cqh);margin:0 auto;display:flex;text-align:left;clip-path:inset(-40% -40% -40% 0);--lh:clamp(25px,2.1vw,30px);--px:clamp(16px,4%,30px)}
+.spine{flex:none;position:relative;z-index:5;width:clamp(12px,1.4vw,18px);background:var(--ink) repeating-linear-gradient(to bottom,var(--rule-2) 0 7px,transparent 7px 19px) 58% 6px/1.5px calc(100% - 12px) no-repeat;border-radius:3px 0 0 3px}
+.leaves{position:relative;flex:1;min-width:0;perspective:2600px;perspective-origin:50% 50%}
+.stack{position:absolute;inset:0;pointer-events:none}
+.stack::before,.stack::after{content:"";position:absolute;inset:2px -2px -2px 2px;background:var(--field);border:1px solid var(--rule-2)}
+.stack::after{inset:4px -4px -4px 4px}
+.leaf{position:absolute;inset:0;background:var(--field);border:1px solid var(--rule-2);overflow:hidden;transform-origin:0 50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform var(--dur) cubic-bezier(.25,.1,.25,1)}
+.leaf.p1{z-index:3}.leaf.p2{z-index:2}.leaf.p3{z-index:1}
+.leaf.flip{transform:rotateY(-180deg);transition-timing-function:cubic-bezier(.55,.05,.65,.5)}
+.leaf.away,.leaf.away *{opacity:0}
+.leaf::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(34,31,26,.11),rgba(34,31,26,0) 7%)}
+.leaf::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,rgba(34,31,26,0) 30%,rgba(34,31,26,.32));opacity:0;transition:opacity .6s .6s}
+.leaf.flip::after{opacity:1;transition:opacity .8s cubic-bezier(.5,0,.8,.5)}
+.leaf.p1{display:grid;grid-template-rows:minmax(0,1fr) auto;padding:5px}
+.leaf.p1 img{width:100%;height:100%;min-height:0;object-fit:cover}
+.leaf .label{padding:9px 6px 3px;text-align:center}
+.ruled{padding:calc(var(--lh)*.55) var(--px) calc(var(--lh)*.3);background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px) var(--lh));background-origin:content-box;background-size:100% var(--lh)}
+.ruled .mg{position:absolute;top:0;bottom:0;left:calc(var(--px) - 11px);width:1px;background:rgba(181,71,31,.45)}
+.dl{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 12px;height:calc(var(--lh)*2);line-height:var(--lh)}
+.dl b{font:600 calc(var(--lh)*.92)/var(--lh) var(--display);color:var(--moss);letter-spacing:-.01em}
+.hand{font:italic 600 calc(var(--lh)*.62)/var(--lh) var(--display);color:var(--ink);text-wrap:pretty}
+.sign{margin-top:calc(var(--lh)*.3);line-height:var(--lh)}
+.sign em{font:italic 600 calc(var(--lh)*.68)/var(--lh) var(--display);color:var(--rust);margin-left:6px}
+.leaf.p3{display:grid;grid-template-columns:minmax(0,42fr) minmax(0,58fr)}
+.leaf.p3 .pic{min-height:0;padding:5px;border-right:1px solid var(--rule)}
+.leaf.p3 .pic img{width:100%;height:100%;min-height:0;object-fit:cover}
+.leaf.p3 .txt{position:relative;min-width:0;min-height:0}
+@media (max-width:600px){.leaf.p3{grid-template-columns:1fr;grid-template-rows:minmax(0,40fr) minmax(0,60fr)}.leaf.p3 .pic{border-right:0;border-bottom:1px solid var(--rule)}}
 .cover-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 30px;padding-top:clamp(14px,2.4vh,24px)}
 .hero-strip{display:flex;justify-content:center;gap:10px 26px;flex-wrap:wrap;width:100%;padding-top:14px}
 .hero-strip span{white-space:nowrap}
@@ -132,13 +160,21 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .js .cover-head>*{clip-path:inset(0 0 100% 0);transform:translateY(10px);animation:up var(--dur) var(--ease) forwards}
 .js .cover-head>:nth-child(2){animation-delay:.25s}
 .js .cover-head>:nth-child(3){animation-delay:.6s}
-.js .cover .ph{clip-path:inset(0 100% 0 0);animation:turn 1.6s var(--ease) .5s forwards}
+.js .cover-head>.issue{animation:none;clip-path:none;transform:none}
+.issue .type{display:inline-block;white-space:nowrap}
+.issue .type::after{content:"";display:inline-block;width:2px;height:.95em;margin-left:3px;vertical-align:-.12em;background:var(--rust);opacity:0}
+.js .issue .type{clip-path:inset(0 100% 0 0);animation:type 1.4s steps(28,end) .2s forwards}
+.js .issue .type::after{animation:caret 1s linear 1.6s 3}
+.js .book{clip-path:inset(0 100% 0 0);animation:turn 1.6s var(--ease) .5s forwards}
 .js .cover figcaption,.js .cover-foot>*{opacity:0;animation:fadein 1.2s var(--ease) 1.3s forwards}
 @keyframes up{to{clip-path:inset(-10% 0 -20% 0);transform:none}}
-@keyframes turn{to{clip-path:inset(0)}}
+@keyframes type{to{clip-path:inset(0 -8px 0 0)}}
+@keyframes caret{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes turn{to{clip-path:inset(-40% -40% -40% 0)}}
 @keyframes fadein{to{opacity:1}}
-@media (max-width:600px){.cover-foot{flex-direction:column;gap:14px}.cover-foot .btn{width:100%;max-width:340px}.hero-strip{display:none}.cover .ph{padding:4px}}
+@media (max-width:600px){.cover-foot{flex-direction:column;gap:14px}.cover-foot .btn{width:100%;max-width:340px}.hero-strip{display:none}.leaf.p1{padding:4px}}
 @media (max-height:680px){.hero-strip{display:none}}
+@media (max-height:760px) and (min-width:601px){.cover-head{padding-bottom:12px}.cover-foot{padding-top:12px}}
 
 /* ---------- services: articles ---------- */
 .drop{font-size:18.5px;line-height:1.6;max-width:720px;margin:0 auto;text-align:left}
@@ -310,13 +346,16 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 .js .rv{opacity:0;transform:translateY(16px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease);transition-delay:var(--rd,0ms)}
 .js .rv.in{opacity:1;transform:none}
 /* lighter variant for low-power phones */
-.lite .cover .ph{animation:none;clip-path:none}
+.lite .book{animation:none;clip-path:inset(-40% -40% -40% 0)}
+.lite .leaf::after{transition:none;opacity:0}
 .lite .diary .rule i{animation:none;transform:none}
 .lite .plate img,.lite .plate .note{transition:none}
 @media (prefers-reduced-motion:reduce){
   .js .rv,.js .pull.rv{opacity:1;transform:none;clip-path:none;transition:none}
   .js .rv .dc{clip-path:none;transition:none}
-  .js .cover-head>*,.js .cover .ph,.js .cover figcaption,.js .cover-foot>*{animation:none;clip-path:none;transform:none;opacity:1}
+  .js .cover-head>*,.js .book,.js .issue .type,.js .cover figcaption,.js .cover-foot>*{animation:none;clip-path:none;transform:none;opacity:1}
+  .js .issue .type::after{animation:none}
+  .leaf,.leaf::after{transition:none}
   .diary .rule i{animation:none;transform:none}
   .a,.q .ic,.qbar,.nav,.nav a,.hdr,.btn,.plate img,.plate .note{transition:none}
 }
@@ -350,13 +389,39 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <main id="main">
 <section class="hero" id="top" aria-labelledby="h1">
   <div class="cover-head">
-    <p class="issue sc rust">Site diary · 3M Construction</p>
+    <p class="issue sc rust"><span class="type">Site diary · 3M Construction</span></p>
     <h1 id="h1">A builder's <em>diary</em>, from site visit to keys.</h1>
     <p class="stand">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
   </div>
   <figure class="cover">
-    <div class="ph"><img src="../../img/hero-site-2000.webp" srcset="../../img/hero-site-1000.webp 1000w, ../../img/hero-site-2000.webp 2000w, ../../img/hero-site-3200.webp 3200w" sizes="(max-width:1100px) 100vw, 1040px" width="3200" height="1800" alt="Builders in hi-vis working on a concrete slab, seen from above" fetchpriority="high" decoding="async"></div>
-    <figcaption class="sc">Cover: a slab poured, ready for the frame. Illustrative photo.</figcaption>
+    <div class="stage">
+      <div class="book" id="book" role="group" aria-label="Three pages from a build diary">
+        <div class="spine" aria-hidden="true"></div>
+        <div class="leaves">
+          <div class="stack" aria-hidden="true"></div>
+          <article class="leaf p1" aria-label="Page 1, the cover">
+            <img src="../../img/svc-renovations-1600.webp" srcset="../../img/svc-renovations-800.webp 800w, ../../img/svc-renovations-1600.webp 1600w" sizes="(max-width:600px) 100vw, 560px" width="1600" height="1200" alt="A renovated open-plan living room and kitchen" fetchpriority="high" decoding="async">
+            <p class="label sc">The cover · A renovated living room</p>
+          </article>
+          <article class="leaf p2 ruled" aria-label="Page 2, week 1">
+            <span class="mg" aria-hidden="true"></span>
+            <header class="dl"><b>Week 1</b><span class="sc moss">Site visit</span></header>
+            <p class="hand">Walked the site with the owners and talked through what they want. Written estimate to follow, with a range and a list of what would change it. No charge, and no obligation.</p>
+            <p class="sign"><span class="sc">Signed off by</span><em>the owners</em></p>
+          </article>
+          <article class="leaf p3" aria-label="Page 3, the keys">
+            <div class="pic"><img src="../../img/proj-living-1600.webp" srcset="../../img/proj-living-800.webp 800w, ../../img/proj-living-1600.webp 1600w" sizes="(max-width:600px) 100vw, 240px" width="1600" height="1200" alt="A bright living room with a floating staircase and full-height windows" decoding="async"></div>
+            <div class="txt ruled">
+              <span class="mg" aria-hidden="true"></span>
+              <header class="dl"><b>Week 28</b><span class="sc moss">The keys</span></header>
+              <p class="hand">Walked through the finished job with the owners and listed what to fix. All done before the final invoice. Keys, warranties and manuals handed over in one folder.</p>
+              <p class="sign"><span class="sc">Signed off by</span><em>the owners</em></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <figcaption class="sc">Three pages from the diary: the cover, week 1 and the keys. Illustrative photos.</figcaption>
   </figure>
   <div class="cover-foot">
     <a class="btn" href="#contact">Get a quote</a>
@@ -649,6 +714,17 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var lowPower=matchMedia('(pointer:coarse)').matches&&(navigator.hardwareConcurrency||8)<=4;
   if(lowPower)d.documentElement.classList.add('lite');
+
+  /* the diary: pages turn every 5s while on screen, forward then back; paused on hover, focus and in a hidden tab */
+  var book=d.getElementById('book'), leaves=$$('.leaf',book), states=[0,1,2,1], si=0, timer=null, onScreen=false, paused=false;
+  function setPage(n){leaves.forEach(function(l,i){if(i<n)l.classList.add('flip');else{l.classList.remove('away');l.classList.remove('flip')}})}
+  leaves.forEach(function(l){l.addEventListener('transitionend',function(e){if(e.target===l&&e.propertyName==='transform'&&l.classList.contains('flip'))l.classList.add('away')})});
+  function turn(){si=(si+1)%states.length;setPage(states[si])}
+  function sync(){var go=onScreen&&!paused&&!d.hidden&&!reduce;book.classList.toggle('live',go);if(go&&!timer)timer=setInterval(turn,5000);if(!go&&timer){clearInterval(timer);timer=null}}
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es){onScreen=es[0].isIntersecting;sync()},{threshold:.3}).observe(book)}else{onScreen=true;sync()}
+  book.addEventListener('pointerenter',function(){paused=true;sync()});book.addEventListener('pointerleave',function(){paused=false;sync()});
+  book.addEventListener('focusin',function(){paused=true;sync()});book.addEventListener('focusout',function(){paused=false;sync()});
+  d.addEventListener('visibilitychange',sync);
 
   /* reader questions: slow native fold */
   $$('.q button').forEach(function(b){b.addEventListener('click',function(){var q=b.closest('.q'),o=!q.classList.contains('open');q.classList.toggle('open',o);b.setAttribute('aria-expanded',o)})});
