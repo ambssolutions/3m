@@ -88,11 +88,15 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .cmp .plan{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--x)) 0 0);z-index:1}
 .cmp .plan img{filter:grayscale(1) contrast(1.3) brightness(1.05)}
-.cmp .plan::after{content:"";position:absolute;inset:0;background-color:rgba(15,61,62,.6);background-image:linear-gradient(rgba(245,242,234,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.16) 1px,transparent 1px);background-size:40px 40px;background-position:center}
-.cmp .handle{position:absolute;top:0;bottom:0;left:var(--x);width:0;z-index:2;pointer-events:none}
+.cmp .plan::after{content:"";position:absolute;inset:-200px;background-color:rgba(15,61,62,.6);background-image:linear-gradient(rgba(245,242,234,.26) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.26) 1px,transparent 1px),linear-gradient(rgba(245,242,234,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.13) 1px,transparent 1px);background-size:200px 200px,200px 200px,40px 40px,40px 40px;background-position:center}
+.cmp.live .plan::after{animation:drift 70s linear infinite}
+@keyframes drift{to{transform:translate(200px,200px)}}
+.cmp .handle{position:absolute;inset:0;z-index:2;pointer-events:none;transform:translateX(var(--x));will-change:transform}
 .cmp .handle::before{content:"";position:absolute;top:0;bottom:0;left:-1.5px;width:3px;background:var(--coral)}
-.cmp .knob{position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:var(--coral);display:grid;place-items:center;color:var(--ink);box-shadow:0 4px 14px -6px rgba(0,0,0,.5)}
+.cmp .knob{position:absolute;top:50%;left:0;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:var(--coral);display:grid;place-items:center;color:var(--ink);box-shadow:0 4px 14px -6px rgba(0,0,0,.5);transform:translate(var(--mx,0px),var(--my,0px));transition:transform .5s var(--ease)}
 .cmp .knob svg{width:22px;height:22px}
+.cmp .hint{position:absolute;left:0;top:50%;margin-top:-70px;min-height:30px;padding:0 12px;display:inline-flex;align-items:center;border-radius:8px;background:var(--cream-3);color:var(--ink);font:600 13px/1 var(--sans);letter-spacing:.02em;white-space:nowrap;box-shadow:0 6px 18px -10px rgba(0,0,0,.5);opacity:0;transform:translate(-50%,10px);transition:opacity .5s,transform .5s var(--ease)}
+.cmp .hint::after{content:"";position:absolute;left:50%;bottom:-4px;width:9px;height:9px;background:inherit;border-radius:2px;transform:translateX(-50%) rotate(45deg)}
 .cmp .lbl{position:absolute;top:12px;z-index:3;pointer-events:none}
 .cmp .lbl.l{left:12px}
 .cmp .lbl.r{right:12px}
@@ -106,9 +110,13 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .cmp.small .lbl{top:10px}
 .cmp.small .lbl.l{left:10px}
 .cmp.small .lbl.r{right:10px}
-/* hero intro: the handle sweeps in from the right once, then the visitor takes over */
-.js .cmp.intro{animation:sweep 1.8s var(--ease) .6s both}
-@keyframes sweep{from{--x:96%}to{--x:50%}}
+/* hero showpiece: the handle sweeps far left, far right and back to centre over 3.2s, the knob pulses twice and a drag hint rises; any visitor input hands over (.auto removed) */
+.js .hero-in>.cmp.auto{animation:up 1.3s var(--ease) .45s forwards,sweep 3.2s ease-in-out .7s both}
+@keyframes sweep{0%{--x:6%;animation-timing-function:ease-in-out}10%{--x:6%;animation-timing-function:cubic-bezier(.45,0,.2,1)}58%{--x:94%;animation-timing-function:cubic-bezier(.45,0,.2,1)}100%{--x:50%}}
+.js .cmp.auto .knob{animation:pulse .8s ease-in-out 4.05s 2}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.js .cmp.auto .hint{animation:rise .9s var(--ease) 4.5s forwards}
+@keyframes rise{to{opacity:1;transform:translate(-50%,0)}}
 
 /* ---------- header ---------- */
 .hdr{position:fixed;inset:0 0 auto;z-index:200;height:var(--top);display:flex;align-items:center;color:var(--ink);transition:background .6s,box-shadow .6s,border-color .6s;border-bottom:1px solid transparent}
@@ -344,7 +352,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--coral);outline-o
 @media (prefers-reduced-motion:reduce){
   .js .rv{opacity:1;transform:none;transition:none}
   .js .hero-in>*{animation:none;clip-path:none;transform:none}
-  .js .cmp.intro{animation:none}
+  .js .hero-in>.cmp.auto,.js .cmp.auto .knob,.cmp.live .plan::after{animation:none}
+  .js .cmp.auto .hint{animation:none;opacity:1;transform:translate(-50%,0)}
+  .cmp .knob,.cmp .hint{transition:none}
   .js .stage.on{animation:none}
   .btn::after{display:none}
   .a,.fold,.fold>div,.a>div,.q button .ic,.qbar,.nav,.hdr,.btn,.nav a,.half,.half-btn svg,.steps .fill,.step .dot,.step .lbl,.tlink{transition:none}
@@ -384,12 +394,12 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--coral);outline-o
       <a class="btn btn-coral" href="#contact">Get a quote</a>
       <a class="tlink" href="#projects">See recent work</a>
     </div>
-    <div class="cmp intro" id="hero-cmp">
+    <div class="cmp auto" id="hero-cmp">
       <img src="../../img/svc-renovations-1600.webp" srcset="../../img/svc-renovations-800.webp 800w, ../../img/svc-renovations-1600.webp 1600w" sizes="(max-width:700px) 100vw, 1080px" width="1600" height="1200" alt="A renovated open-plan living room and kitchen" fetchpriority="high" decoding="async">
       <div class="plan" aria-hidden="true"><img src="../../img/svc-renovations-1600.webp" srcset="../../img/svc-renovations-800.webp 800w, ../../img/svc-renovations-1600.webp 1600w" sizes="(max-width:700px) 100vw, 1080px" width="1600" height="1200" alt="" decoding="async"></div>
       <span class="lbl l chip chip-teal">Plan</span>
       <span class="lbl r chip chip-coral">Built</span>
-      <div class="handle" aria-hidden="true"><div class="knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div></div>
+      <div class="handle" aria-hidden="true"><div class="knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div><span class="hint">Drag</span></div>
       <input type="range" min="0" max="100" value="50" step="1" aria-label="Compare the plan view with the finished room" aria-valuetext="Half plan, half built">
     </div>
     <p class="cap"><b>Illustrative.</b> Slide to compare.</p>
@@ -720,13 +730,31 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--coral);outline-o
   $$('.cmp').forEach(function(c){
     var inp=$('input[type=range]',c);if(!inp)return;
     function set(){var v=+inp.value;c.style.setProperty('--x',v+'%');inp.setAttribute('aria-valuetext',v===50?'Half plan, half built':v+'% plan, '+(100-v)+'% built')}
-    inp.addEventListener('input',function(){c.classList.remove('intro');set()});
-    inp.addEventListener('pointerdown',function(){c.classList.remove('intro')});
+    /* any visitor input ends the hero's auto sweep where it stands, and the visitor carries on from there */
+    function takeOver(){if(!c.classList.contains('auto'))return;var v=parseFloat(getComputedStyle(c).getPropertyValue('--x'));c.classList.remove('auto');if(v>=0&&v<=100)inp.value=Math.round(v);set()}
+    ['pointerdown','touchstart','keydown','focus'].forEach(function(t){inp.addEventListener(t,takeOver,{passive:true})});
+    inp.addEventListener('input',function(){takeOver();set()});
     set();
   });
-  var hc=d.getElementById('hero-cmp');
-  if(reduce||lowPower)hc.classList.remove('intro');
-  else hc.addEventListener('animationend',function(){hc.classList.remove('intro')});
+  var hc=d.getElementById('hero-cmp'), hknob=$('.knob',hc), hin=$('input[type=range]',hc);
+  /* magnetic knob: on fine pointers it leans toward the cursor within 60px, and settles back when the cursor leaves */
+  if(!reduce&&matchMedia('(pointer:fine)').matches){
+    var mag=false;
+    function unmag(){if(mag){mag=false;hknob.style.removeProperty('--mx');hknob.style.removeProperty('--my')}}
+    hc.addEventListener('pointermove',function(e){
+      if(e.pointerType==='touch'||e.buttons||hc.classList.contains('auto')){unmag();return}
+      var r=hc.getBoundingClientRect(),dx=e.clientX-(r.left+r.width*(+hin.value/100)),dy=e.clientY-(r.top+r.height/2);
+      if(dx*dx+dy*dy<=3600){mag=true;hknob.style.setProperty('--mx',(dx*.3).toFixed(1)+'px');hknob.style.setProperty('--my',(dy*.3).toFixed(1)+'px')}else unmag();
+    });
+    hc.addEventListener('pointerleave',unmag);
+    hin.addEventListener('pointerdown',unmag);
+  }
+  /* the blueprint grid drifts only while the hero is on screen and the tab is visible */
+  if(!reduce&&!lowPower&&'IntersectionObserver' in window){
+    var seen=false;function live(){hc.classList.toggle('live',seen&&!d.hidden)}
+    new IntersectionObserver(function(es){seen=es[0].isIntersecting;live()}).observe(hc);
+    d.addEventListener('visibilitychange',live);
+  }
 
   /* residential or commercial: a side opens on tap or keyboard (and on hover for fine pointers, in CSS) */
   $$('.half-btn').forEach(function(b){b.addEventListener('click',function(){var h=b.closest('.half'),o=!h.classList.contains('open');h.classList.toggle('open',o);b.setAttribute('aria-expanded',o)})});
