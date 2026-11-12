@@ -77,6 +77,9 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .sec>.wrap{position:relative}
 .sec-head{text-align:center;max-width:740px;margin:0 auto clamp(40px,5.5vw,72px)}
 .sec-head p{margin-top:18px;color:var(--muted);font-size:18px}
+.sec-head::before,.people-text::before{content:"";display:block;width:56px;height:3px;border-radius:2px;background:var(--grad-accent);margin:0 auto 22px}
+.people-text::before{margin:0 0 -4px}
+@media (max-width:900px){.people-text::before{margin:0 auto -4px}}
 .kicker{display:inline-flex;align-items:center;gap:10px;font:600 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
 .kicker::before,.kicker::after{content:"";width:22px;height:1px;background:linear-gradient(90deg,transparent,var(--accent));transform-origin:right;transition:transform 1.2s var(--ease)}
 .kicker::after{background:linear-gradient(90deg,var(--accent),transparent);transform-origin:left}
@@ -415,7 +418,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 <section class="sec svc" id="services" aria-labelledby="svc-h">
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head rv"><span class="kicker">Services</span><h2 id="svc-h" class="split">What we build</h2><p>Four kinds of work, each with its own crew, so you deal with people who do that job every week.</p></div>
+    <div class="sec-head rv"><h2 id="svc-h" class="split">What we build</h2><p>Four kinds of work, each with its own crew, so you deal with people who do that job every week.</p></div>
     <div class="svc-grid">
       <ul class="tabs rv" role="tablist" aria-label="Services">
         <li><button class="tab spot" role="tab" id="tab-0" aria-selected="true" aria-controls="panel-0"><b>New homes</b><span>From your plans or ours, on your block</span><i></i></button></li>
@@ -451,7 +454,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 
 <section class="sec proc" id="process" aria-labelledby="proc-h" style="padding-top:0">
   <div class="wrap">
-    <div class="stack-head rv" id="stack-head"><span class="kicker">Process</span><h2 id="proc-h" class="split">How a job runs</h2><p>Five stages. Each one says what we deliver and who signs it off.</p></div>
+    <div class="stack-head rv" id="stack-head"><h2 id="proc-h" class="split">How a job runs</h2><p>Five stages. Each one says what we deliver and who signs it off.</p></div>
     <div class="stages" id="stages">
       <article class="stage spot t1" style="--i:0">
         <div class="num" aria-hidden="true">01</div>
@@ -500,7 +503,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 <section class="sec work" id="projects" aria-labelledby="work-h">
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head rv"><span class="kicker">Projects</span><h2 id="work-h" class="split">Recent work</h2><p>A sample of finished jobs. Ask us for the address of one near you and we will arrange a look.</p></div>
+    <div class="sec-head rv"><h2 id="work-h" class="split">Recent work</h2><p>A sample of finished jobs. Ask us for the address of one near you and we will arrange a look.</p></div>
     <div class="filters-wrap rv"><div class="filters" role="group" aria-label="Filter projects">
       <button type="button" aria-pressed="true" data-f="all">All</button>
       <button type="button" aria-pressed="false" data-f="res">Residential</button>
@@ -526,7 +529,6 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
         <figure><img src="../../img/people-electrician-1600.webp" srcset="../../img/people-electrician-800.webp 800w, ../../img/people-electrician-1600.webp 1600w" sizes="(max-width:900px) 50vw, 25vw" width="1600" height="2000" alt="An electrician wiring a switchboard" loading="lazy" decoding="async"><figcaption>Licensed trades</figcaption></figure>
       </div>
       <div class="people-text rv" style="--rd:150ms">
-        <span class="kicker">About</span>
         <h2 id="people-h" class="split">Who you deal with</h2>
         <p>You get one site supervisor for the whole job. They walk the site with you at the start, run the crew every day, book the inspections and hand you the keys at the end. If something comes up a year later, they are still the person you call.</p>
         <ul class="tick">
@@ -552,7 +554,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 <section class="sec faq" id="faq" aria-labelledby="faq-h">
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head rv"><span class="kicker">Questions</span><h2 id="faq-h" class="split">Common questions</h2></div>
+    <div class="sec-head rv"><h2 id="faq-h" class="split">Common questions</h2></div>
     <div class="faq-list rv">
       <div class="q plate spot"><h3><button type="button" aria-expanded="false" aria-controls="a0" id="q0">Do I need council approval?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button></h3><div class="a" id="a0" role="region" aria-labelledby="q0"><div><p>Most new homes, extensions and structural changes need a development application through your council, or a complying development certificate through a private certifier. Smaller jobs can be exempt development. The rules differ by state and council. We tell you which applies at the first site visit, and we lodge it for you.</p></div></div></div>
       <div class="q plate spot"><h3><button type="button" aria-expanded="false" aria-controls="a1" id="q1">How long does a new build take?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button></h3><div class="a" id="a1" role="region" aria-labelledby="q1"><div><p>It depends on the design, the site, the approvals and the weather. We give you a written programme with the quote and update it at every stage, so you always know the current finish date.</p></div></div></div>
@@ -565,7 +567,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 
 <section class="sec contact" id="contact" aria-labelledby="contact-h">
   <div class="wrap">
-    <div class="sec-head rv"><span class="kicker">Contact</span><h2 id="contact-h" class="split">Get a quote</h2><p>Tell us about the job and we will call you to arrange a site visit. A rough idea is fine.</p></div>
+    <div class="sec-head rv"><h2 id="contact-h" class="split">Get a quote</h2><p>Tell us about the job and we will call you to arrange a site visit. A rough idea is fine.</p></div>
     <div class="grid">
       <form class="plate rv" data-enquiry data-subject="Quote request" novalidate>
         <div class="row">

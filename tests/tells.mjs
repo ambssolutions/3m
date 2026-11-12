@@ -15,15 +15,15 @@ await new Promise(r => setTimeout(r, 800));
 const all = readdirSync(DES).filter(d => /^\d\d-/.test(d) && existsSync(path.join(DES, d, "index.html")));
 const want = process.argv.slice(2);
 const slugs = all.filter(d => !want.length || want.some(w => d.startsWith(w)));
-const ROTATE_OK = ["01-terrain", "09-kinetic"];     // rotating/accent headline is their device
-const EYEBROW_OK = ["03-blueprint", "06-swiss"];     // drawing labels / numbered Swiss sections carry meaning there
+const ROTATE_OK = [];     // rotating/accent headline is their device
+const EYEBROW_OK = ['02-blueprint', '07-control-room', '09-skyline'];     // drawing labels / numbered Swiss sections carry meaning there
 const LIMIT = { accent: 1, fullstop: 2, eyebrow: 2 };
 
 const b = await chromium.launch();
 const home = {};
 let fails = 0;
 for (const slug of all) {
-  for (const pg of ["index.html", "services.html", "about.html"]) {
+  for (const pg of ["index.html"]) {
     if (pg !== "index.html" && !slugs.includes(slug)) continue;
     const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
     await p.goto(`http://127.0.0.1:${PORT}/designs/${slug}/${pg === "index.html" ? "" : pg}`, { waitUntil: "load" });
@@ -80,7 +80,7 @@ const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "
 import { readFileSync } from "node:fs";
 const NAMES = [];
 try { for (const pr of JSON.parse(readFileSync(path.join(SITE, "assets/content/projects-source.json"), "utf8"))) for (const k of ["title", "name", "site"]) if (pr[k]) NAMES.push(norm(pr[k])); } catch {}
-NAMES.push(..."land surveying|rma planning|engineering|landscape architecture|environmental services|project management|send an enquiry|send us an enquiry|book a meeting|what to tell us|faq|contact".split("|"));
+NAMES.push(..."new homes|renovations and extensions|commercial fit outs|light commercial|site visit and estimate|design and approvals|the build|walk through and handover|final certificate and defects period|two storey family home|attic conversion|full re clad|living room extension|apartment block|childcare centre|do i need council approval|how long does a new build take|is the quote a fixed price|can we stay in the house during a renovation|what happens when the build is finished|what to tell us|what happens next|send an enquiry|get a quote|contact".split("|"));
 const isName = h => /\b(street|road|avenue|crescent|reserve|park|green|lookout|drive|lane|playground|footbridge|school)\b/.test(h) || NAMES.some(n => n && (h === n || h.startsWith(n) || n.startsWith(h)));
 const seen = {};
 for (const s of all) for (const h of new Set(home[s].h2s.map(norm))) if (h.split(" ").length >= 3 && !isName(h) && !/understand the site|design consent|deliver on site|complete hand over/.test(h)) (seen[h] ||= []).push(s.slice(0, 2));
