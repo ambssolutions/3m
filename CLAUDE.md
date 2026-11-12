@@ -22,7 +22,7 @@ Built by AMBS Solutions. Follow the **ambs-website-design** skill (and **website
 - Footer credit: "Proudly designed by AMBS Solutions".
 
 ## This site
-- Stack: static HTML, one page, no build step. Vercel from `main`.
+- Stack: static HTML, no build step. Vercel from `main`. Currently a concept gallery (`index.html`) with ten self-contained concepts in `designs/`; the brief is `CONCEPTS.md`. When the client picks one, that concept moves to the root and the gallery goes.
 - Content lives in: `assets/content.js` (business facts, hidden when empty) and `index.html` (copy). Motion lives in `assets/motion.js`.
 - Form endpoint: `SITE.formEndpoint` in `assets/content.js`, mailto until set.
 - Languages: English (Australian market: en-AU, state-neutral approval terms until the state is confirmed).

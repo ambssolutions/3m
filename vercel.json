@@ -1,15 +1,115 @@
 {
-  "git": { "deploymentEnabled": { "main": true, "**": false } },
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "**": false
+    }
+  },
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/night-shift",
+      "destination": "/designs/01-night-shift/",
+      "permanent": false
+    },
+    {
+      "source": "/blueprint",
+      "destination": "/designs/02-blueprint/",
+      "permanent": false
+    },
+    {
+      "source": "/site-diary",
+      "destination": "/designs/03-site-diary/",
+      "permanent": false
+    },
+    {
+      "source": "/hard-hat",
+      "destination": "/designs/04-hard-hat/",
+      "permanent": false
+    },
+    {
+      "source": "/glasshouse",
+      "destination": "/designs/05-glasshouse/",
+      "permanent": false
+    },
+    {
+      "source": "/before-after",
+      "destination": "/designs/06-before-after/",
+      "permanent": false
+    },
+    {
+      "source": "/control-room",
+      "destination": "/designs/07-control-room/",
+      "permanent": false
+    },
+    {
+      "source": "/timber",
+      "destination": "/designs/08-timber/",
+      "permanent": false
+    },
+    {
+      "source": "/skyline",
+      "destination": "/designs/09-skyline/",
+      "permanent": false
+    },
+    {
+      "source": "/quote-builder",
+      "destination": "/designs/10-quote-builder/",
+      "permanent": false
+    }
+  ],
   "headers": [
-    { "source": "/(.*)", "headers": [
-      { "key": "X-Content-Type-Options", "value": "nosniff" },
-      { "key": "X-Frame-Options", "value": "DENY" },
-      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-      { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
-      { "key": "X-Robots-Tag", "value": "noindex" }
-    ] },
-    { "source": "/img/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=604800" } ] },
-    { "source": "/assets/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" } ] }
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/designs/(.*)\\.(webp|jpg)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    }
   ]
 }
