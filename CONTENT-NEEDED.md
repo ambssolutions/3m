@@ -8,21 +8,21 @@ The site is built and works today. Anything below that has not been supplied is 
 | Need | Goes in |
 |---|---|
 | The real logo (SVG or a large PNG) and its exact colours. The site uses a placeholder "3M" tile and an amber accent until then | `img/logo.svg`, and the colour tokens at the top of `index.html` (`--accent`) |
-| Registered company name and NZBN for the footer | content.js `legalName`, `nzbn` |
-| Service area, e.g. "West Auckland" (shows in the hero and footer) | content.js `area` |
+| Registered company name and ABN for the footer | content.js `legalName`, `abn` |
+| Service area, e.g. "Western Sydney" (shows in the hero and footer) | content.js `area` |
 | Phone, email, office address, hours | content.js `phone`, `phoneLink`, `email`, `address`, `mapsUrl`, `hours` |
-| Every promise on the page: fixed-price contracts, written variations, one site manager, weekly photo reports, own carpenters, tidy site, call back within one working day. Strike out any that are not true | page: services panels, "How a job runs", "Who you deal with", "What happens next" |
-| The council area named in the process (site says Auckland Council) | page: "How a job runs" |
-| Licensed Building Practitioner number(s), if they want to show them | content.js `lbp` |
-| Memberships (for example Registered Master Builders, NZCB) with logo files | content.js `memberships` |
-| Guarantee wording (for example Master Build 10-Year Guarantee) | content.js `guarantee` |
+| Every promise on the page: fixed-price contracts, written variations, one site supervisor, weekly photo reports, own carpenters, licensed trades, safe work method statements, tidy site, call back within one business day. Strike out any that are not true | page: services panels, "How a job runs", "Who you deal with", "What happens next" |
+| Which state they build in. The process and FAQ are written state-neutral (DA or CDC, council or private certifier, occupation certificate or final inspection). Once the state is known, use that state's terms, for example building permit and occupancy permit in Victoria, QBCC and Form 21 in Queensland | page: "How a job runs" and "Common questions" |
+| Builder licence number for their state (NSW Fair Trading, QBCC, VBA and so on) | content.js `licence` |
+| Memberships (for example HIA, Master Builders) with logo files | content.js `memberships` |
+| Home warranty or building compensation insurance wording for their state | content.js `insurance` |
 
 ## Photos and projects
 | Need | Goes in |
 |---|---|
-| 6 to 12 finished jobs: 2 to 4 photos each, type, suburb, what was done, and permission to show them | page: "Recent work" cards (currently illustrative stock photos with generic descriptions) |
-| Photos of the team on site, and of the site manager(s) | content.js `team`, and the three photos in "Who you deal with" |
-| A wide site or finished-home photo for the hero (landscape, at least 2000px wide) | `img/hero-site-*.webp` |
+| 6 to 12 finished jobs: 2 to 4 photos each, type, suburb, what was done, and permission to show them | page: "Recent work" cards (currently illustrative stock photos with generic descriptions; supply originals at least 1600px wide) |
+| Photos of the team on site, and of the site supervisor(s) | content.js `team`, and the three photos in "Who you deal with" |
+| A wide site or finished-home photo for the hero (landscape, at least 3200px wide for sharp large screens) | `img/hero-site-*.webp` (1000, 2000 and 3200 wide) |
 | One photo per service (new home, renovation, fit-out, light commercial) | `img/svc-*.webp` |
 
 ## Proof

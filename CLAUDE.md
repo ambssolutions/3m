@@ -23,7 +23,7 @@ Built by AMBS Solutions. Follow the **ambs-website-design** skill (and **website
 
 ## This site
 - Stack: static HTML, one page, no build step. Vercel from `main`.
-- Content lives in: `assets/content.js` (business facts, hidden when empty) and `index.html` (copy).
+- Content lives in: `assets/content.js` (business facts, hidden when empty) and `index.html` (copy). Motion lives in `assets/motion.js`.
 - Form endpoint: `SITE.formEndpoint` in `assets/content.js`, mailto until set.
-- Languages: English (NZ).
+- Languages: English (Australian market: en-AU, state-neutral approval terms until the state is confirmed).
 - Things to finish before launch: see README.md

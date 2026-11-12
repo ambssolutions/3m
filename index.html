@@ -1,276 +1,349 @@
 <!doctype html>
-<html lang="en-NZ">
+<html lang="en-AU">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>3M Construction | Builders, Auckland</title>
-<meta name="description" content="3M Construction builds new homes, renovations and extensions, and commercial fit-outs in Auckland. One site manager from the first site visit to the code compliance certificate.">
+<title>3M Construction | Residential and Commercial Builders</title>
+<meta name="description" content="3M Construction builds new homes, renovations and extensions, and commercial fit-outs. One site supervisor looks after your job from the first site visit to the final certificate.">
 <meta name="robots" content="noindex">
-<meta name="build" content="2026-11-12a">
-<meta name="theme-color" content="#1B1F24">
+<meta name="build" content="2026-11-12b">
+<meta name="theme-color" content="#0A0E14">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="en_NZ">
-<meta property="og:title" content="3M Construction | Builders, Auckland">
-<meta property="og:description" content="New homes, renovations and extensions, and commercial fit-outs. One site manager from the first site visit to the code compliance certificate.">
-<meta property="og:image" content="img/hero-site-1600.webp">
+<meta property="og:locale" content="en_AU">
+<meta property="og:title" content="3M Construction | Residential and Commercial Builders">
+<meta property="og:description" content="New homes, renovations and extensions, and commercial fit-outs. One site supervisor from the first site visit to the final certificate.">
+<meta property="og:image" content="img/hero-site-2000.webp">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231B1F24'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Arial Narrow,sans-serif' font-weight='700' font-size='30' fill='%23D9931A'%3E3M%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FFC14D'/%3E%3Cstop offset='1' stop-color='%23E8641B'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230A0E14'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='30' fill='url(%23g)'%3E3M%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preload" as="image" imagesrcset="img/hero-site-800.webp 800w, img/hero-site-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" imagesrcset="img/hero-site-1000.webp 1000w, img/hero-site-2000.webp 2000w, img/hero-site-3200.webp 3200w" imagesizes="100vw" fetchpriority="high">
 <script>document.documentElement.classList.add('js')</script>
+<script src="assets/vendor/gsap.min.js?v=3.12.5" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js?v=3.12.5" defer></script>
+<script src="assets/vendor/lenis.min.js?v=1.1.13" defer></script>
+<script src="assets/motion.js?v=1" defer></script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"GeneralContractor","name":"3M Construction","description":"New homes, renovations and extensions, and commercial fit-outs in Auckland.","areaServed":"Auckland","url":"https://example.co.nz/"}
+{"@context":"https://schema.org","@type":"GeneralContractor","name":"3M Construction","description":"New homes, renovations and extensions, and commercial fit-outs.","url":"https://example.com.au/"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"Do I need a building consent?","acceptedAnswer":{"@type":"Answer","text":"Most structural work, plumbing and drainage changes, and anything that changes how the building performs needs a building consent from Auckland Council. Some smaller jobs are exempt under Schedule 1 of the Building Act 2004. We tell you which applies at the first site visit, and we lodge the consent for you."}},
-{"@type":"Question","name":"How long does a new build take?","acceptedAnswer":{"@type":"Answer","text":"It depends on the design, the site and the council. We give you a written programme with the quote and update it at every stage, so you always know the current finish date."}},
-{"@type":"Question","name":"Is the quote a fixed price?","acceptedAnswer":{"@type":"Answer","text":"The quote is a fixed price for the work described in it. Anything you add or change later is priced in writing as a variation before we do it, so there are no surprises on the final invoice."}},
+{"@type":"Question","name":"Do I need council approval?","acceptedAnswer":{"@type":"Answer","text":"Most new homes, extensions and structural changes need a development application through your council, or a complying development certificate through a private certifier. Smaller jobs can be exempt development. The rules differ by state and council. We tell you which applies at the first site visit, and we lodge it for you."}},
+{"@type":"Question","name":"How long does a new build take?","acceptedAnswer":{"@type":"Answer","text":"It depends on the design, the site, the approvals and the weather. We give you a written programme with the quote and update it at every stage, so you always know the current finish date."}},
+{"@type":"Question","name":"Is the quote a fixed price?","acceptedAnswer":{"@type":"Answer","text":"The quote is a fixed price for the work described in it, under an industry-standard fixed-price building contract. Anything you add or change later is priced in writing as a variation before we do it, so there are no surprises on the final invoice."}},
 {"@type":"Question","name":"Can we stay in the house during a renovation?","acceptedAnswer":{"@type":"Answer","text":"Often, yes. We stage the work so you keep a kitchen and a bathroom for as long as possible, and we tell you in advance which days the water or power will be off."}},
-{"@type":"Question","name":"What happens when the build is finished?","acceptedAnswer":{"@type":"Answer","text":"We walk through the job with you, fix anything on the list, and apply to the council for the code compliance certificate. You get the consent documents, warranties and manuals in one folder."}}
+{"@type":"Question","name":"What happens when the build is finished?","acceptedAnswer":{"@type":"Answer","text":"We walk through the job with you, fix anything on the list, and apply for the occupation certificate or final inspection. You get the approval documents, compliance certificates, warranties and manuals in one folder."}}
 ]}
 </script>
 <style>
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
 :root{
-  --ink:#1B1F24; --paper:#F6F3EC; --sand:#EDE8DD; --line:#D8D2C4; --muted:#5B6068;
-  --accent:#D9931A; --accent-text:#1B1F24; --deep:#23282E; --deep-2:#2C323A;
-  --serif:"Barlow Condensed","Arial Narrow",sans-serif; --sans:Barlow,system-ui,-apple-system,"Segoe UI",sans-serif;
-  --pad:clamp(20px,5.5vw,80px); --top:72px; --ease:cubic-bezier(.22,1,.36,1);
+  --bg:#0A0E14; --bg-2:#0F151E; --bg-3:#141B26; --card:#161E2A; --card-2:#1B2432;
+  --ink:#EAEEF4; --muted:#9BA7B9; --line:rgba(170,190,220,.14); --line-2:rgba(170,190,220,.26);
+  --accent:#F2A91B; --accent-2:#E8641B; --accent-text:#140C02; --cyan:#3DD6F5; --blue:#2E6BFF;
+  --grad-accent:linear-gradient(135deg,#FFC860 0%,#F2A91B 48%,#E8641B 100%);
+  --grad-tech:linear-gradient(135deg,#3DD6F5 0%,#2E6BFF 100%);
+  --grad-card:linear-gradient(150deg,#1B2432 0%,#121923 100%);
+  --btn-hi:linear-gradient(180deg,#FFD070 0%,#F2A91B 52%,#D9880C 100%);
+  --btn-dark:linear-gradient(180deg,#2A3444 0%,#1A2230 55%,#131A24 100%);
+  --emb:14px 16px 34px rgba(0,0,0,.55),-6px -6px 18px rgba(120,160,220,.06);
+  --emb-sm:6px 8px 16px rgba(0,0,0,.5),-4px -4px 12px rgba(120,160,220,.06);
+  --emb-in:inset 4px 4px 10px rgba(0,0,0,.55),inset -3px -3px 8px rgba(120,160,220,.07);
+  --hi:inset 0 1px 0 rgba(255,255,255,.08);
+  --display:"Space Grotesk","Inter",system-ui,sans-serif; --sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --pad:clamp(20px,5.5vw,80px); --top:74px; --r:18px; --ease:cubic-bezier(.22,1,.36,1);
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--top) + 12px);scroll-behavior:smooth;background:var(--paper)}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--top) + 12px);scroll-behavior:smooth;background:var(--bg)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit}
 p{margin:0}
-h1,h2,h3{font-family:var(--serif);font-weight:700;margin:0;line-height:1;letter-spacing:.005em;text-wrap:balance}
-h2{font-size:clamp(38px,4.6vw,60px);text-align:center}
-h3{font-size:clamp(24px,2.4vw,30px)}
+h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:clamp(36px,4.4vw,58px);text-align:center}
+h3{font-size:clamp(22px,2.1vw,27px);letter-spacing:-.01em}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 ::selection{background:var(--accent);color:var(--accent-text)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.skip{position:fixed;left:16px;top:-80px;z-index:400;background:var(--accent);color:var(--accent-text);padding:12px 18px;font-weight:600;text-decoration:none}
+.skip{position:fixed;left:16px;top:-80px;z-index:400;background:var(--accent);color:var(--accent-text);padding:12px 18px;border-radius:10px;font-weight:600;text-decoration:none}
 .skip:focus{top:16px}
 .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.wrap{width:min(1240px,100% - var(--pad)*2);margin-inline:auto}
-.sec{padding:clamp(64px,9vw,120px) 0}
-.sec-head{text-align:center;max-width:720px;margin:0 auto clamp(36px,5vw,64px)}
-.sec-head p{margin-top:16px;color:var(--muted);font-size:18px}
-.rule{width:56px;height:4px;background:var(--accent);margin:0 auto 22px}
+.wrap{width:min(1280px,100% - var(--pad)*2);margin-inline:auto}
+.sec{position:relative;padding:clamp(72px,9.5vw,130px) 0}
+.grid-bg{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(170,190,220,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(170,190,220,.045) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 30%,transparent 100%)}
+.sec>.wrap{position:relative}
+.sec-head{text-align:center;max-width:740px;margin:0 auto clamp(40px,5.5vw,72px)}
+.sec-head p{margin-top:18px;color:var(--muted);font-size:18px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font:600 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+.kicker::before,.kicker::after{content:"";width:22px;height:1px;background:linear-gradient(90deg,transparent,var(--accent));transform-origin:right;transition:transform 1.2s var(--ease)}
+.kicker::after{background:linear-gradient(90deg,var(--accent),transparent);transform-origin:left}
+.js .rv:not(.in) .kicker::before,.js .rv:not(.in) .kicker::after{transform:scaleX(0)}
 .tick{list-style:none;margin:0;padding:0;display:grid;gap:12px;text-align:left}
-.tick li{position:relative;padding-left:32px}
-.tick li::before{content:"";position:absolute;left:0;top:7px;width:18px;height:10px;border-left:3px solid var(--accent);border-bottom:3px solid var(--accent);transform:rotate(-45deg)}
-.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 30px;border-radius:4px;font:600 16px/1 var(--sans);letter-spacing:.01em;text-decoration:none;border:2px solid transparent;transition:background .5s,color .5s,border-color .5s}
+.tick li{position:relative;padding-left:34px}
+.tick li::before{content:"";position:absolute;left:0;top:3px;width:20px;height:20px;border-radius:6px;background:var(--grad-accent);box-shadow:0 4px 10px -4px rgba(242,169,27,.7)}
+.tick li::after{content:"";position:absolute;left:5px;top:8px;width:9px;height:5px;border-left:2px solid var(--accent-text);border-bottom:2px solid var(--accent-text);transform:rotate(-45deg)}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 32px;border-radius:14px;font:600 16px/1 var(--sans);letter-spacing:.01em;text-decoration:none;transition:box-shadow .5s,filter .5s}
 .btn::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);transition:left 1.1s var(--ease)}
 .btn:hover::after{left:120%}
-.btn-accent{background:var(--accent);color:var(--accent-text)}
-.btn-accent:hover{background:#E6A02B}
-.btn-ink{background:var(--ink);color:#fff}
-.btn-ink:hover{background:var(--deep-2)}
-.btn-line{border-color:currentColor;color:inherit}
-.btn-line:hover{background:rgba(27,31,36,.06)}
-.tlink{font-weight:600;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px;text-decoration-color:var(--accent)}
-.tlink:hover{text-decoration-color:currentColor}
+.btn-accent{background:var(--btn-hi);color:var(--accent-text);box-shadow:0 14px 28px -12px rgba(242,169,27,.55),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(0,0,0,.22)}
+.btn-accent:hover{box-shadow:0 18px 34px -12px rgba(242,169,27,.7),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(0,0,0,.22)}
+.btn-accent:active{box-shadow:var(--emb-in)}
+.btn-dark{background:var(--btn-dark);color:#fff;border:1px solid var(--line);box-shadow:var(--emb-sm),var(--hi)}
+.btn-dark:hover{box-shadow:var(--emb),var(--hi)}
+.btn-dark:active{box-shadow:var(--emb-in)}
+.tlink{font-weight:600;text-decoration:none;background:linear-gradient(90deg,var(--accent),var(--accent-2)) no-repeat 0 100%/100% 2px;padding-bottom:4px;transition:background-size .5s,color .5s}
+.tlink:hover{background-size:100% 100%;color:var(--accent-text);border-radius:3px}
+.plate{position:relative;background:var(--grad-card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--emb),var(--hi)}
+.gtext{background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* cursor spotlight on raised surfaces (fine pointers only) */
+@media (pointer:fine){
+  .spot{position:relative}
+  .spot::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .6s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.08),transparent 60%);z-index:1}
+  .spot:hover::before{opacity:1}
+}
+/* split text: words wrap, inner spans move */
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em;margin-bottom:-.08em}
+.wi{display:inline-block;will-change:transform}
+.c{display:inline-block;will-change:transform}
+/* scroll progress line (native scroll-driven, no JS) */
+.progress{position:fixed;left:0;top:0;height:3px;width:100%;z-index:210;background:var(--grad-accent);transform-origin:left;transform:scaleX(0);pointer-events:none}
+@supports (animation-timeline:scroll()){.js .progress{animation:grow linear both;animation-timeline:scroll(root)}}
+@keyframes grow{to{transform:scaleX(1)}}
 
 /* ---------- header ---------- */
-.hdr{position:fixed;inset:0 0 auto;z-index:200;height:var(--top);display:flex;align-items:center;color:#fff;transition:background .6s,color .6s,box-shadow .6s}
+.hdr{position:fixed;inset:0 0 auto;z-index:200;height:var(--top);display:flex;align-items:center;color:#fff;transition:background .6s,box-shadow .6s,border-color .6s;border-bottom:1px solid transparent}
 .hdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px}
-.hdr.solid,.hdr.open{background:var(--paper);color:var(--ink);box-shadow:0 1px 0 var(--line)}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:700 22px/1 var(--serif);letter-spacing:.02em;text-transform:uppercase}
-.logo svg{width:34px;height:34px;flex:none}
-.logo .mark{fill:var(--accent)}
-.nav{display:flex;align-items:center;gap:30px}
-.nav a{text-decoration:none;font-weight:500;font-size:16px;padding:6px 0;border-bottom:2px solid transparent;transition:border-color .4s}
-.nav a:hover{border-color:var(--accent)}
-.nav .btn{min-height:46px;padding:0 22px;border:0}
-.nav .btn:hover{border:0}
-.menu-btn{display:none;width:44px;height:44px;align-items:center;justify-content:center;border-radius:4px}
-.menu-btn svg{width:24px;height:24px}
+.hdr.solid,.hdr.open{background:rgba(10,14,20,.94);border-color:var(--line);box-shadow:0 10px 30px -20px rgba(0,0,0,.8)}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;font:700 19px/1 var(--display);letter-spacing:-.01em}
+.logo svg{width:38px;height:38px;flex:none;border-radius:11px;box-shadow:var(--emb-sm),var(--hi)}
+.nav{display:flex;align-items:center;gap:28px}
+.nav a{text-decoration:none;font-weight:500;font-size:15.5px;color:#D7DEE8;padding:6px 0;background:linear-gradient(90deg,var(--accent),var(--accent-2)) no-repeat 0 100%/0 2px;transition:background-size .5s,color .4s}
+.nav a:hover{color:#fff;background-size:100% 2px}
+.nav .btn{min-height:46px;padding:0 22px;border-radius:12px;background:var(--btn-hi)}
+.menu-btn{display:none;width:44px;height:44px;align-items:center;justify-content:center;border-radius:12px;border:1px solid var(--line);background:var(--btn-dark);box-shadow:var(--emb-sm),var(--hi)}
+.menu-btn svg{width:22px;height:22px}
 .menu-btn .x{display:none}
 .hdr.open .menu-btn .x{display:block}
 .hdr.open .menu-btn .h{display:none}
 @media (max-width:900px){
   .menu-btn{display:inline-flex}
-  .nav{position:fixed;top:var(--top);left:0;right:0;bottom:0;background:var(--paper);color:var(--ink);flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:0 var(--pad) 40px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .6s,transform .6s,visibility 0s .6s}
+  .nav{position:fixed;top:var(--top);left:0;right:0;bottom:0;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:0 var(--pad) 40px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:opacity .6s,transform .6s,visibility 0s .6s}
   .hdr.open .nav{opacity:1;visibility:visible;transform:none;transition:opacity .6s,transform .6s}
-  .nav a{font-family:var(--serif);font-size:30px;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
-  .nav .btn{font:600 16px/1 var(--sans);text-transform:none;letter-spacing:.01em;margin-top:10px;min-height:56px;padding:0 32px}
+  .nav a{font-family:var(--display);font-size:30px;font-weight:600;color:#fff;background:none;transition:opacity .8s var(--ease),transform .8s var(--ease);opacity:0;transform:translateY(14px)}
+  .hdr.open .nav a{opacity:1;transform:none}
+  .hdr.open .nav a:nth-child(2){transition-delay:.06s}.hdr.open .nav a:nth-child(3){transition-delay:.12s}.hdr.open .nav a:nth-child(4){transition-delay:.18s}.hdr.open .nav a:nth-child(5){transition-delay:.24s}.hdr.open .nav a:nth-child(6){transition-delay:.3s}
+  .nav .btn{font:600 16px/1 var(--sans);margin-top:10px;min-height:56px;padding:0 32px;background:var(--btn-hi)}
 }
 
 /* ---------- hero ---------- */
-.hero{position:relative;height:100svh;min-height:560px;max-height:1000px;display:grid;place-items:center;text-align:center;color:#fff;overflow:hidden;isolation:isolate;padding-top:var(--top)}
-.hero-img{position:absolute;inset:0;z-index:-2}
+.hero{position:relative;height:100svh;min-height:580px;max-height:1040px;display:grid;place-items:center;text-align:center;color:#fff;overflow:hidden;isolation:isolate;padding-top:var(--top)}
+.hero-img{position:absolute;inset:-12% 0 0;z-index:-3}
 .hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 60%}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,24,28,.55) 0%,rgba(20,24,28,.35) 40%,rgba(20,24,28,.7) 100%)}
-.hero-in{width:min(860px,100% - var(--pad)*2);display:grid;justify-items:center;gap:22px;padding-bottom:40px}
-.hero h1{font-size:clamp(2.5rem,min(7vw,10.5vh),6rem);text-transform:uppercase;letter-spacing:.01em;line-height:.95}
-.hero .lede{max-width:600px;font-size:clamp(17px,1.3vw,20px);line-height:1.55;color:#E8E6E1}
-.hero .acts{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 28px;margin-top:6px}
-.hero .tlink{color:#fff}
-.hero-strip{position:absolute;left:0;right:0;bottom:0;padding:14px var(--pad);font-size:14px;color:#E8E6E1;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.18);background:rgba(20,24,28,.35)}
-.hero-strip span{white-space:nowrap}
-.js .hero-in>*{clip-path:inset(0 0 100% 0);transform:translateY(14px);animation:up 1.4s var(--ease) forwards}
-.js .hero-in>:nth-child(2){animation-delay:.18s}
-.js .hero-in>:nth-child(3){animation-delay:.36s}
+@supports (animation-timeline:view()){.js .hero-img{animation:para linear both;animation-timeline:view();animation-range:exit 0% exit 100%}}
+@keyframes para{to{transform:translateY(14%)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(10,14,20,.6) 0%,rgba(10,14,20,.42) 40%,rgba(10,14,20,.88) 100%)}
+.hero .grid-bg{z-index:-1;mask-image:radial-gradient(ellipse 60% 70% at 50% 55%,#000 20%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 60% 70% at 50% 55%,#000 20%,transparent 100%)}
+.orb{position:absolute;z-index:-1;border-radius:50%;filter:blur(70px);opacity:.55;pointer-events:none;will-change:transform}
+.orb-a{width:46vw;height:46vw;max-width:620px;max-height:620px;left:-10vw;top:10%;background:radial-gradient(circle,rgba(242,169,27,.55),rgba(232,100,27,0) 65%)}
+.orb-b{width:40vw;height:40vw;max-width:560px;max-height:560px;right:-8vw;bottom:-6%;background:radial-gradient(circle,rgba(61,214,245,.4),rgba(46,107,255,0) 65%)}
+.js .hero.live .orb-a{animation:drift-a 18s ease-in-out infinite alternate}
+.js .hero.live .orb-b{animation:drift-b 22s ease-in-out infinite alternate}
+@keyframes drift-a{to{transform:translate(12vw,8vh)}}
+@keyframes drift-b{to{transform:translate(-10vw,-10vh)}}
+.hero-in{width:min(900px,100% - var(--pad)*2);display:grid;justify-items:center;gap:22px;padding-bottom:56px}
+.hero h1{font-size:clamp(2.5rem,min(6.6vw,10vh),5.9rem);letter-spacing:-.03em;line-height:.98;perspective:900px}
+.hero h1 span.ln{display:block}
+.hero .lede{max-width:620px;font-size:clamp(17px,1.3vw,20px);line-height:1.55;color:#D7DEE8}
+.hero .acts{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 30px;margin-top:8px}
+.hero .acts .btn{min-height:60px;padding:0 38px;font-size:17px}
+.hero-strip{position:absolute;left:0;right:0;bottom:0;padding:16px var(--pad);font-size:14px;color:#D7DEE8;display:flex;justify-content:center;gap:28px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.12);background:rgba(10,14,20,.5)}
+.hero-strip span{white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.hero-strip span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--grad-accent)}
+.js .hero-in>:not(h1){clip-path:inset(0 0 100% 0);transform:translateY(16px);animation:up 1.4s var(--ease) forwards}
+.js .hero-in>:nth-child(2){animation-delay:1.25s}
+.js .hero-in>:nth-child(3){animation-delay:1.5s}
 @keyframes up{to{clip-path:inset(-20% 0 -20% 0);transform:none}}
-@media (max-width:600px){.hero .acts{flex-direction:column}.hero .acts .btn{width:100%;max-width:360px}.hero-strip{display:none}}
+@media (max-width:600px){.hero .acts{flex-direction:column}.hero .acts .btn{width:100%;max-width:360px}.hero-strip{display:none}.orb{filter:blur(40px)}}
 @media (max-height:620px){.hero-strip{display:none}}
 
+/* ---------- ticker ---------- */
+.ticker{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);padding:14px 0;font:600 14px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ticker-track{display:flex;width:max-content;gap:0}
+.ticker-track span{display:inline-flex;align-items:center;gap:28px;padding-right:28px;white-space:nowrap}
+.ticker-track span::after{content:"";width:8px;height:8px;border-radius:2px;background:var(--grad-accent);transform:rotate(45deg)}
+.js .ticker.live .ticker-track{animation:tick 38s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+
 /* ---------- services showcase ---------- */
-.svc{background:var(--sand)}
-.svc-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,4vw,64px);align-items:start}
-.tabs{display:grid;gap:4px;margin:0;padding:0;list-style:none}
-.tab{display:block;width:100%;text-align:left;padding:18px 22px;border-left:3px solid var(--line);background:none;transition:background .4s,border-color .4s;position:relative}
-.tab:hover{background:rgba(27,31,36,.04)}
-.tab[aria-selected=true]{background:var(--paper);border-color:var(--accent)}
-.tab b{display:block;font:600 26px/1.05 var(--serif);text-transform:uppercase;letter-spacing:.01em}
-.tab span{display:block;color:var(--muted);font-size:15px;margin-top:5px}
-.tab i{position:absolute;left:-3px;top:0;width:3px;height:0;background:var(--ink);transition:none}
-.tab[aria-selected=true] i{height:var(--p,0%)}
-.panel{display:none;background:var(--paper);border:1px solid var(--line)}
+.svc{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%)}
+.svc-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,4vw,56px);align-items:start}
+.tabs{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.tab{position:relative;display:block;width:100%;text-align:left;padding:20px 22px 20px 26px;border-radius:14px;border:1px solid var(--line);background:var(--grad-card);box-shadow:var(--emb-sm),var(--hi);transition:transform .5s var(--ease),box-shadow .5s,border-color .5s;overflow:hidden}
+.tab:hover{transform:translateX(4px)}
+.tab[aria-selected=true]{border-color:rgba(242,169,27,.45);box-shadow:var(--emb),var(--hi)}
+.tab b{display:block;font:600 20px/1.15 var(--display);letter-spacing:-.01em;position:relative;z-index:2}
+.tab span{display:block;color:var(--muted);font-size:14.5px;margin-top:5px;position:relative;z-index:2}
+.tab i{position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--grad-accent);transform:scaleY(var(--p,0));transform-origin:top;border-radius:0 3px 3px 0}
+.panel{display:none;border-radius:var(--r);overflow:hidden;position:relative;background:var(--card);border:1px solid transparent;box-shadow:var(--emb)}
+.panel::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:conic-gradient(from var(--ang),rgba(242,169,27,.9),rgba(61,214,245,.5),rgba(46,107,255,.6),rgba(242,169,27,.9));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.js .svc.live .panel.on::before{animation:spin 9s linear infinite}
+@keyframes spin{to{--ang:360deg}}
 .panel.on{display:grid;grid-template-rows:auto 1fr;animation:fade 1s var(--ease)}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .panel img{width:100%;aspect-ratio:4/3;object-fit:cover}
-.panel-body{padding:clamp(22px,2.6vw,36px);display:grid;gap:18px;align-content:start}
-.panel-body h3{text-transform:uppercase}
+.panel-body{padding:clamp(22px,2.6vw,36px);display:grid;gap:18px;align-content:start;background:var(--grad-card)}
 .panel-body p{color:var(--muted)}
 @media (max-width:900px){
   .svc-grid{grid-template-columns:1fr}
-  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-  .tab{border:1px solid var(--line);border-left:1px solid var(--line);padding:14px 14px;min-height:56px;display:flex;align-items:center;border-radius:4px}
-  .tab[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .tab b{font-size:19px;line-height:1.05}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tab{padding:14px 14px 14px 18px;min-height:60px;display:flex;align-items:center}
+  .tab:hover{transform:none}
+  .tab b{font-size:16px}
   .tab span{display:none}
-  .tab i{display:none}
 }
 
 /* ---------- process: sticky stacking stages ---------- */
-.proc{background:var(--paper)}
-.stack-head{position:sticky;top:var(--top);z-index:5;background:var(--paper);padding:22px 0 18px;text-align:center}
-.stack-head p{color:var(--muted);margin-top:8px;font-size:17px}
-.stages{display:grid;gap:14px;max-width:960px;margin:0 auto;padding-bottom:40px}
-.stage{position:sticky;top:calc(var(--top) + var(--head) + var(--i)*72px);display:grid;grid-template-columns:auto 1fr;gap:0 clamp(18px,3vw,40px);padding:16px clamp(22px,3vw,36px) clamp(22px,3vw,36px);border:1px solid var(--line);background:var(--paper);min-height:300px;max-height:calc(100svh - var(--top) - var(--head) - 24px);overflow:hidden}
-.stage.t1{background:#fff}
-.stage.t2{background:var(--sand)}
-.stage.t3{background:var(--ink);color:#fff;border-color:var(--ink)}
-.stage.t3 .meta,.stage.t3 .who dt{color:#B9BEC5}
-.stage.t4{background:var(--accent);color:var(--accent-text);border-color:var(--accent)}
-.stage.t4 .meta,.stage.t4 .who dt{color:#5A3D05}
-.stage.t4 .tick li::before{border-color:var(--ink)}
-.stage.t3 .tick li::before{border-color:var(--accent)}
-.stage.t5{background:var(--deep);color:#fff;border-color:var(--deep)}
-.stage.t5 .meta,.stage.t5 .who dt{color:#B9BEC5}
-.stage.t5 .tick li::before{border-color:var(--accent)}
-.stage .num{font:700 48px/1 var(--serif);letter-spacing:-.01em;grid-row:1/3;align-self:start;min-width:2ch;font-variant-numeric:tabular-nums;color:var(--accent)}
-.stage.t4 .num{color:var(--ink)}
+.proc{background:var(--bg-2)}
+.stack-head{position:sticky;top:var(--top);z-index:5;background:var(--bg-2);padding:24px 0 18px;text-align:center}
+.stack-head p{color:var(--muted);margin-top:10px;font-size:17px}
+.stages{display:grid;gap:14px;max-width:980px;margin:0 auto;padding-bottom:40px}
+.stage{position:sticky;top:calc(var(--top) + var(--head) + var(--i)*74px);display:grid;grid-template-columns:auto 1fr;gap:0 clamp(18px,3vw,40px);padding:16px clamp(22px,3vw,36px) clamp(24px,3vw,36px);border-radius:var(--r);border:1px solid var(--line);background:var(--grad-card);box-shadow:var(--emb),var(--hi);min-height:300px;max-height:calc(100svh - var(--top) - var(--head) - 24px);overflow:hidden;color:var(--ink)}
+.stage.t2{background:linear-gradient(150deg,#222C3B 0%,#161E2A 100%)}
+.stage.t3{background:linear-gradient(150deg,#1D3A8A 0%,#122055 55%,#0F1A3F 100%);border-color:rgba(61,214,245,.3)}
+.stage.t3 .meta,.stage.t3 .who dt{color:#9FD9F0}
+.stage.t4{background:linear-gradient(150deg,#FFC860 0%,#F2A91B 50%,#E07A1C 100%);color:var(--accent-text);border-color:rgba(255,255,255,.35)}
+.stage.t4 .meta,.stage.t4 .who dt{color:#5A3605}
+.stage.t4 .tick li::before{background:var(--accent-text);box-shadow:none}
+.stage.t4 .tick li::after{border-color:var(--accent)}
+.stage.t5{background:linear-gradient(150deg,#1F2938 0%,#0E131B 100%)}
+.stage .num{font:700 48px/1 var(--display);letter-spacing:-.03em;grid-row:1/3;align-self:start;min-width:2ch;font-variant-numeric:tabular-nums;background:linear-gradient(135deg,#FFC860 0%,#F2A91B 30%,#E8641B 50%,#F2A91B 70%,#FFC860 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+.js .proc.live .stage .num{animation:shimmer 6s ease-in-out infinite alternate}
+@keyframes shimmer{to{background-position:100% 0}}
+.stage.t4 .num{background:none;color:var(--accent-text);animation:none}
+.stage.t3 .num{background:linear-gradient(135deg,#3DD6F5,#2E6BFF,#3DD6F5);background-size:220% 100%;-webkit-background-clip:text;background-clip:text}
 .stage .title{display:flex;align-items:center;flex-wrap:wrap;gap:4px 16px;min-height:48px}
-.stage h3{text-transform:uppercase}
-.stage .meta{font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.stage .meta{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .stage-body{display:grid;grid-template-columns:1fr auto;gap:22px clamp(20px,4vw,56px);margin-top:16px;align-items:start}
-.stage .who{margin:0;font-size:15px;display:grid;gap:4px;min-width:200px}
-.stage .who dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.stage .who{margin:0;font-size:15px;display:grid;gap:4px;min-width:220px;padding:16px 18px;border-radius:12px;background:#0E141D;box-shadow:var(--emb-in)}
+.stage.t3 .who{background:#0E1A3C}
+.stage.t4 .who{background:#FBC35A;box-shadow:inset 2px 2px 6px rgba(120,70,0,.25),inset -2px -2px 6px rgba(255,255,255,.35)}
+.stage .who dt{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .stage .who dd{margin:0 0 8px;font-weight:500}
-@media (max-width:720px){.stage{grid-template-columns:auto 1fr;gap:0 14px}.stage .num{font-size:34px;line-height:48px}.stage-body{grid-template-columns:1fr;grid-column:1/-1}.stage .title{min-height:48px}.stage h3{font-size:22px}}
+@media (max-width:720px){.stage{grid-template-columns:auto 1fr;gap:0 14px}.stage .num{font-size:34px;line-height:48px}.stage-body{grid-template-columns:1fr;grid-column:1/-1}.stage h3{font-size:21px}}
 @media (max-height:760px),(max-width:720px){.stage{position:static;max-height:none}.stack-head{position:static}}
 
 /* ---------- projects ---------- */
-.work{background:var(--sand)}
-.filters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:36px}
-.filters button{min-height:44px;padding:0 20px;border:1px solid var(--line);background:none;font-weight:500;border-radius:4px;transition:background .4s,color .4s,border-color .4s}
-.filters button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{background:var(--paper);border:1px solid var(--line);display:grid;grid-template-rows:auto 1fr;text-decoration:none}
+.work{background:var(--bg)}
+.filters-wrap{display:flex;justify-content:center;margin-bottom:40px}
+.filters{display:inline-flex;gap:6px;padding:6px;border-radius:14px;background:var(--bg-2);box-shadow:var(--emb-in)}
+.filters button{min-height:44px;padding:0 20px;border-radius:10px;font-weight:500;color:var(--muted);transition:background .5s,color .5s,box-shadow .5s}
+.filters button[aria-pressed=true]{background:var(--btn-dark);color:#fff;box-shadow:var(--emb-sm),var(--hi)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{display:grid;grid-template-rows:auto 1fr;text-decoration:none;overflow:hidden;transition:transform .6s var(--ease),box-shadow .6s,border-color .6s}
+.card:hover{transform:translateY(-4px);border-color:rgba(242,169,27,.4)}
 .card.hide{display:none}
-.card img{width:100%;aspect-ratio:4/3;object-fit:cover}
-.card-body{padding:20px 22px 24px;display:grid;gap:6px}
-.card-body small{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.card-body h3{font-size:24px;text-transform:uppercase}
+.card .ph{overflow:hidden;position:relative}
+.card .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(10,14,20,.5));opacity:0;transition:opacity .6s}
+.card:hover .ph::after{opacity:1}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(.92);transition:filter .6s}
+.card:hover img{filter:saturate(1.08)}
+.card-body{padding:22px 24px 26px;display:grid;gap:7px}
+.card-body small{font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;color:transparent;width:max-content}
+.card-body h3{font-size:22px}
 .card-body p{color:var(--muted);font-size:15px}
 @media (max-width:900px){.cards{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.cards{grid-template-columns:1fr}}
+@media (max-width:560px){.cards{grid-template-columns:1fr}.filters{display:flex;width:100%}.filters button{flex:1;padding:0 10px}}
 
 /* ---------- people ---------- */
+.people{background:linear-gradient(180deg,var(--bg) 0%,var(--bg-3) 100%)}
 .people .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
-.photos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.photos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .photos figure{margin:0}
-.photos img{width:100%;aspect-ratio:4/5;object-fit:cover}
-.photos figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+.photos img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;box-shadow:var(--emb)}
+.photos figcaption{font-size:13px;color:var(--muted);margin-top:10px}
 .photos figure:first-child{grid-row:1/3;align-self:center}
-.people-text{display:grid;gap:22px}
+.people-text{display:grid;gap:24px}
 .people-text h2{text-align:left}
+.people-text .kicker{margin-bottom:0}
 .people-text .tick{font-size:17px}
-.people-text .tick b{font-weight:600}
-@media (max-width:900px){.people .grid{grid-template-columns:1fr}.people-text h2{text-align:center}.people-text{text-align:center}.people-text .tick{text-align:left;max-width:560px;margin:0 auto}}
+.people-text .tick b{font-weight:600;color:#fff}
+@media (max-width:900px){.people .grid{grid-template-columns:1fr}.people-text h2{text-align:center}.people-text{text-align:center;justify-items:center}.people-text .tick{text-align:left;max-width:560px}}
 
-/* ---------- stats / testimonials / memberships (hidden until supplied) ---------- */
-.proof{background:var(--ink);color:#fff}
+/* ---------- proof (hidden until supplied) ---------- */
+.proof{background:var(--bg-3)}
 .stats{display:flex;justify-content:center;gap:clamp(28px,6vw,90px);flex-wrap:wrap;text-align:center}
-.stats b{display:block;font:700 clamp(48px,6vw,80px)/1 var(--serif);color:var(--accent);font-variant-numeric:tabular-nums}
-.stats span{display:block;color:#B9BEC5;margin-top:6px}
+.stats b{display:block;font:700 clamp(48px,6vw,80px)/1 var(--display);background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
+.stats span{display:block;color:var(--muted);margin-top:6px}
 .quotes{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:980px;margin:48px auto 0}
-.quote{border-left:3px solid var(--accent);padding:4px 0 4px 24px}
+.quote{padding:26px 28px;margin:0}
 .quote p{font-size:19px;line-height:1.5}
-.quote footer{margin-top:14px;color:#B9BEC5;font-size:15px}
+.quote footer{margin-top:14px;color:var(--muted);font-size:15px}
 .members{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:48px;align-items:center}
 .members img{height:56px;width:auto}
 @media (max-width:720px){.quotes{grid-template-columns:1fr}}
 
 /* ---------- faq ---------- */
-.faq-list{max-width:820px;margin:0 auto;border-top:1px solid var(--line)}
-.q{border-bottom:1px solid var(--line)}
-.q button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;padding:22px 4px;font:600 22px/1.2 var(--serif);text-transform:uppercase;letter-spacing:.01em}
-.q button svg{flex:none;width:18px;height:18px;transition:transform 1.4s var(--ease)}
-.q button[aria-expanded=true] svg{transform:rotate(45deg)}
+.faq{background:var(--bg-3)}
+.faq-list{max-width:840px;margin:0 auto;display:grid;gap:12px}
+.q{border-radius:14px}
+.q button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;padding:22px 24px;font:600 19px/1.25 var(--display);letter-spacing:-.01em;position:relative;z-index:2}
+.q button .ic{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--btn-dark);box-shadow:var(--emb-sm),var(--hi);transition:transform 1.4s var(--ease),background .6s}
+.q button .ic svg{width:16px;height:16px}
+.q button[aria-expanded=true] .ic{transform:rotate(45deg);background:var(--btn-hi);color:var(--accent-text)}
 .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows 1.4s var(--ease)}
 .a>div{overflow:hidden;opacity:0;visibility:hidden;transition:opacity 1s .2s,visibility 0s 1.4s}
 .q.open .a{grid-template-rows:1fr}
 .q.open .a>div{opacity:1;visibility:visible;transition:opacity 1s .2s,visibility 0s}
-.a p{padding:0 4px 24px;color:var(--muted);max-width:68ch}
+.a p{padding:0 24px 24px;color:var(--muted);max-width:70ch}
 
 /* ---------- contact ---------- */
-.contact{background:var(--sand)}
+.contact{background:linear-gradient(180deg,var(--bg-3) 0%,var(--bg) 100%)}
 .contact .grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,5vw,72px);align-items:start}
-form{display:grid;gap:16px;background:var(--paper);border:1px solid var(--line);padding:clamp(22px,3vw,36px)}
+form{display:grid;gap:16px;padding:clamp(22px,3vw,38px)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-label{display:grid;gap:6px;font-weight:600;font-size:15px}
+label{display:grid;gap:7px;font-weight:600;font-size:14.5px}
 label small{font-weight:400;color:var(--muted)}
-input,select,textarea{font:inherit;color:inherit;background:#fff;border:1px solid var(--line);border-radius:4px;padding:13px 14px;width:100%;min-height:50px}
-textarea{min-height:130px;resize:vertical}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:13px 15px;width:100%;min-height:52px;box-shadow:var(--emb-in);transition:border-color .5s,box-shadow .5s}
+select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239BA7B9' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:16px;padding-right:40px}
+textarea{min-height:136px;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
-[aria-invalid=true]{border-color:#B3261E}
+::placeholder{color:#6F7B8D}
+[aria-invalid=true]{border-color:#FF6B6B}
 .hp{position:absolute;left:-9999px}
 .form-status{min-height:1.5em;font-weight:500}
 .form-note{font-size:14px;color:var(--muted)}
-.aside{display:grid;gap:30px}
-.aside h3{text-transform:uppercase;margin-bottom:12px}
+.aside{display:grid;gap:28px}
+.aside h3{font-size:20px;margin-bottom:12px}
 .aside dl{margin:0;display:grid;gap:12px}
-.aside dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.aside dt{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .aside dd{margin:0 0 6px;font-weight:500;font-size:18px}
-.aside ol{margin:0;padding-left:22px;display:grid;gap:8px}
+.aside ol{margin:0;padding-left:22px;display:grid;gap:8px;color:#CBD3DE}
+.aside p{color:#CBD3DE}
 @media (max-width:900px){.contact .grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
 
 /* ---------- footer ---------- */
-.foot{background:var(--ink);color:#C9CDD2;padding:60px 0 110px;text-align:center}
+.foot{background:#070A0F;color:#AEB8C6;padding:64px 0 110px;text-align:center;border-top:1px solid var(--line)}
 .foot .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;text-align:left;margin:40px 0}
 .foot .logo{color:#fff;justify-content:center}
-.foot h3{color:#fff;font-size:18px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.foot h3{color:#fff;font-size:15px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
 .foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .foot a{text-decoration:none}
 .foot a:hover{color:#fff;text-decoration:underline}
-.foot .tag{max-width:380px;color:#9AA0A8;font-size:15px}
-.foot .legal{border-top:1px solid #353B43;padding-top:22px;font-size:14px;color:#9AA0A8;display:grid;gap:6px}
-.foot .legal a{color:#C9CDD2}
+.foot .tag{max-width:380px;color:#8A96A6;font-size:15px}
+.foot .legal{border-top:1px solid var(--line);padding-top:22px;font-size:14px;color:#8A96A6;display:grid;gap:6px}
+.foot .legal a{color:#CBD3DE}
 @media (max-width:760px){.foot .cols{grid-template-columns:1fr;text-align:center}.foot .tag{margin:0 auto}}
-@media (min-width:761px){.foot{padding-bottom:60px}}
+@media (min-width:761px){.foot{padding-bottom:64px}}
 
 /* ---------- mobile quick bar ---------- */
-.qbar{position:fixed;left:0;right:0;bottom:0;z-index:150;display:none;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);padding-bottom:env(safe-area-inset-bottom);transform:translateY(100%);transition:transform .6s var(--ease)}
+.qbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:150;display:none;grid-template-columns:1fr 1fr;gap:8px;transform:translateY(130%);transition:transform .6s var(--ease)}
 .qbar.on{transform:none}
-.qbar a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:56px;text-decoration:none;font-weight:600;background:var(--paper);color:var(--ink)}
-.qbar a.q2{background:var(--accent);color:var(--accent-text)}
+.qbar a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;border-radius:14px;text-decoration:none;font-weight:600;background:var(--btn-dark);color:#fff;border:1px solid var(--line);box-shadow:var(--emb),var(--hi)}
+.qbar a.q2{background:var(--btn-hi);color:var(--accent-text);border:0;box-shadow:0 14px 28px -12px rgba(242,169,27,.6),inset 0 1px 0 rgba(255,255,255,.5)}
 .qbar a svg{width:18px;height:18px}
 .qbar:has(a[hidden]){grid-template-columns:1fr}
 @media (max-width:760px){.qbar{display:grid}}
@@ -280,20 +353,23 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 .js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){
   .js .rv{opacity:1;transform:none;transition:none}
-  .js .hero-in>*{animation:none;clip-path:none;transform:none}
+  .js .hero-in>:not(h1){animation:none;clip-path:none;transform:none}
+  .js .hero.live .orb,.js .ticker.live .ticker-track,.js .svc.live .panel.on::before,.js .proc.live .stage .num,.js .hero-img,.js .progress{animation:none}
+  .js .rv:not(.in) .kicker::before,.js .rv:not(.in) .kicker::after{transform:none}
   .btn::after{display:none}
-  .a,.q button svg,.qbar,.nav,.hdr{transition:none}
+  .a,.q button .ic,.qbar,.nav,.hdr,.card,.tab,.btn,.nav a{transition:none}
   .panel.on{animation:none}
 }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 
 <header class="hdr" id="hdr">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="3M Construction, home">
-      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="currentColor" opacity=".12"/><text class="mark" x="32" y="44" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="34">3M</text></svg>
+      <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC860"/><stop offset="1" stop-color="#E8641B"/></linearGradient><linearGradient id="lb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A3444"/><stop offset="1" stop-color="#131A24"/></linearGradient></defs><rect width="64" height="64" rx="12" fill="url(#lb)"/><text x="32" y="43" text-anchor="middle" font-family="Space Grotesk, Inter, Arial, sans-serif" font-weight="700" font-size="30" fill="url(#lg)">3M</text></svg>
       <span>3M Construction</span>
     </a>
     <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
@@ -306,7 +382,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
       <a href="#projects">Projects</a>
       <a href="#people">About</a>
       <a href="#faq">Questions</a>
-      <a class="btn btn-accent" href="#contact">Get a quote</a>
+      <a class="btn btn-accent mag" href="#contact">Get a quote</a>
     </nav>
   </div>
 </header>
@@ -314,54 +390,59 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 <main id="main">
 <section class="hero" id="top">
   <div class="hero-img" aria-hidden="true">
-    <img src="img/hero-site-1600.webp" srcset="img/hero-site-800.webp 800w, img/hero-site-1600.webp 1600w" sizes="100vw" width="1600" height="900" alt="" fetchpriority="high" decoding="async">
+    <img src="img/hero-site-2000.webp" srcset="img/hero-site-1000.webp 1000w, img/hero-site-2000.webp 2000w, img/hero-site-3200.webp 3200w" sizes="100vw" width="3200" height="1800" alt="" fetchpriority="high" decoding="async">
   </div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="orb orb-a" aria-hidden="true"></div><div class="orb orb-b" aria-hidden="true"></div>
   <div class="hero-in">
-    <h1>Residential and commercial builders</h1>
-    <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> in <span data-text="area"></span></span>. One site manager looks after your job from the first site visit to the code compliance certificate.</p>
+    <h1 id="h1"><span class="ln">Residential and</span><span class="ln gtext">commercial builders</span></h1>
+    <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
     <div class="acts">
-      <a class="btn btn-accent" href="#contact">Get a quote</a>
+      <a class="btn btn-accent mag" href="#contact">Get a quote</a>
       <a class="tlink" href="#projects">See recent work</a>
     </div>
   </div>
   <div class="hero-strip" aria-label="Credentials">
-    <span data-need="lbp">Licensed Building Practitioner <span data-text="lbp"></span></span>
-    <span data-need="guarantee" data-text="guarantee"></span>
+    <span data-need="licence">Licensed builder <span data-text="licence"></span></span>
+    <span data-need="insurance" data-text="insurance"></span>
     <span data-need="hours" data-text="hours"></span>
     <span data-need="memberships" id="member-names"></span>
   </div>
 </section>
 
+<div class="ticker" id="ticker" aria-hidden="true"><div class="ticker-track"><span>New homes</span><span>Renovations and extensions</span><span>Commercial fit-outs</span><span>Light commercial</span><span>Fixed-price contracts</span><span>One site supervisor</span><span>New homes</span><span>Renovations and extensions</span><span>Commercial fit-outs</span><span>Light commercial</span><span>Fixed-price contracts</span><span>One site supervisor</span></div></div>
+
 <section class="sec svc" id="services" aria-labelledby="svc-h">
+  <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head rv"><div class="rule"></div><h2 id="svc-h">What we build</h2><p>Four kinds of work, each with its own crew, so you deal with people who do that job every week.</p></div>
+    <div class="sec-head rv"><span class="kicker">Services</span><h2 id="svc-h" class="split">What we build</h2><p>Four kinds of work, each with its own crew, so you deal with people who do that job every week.</p></div>
     <div class="svc-grid">
       <ul class="tabs rv" role="tablist" aria-label="Services">
-        <li><button class="tab" role="tab" id="tab-0" aria-selected="true" aria-controls="panel-0"><b>New homes</b><span>From your plans or ours, on your section</span><i></i></button></li>
-        <li><button class="tab" role="tab" id="tab-1" aria-selected="false" aria-controls="panel-1" tabindex="-1"><b>Renovations and extensions</b><span>Kitchens, bathrooms, second storeys, re-cladding</span><i></i></button></li>
-        <li><button class="tab" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" tabindex="-1"><b>Commercial fit-outs</b><span>Offices, retail and hospitality, built around your opening date</span><i></i></button></li>
-        <li><button class="tab" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3" tabindex="-1"><b>Light commercial</b><span>Warehouses, workshops and small multi-unit builds</span><i></i></button></li>
+        <li><button class="tab spot" role="tab" id="tab-0" aria-selected="true" aria-controls="panel-0"><b>New homes</b><span>From your plans or ours, on your block</span><i></i></button></li>
+        <li><button class="tab spot" role="tab" id="tab-1" aria-selected="false" aria-controls="panel-1" tabindex="-1"><b>Renovations and extensions</b><span>Kitchens, bathrooms, second storeys, re-cladding</span><i></i></button></li>
+        <li><button class="tab spot" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" tabindex="-1"><b>Commercial fit-outs</b><span>Offices, retail and hospitality, built around your opening date</span><i></i></button></li>
+        <li><button class="tab spot" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3" tabindex="-1"><b>Light commercial</b><span>Warehouses, workshops and small multi-unit builds</span><i></i></button></li>
       </ul>
       <div class="panels rv" style="--rd:120ms">
         <div class="panel on" role="tabpanel" id="panel-0" aria-labelledby="tab-0">
-          <img src="img/svc-new-homes-1200.webp" srcset="img/svc-new-homes-600.webp 600w, img/svc-new-homes-1200.webp 1200w" sizes="(max-width:900px) 100vw, 58vw" width="1200" height="900" alt="A new two-storey home with large windows at dusk" loading="lazy" decoding="async">
-          <div class="panel-body"><h3>New homes</h3><p>We build from your architect's drawings or help you get a design and consent for your section. You get a written programme, and the price is fixed for the work in the contract.</p>
-            <ul class="tick"><li>Design and consent handled with your designer</li><li>Fixed-price contract, written variations</li><li>Council inspections booked at every stage</li><li>Code compliance certificate applied for at the end</li></ul></div>
+          <img src="img/svc-new-homes-1600.webp" srcset="img/svc-new-homes-800.webp 800w, img/svc-new-homes-1600.webp 1600w" sizes="(max-width:900px) 100vw, 58vw" width="1600" height="1200" alt="A new two-storey home with large windows at dusk" loading="lazy" decoding="async">
+          <div class="panel-body"><h3>New homes</h3><p>We build from your architect's drawings or help you get a design and approval for your block. You get a written programme, and the price is fixed for the work in the contract.</p>
+            <ul class="tick"><li>Design and approvals handled with your designer</li><li>Fixed-price building contract, written variations</li><li>Mandatory inspections booked with your certifier at every stage</li><li>Occupation certificate or final inspection applied for at the end</li></ul></div>
         </div>
         <div class="panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" hidden>
-          <img src="img/svc-renovations-1200.webp" srcset="img/svc-renovations-600.webp 600w, img/svc-renovations-1200.webp 1200w" sizes="(max-width:900px) 100vw, 58vw" width="1200" height="900" alt="A renovated open-plan living room and kitchen" loading="lazy" decoding="async">
+          <img src="img/svc-renovations-1600.webp" srcset="img/svc-renovations-800.webp 800w, img/svc-renovations-1600.webp 1600w" sizes="(max-width:900px) 100vw, 58vw" width="1600" height="1200" alt="A renovated open-plan living room and kitchen" loading="lazy" decoding="async">
           <div class="panel-body"><h3>Renovations and extensions</h3><p>Kitchens, bathrooms, second storeys, decks and re-cladding. We stage the work so you keep a kitchen and a bathroom for as long as possible while we build.</p>
-            <ul class="tick"><li>Staged so you can stay in the house</li><li>We tell you in advance when water or power is off</li><li>Dust walls and floor protection as standard</li><li>Site swept and tidy at the end of every day</li></ul></div>
+            <ul class="tick"><li>Staged so you can stay in the house</li><li>We tell you in advance when water or power is off</li><li>Dust barriers and floor protection as standard</li><li>Site swept and tidy at the end of every day</li></ul></div>
         </div>
         <div class="panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>
-          <img src="img/svc-fitouts-1200.webp" srcset="img/svc-fitouts-600.webp 600w, img/svc-fitouts-1200.webp 1200w" sizes="(max-width:900px) 100vw, 58vw" width="1200" height="900" alt="A modern glass-fronted commercial building at sunset" loading="lazy" decoding="async">
+          <img src="img/svc-fitouts-1600.webp" srcset="img/svc-fitouts-800.webp 800w, img/svc-fitouts-1600.webp 1600w" sizes="(max-width:900px) 100vw, 58vw" width="1600" height="1200" alt="A modern glass-fronted commercial building at sunset" loading="lazy" decoding="async">
           <div class="panel-body"><h3>Commercial fit-outs</h3><p>Offices, retail and hospitality. We work to your lease dates and your opening date, including after-hours work where the building needs it.</p>
             <ul class="tick"><li>Programme built around your opening date</li><li>Partition, ceiling, joinery and services trades coordinated by us</li><li>After-hours and weekend work where the building needs it</li><li>Landlord and building manager sign-offs handled</li></ul></div>
         </div>
         <div class="panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden>
-          <img src="img/svc-commercial-1200.webp" srcset="img/svc-commercial-600.webp 600w, img/svc-commercial-1200.webp 1200w" sizes="(max-width:900px) 100vw, 58vw" width="1200" height="900" alt="A multi-storey building frame under construction" loading="lazy" decoding="async">
-          <div class="panel-body"><h3>Light commercial</h3><p>Warehouses, workshops, childcare centres and small multi-unit builds. We manage the engineering, the council and the subcontractors so you have one point of contact.</p>
-            <ul class="tick"><li>One site manager for the whole job</li><li>Engineer and council inspections scheduled by us</li><li>Health and safety plan for every site</li><li>Weekly progress report with photos</li></ul></div>
+          <img src="img/svc-commercial-1600.webp" srcset="img/svc-commercial-800.webp 800w, img/svc-commercial-1600.webp 1600w" sizes="(max-width:900px) 100vw, 58vw" width="1600" height="1200" alt="A multi-storey building frame under construction" loading="lazy" decoding="async">
+          <div class="panel-body"><h3>Light commercial</h3><p>Warehouses, workshops, childcare centres and small multi-unit builds. We manage the engineering, the approvals and the subcontractors so you have one point of contact.</p>
+            <ul class="tick"><li>One site supervisor for the whole job</li><li>Engineer and certifier inspections scheduled by us</li><li>Safe work method statements and a site safety plan for every job</li><li>Weekly progress report with photos</li></ul></div>
         </div>
       </div>
     </div>
@@ -370,9 +451,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 
 <section class="sec proc" id="process" aria-labelledby="proc-h" style="padding-top:0">
   <div class="wrap">
-    <div class="stack-head" id="stack-head"><div class="rule"></div><h2 id="proc-h">How a job runs</h2><p>Five stages. Each one says what we deliver and who signs it off.</p></div>
+    <div class="stack-head rv" id="stack-head"><span class="kicker">Process</span><h2 id="proc-h" class="split">How a job runs</h2><p>Five stages. Each one says what we deliver and who signs it off.</p></div>
     <div class="stages" id="stages">
-      <article class="stage t1" style="--i:0">
+      <article class="stage spot t1" style="--i:0">
         <div class="num" aria-hidden="true">01</div>
         <div class="title"><h3>Site visit and estimate</h3><span class="meta">Week 1</span></div>
         <div class="stage-body">
@@ -380,23 +461,23 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
           <dl class="who"><dt>Who signs it off</dt><dd>You</dd><dt>What you get</dt><dd>Estimate and a draft programme</dd></dl>
         </div>
       </article>
-      <article class="stage t2" style="--i:1">
+      <article class="stage spot t2" style="--i:1">
         <div class="num" aria-hidden="true">02</div>
-        <div class="title"><h3>Plans and building consent</h3><span class="meta">Design to consent</span></div>
+        <div class="title"><h3>Design and approvals</h3><span class="meta">Design to approval</span></div>
         <div class="stage-body">
-          <ul class="tick"><li>Your designer or ours draws the plans, and we price them line by line</li><li>We lodge the building consent application with the council</li><li>Fixed-price contract signed once the consent is issued</li></ul>
-          <dl class="who"><dt>Who signs it off</dt><dd>Auckland Council issues the building consent</dd><dt>What you get</dt><dd>Consented plans and a fixed-price contract</dd></dl>
+          <ul class="tick"><li>Your designer or ours prepares the drawings, and we price them line by line</li><li>We lodge the development application or complying development certificate with your council or a private certifier</li><li>Fixed-price contract signed once the approval is issued</li></ul>
+          <dl class="who"><dt>Who signs it off</dt><dd>Your council or private certifier issues the approval</dd><dt>What you get</dt><dd>Approved plans and a fixed-price contract</dd></dl>
         </div>
       </article>
-      <article class="stage t3" style="--i:2">
+      <article class="stage spot t3" style="--i:2">
         <div class="num" aria-hidden="true">03</div>
         <div class="title"><h3>The build</h3><span class="meta">On site</span></div>
         <div class="stage-body">
-          <ul class="tick"><li>One site manager, the same person from start to finish</li><li>Weekly progress report with photos</li><li>Anything you change is priced in writing before we do it</li><li>Council inspections at foundations, framing, pre-line and completion</li></ul>
-          <dl class="who"><dt>Who signs it off</dt><dd>Council inspector at each inspection</dd><dt>What you get</dt><dd>A weekly update and a current finish date</dd></dl>
+          <ul class="tick"><li>One site supervisor, the same person from start to finish</li><li>Weekly progress report with photos</li><li>Anything you change is priced in writing before we do it</li><li>Mandatory inspections at footings, frame, waterproofing and final</li></ul>
+          <dl class="who"><dt>Who signs it off</dt><dd>Your building certifier or surveyor at each inspection</dd><dt>What you get</dt><dd>A weekly update and a current finish date</dd></dl>
         </div>
       </article>
-      <article class="stage t4" style="--i:3">
+      <article class="stage spot t4" style="--i:3">
         <div class="num" aria-hidden="true">04</div>
         <div class="title"><h3>Walk-through and handover</h3><span class="meta">Practical completion</span></div>
         <div class="stage-body">
@@ -404,12 +485,12 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
           <dl class="who"><dt>Who signs it off</dt><dd>You</dd><dt>What you get</dt><dd>The keys, and the warranties</dd></dl>
         </div>
       </article>
-      <article class="stage t5" style="--i:4">
+      <article class="stage spot t5" style="--i:4">
         <div class="num" aria-hidden="true">05</div>
-        <div class="title"><h3>Code compliance certificate</h3><span class="meta">After handover</span></div>
+        <div class="title"><h3>Final certificate and defects period</h3><span class="meta">After handover</span></div>
         <div class="stage-body">
-          <ul class="tick"><li>We apply to the council for the code compliance certificate and chase it until it is issued</li><li>Producer statements and as-built drawings supplied with the application</li><li>Defects period: anything that comes up, you call your site manager</li></ul>
-          <dl class="who"><dt>Who signs it off</dt><dd>Auckland Council issues the certificate</dd><dt>What you get</dt><dd>The certificate, and a builder you can still call</dd></dl>
+          <ul class="tick"><li>We apply for the occupation certificate or final inspection and chase it until it is issued</li><li>Compliance certificates for plumbing, electrical and waterproofing supplied</li><li>Defects liability period: anything that comes up, you call your site supervisor</li></ul>
+          <dl class="who"><dt>Who signs it off</dt><dd>Your certifier issues the final certificate</dd><dt>What you get</dt><dd>The certificate, and a builder you can still call</dd></dl>
         </div>
       </article>
     </div>
@@ -417,20 +498,21 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 </section>
 
 <section class="sec work" id="projects" aria-labelledby="work-h">
+  <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head rv"><div class="rule"></div><h2 id="work-h">Recent work</h2><p>A sample of finished jobs. Ask us for the address of one near you and we will arrange a look.</p></div>
-    <div class="filters rv" role="group" aria-label="Filter projects">
+    <div class="sec-head rv"><span class="kicker">Projects</span><h2 id="work-h" class="split">Recent work</h2><p>A sample of finished jobs. Ask us for the address of one near you and we will arrange a look.</p></div>
+    <div class="filters-wrap rv"><div class="filters" role="group" aria-label="Filter projects">
       <button type="button" aria-pressed="true" data-f="all">All</button>
       <button type="button" aria-pressed="false" data-f="res">Residential</button>
       <button type="button" aria-pressed="false" data-f="com">Commercial</button>
-    </div>
+    </div></div>
     <div class="cards" id="cards">
-      <article class="card rv" data-t="res"><img src="img/proj-pool-house-1200.webp" srcset="img/proj-pool-house-600.webp 600w, img/proj-pool-house-1200.webp 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1200" height="900" alt="A two-storey new home with a pool and terrace" loading="lazy" decoding="async"><div class="card-body"><small>New home</small><h3>Two-storey family home</h3><p>Concrete floor, block and timber frame, with a pool and terrace.</p></div></article>
-      <article class="card rv" data-t="res" style="--rd:100ms"><img src="img/proj-loft-1200.webp" srcset="img/proj-loft-600.webp 600w, img/proj-loft-1200.webp 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1200" height="900" alt="A converted attic bedroom with exposed timber beams" loading="lazy" decoding="async"><div class="card-body"><small>Renovation</small><h3>Attic conversion</h3><p>A new bedroom and bathroom in the roof space, with a dormer and new stairs.</p></div></article>
-      <article class="card rv" data-t="com" style="--rd:200ms"><img src="img/proj-tower-1200.webp" srcset="img/proj-tower-600.webp 600w, img/proj-tower-1200.webp 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1200" height="900" alt="A glass apartment building under construction beside a crane" loading="lazy" decoding="async"><div class="card-body"><small>Light commercial</small><h3>Apartment block</h3><p>Structural steel and precast panels, with a ground-floor retail fit-out.</p></div></article>
-      <article class="card rv" data-t="res"><img src="img/proj-white-house-1200.webp" srcset="img/proj-white-house-600.webp 600w, img/proj-white-house-1200.webp 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1200" height="900" alt="A white rendered home with a landscaped front yard" loading="lazy" decoding="async"><div class="card-body"><small>Re-clad</small><h3>Full re-clad</h3><p>Weathertightness remediation, new cladding and joinery, and landscaping.</p></div></article>
-      <article class="card rv" data-t="res" style="--rd:100ms"><img src="img/proj-living-1200.webp" srcset="img/proj-living-600.webp 600w, img/proj-living-1200.webp 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1200" height="900" alt="A bright living room with a floating staircase and full-height windows" loading="lazy" decoding="async"><div class="card-body"><small>Extension</small><h3>Living room extension</h3><p>A new living wing with full-height glazing and a floating stair.</p></div></article>
-      <article class="card rv" data-t="com" style="--rd:200ms"><img src="img/proj-weatherboard-1200.webp" srcset="img/proj-weatherboard-600.webp 600w, img/proj-weatherboard-1200.webp 1200w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1200" height="900" alt="A weatherboard building with a steep roof and white trim" loading="lazy" decoding="async"><div class="card-body"><small>Commercial fit-out</small><h3>Childcare centre</h3><p>Conversion of a weatherboard villa, with a new kitchen, bathrooms and play areas.</p></div></article>
+      <article class="card plate spot rv" data-t="res"><div class="ph"><img src="img/proj-pool-house-1600.webp" srcset="img/proj-pool-house-800.webp 800w, img/proj-pool-house-1600.webp 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1600" height="1200" alt="A two-storey new home with a pool and terrace" loading="lazy" decoding="async"></div><div class="card-body"><small>New home</small><h3>Two-storey family home</h3><p>Concrete slab, block and timber frame, with a pool and terrace.</p></div></article>
+      <article class="card plate spot rv" data-t="res" style="--rd:100ms"><div class="ph"><img src="img/proj-loft-1600.webp" srcset="img/proj-loft-800.webp 800w, img/proj-loft-1600.webp 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1600" height="1200" alt="A converted attic bedroom with exposed timber beams" loading="lazy" decoding="async"></div><div class="card-body"><small>Renovation</small><h3>Attic conversion</h3><p>A new bedroom and bathroom in the roof space, with a dormer and new stairs.</p></div></article>
+      <article class="card plate spot rv" data-t="com" style="--rd:200ms"><div class="ph"><img src="img/proj-tower-1600.webp" srcset="img/proj-tower-800.webp 800w, img/proj-tower-1600.webp 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1600" height="1200" alt="A glass apartment building under construction beside a crane" loading="lazy" decoding="async"></div><div class="card-body"><small>Light commercial</small><h3>Apartment block</h3><p>Structural steel and precast panels, with a ground-floor retail fit-out.</p></div></article>
+      <article class="card plate spot rv" data-t="res"><div class="ph"><img src="img/proj-white-house-1600.webp" srcset="img/proj-white-house-800.webp 800w, img/proj-white-house-1600.webp 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1600" height="1200" alt="A white rendered home with a landscaped front yard" loading="lazy" decoding="async"></div><div class="card-body"><small>Re-clad</small><h3>Full re-clad</h3><p>Waterproofing remediation, new cladding and windows, and landscaping.</p></div></article>
+      <article class="card plate spot rv" data-t="res" style="--rd:100ms"><div class="ph"><img src="img/proj-living-1600.webp" srcset="img/proj-living-800.webp 800w, img/proj-living-1600.webp 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1600" height="1200" alt="A bright living room with a floating staircase and full-height windows" loading="lazy" decoding="async"></div><div class="card-body"><small>Extension</small><h3>Living room extension</h3><p>A new living wing with full-height glazing and a floating stair.</p></div></article>
+      <article class="card plate spot rv" data-t="com" style="--rd:200ms"><div class="ph"><img src="img/proj-weatherboard-1600.webp" srcset="img/proj-weatherboard-800.webp 800w, img/proj-weatherboard-1600.webp 1600w" sizes="(max-width:560px) 100vw, (max-width:900px) 50vw, 33vw" width="1600" height="1200" alt="A weatherboard building with a steep roof and white trim" loading="lazy" decoding="async"></div><div class="card-body"><small>Commercial fit-out</small><h3>Childcare centre</h3><p>Conversion of a weatherboard cottage, with a new kitchen, bathrooms and play areas.</p></div></article>
     </div>
   </div>
 </section>
@@ -439,16 +521,17 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
   <div class="wrap">
     <div class="grid">
       <div class="photos rv">
-        <figure><img src="img/people-crew-1200.webp" srcset="img/people-crew-600.webp 600w, img/people-crew-1200.webp 1200w" sizes="(max-width:900px) 50vw, 30vw" width="1060" height="1325" alt="Builders in hi-vis tying steel reinforcing on a slab" loading="lazy" decoding="async"><figcaption>The crew on site</figcaption></figure>
-        <figure><img src="img/people-plans-1200.webp" srcset="img/people-plans-600.webp 600w, img/people-plans-1200.webp 1200w" sizes="(max-width:900px) 50vw, 25vw" width="612" height="765" alt="A site manager marking up a set of plans" loading="lazy" decoding="async"><figcaption>Your site manager</figcaption></figure>
-        <figure><img src="img/people-electrician-1200.webp" srcset="img/people-electrician-600.webp 600w, img/people-electrician-1200.webp 1200w" sizes="(max-width:900px) 50vw, 25vw" width="1068" height="1335" alt="An electrician wiring a switchboard" loading="lazy" decoding="async"><figcaption>Our own trades</figcaption></figure>
+        <figure><img src="img/people-crew-1600.webp" srcset="img/people-crew-800.webp 800w, img/people-crew-1600.webp 1600w" sizes="(max-width:900px) 50vw, 30vw" width="1600" height="2000" alt="Builders in hi-vis tying steel reinforcing on a slab" loading="lazy" decoding="async"><figcaption>The crew on site</figcaption></figure>
+        <figure><img src="img/people-plans-1600.webp" srcset="img/people-plans-800.webp 800w, img/people-plans-1600.webp 1102w" sizes="(max-width:900px) 50vw, 25vw" width="1102" height="1378" alt="A site supervisor marking up a set of plans" loading="lazy" decoding="async"><figcaption>Your site supervisor</figcaption></figure>
+        <figure><img src="img/people-electrician-1600.webp" srcset="img/people-electrician-800.webp 800w, img/people-electrician-1600.webp 1600w" sizes="(max-width:900px) 50vw, 25vw" width="1600" height="2000" alt="An electrician wiring a switchboard" loading="lazy" decoding="async"><figcaption>Licensed trades</figcaption></figure>
       </div>
       <div class="people-text rv" style="--rd:150ms">
-        <div><div class="rule" style="margin:0 0 22px"></div><h2 id="people-h">Who you deal with</h2></div>
-        <p>You get one site manager for the whole job. They walk the site with you at the start, run the crew every day, book the council inspections and hand you the keys at the end. If something comes up a year later, they are still the person you call.</p>
+        <span class="kicker">About</span>
+        <h2 id="people-h" class="split">Who you deal with</h2>
+        <p>You get one site supervisor for the whole job. They walk the site with you at the start, run the crew every day, book the inspections and hand you the keys at the end. If something comes up a year later, they are still the person you call.</p>
         <ul class="tick">
           <li><b>Our own carpenters.</b> Framing, cladding and finishing are done by people on our payroll, not labour hire.</li>
-          <li><b>Trusted trades.</b> The same electricians, plumbers and painters on every job, so the finish is consistent.</li>
+          <li><b>Licensed trades.</b> The same electricians, plumbers and painters on every job, so the finish is consistent.</li>
           <li><b>Weekly updates.</b> A short report with photos every week, and a current finish date.</li>
           <li><b>Tidy site.</b> Swept at the end of every day, and skips emptied before they overflow.</li>
         </ul>
@@ -461,29 +544,30 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 <section class="sec proof" id="proof" aria-label="Numbers, reviews and memberships" data-need-any="stats testimonials memberships" hidden>
   <div class="wrap">
     <div class="stats rv" data-need="stats" id="stats"></div>
-    <div data-need="testimonials"><div class="quotes rv" id="quotes"></div><p style="text-align:center;margin-top:28px"><a class="tlink" id="reviews-link" href="#" target="_blank" rel="noopener" data-need="reviewsUrl" style="color:#fff">Read our Google reviews</a></p></div>
+    <div data-need="testimonials"><div class="quotes rv" id="quotes"></div><p style="text-align:center;margin-top:28px"><a class="tlink" id="reviews-link" href="#" target="_blank" rel="noopener" data-need="reviewsUrl">Read our Google reviews</a></p></div>
     <div class="members rv" data-need="memberships" id="members"></div>
   </div>
 </section>
 
-<section class="sec" id="faq" aria-labelledby="faq-h">
+<section class="sec faq" id="faq" aria-labelledby="faq-h">
+  <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head rv"><div class="rule"></div><h2 id="faq-h">Common questions</h2></div>
+    <div class="sec-head rv"><span class="kicker">Questions</span><h2 id="faq-h" class="split">Common questions</h2></div>
     <div class="faq-list rv">
-      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a0" id="q0">Do I need a building consent?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></h3><div class="a" id="a0" role="region" aria-labelledby="q0"><div><p>Most structural work, plumbing and drainage changes, and anything that changes how the building performs needs a building consent from Auckland Council. Some smaller jobs are exempt under Schedule 1 of the Building Act 2004. We tell you which applies at the first site visit, and we lodge the consent for you.</p></div></div></div>
-      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a1" id="q1">How long does a new build take?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></h3><div class="a" id="a1" role="region" aria-labelledby="q1"><div><p>It depends on the design, the site and the council. We give you a written programme with the quote and update it at every stage, so you always know the current finish date.</p></div></div></div>
-      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a2" id="q2">Is the quote a fixed price?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></h3><div class="a" id="a2" role="region" aria-labelledby="q2"><div><p>The quote is a fixed price for the work described in it. Anything you add or change later is priced in writing as a variation before we do it, so there are no surprises on the final invoice.</p></div></div></div>
-      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a3" id="q3">Can we stay in the house during a renovation?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></h3><div class="a" id="a3" role="region" aria-labelledby="q3"><div><p>Often, yes. We stage the work so you keep a kitchen and a bathroom for as long as possible, and we tell you in advance which days the water or power will be off.</p></div></div></div>
-      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="a4" id="q4">What happens when the build is finished?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></h3><div class="a" id="a4" role="region" aria-labelledby="q4"><div><p>We walk through the job with you, fix anything on the list, and apply to the council for the code compliance certificate. You get the consent documents, warranties and manuals in one folder.</p></div></div></div>
+      <div class="q plate spot"><h3><button type="button" aria-expanded="false" aria-controls="a0" id="q0">Do I need council approval?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button></h3><div class="a" id="a0" role="region" aria-labelledby="q0"><div><p>Most new homes, extensions and structural changes need a development application through your council, or a complying development certificate through a private certifier. Smaller jobs can be exempt development. The rules differ by state and council. We tell you which applies at the first site visit, and we lodge it for you.</p></div></div></div>
+      <div class="q plate spot"><h3><button type="button" aria-expanded="false" aria-controls="a1" id="q1">How long does a new build take?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button></h3><div class="a" id="a1" role="region" aria-labelledby="q1"><div><p>It depends on the design, the site, the approvals and the weather. We give you a written programme with the quote and update it at every stage, so you always know the current finish date.</p></div></div></div>
+      <div class="q plate spot"><h3><button type="button" aria-expanded="false" aria-controls="a2" id="q2">Is the quote a fixed price?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button></h3><div class="a" id="a2" role="region" aria-labelledby="q2"><div><p>The quote is a fixed price for the work described in it, under an industry-standard fixed-price building contract. Anything you add or change later is priced in writing as a variation before we do it, so there are no surprises on the final invoice.</p></div></div></div>
+      <div class="q plate spot"><h3><button type="button" aria-expanded="false" aria-controls="a3" id="q3">Can we stay in the house during a renovation?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button></h3><div class="a" id="a3" role="region" aria-labelledby="q3"><div><p>Often, yes. We stage the work so you keep a kitchen and a bathroom for as long as possible, and we tell you in advance which days the water or power will be off.</p></div></div></div>
+      <div class="q plate spot"><h3><button type="button" aria-expanded="false" aria-controls="a4" id="q4">What happens when the build is finished?<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button></h3><div class="a" id="a4" role="region" aria-labelledby="q4"><div><p>We walk through the job with you, fix anything on the list, and apply for the occupation certificate or final inspection. You get the approval documents, compliance certificates, warranties and manuals in one folder.</p></div></div></div>
     </div>
   </div>
 </section>
 
 <section class="sec contact" id="contact" aria-labelledby="contact-h">
   <div class="wrap">
-    <div class="sec-head rv"><div class="rule"></div><h2 id="contact-h">Get a quote</h2><p>Tell us about the job and we will call you to arrange a site visit. A rough idea is fine.</p></div>
+    <div class="sec-head rv"><span class="kicker">Contact</span><h2 id="contact-h" class="split">Get a quote</h2><p>Tell us about the job and we will call you to arrange a site visit. A rough idea is fine.</p></div>
     <div class="grid">
-      <form class="rv" data-enquiry data-subject="Quote request" novalidate>
+      <form class="plate rv" data-enquiry data-subject="Quote request" novalidate>
         <div class="row">
           <label>Name<input name="name" autocomplete="name" required></label>
           <label>Phone<input name="phone" type="tel" autocomplete="tel" inputmode="tel" required></label>
@@ -491,12 +575,12 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
         <label>Email<input name="email" type="email" autocomplete="email" required></label>
         <div class="row">
           <label>Type of job<select name="type"><option>New home</option><option>Renovation or extension</option><option>Commercial fit-out</option><option>Light commercial</option><option>Not sure yet</option></select></label>
-          <label>Suburb <small>(optional)</small><input name="suburb" autocomplete="address-level2"></label>
+          <label>Suburb or postcode <small>(optional)</small><input name="suburb" autocomplete="address-level2"></label>
         </div>
         <label>About the job<textarea name="message" placeholder="What you want to build, the state of the site, and when you would like to start." required></textarea></label>
         <label>Budget <small>(optional, a guess is fine)</small><input name="budget" inputmode="numeric"></label>
         <div class="hp" data-hp aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
-        <button class="btn btn-ink" type="submit">Send and we will call you</button>
+        <button class="btn btn-accent mag" type="submit">Send and we will call you</button>
         <p class="form-status" role="status" aria-live="polite"></p>
         <p class="form-note">We use your details only to reply to your enquiry.</p>
       </form>
@@ -515,13 +599,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
           <ol>
             <li>The address or the suburb of the site.</li>
             <li>What you want to build, in a sentence or two.</li>
-            <li>Whether you already have plans or a consent.</li>
+            <li>Whether you already have plans or an approval.</li>
             <li>When you would like to start, and a rough budget. A guess is fine.</li>
           </ol>
         </div>
         <div>
           <h3>What happens next</h3>
-          <p>We call you within one working day to arrange a site visit. After the visit you get a written estimate. There is no charge for either.</p>
+          <p>We call you within one business day to arrange a site visit. After the visit you get a written estimate. There is no charge for either.</p>
         </div>
       </aside>
     </div>
@@ -531,14 +615,14 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
 
 <footer class="foot">
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="3M Construction, home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="currentColor" opacity=".12"/><text class="mark" x="32" y="44" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="700" font-size="34">3M</text></svg><span>3M Construction</span></a>
+    <a class="logo" href="#top" aria-label="3M Construction, home"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="url(#lb)"/><text x="32" y="43" text-anchor="middle" font-family="Space Grotesk, Inter, Arial, sans-serif" font-weight="700" font-size="30" fill="url(#lg)">3M</text></svg><span>3M Construction</span></a>
     <div class="cols">
-      <div><p class="tag">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> in <span data-text="area"></span></span>. One site manager from the first site visit to the code compliance certificate.</p></div>
+      <div><p class="tag">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor from the first site visit to the final certificate.</p></div>
       <div><h3>Services</h3><ul><li><a href="#services">New homes</a></li><li><a href="#services">Renovations and extensions</a></li><li><a href="#services">Commercial fit-outs</a></li><li><a href="#services">Light commercial</a></li></ul></div>
       <div><h3>Explore</h3><ul><li><a href="#process">How we work</a></li><li><a href="#projects">Projects</a></li><li><a href="#people">About</a></li><li><a href="#faq">Questions</a></li><li><a href="#contact">Get a quote</a></li><li><a href="privacy.html">Privacy</a></li></ul></div>
     </div>
     <div class="legal">
-      <p>&copy; <span id="year">2026</span> <span data-text="legalName">3M Construction</span><span data-need="nzbn">. NZBN <span data-text="nzbn"></span></span></p>
+      <p>&copy; <span id="year">2026</span> <span data-text="legalName">3M Construction</span><span data-need="abn">. ABN <span data-text="abn"></span></span><span data-need="licence">. Builder licence <span data-text="licence"></span></span></p>
       <p>Some images on this website may be stock images or illustrative renders.</p>
       <p>Proudly designed by <a href="https://ambs.co.nz" target="_blank" rel="noopener">AMBS Solutions</a></p>
     </div>
@@ -550,7 +634,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
   <a class="q2" href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v12H7l-3 3z"/></svg>Get a quote</a>
 </div>
 
-<script src="assets/content.js"></script>
+<script src="assets/content.js?v=2"></script>
 <script>
 (function(){
   var S=window.SITE||{}, d=document, $=function(s,r){return (r||d).querySelector(s)}, $$=function(s,r){return [].slice.call((r||d).querySelectorAll(s))};
@@ -569,8 +653,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
     var mb=d.getElementById('members');if(mb)S.memberships.forEach(function(x){if(x.logo){var i=new Image();i.src=x.logo;i.alt=x.name;i.loading='lazy';mb.appendChild(i)}else{var s=d.createElement('span');s.textContent=x.name;mb.appendChild(s)}});
   }
   if(has(S.stats)){var st=d.getElementById('stats');S.stats.forEach(function(x){var o=d.createElement('div');o.innerHTML='<b></b><span></span>';o.firstChild.textContent=x.value;o.lastChild.textContent=x.label+(x.asAt?' (as at '+x.asAt+')':'');st.appendChild(o)})}
-  if(has(S.testimonials)){var qs=d.getElementById('quotes');S.testimonials.slice(0,2).forEach(function(x){var q=d.createElement('blockquote');q.className='quote';q.innerHTML='<p></p><footer></footer>';q.firstChild.textContent='“'+x.quote+'”';q.lastChild.textContent=x.name+(x.place?', '+x.place:'');qs.appendChild(q)})}
-  if(has(S.team)){var t=d.getElementById('team');t.className='photos';S.team.forEach(function(x){var f=d.createElement('figure');f.innerHTML='<img loading="lazy" decoding="async" width="600" height="750"><figcaption></figcaption>';f.firstChild.src=x.photo;f.firstChild.alt=x.name+', '+x.role;f.lastChild.textContent=x.name+', '+x.role;t.appendChild(f)})}
+  if(has(S.testimonials)){var qs=d.getElementById('quotes');S.testimonials.slice(0,2).forEach(function(x){var q=d.createElement('blockquote');q.className='quote plate';q.innerHTML='<p></p><footer></footer>';q.firstChild.textContent='“'+x.quote+'”';q.lastChild.textContent=x.name+(x.place?', '+x.place:'');qs.appendChild(q)})}
+  if(has(S.team)){var t=d.getElementById('team');t.className='photos';S.team.forEach(function(x){var f=d.createElement('figure');f.innerHTML='<img loading="lazy" decoding="async" width="800" height="1000"><figcaption></figcaption>';f.firstChild.src=x.photo;f.firstChild.alt=x.name+', '+x.role;f.lastChild.textContent=x.name+', '+x.role;t.appendChild(f)})}
   d.getElementById('year').textContent=new Date().getFullYear();
 
   /* header: solid once past the hero, menu */
@@ -581,24 +665,33 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
   $$('a',nav).forEach(function(a){a.addEventListener('click',function(){hdr.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Open menu');d.body.style.overflow=''})});
   addEventListener('resize',function(){if(innerWidth>900&&hdr.classList.contains('open'))btn.click()});
 
+  /* ambient animation only runs while its section is on screen */
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var lowPower=matchMedia('(pointer:coarse)').matches&&(navigator.hardwareConcurrency||8)<=4;
+  if(!reduce&&!lowPower&&'IntersectionObserver' in window){
+    var live=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('live',e.isIntersecting)})});
+    [hero,d.getElementById('ticker'),$('.svc'),$('.proc')].forEach(function(el){if(el)live.observe(el)});
+  }
+
   /* services: tabs with a slow autoplay that stops as soon as the visitor chooses */
   var tabs=$$('.tab'), panels=$$('.panel'), cur=0, auto=null, t0=0, DUR=7000, paused=false, done=false;
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   function show(i,user){
-    cur=i;tabs.forEach(function(t,j){var on=j===i;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;t.style.setProperty('--p','0%');panels[j].hidden=!on;panels[j].classList.toggle('on',on)});
+    cur=i;tabs.forEach(function(t,j){var on=j===i;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;t.style.setProperty('--p',on&&user?'1':'0');panels[j].hidden=!on;panels[j].classList.toggle('on',on)});
     if(user){done=true;if(auto)cancelAnimationFrame(auto)}else t0=performance.now();
-      }
+    d.dispatchEvent(new CustomEvent('panelchange',{detail:panels[i]}));
+  }
   tabs.forEach(function(t,i){t.addEventListener('click',function(){show(i,true)});t.addEventListener('keydown',function(e){var k=e.key,n=null;if(k==='ArrowDown'||k==='ArrowRight')n=(i+1)%tabs.length;if(k==='ArrowUp'||k==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;if(k==='Home')n=0;if(k==='End')n=tabs.length-1;if(n!==null){e.preventDefault();show(n,true);tabs[n].focus()}})});
   var svc=$('.svc');
   svc.addEventListener('mouseenter',function(){paused=true});svc.addEventListener('mouseleave',function(){paused=false});
   svc.addEventListener('focusin',function(){paused=true});svc.addEventListener('focusout',function(){paused=false});
   function tick(now){
     if(done)return;
-    if(paused||d.hidden){t0=now-(parseFloat(tabs[cur].style.getPropertyValue('--p'))/100)*DUR}
-    else{var p=Math.min(1,(now-t0)/DUR);tabs[cur].style.setProperty('--p',(p*100)+'%');if(p>=1)show((cur+1)%tabs.length)}
+    if(paused||d.hidden){t0=now-parseFloat(tabs[cur].style.getPropertyValue('--p')||0)*DUR}
+    else{var p=Math.min(1,(now-t0)/DUR);tabs[cur].style.setProperty('--p',p.toFixed(4));if(p>=1)show((cur+1)%tabs.length)}
     auto=requestAnimationFrame(tick);
   }
-  if(!reduce&&'IntersectionObserver' in window){
+  if(reduce){tabs[0].style.setProperty('--p','1')}
+  else if('IntersectionObserver' in window){
     var seen=false;new IntersectionObserver(function(es){if(es[0].isIntersecting){if(!seen){seen=true;t0=performance.now();auto=requestAnimationFrame(tick)}paused=false}else paused=true},{threshold:.3}).observe(svc);
   }
 
@@ -626,7 +719,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-
     if(S.web3formsKey)data.access_key=S.web3formsKey;
     var sb=$('[type=submit]',f);sb.disabled=true;status.textContent='Sending…';
     fetch(S.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)}).then(function(r){if(!r.ok)throw 0;done_()}).catch(function(){status.textContent='Sorry, that did not send. Please call or email us instead.';sb.disabled=false});
-    function done_(){f.reset();status.textContent='Thank you. We have your details and will call you within one working day.'}
+    function done_(){f.reset();status.textContent='Thank you. We have your details and will call you within one business day.'}
   });
 
   /* phone quick bar: shows once the hero has scrolled away, hides over the contact form */
