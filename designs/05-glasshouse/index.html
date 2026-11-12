@@ -101,8 +101,12 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 }
 @media (min-width:901px){.nav .btn{display:none}}
 
-/* ---------- hero: three photos crossfading ---------- */
-.hero{position:relative;height:100svh;min-height:600px;max-height:1100px;display:grid;place-items:center;text-align:center;color:#fff;overflow:hidden;isolation:isolate;padding:calc(var(--top) + 20px) var(--pad) 60px}
+/* ---------- hero: slat reveal, letters, frame, then three photos crossfading ----------
+   On load twelve ink panes over the photo slide shut one after another (transform only, 1.6s each, 60ms apart),
+   the headline letters fade in one by one, a hairline frame draws itself around the copy, and the usual
+   crossfade carries on underneath. Everything starts together when the hero photo and fonts are in (.ready). */
+.hero{position:relative;height:100svh;min-height:600px;max-height:1100px;display:grid;place-items:center;text-align:center;color:#fff;overflow:hidden;isolation:isolate;padding:calc(var(--top) + 20px) var(--pad) 60px;
+  --t-label:.35s;--t-letters:.55s;--t-frame:.95s;--t-lede:1.5s;--t-acts:1.75s;--t-bar:2s}
 .hero-ph{position:absolute;inset:0;z-index:-2;background:var(--ink)}
 .hero-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
 .hero-ph .p2,.hero-ph .p3{opacity:0}
@@ -112,9 +116,35 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .js .hero.live .hero-ph img{animation-play-state:running}
 @keyframes fade-b{0%,33.3%{opacity:0}38.9%,72.2%{opacity:1}77.8%,100%{opacity:0}}
 @keyframes fade-c{0%,66.7%{opacity:0}72.2%,94.4%{opacity:1}100%{opacity:0}}
+/* the slats: only exist with JS, sit above the photo, each one scales away to its right edge */
+.slats{position:absolute;inset:0;z-index:1;display:none;grid-template-columns:repeat(12,1fr);pointer-events:none}
+.js .slats{display:grid}
+.js .hero.shown .slats{display:none}
+.slats i{position:relative;display:block;width:calc(100% + 1.5px);background:var(--ink);transform-origin:100% 50%;will-change:transform}
+.slats i::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:rgba(255,255,255,.16)}
+.js .hero.ready .slats i{animation:slat 1.6s cubic-bezier(.55,.05,.2,1) both;animation-delay:calc(var(--i) * 60ms)}
+@keyframes slat{to{transform:scaleX(0)}}
 .hero-in{position:relative;max-width:900px;margin:0 auto}
 .hero-in .label{color:rgba(255,255,255,.82);margin-bottom:26px}
 .hero h1{font-size:clamp(42px,min(7.4vw,9.6vh),96px);line-height:1.04;max-width:16ch;margin:0 auto;text-wrap:balance}
+.hero h1 .w{display:inline-block}
+.js .hero:not(.ready) h1{opacity:0}
+.js .hero h1 .l{opacity:0}
+.js .hero.ready h1 .l{animation:letter .8s ease-out both;animation-delay:calc(var(--t-letters) + var(--i) * var(--st,32ms))}
+@keyframes letter{to{opacity:1}}
+/* the frame: four hairlines, the horizontals grow from the centre first, then the verticals */
+.frame{position:absolute;--fx:clamp(12px,3.6vw,52px);--fy:clamp(20px,4vh,40px);inset:calc(-1 * var(--fy)) calc(-1 * var(--fx));pointer-events:none}
+.frame i{position:absolute;background:rgba(255,255,255,.5)}
+.frame .ft{top:0;left:0;right:0;height:1px}
+.frame .fb{bottom:0;left:0;right:0;height:1px}
+.frame .fl{left:0;top:0;bottom:0;width:1px}
+.frame .fr{right:0;top:0;bottom:0;width:1px}
+.js .frame .ft,.js .frame .fb{transform:scaleX(0)}
+.js .frame .fl,.js .frame .fr{transform:scaleY(0)}
+.js .hero.ready .frame .ft,.js .hero.ready .frame .fb{animation:drawx .7s cubic-bezier(.65,0,.35,1) var(--t-frame) forwards}
+.js .hero.ready .frame .fl,.js .hero.ready .frame .fr{animation:drawy .7s cubic-bezier(.65,0,.35,1) calc(var(--t-frame) + .7s) forwards}
+@keyframes drawx{to{transform:scaleX(1)}}
+@keyframes drawy{to{transform:scaleY(1)}}
 .hero .lede{margin:26px auto 0;max-width:620px;font-size:clamp(16px,1.4vw,19px);line-height:1.6;color:rgba(255,255,255,.9);text-wrap:pretty}
 .hero .acts{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:22px 36px;margin-top:38px}
 .hero .bar{width:180px;height:1px;background:rgba(255,255,255,.3);margin:44px auto 0;overflow:hidden}
@@ -124,14 +154,14 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .hero-strip{position:absolute;left:0;right:0;bottom:0;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 40px;padding:18px var(--pad) 22px;font:500 12.5px/1.4 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);border-top:1px solid rgba(255,255,255,.18)}
 .hero-strip:not(:has(:not([hidden]))){display:none}
-.js .hero-in>*{opacity:0;transform:translateY(14px);animation:up var(--slow) var(--ease) forwards}
-.js .hero-in>:nth-child(2){animation-delay:.2s}
-.js .hero-in>:nth-child(3){animation-delay:.5s}
-.js .hero-in>:nth-child(4){animation-delay:.75s}
-.js .hero-in>:nth-child(5){animation-delay:1s}
+.js .hero-in>.label,.js .hero-in>.lede,.js .hero-in>.acts,.js .hero-in>.bar{opacity:0;transform:translateY(14px)}
+.js .hero.ready .hero-in>.label{animation:up var(--slow) var(--ease) var(--t-label) forwards}
+.js .hero.ready .hero-in>.lede{animation:up var(--slow) var(--ease) var(--t-lede) forwards}
+.js .hero.ready .hero-in>.acts{animation:up var(--slow) var(--ease) var(--t-acts) forwards}
+.js .hero.ready .hero-in>.bar{animation:up var(--slow) var(--ease) var(--t-bar) forwards}
 @keyframes up{to{opacity:1;transform:none}}
-@media (max-width:600px){.hero{padding-bottom:40px}.hero .acts{flex-direction:column}.hero .acts .btn{width:100%;max-width:340px}}
-@media (max-height:700px){.hero .lede{margin-top:18px}.hero .acts{margin-top:26px}.hero .bar{margin-top:28px}}
+@media (max-width:600px){.hero{padding-bottom:40px}.hero .acts{flex-direction:column}.hero .acts .btn{width:100%;max-width:340px}.frame{--fx:10px;--fy:18px}}
+@media (max-height:700px){.hero .lede{margin-top:18px}.hero .acts{margin-top:26px}.hero .bar{margin-top:28px}.frame{--fy:16px}}
 
 /* ---------- services: four image-led rows ---------- */
 .row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,88px);align-items:center;padding:clamp(44px,5.5vw,80px) 0;border-top:1px solid var(--line)}
@@ -281,8 +311,11 @@ form .btn{justify-self:start;margin-top:6px}
 .js.lite .wipe.in>*{opacity:1}
 @media (prefers-reduced-motion:reduce){
   .js .rv,.js .wipe,.js .wipe>*{opacity:1;transform:none;clip-path:none;transition:none}
-  .js .hero-in>*{animation:none;opacity:1;transform:none}
-  .js .hero-ph img,.js .hero .bar i{animation:none}
+  .js .hero-in>*,.js .hero-in>.label,.js .hero-in>.lede,.js .hero-in>.acts,.js .hero-in>.bar{animation:none;opacity:1;transform:none}
+  .js .slats{display:none}
+  .js .hero:not(.ready) h1,.js .hero h1 .l{opacity:1;animation:none}
+  .js .frame .ft,.js .frame .fb,.js .frame .fl,.js .frame .fr{transform:none;animation:none}
+  .js .hero-ph img,.js .hero-ph .p2,.js .hero-ph .p3,.js .hero .bar i{animation:none}
   .js .hero-ph .p2,.js .hero-ph .p3{opacity:0}
   .hero .bar{display:none}
   .a,.q button .ic,.qbar,.nav,.nav a,.hdr,.btn,.tlink,.work .ph,.portraits .ph{transition:none}
@@ -321,8 +354,10 @@ form .btn{justify-self:start;margin-top:6px}
     <img class="p1" src="../../img/hero-site-2000.webp" srcset="../../img/hero-site-1000.webp 1000w, ../../img/hero-site-2000.webp 2000w, ../../img/hero-site-3200.webp 3200w" sizes="100vw" width="3200" height="1800" alt="" fetchpriority="high" decoding="async">
     <img class="p2" src="../../img/svc-new-homes-1600.webp" srcset="../../img/svc-new-homes-800.webp 800w, ../../img/svc-new-homes-1600.webp 1600w" sizes="100vw" width="1600" height="1200" alt="" fetchpriority="low" decoding="async">
     <img class="p3" src="../../img/proj-living-1600.webp" srcset="../../img/proj-living-800.webp 800w, ../../img/proj-living-1600.webp 1600w" sizes="100vw" width="1600" height="1200" alt="" fetchpriority="low" decoding="async">
+    <div class="slats"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i></div>
   </div>
   <div class="hero-in">
+    <span class="frame" aria-hidden="true"><i class="ft"></i><i class="fb"></i><i class="fl"></i><i class="fr"></i></span>
     <p class="label">Residential and commercial builders</p>
     <h1>Homes and workplaces, built with care.</h1>
     <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
@@ -591,14 +626,42 @@ form .btn{justify-self:start;margin-top:6px}
   $$('a',nav).forEach(function(a){a.addEventListener('click',function(){hdr.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Open menu');d.body.style.overflow=''})});
   addEventListener('resize',function(){if(innerWidth>900&&hdr.classList.contains('open'))btn.click()});
 
-  /* motion budget: the crossfade only runs while the hero is on screen; low-power phones get the lighter variant */
+  /* motion budget: the crossfade only runs while the hero is on screen and the tab is visible; low-power phones get the lighter variant */
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var lowPower=matchMedia('(pointer:coarse)').matches&&(navigator.hardwareConcurrency||8)<=4;
   if(lowPower)d.documentElement.classList.add('lite');
+  var onScreen=true;
+  function live(){hero.classList.toggle('live',onScreen&&!d.hidden)}
   if(!reduce&&'IntersectionObserver' in window){
-    new IntersectionObserver(function(es){hero.classList.toggle('live',es[0].isIntersecting&&!d.hidden)},{threshold:.05}).observe(hero);
-    d.addEventListener('visibilitychange',function(){if(d.hidden)hero.classList.remove('live')});
+    new IntersectionObserver(function(es){onScreen=es[0].isIntersecting;live()},{threshold:.05}).observe(hero);
+    d.addEventListener('visibilitychange',live);
   }
+
+  /* hero intro: split the headline into letters, then start the slats, letters and frame together
+     once the hero photo and the fonts are in (or after 2.2s, whichever is first), and only while the tab is visible */
+  var h1=$('.hero h1'), p1=$('.hero-ph .p1');
+  if(!reduce&&h1){
+    var text=h1.textContent.trim(), frag=d.createDocumentFragment(), n=0;
+    h1.setAttribute('aria-label',text);
+    text.split(' ').forEach(function(word,wi){
+      if(wi)frag.appendChild(d.createTextNode(' '));
+      var w=d.createElement('span');w.className='w';w.setAttribute('aria-hidden','true');
+      Array.prototype.forEach.call(word,function(ch){var l=d.createElement('span');l.className='l';l.style.setProperty('--i',n++);l.textContent=ch;w.appendChild(l)});
+      frag.appendChild(w);
+    });
+    h1.textContent='';h1.appendChild(frag);h1.style.setProperty('--st',(1200/Math.max(n,1)).toFixed(1)+'ms');
+  }
+  function go(){
+    if(hero.classList.contains('ready'))return;
+    if(d.hidden){d.addEventListener('visibilitychange',go,{once:true});return}
+    hero.classList.add('ready');
+    var last=$('.slats i:last-child');
+    if(last)last.addEventListener('animationend',function(){hero.classList.add('shown')},{once:true});
+  }
+  var pend=2;function one(){if(--pend<=0)go()}
+  if(!p1||p1.complete)one();else{p1.addEventListener('load',one,{once:true});p1.addEventListener('error',one,{once:true})}
+  if(d.fonts&&d.fonts.ready)d.fonts.ready.then(one,one);else one();
+  setTimeout(go,2200);
 
   /* faq: slow native fold */
   $$('.q button').forEach(function(b){b.addEventListener('click',function(){var q=b.closest('.q'),o=!q.classList.contains('open');q.classList.toggle('open',o);b.setAttribute('aria-expanded',o)})});

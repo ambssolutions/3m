@@ -11,12 +11,12 @@
 <meta property="og:locale" content="en_AU">
 <meta property="og:title" content="3M Construction | Solid homes and sound workplaces">
 <meta property="og:description" content="New homes, renovations and extensions, and commercial fit-outs. One site supervisor from the first site visit to the final certificate.">
-<meta property="og:image" content="../../img/hero-site-2000.webp">
+<meta property="og:image" content="../../img/svc-new-homes-1600.webp">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%233B2F2A'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Georgia,serif' font-size='28' fill='%23C8A165'%3E3M%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" imagesrcset="../../img/hero-site-1000.webp 1000w, ../../img/hero-site-2000.webp 2000w, ../../img/hero-site-3200.webp 3200w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" imagesrcset="../../img/svc-new-homes-800.webp 800w, ../../img/svc-new-homes-1600.webp 1600w" imagesizes="100vw" fetchpriority="high">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"GeneralContractor","name":"3M Construction","description":"New homes, renovations and extensions, and commercial fit-outs. One site supervisor from the first site visit to the final certificate."}
@@ -113,11 +113,23 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 }
 
 /* ---------- hero ---------- */
-.hero{position:relative;height:100svh;min-height:600px;max-height:1040px;display:grid;grid-template-rows:1fr auto;justify-items:center;text-align:center;color:var(--cream);overflow:hidden;isolation:isolate;padding-top:var(--top)}
-.hero-img{position:absolute;inset:0;z-index:-2}
-.hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 55%}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(59,47,42,.62) 0%,rgba(59,47,42,.5) 45%,rgba(46,36,31,.84) 100%)}
-.hero-in{align-self:center;width:min(880px,100% - var(--pad)*2);display:grid;justify-items:center;gap:22px;padding:24px 0 32px}
+.hero{position:relative;height:100svh;min-height:600px;max-height:1040px;display:grid;grid-template-rows:1fr auto;justify-items:center;text-align:center;color:var(--cream);background:var(--bark-2);overflow:hidden;isolation:isolate;padding-top:var(--top)}
+.hero-img{position:absolute;inset:0;z-index:-3}
+.hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 60%;opacity:.46}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(46,36,31,.55) 0%,rgba(46,36,31,.38) 45%,rgba(46,36,31,.86) 100%)}
+.hero-in{position:relative;z-index:0;align-self:center;width:min(880px,100% - var(--pad)*2);display:grid;justify-items:center;gap:22px;padding:24px 0 32px}
+.hero-in::before{content:"";position:absolute;z-index:-1;inset:-14% -12%;border-radius:50%;background:radial-gradient(ellipse at 50% 50%,rgba(46,36,31,.78) 0%,rgba(46,36,31,.5) 42%,rgba(46,36,31,0) 72%);pointer-events:none}
+/* showpiece: a timber wall frame with a gable truss draws itself behind the copy, in build order, then a warm light passes over it */
+.frame{position:absolute;left:0;top:0;width:100%;height:100%;z-index:-1;color:var(--oak);opacity:.82;pointer-events:none}
+.frame .s{fill:none}
+.frame .ng,.frame .pu{opacity:.8}
+.frame .glint{color:#FFF4E0}
+.js .frame .s{stroke-dasharray:1;stroke-dashoffset:1;animation:timber var(--t,.6s) var(--ease) calc(var(--d,0s) + var(--i,0)*45ms) forwards}
+@keyframes timber{to{stroke-dashoffset:0}}
+.js .frame .beam{animation:sweep 1.7s cubic-bezier(.45,0,.3,1) 3.35s forwards}
+@keyframes sweep{to{transform:translateX(2500px)}}
+@media (max-width:700px){.frame{width:240%;left:-70%;opacity:.72}}
+@media (min-aspect-ratio:2/1){.frame{height:120%;top:-14%}}
 .hero h1{font-size:clamp(2.5rem,min(6.4vw,9.6vh),5.6rem);line-height:1.02}
 .hero h1 em{font-style:italic;color:var(--oak)}
 .hero .lede{max-width:600px;font-size:clamp(17px,1.3vw,20px);line-height:1.55;color:#EFE8DC}
@@ -288,9 +300,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--oak-2);outline-o
 .js .rv.in{opacity:1;transform:none}
 .js.low .rv{transform:translateY(14px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .js.low .hero.live .wave svg{animation:none}
+.js.low .frame .beam{animation:none}
+.hid .hero *{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){
   .js .rv{opacity:1;transform:none;transition:none}
   .js .hero-in>*,.js .hero-foot,.js .hero.live .wave svg,.js .chapters::before{animation:none;opacity:1;transform:none}
+  .js .frame .s{animation:none;stroke-dashoffset:0}
+  .js .frame .beam{animation:none}
   .btn::after{display:none}
   .a,.q button .ic,.qbar,.nav,.hdr,.btn,.nav a,.tag,.dots button,.arrow{transition:none}
 }
@@ -323,8 +339,24 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--oak-2);outline-o
 <main id="main">
 <section class="hero" id="top">
   <div class="hero-img" aria-hidden="true">
-    <img src="../../img/hero-site-2000.webp" srcset="../../img/hero-site-1000.webp 1000w, ../../img/hero-site-2000.webp 2000w, ../../img/hero-site-3200.webp 3200w" sizes="100vw" width="3200" height="1800" alt="" fetchpriority="high" decoding="async">
+    <img src="../../img/svc-new-homes-1600.webp" srcset="../../img/svc-new-homes-800.webp 800w, ../../img/svc-new-homes-1600.webp 1600w" sizes="100vw" width="1600" height="1200" alt="" fetchpriority="high" decoding="async">
   </div>
+  <svg class="frame" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="beam-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>
+      <mask id="beam-m" maskUnits="userSpaceOnUse" x="-800" y="-300" width="3400" height="1600"><g class="beam"><rect x="-700" y="-300" width="520" height="1600" fill="url(#beam-g)" transform="skewX(-16)"/></g></mask>
+    </defs>
+    <g id="tf" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <g class="pl" stroke-width="9" style="--d:.1s;--t:.8s"><path class="s" pathLength="1" d="M110 900L1490 900"/></g>
+      <g class="st" stroke-width="6" style="--d:.55s;--t:.5s"><path class="s" style="--i:0" pathLength="1" d="M120 900L120 560"/><path class="s" style="--i:1" pathLength="1" d="M205 900L205 560"/><path class="s" style="--i:2" pathLength="1" d="M290 900L290 560"/><path class="s" style="--i:3" pathLength="1" d="M375 900L375 780"/><path class="s" style="--i:3" pathLength="1" d="M375 620L375 560"/><path class="s" style="--i:4" pathLength="1" d="M460 900L460 560"/><path class="s" style="--i:5" pathLength="1" d="M545 900L545 560"/><path class="s" style="--i:6" pathLength="1" d="M630 900L630 560"/><path class="s" style="--i:7" pathLength="1" d="M715 900L715 560"/><path class="s" style="--i:8" pathLength="1" d="M800 900L800 560"/><path class="s" style="--i:9" pathLength="1" d="M885 900L885 560"/><path class="s" style="--i:10" pathLength="1" d="M970 900L970 560"/><path class="s" style="--i:11" pathLength="1" d="M1055 900L1055 560"/><path class="s" style="--i:12" pathLength="1" d="M1140 900L1140 560"/><path class="s" style="--i:13" pathLength="1" d="M1225 900L1225 780"/><path class="s" style="--i:13" pathLength="1" d="M1225 620L1225 560"/><path class="s" style="--i:14" pathLength="1" d="M1310 900L1310 560"/><path class="s" style="--i:15" pathLength="1" d="M1395 900L1395 560"/><path class="s" style="--i:16" pathLength="1" d="M1480 900L1480 560"/></g>
+      <g class="ng" stroke-width="5" style="--d:1.45s;--t:.42s"><path class="s" style="--i:0" pathLength="1" d="M120 724L205 724"/><path class="s" style="--i:1" pathLength="1" d="M205 738L290 738"/><path class="s" style="--i:2" pathLength="1" d="M460 724L545 724"/><path class="s" style="--i:3" pathLength="1" d="M545 738L630 738"/><path class="s" style="--i:4" pathLength="1" d="M630 724L715 724"/><path class="s" style="--i:5" pathLength="1" d="M715 738L800 738"/><path class="s" style="--i:6" pathLength="1" d="M800 724L885 724"/><path class="s" style="--i:7" pathLength="1" d="M970 724L1055 724"/><path class="s" style="--i:8" pathLength="1" d="M1055 738L1140 738"/><path class="s" style="--i:9" pathLength="1" d="M1310 724L1395 724"/><path class="s" style="--i:10" pathLength="1" d="M1395 738L1480 738"/><path class="s" style="--i:11" pathLength="1" d="M290 620L460 620"/><path class="s" style="--i:12" pathLength="1" d="M290 780L460 780"/><path class="s" style="--i:13" pathLength="1" d="M1140 620L1310 620"/><path class="s" style="--i:14" pathLength="1" d="M1140 780L1310 780"/><path class="s" style="--i:15" pathLength="1" d="M885 610L970 610"/></g>
+      <g class="pl" stroke-width="9" style="--d:1.85s;--t:.7s"><path class="s" pathLength="1" d="M110 560L1490 560"/></g>
+      <g class="rf" stroke-width="9" style="--d:2.15s;--t:.7s"><path class="s" style="--i:0" pathLength="1" d="M68 587.5L800 200"/><path class="s" style="--i:0" pathLength="1" d="M1532 587.5L800 200"/></g>
+      <g class="kp" stroke-width="6" style="--d:2.55s;--t:.5s"><path class="s" style="--i:0" pathLength="1" d="M800 560L800 204"/><path class="s" style="--i:1" pathLength="1" d="M800 560L455 382.6"/><path class="s" style="--i:1" pathLength="1" d="M800 560L1145 382.6"/></g>
+      <g class="pu" stroke-width="5" style="--d:2.7s;--t:.45s"><path class="s" style="--i:0" pathLength="1" d="M630 470L970 470"/><path class="s" style="--i:1" pathLength="1" d="M460 380L1140 380"/><path class="s" style="--i:2" pathLength="1" d="M290 290L1310 290"/></g>
+    </g>
+    <use href="#tf" class="glint" mask="url(#beam-m)"/>
+  </svg>
   <div class="hero-in">
     <h1>Solid homes and <em>sound</em> workplaces.</h1>
     <p class="lede">New homes, renovations and extensions, and commercial fit-outs<span data-need="area"> across <span data-text="area"></span></span>. One site supervisor looks after your job from the first site visit to the final certificate.</p>
@@ -587,6 +619,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--oak-2);outline-o
     var live=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('live',e.isIntersecting)})});
     live.observe(hero);
   }
+  d.addEventListener('visibilitychange',function(){d.documentElement.classList.toggle('hid',d.hidden)});
 
   /* project reel: native scroll-snap, with arrows and dots that only call scrollTo */
   var reel=d.getElementById('reel'), projs=$$('.proj',reel), dots=d.getElementById('reel-dots'), prev=d.getElementById('reel-prev'), next=d.getElementById('reel-next'), cur=0, dot=[], perView=1;
