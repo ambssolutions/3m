@@ -1,0 +1,195 @@
+/* s-modern: a gradient layer over The Build. Loaded last so it can refine every section.
+   Every colour comes from the theme tokens (themes.js), mixed with color-mix(), so all six themes follow.
+   Motion: only the two background blobs drift (transform, 34s and 40s), only while their section is on screen
+   and the tab is visible (.m-live from s-modern.js); none under reduced motion or on html.lite. No backdrop-filter. */
+:root{
+  --gl:var(--glow,#D98A2B);
+  /* rust shifted toward the glow colour at the same darkness: passes 4.5:1 under paper text in every theme */
+  --m-amber:color-mix(in oklab,color-mix(in oklab,var(--rust) 50%,var(--gl)) 86%,#000);
+  --m-rust-dk:color-mix(in oklab,var(--rust) 82%,#000);
+  --m-text:linear-gradient(100deg,var(--rust) 15%,color-mix(in oklab,var(--rust) 55%,var(--gl)) 95%);
+  --m-line:linear-gradient(90deg,var(--rust),var(--gl));
+  --m-hair:linear-gradient(90deg,transparent,color-mix(in srgb,var(--rust) 75%,transparent) 22%,color-mix(in srgb,var(--gl) 80%,transparent) 55%,transparent);
+  --m-gb:linear-gradient(135deg,var(--rust),var(--gl) 32%,var(--rule-2) 66%,var(--rule));
+  --m-btn:linear-gradient(160deg,var(--m-amber) 0%,var(--rust) 48%,var(--m-rust-dk) 100%);
+  --m-k:1;
+  --m-g:color-mix(in srgb,var(--gl) calc(15% * var(--m-k)),transparent);
+  --m-r:color-mix(in srgb,var(--rust) calc(9% * var(--m-k)),transparent);
+  --m-m:color-mix(in srgb,var(--moss) calc(10% * var(--m-k)),transparent);
+  /* warm shadow colour; black in the night edition so a shadow never reads as a halo */
+  --m-shc:color-mix(in oklab,var(--rust-2) 40%,#2A1A0E);
+  --m-sh1:0 1px 2px color-mix(in srgb,var(--m-shc) 10%,transparent),0 6px 14px -6px color-mix(in srgb,var(--m-shc) 16%,transparent),0 20px 36px -22px color-mix(in srgb,var(--m-shc) 26%,transparent);
+  --m-sh2:0 1px 2px color-mix(in srgb,var(--m-shc) 10%,transparent),0 12px 24px -12px color-mix(in srgb,var(--m-shc) 20%,transparent),0 40px 70px -40px color-mix(in srgb,var(--m-shc) 38%,transparent);
+}
+[data-theme=night]{--m-k:.75;--m-shc:#000;--m-hi:6%}
+
+::selection{background:color-mix(in oklab,var(--rust) 24%,var(--paper));color:var(--ink)}
+:focus-visible{outline-color:var(--rust)}
+
+/* ---------- section fields and dividers ---------- */
+.sec{position:relative;isolation:isolate}
+.sec>.wrap{border-top:0}
+.sec>.wrap::before{top:0;height:1px;border:0;background:var(--m-hair)}
+.hero{background:radial-gradient(42% 46% at 12% 30%,var(--m-g),transparent 72%),radial-gradient(40% 44% at 90% 64%,var(--m-r),transparent 72%)}
+#services{background:radial-gradient(48% 38% at 88% 16%,var(--m-g),transparent 72%),radial-gradient(40% 34% at 6% 72%,var(--m-m),transparent 72%)}
+#layers{background:radial-gradient(90% 60% at 100% 0%,transparent 20%,var(--paper) 85%),conic-gradient(from 180deg at 100% 0%,transparent,var(--m-g) 28deg,var(--m-r) 58deg,transparent 90deg),radial-gradient(40% 26% at 6% 80%,var(--m-m),transparent 72%)}
+#process{background:radial-gradient(36% 16% at 4% 30%,var(--m-g),transparent 72%),radial-gradient(40% 18% at 96% 76%,var(--m-r),transparent 72%)}
+#projects{background:radial-gradient(40% 28% at 94% 24%,var(--m-g),transparent 72%),radial-gradient(38% 28% at 4% 72%,var(--m-r),transparent 72%)}
+#people{background:radial-gradient(44% 34% at 90% 32%,var(--m-r),transparent 72%),radial-gradient(40% 26% at 8% 70%,var(--m-g),transparent 72%)}
+#faq{background:radial-gradient(50% 50% at 50% 46%,color-mix(in srgb,var(--paper-2) 80%,transparent),transparent 76%),radial-gradient(34% 30% at 82% 30%,var(--m-g),transparent 72%)}
+#contact{overflow:clip;background:radial-gradient(36% 30% at 2% 40%,var(--m-g),transparent 72%),radial-gradient(40% 34% at 96% 72%,var(--m-r),transparent 72%)}
+
+/* two slow drifting blobs: the hero and the enquiry section */
+.hero::before,#contact::before{content:"";position:absolute;z-index:-2;border-radius:50%;pointer-events:none;will-change:transform;animation:m-drift 34s ease-in-out infinite alternate both paused}
+.hero::before{width:min(78vmax,1100px);aspect-ratio:1;left:50%;top:44%;margin:calc(min(78vmax,1100px) / -2) 0 0 calc(min(78vmax,1100px) / -2);background:radial-gradient(closest-side,color-mix(in srgb,var(--gl) calc(20% * var(--m-k)),transparent),color-mix(in srgb,var(--rust) calc(7% * var(--m-k)),transparent) 58%,transparent)}
+#contact::before{width:min(70vmax,980px);aspect-ratio:1;right:-18%;top:12%;background:radial-gradient(closest-side,color-mix(in srgb,var(--gl) calc(16% * var(--m-k)),transparent),color-mix(in srgb,var(--moss) calc(6% * var(--m-k)),transparent) 60%,transparent);animation-name:m-drift2;animation-duration:40s}
+.hero.m-live::before,#contact.m-live::before{animation-play-state:running}
+@keyframes m-drift{0%{transform:translate(-14%,-6%)}50%{transform:translate(6%,7%)}100%{transform:translate(15%,-8%)}}
+@keyframes m-drift2{0%{transform:translate(0,0)}50%{transform:translate(-22%,12%)}100%{transform:translate(-8%,-6%)}}
+html.lite .hero::before,html.lite #contact::before{display:none}
+
+/* ---------- masthead ---------- */
+.hdr.solid,.hdr.open{border-color:transparent}
+.hdr::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--m-hair);opacity:0;transition:opacity .6s;pointer-events:none}
+.hdr.solid::after,.hdr.open::after{opacity:1}
+.menu-btn{border-radius:12px}
+
+/* ---------- buttons: embossed gradient, a pressed state and the soft light sweep ---------- */
+.btn{position:relative;overflow:hidden;isolation:isolate;border-radius:12px;background:var(--m-btn);box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 26%,transparent),inset 0 -2px 0 color-mix(in srgb,#000 22%,transparent),0 1px 2px color-mix(in srgb,var(--m-shc) 22%,transparent),0 10px 18px -12px color-mix(in srgb,var(--m-shc) 60%,transparent);transition:box-shadow .5s,transform .5s var(--ease)}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent,color-mix(in srgb,#000 16%,transparent));opacity:0;transition:opacity .5s}
+.btn::after{content:"";position:absolute;top:0;bottom:0;left:-50%;width:36%;z-index:-1;background:linear-gradient(100deg,transparent,color-mix(in srgb,#fff 30%,transparent),transparent);transform:translateX(0) skewX(-18deg);transition:transform 1.1s var(--ease);pointer-events:none}
+.btn:hover{background:var(--m-btn)}
+.btn:hover::before{opacity:1}
+.btn:hover::after{transform:translateX(450%) skewX(-18deg)}
+.btn:active{transform:translateY(1px);box-shadow:inset 0 2px 6px color-mix(in srgb,#000 30%,transparent),inset 0 -1px 0 color-mix(in srgb,#fff 12%,transparent)}
+.btn:disabled::after{display:none}
+.qbar a{border-radius:12px}
+.qbar a.q2{background:var(--m-btn);border-color:transparent;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 26%,transparent),inset 0 -2px 0 color-mix(in srgb,#000 22%,transparent)}
+
+/* secondary links: a gradient underline that grows on hover */
+.tlink{position:relative;display:inline-block;text-decoration:none;padding-bottom:4px}
+.tlink::before,.tlink::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--rule-2)}
+.tlink::after{height:2px;background:var(--m-line);transform:scaleX(.32);transform-origin:0 50%;transition:transform .9s var(--ease)}
+.tlink:hover::after,.tlink:focus-visible::after{transform:none}
+
+/* ---------- gradient text: the cover's accent word, the drop cap, the diary dates ---------- */
+.hero h1 em,.dc,.stats b{background:var(--m-text);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hero h1 em{padding-right:.08em;margin-right:-.08em}
+.date b{background:linear-gradient(100deg,var(--moss) 25%,color-mix(in oklab,var(--moss) 50%,var(--rust)));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- small details ---------- */
+.tick li::before{left:0;top:6px;width:18px;height:18px;border:0;border-radius:50%;background:var(--m-line);transform:none;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 25%,transparent)}
+.tick li::after{content:"";position:absolute;left:5.5px;top:11px;width:7px;height:4px;border-left:1.6px solid var(--paper);border-bottom:1.6px solid var(--paper);transform:rotate(-45deg)}
+#people .pp-ticks li::before{top:4px}#people .pp-ticks li::after{top:9px}
+.hero-strip span::before{background:var(--m-line)}
+.issue::before,.issue::after{border-top:0;height:1px;background:linear-gradient(90deg,transparent,var(--rule-2) 40%,var(--rust))}
+.issue::after{background:linear-gradient(270deg,transparent,var(--rule-2) 40%,var(--gl))}
+.pull{border-image:linear-gradient(90deg,transparent,var(--rust) 25%,var(--gl) 60%,transparent) 1}
+.aside h3{border-bottom:1px solid;border-image:linear-gradient(90deg,var(--rust),var(--gl) 30%,var(--rule) 70%) 1}
+input,select,textarea{border-radius:10px}
+
+/* ---------- hero: the diary sits on a soft warm shadow ---------- */
+.stack::after{box-shadow:0 30px 50px -30px color-mix(in srgb,var(--m-shc) 45%,transparent)}
+
+/* ---------- service band: a gradient ribbon ---------- */
+.band{border:0;background:linear-gradient(90deg,var(--m-rust-dk),var(--rust) 22%,var(--m-amber) 50%,var(--rust) 78%,var(--m-rust-dk));color:var(--paper)}
+.band-track span::after{background:color-mix(in srgb,var(--paper) 70%,transparent)}
+
+/* ---------- services: rounder tabs and panel, a gradient edge on the chosen one ---------- */
+#services .svc-tab,#services .svc-tab::before,#services .svc-tab::after{border-radius:14px}
+#services .svc-tab::before{box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,60%),transparent),var(--m-sh1)}
+#services .svc-tab::after{border:1px solid transparent;background:linear-gradient(var(--paper-2),var(--paper-2)) padding-box,var(--m-gb) border-box;box-shadow:inset 3px 3px 8px color-mix(in srgb,var(--m-shc) 16%,transparent)}
+#services .svc-bar{border-radius:2px}
+#services .svc-bar i{background:var(--m-line)}
+#services .svc-ph{border-radius:20px;border-color:transparent;background:linear-gradient(var(--paper-2),var(--paper-2)) padding-box,var(--m-gb) border-box;box-shadow:var(--m-sh2)}
+#services .svc-panels{border-top:0}
+
+/* ---------- layers: the drafting sheet stays crisp, the schedule gets a rounded gradient edge ---------- */
+#layers .layers-sheet{border-radius:6px;box-shadow:var(--m-sh2)}
+#layers .layers-sheet::before{border-radius:3px}
+#layers .layers-list{border-radius:14px;overflow:hidden;border-color:transparent;background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb) border-box;box-shadow:var(--m-sh1)}
+#layers .layers-list li::after{left:0;top:0;bottom:0;background:linear-gradient(180deg,var(--rust),var(--gl))}
+#layers .layers-tb{border-radius:4px}
+
+/* ---------- sketch: a deep gradient drafting table ---------- */
+#sketch{background:radial-gradient(52% 40% at 16% 10%,color-mix(in srgb,var(--gl) calc(13% * var(--m-k)),transparent),transparent 72%),radial-gradient(46% 44% at 92% 90%,color-mix(in srgb,var(--rust) calc(18% * var(--m-k)),transparent),transparent 72%),linear-gradient(165deg,var(--sk-table),color-mix(in oklab,var(--sk-table) 86%,var(--rust)))}
+#sketch .sk-sheet{border-radius:4px}
+#sketch .sk-seg{border-radius:14px}
+#sketch .sk-seg label span,#sketch .sk-thumb{border-radius:10px}
+#sketch .sk-sw{border-radius:12px}
+#sketch .sk-chip{border-radius:7px}
+#sketch .sk-stage{border-radius:10px}
+#sketch .sk-bars i{border-radius:2px}
+#sketch .sk-bars i::after{background:var(--m-line)}
+#sketch .sk-btn,#sketch .sk-mini,#sketch .sk-blk{border-radius:12px}
+#sketch .sk-add,#sketch .sk-add:hover{background:var(--m-btn);border-color:transparent}
+
+/* ---------- process: the sheet lifts off the page, the rule and dots fill in gradient ---------- */
+#process .pf-sheet{border-radius:12px;box-shadow:var(--m-sh2)}
+#process .pf-sheet::before{border-radius:8px}
+#process .pf-bar{border-radius:3px;overflow:hidden}
+#process .pf-bar i::after{background:var(--m-line)}
+.diary .rule i{background:linear-gradient(180deg,var(--rust),var(--gl))}
+#process .entry.pf-on::before{background:var(--m-line);border-color:transparent}
+
+/* ---------- projects: rounder plates with a gradient edge ---------- */
+#projects .pj-mount{border-radius:20px;border-color:transparent;background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb) border-box;box-shadow:var(--m-sh1)}
+#projects .pj-cmp{border-radius:14px}
+#projects .pj-handle::before{background:linear-gradient(180deg,var(--rust),var(--gl) 50%,var(--rust))}
+#projects .pj-knob{background:var(--m-btn);box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 28%,transparent),inset 0 -2px 0 color-mix(in srgb,#000 22%,transparent),0 4px 10px -4px color-mix(in srgb,var(--m-shc) 60%,transparent)}
+@media (hover:hover) and (pointer:fine){#projects .pj-cmp:hover .pj-knob{background:var(--m-btn)}}
+#projects .pj-lbl{border-radius:7px}
+#projects .pj-tab::after{background:var(--m-line)}
+#projects .pj-note{border-top:1px solid;border-image:var(--m-hair) 1}
+
+/* ---------- people: rounded photo frames on a soft shadow ---------- */
+#people .ph{border-radius:20px;border-color:transparent;background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb) border-box;box-shadow:var(--m-sh1)}
+#people .ph img{border-radius:14px}
+#people .ph::before{border-radius:inherit}
+
+/* ---------- questions: rounded panel rows, the open one gets the gradient edge ---------- */
+#faq .q{border-radius:14px;background:linear-gradient(var(--field),var(--field)) padding-box,linear-gradient(var(--rule-2),var(--rule-2)) border-box;border-color:transparent;box-shadow:var(--m-sh1)}
+#faq .q.open{background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb) border-box}
+#faq .q::before{left:0;top:12px;bottom:12px;border-radius:0 3px 3px 0;background:linear-gradient(180deg,var(--rust),var(--gl))}
+#faq .qn{border-radius:7px}
+#faq .q .ic{border-radius:10px}
+#faq .q button[aria-expanded=true] .ic{background:var(--m-btn);border-color:transparent;color:var(--paper)}
+
+/* ---------- enquiry card ---------- */
+#contact .qc-card,#contact .qc-cardwrap::before,#contact .qc-cardwrap::after{border-radius:18px}
+#contact .qc-card{border-color:transparent;background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb) border-box;box-shadow:var(--m-sh2)}
+#contact .qc-cardwrap{--sh:var(--m-sh1)}
+#contact .qc-opts{border:1px solid var(--rule-2);border-width:1px 0 0 1px;border-radius:12px;overflow:hidden}
+#contact .qc-dots .ln{border-radius:2px;overflow:hidden}
+#contact .qc-dots .ln::after{background:var(--m-line)}
+#contact .qc-dots li[aria-current] .n{background:var(--m-btn);border-color:transparent}
+#contact .qc-back{border-radius:12px}
+#contact .qc-sum,#contact .qc-nojs{border-radius:0 10px 10px 0}
+
+/* ---------- footer: a deep gradient, the skyline in theme tones ---------- */
+.foot{background:radial-gradient(60% 70% at 50% 108%,color-mix(in srgb,var(--gl) calc(12% * var(--m-k)),transparent),transparent 72%),linear-gradient(180deg,var(--deep,var(--ink)),color-mix(in oklab,var(--deep,var(--ink)) 88%,var(--rust)))}
+.foot .foot-sky{background:linear-gradient(180deg,var(--paper),color-mix(in oklab,var(--paper) 88%,var(--gl)))}
+.foot .horizon{background:linear-gradient(90deg,var(--rust),var(--gl) 50%,var(--rust))}
+.foot [fill="#DCD3C2"]{fill:color-mix(in oklab,var(--rule) 85%,var(--paper))}
+.foot [fill="#AFA695"]{fill:color-mix(in oklab,var(--rule-2) 65%,var(--ink-3))}
+.foot [stroke="#AFA695"]{stroke:color-mix(in oklab,var(--rule-2) 65%,var(--ink-3))}
+.foot .sk-mid [fill="#F4EFE6"]{fill:var(--paper)}
+.foot [stroke="#6F685C"]{stroke:var(--ink-3)}
+.foot [fill="#6F685C"]{fill:var(--ink-3)}
+.foot [fill="#221F1A"]{fill:var(--deep,var(--ink))}
+.foot [fill="#5B554B"]{fill:color-mix(in oklab,var(--deep,var(--ink)) 70%,var(--ink-3))}
+/* footer text follows the theme (the night edition supplies its own on-deep tones) */
+.foot{color:var(--on-deep-2,color-mix(in oklab,var(--paper) 72%,var(--ink)))}
+.foot .tag{color:var(--on-deep-2,color-mix(in oklab,var(--paper) 72%,var(--ink)))}
+.foot .areas,.foot ul a,.foot .legal a{color:var(--on-deep,color-mix(in oklab,var(--paper) 86%,var(--ink)))}
+.foot .legal{color:var(--on-deep-3,color-mix(in oklab,var(--paper) 64%,var(--ink)))}
+.foot .areas .sc{color:var(--on-deep-accent,color-mix(in oklab,var(--rust) 45%,var(--paper)))}
+.foot .legal{border-top:1px solid;border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--on-deep-accent,var(--rust)) 70%,transparent),color-mix(in srgb,var(--gl) 60%,transparent),transparent) 1}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  .hero::before,#contact::before{animation:none}
+  .btn::before,.btn::after,.tlink::after,.hdr::after{transition:none}
+  .btn:hover::after{transform:translateX(0) skewX(-18deg)}
+}
+html.lite .btn::after{display:none}
