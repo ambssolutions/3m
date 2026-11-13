@@ -1,6 +1,6 @@
 /* Colour themes for The Build, and the source the section picker reads. Load in <head> without defer so the
    theme is set before first paint. Choice order: ?theme= in the URL (previews and shared links), then the
-   visitor's saved choice (localStorage "m3-theme"), then Site Diary. Never switches by time of day.
+   choice made in this tab (sessionStorage "m3-theme"), then the page default, then Harbour. A fresh visit always opens in Harbour. Never switches by time of day.
    Every accent below passes 4.5:1 as text on its own paper colour. */
 (function () {
   var THEMES = [
@@ -45,10 +45,10 @@
   }
   var CKEY = 'm3-custom', cust = null;
   try { var qs = new URLSearchParams(location.search); if (qs.get('c1') && qs.get('c2')) cust = ['#' + qs.get('c1').replace('#', ''), '#' + qs.get('c2').replace('#', '')]; } catch (e) {}
-  if (!cust) { try { cust = JSON.parse(localStorage.getItem(CKEY) || 'null'); } catch (e) {} }
+  if (!cust) { try { cust = JSON.parse(sessionStorage.getItem(CKEY) || 'null'); } catch (e) {} }
   if (!cust || !/^#[0-9a-f]{6}$/i.test(cust[0]) || !/^#[0-9a-f]{6}$/i.test(cust[1])) cust = ['#1F5F8B', '#2FA4C2'];
   THEMES.push(makeCustom(cust[0], cust[1]));
-  window.M3_customTheme = function (c1, c2) { var i = THEMES.length - 1; THEMES[i] = makeCustom(c1, c2); try { localStorage.setItem(CKEY, JSON.stringify([c1, c2])); } catch (e) {} window.M3_setTheme('custom'); };
+  window.M3_customTheme = function (c1, c2) { var i = THEMES.length - 1; THEMES[i] = makeCustom(c1, c2); try { sessionStorage.setItem(CKEY, JSON.stringify([c1, c2])); } catch (e) {} window.M3_setTheme('custom'); };
   var KEY = 'm3-theme', root = document.documentElement;
   function find(id) { for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id === id) return THEMES[i]; return null; }
   function apply(id) {
@@ -61,10 +61,10 @@
     return th;
   }
   var fromUrl = null; try { fromUrl = new URLSearchParams(location.search).get('theme'); } catch (e) {}
-  var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
+  var saved = null; try { saved = sessionStorage.getItem(KEY); localStorage.removeItem(KEY); localStorage.removeItem(CKEY); } catch (e) {}
   var pageDefault = root.getAttribute('data-default-theme');
-  var current = apply(find(fromUrl) ? fromUrl : find(saved) ? saved : find(pageDefault) ? pageDefault : 'diary').id;
-  window.M3_setTheme = function (id) { current = apply(id).id; try { localStorage.setItem(KEY, current); } catch (e) {} paint(); };
+  var current = apply(find(fromUrl) ? fromUrl : find(saved) ? saved : find(pageDefault) ? pageDefault : 'harbour').id;
+  window.M3_setTheme = function (id) { current = apply(id).id; try { sessionStorage.setItem(KEY, current); } catch (e) {} paint(); };
 
   /* the picker: a swatch button in the header, a small panel of themes */
   var btn, panel;
