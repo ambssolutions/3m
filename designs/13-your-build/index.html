@@ -21,7 +21,8 @@
 @font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(../../assets/fonts/fraunces-600-italic.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:"Work Sans";font-style:normal;font-weight:400 600;font-display:swap;src:url(../../assets/fonts/work-sans.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 </style>
-<link rel="preload" as="image" imagesrcset="../../img/proj-pool-house-800.webp 800w, ../../img/proj-pool-house-1600.webp 1600w, ../../img/proj-pool-house-2400.webp 2400w, ../../img/proj-pool-house-3200.webp 3200w, ../../img/proj-pool-house-3840.webp 3840w" imagesizes="100vw" fetchpriority="high">
+<link rel="preload" as="image" href="../../img/proj-pool-house-portrait-900.webp" media="(max-width:700px) and (orientation:portrait)" fetchpriority="high">
+<link rel="preload" as="image" imagesrcset="../../img/proj-pool-house-800.webp 800w, ../../img/proj-pool-house-1600.webp 1600w, ../../img/proj-pool-house-2400.webp 2400w, ../../img/proj-pool-house-3200.webp 3200w, ../../img/proj-pool-house-3840.webp 3840w" imagesizes="100vw" media="not all and (max-width:700px) and (orientation:portrait)" fetchpriority="high">
 <script>document.documentElement.classList.add('js')</script>
 <script src="../../assets/themes.js?v=1"></script>
 <script type="application/ld+json">
@@ -250,7 +251,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <link rel="stylesheet" href="../../assets/build/s-quote.css?v=1">
 <link rel="stylesheet" href="../../assets/build/s-sketch.css?v=1">
 <link rel="stylesheet" href="../../assets/build/s-modern.css?v=1">
-<link rel="stylesheet" href="../../assets/build/your-build.css?v=3">
+<link rel="stylesheet" href="../../assets/build/your-build.css?v=4">
 <link rel="stylesheet" href="../../assets/build/svc-plus.css?v=1">
 <script type="module" src="../../assets/build/s-layers-3d.js?v=1" fetchpriority="low"></script>
 </head>
@@ -289,7 +290,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
     <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.8" y="6.8" width="18.4" height="13.4" rx="3"/><path d="M8.4 6.8l1.4-2.8h4.4l1.4 2.8"/><circle cx="12" cy="13.4" r="3.6"/></symbol>
   </svg>
   <div class="hero-img">
-    <img src="../../img/proj-pool-house-1600.webp" srcset="../../img/proj-pool-house-800.webp 800w, ../../img/proj-pool-house-1600.webp 1600w, ../../img/proj-pool-house-2400.webp 2400w, ../../img/proj-pool-house-3200.webp 3200w, ../../img/proj-pool-house-3840.webp 3840w" sizes="100vw" width="1600" height="1200" alt="A two-storey home with a pool and terrace" fetchpriority="high" decoding="async">
+    <picture><source media="(max-width:700px) and (orientation:portrait)" srcset="../../img/proj-pool-house-portrait-900.webp" width="900" height="1200">
+    <img src="../../img/proj-pool-house-1600.webp" srcset="../../img/proj-pool-house-800.webp 800w, ../../img/proj-pool-house-1600.webp 1600w, ../../img/proj-pool-house-2400.webp 2400w, ../../img/proj-pool-house-3200.webp 3200w, ../../img/proj-pool-house-3840.webp 3840w" sizes="100vw" width="1600" height="1200" alt="A two-storey home with a pool and terrace" fetchpriority="high" decoding="async"></picture>
   </div>
   <p class="hero-note sc">Illustrative photo</p>
   <div class="door">

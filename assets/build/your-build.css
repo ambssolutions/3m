@@ -11,6 +11,7 @@
 .hero::before{content:none}
 .yb-sym{position:absolute;width:0;height:0;overflow:hidden}
 .hero-img{position:absolute;inset:0;z-index:-2;background:var(--paper-2)}
+.hero-img picture{position:absolute;inset:0}
 .hero-img img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
 /* a light wash at the foot of the photo so the card settles into the page; the top stays clear */
 .hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 56%,color-mix(in srgb,var(--paper) 12%,transparent) 76%,color-mix(in srgb,var(--paper) 46%,transparent) 100%)}
@@ -68,6 +69,7 @@
 @media (prefers-reduced-motion:no-preference){
   .js .hcard{animation:yb-rise 1.2s var(--ease) both}
   .js .hcard>*{animation:yb-show 1.2s var(--ease) both}
+  .js .hcard>h1{animation-name:yb-rise} /* the heading rises without fading, so it paints (and counts as the main content) on the first frame */
   .js .hcard>:nth-child(2){animation-delay:.12s}.js .hcard>:nth-child(n+3){animation-delay:.24s}
   .js .fc{animation:yb-deal var(--dur) var(--ease) both;animation-delay:calc(.55s + var(--k) * .13s)}
   .hero.m-live .btn-main::after{animation:yb-sweep 7s var(--ease) 2.6s infinite}
