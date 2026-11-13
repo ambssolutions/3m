@@ -70,6 +70,8 @@
   var current = document.documentElement.getAttribute('data-concept');
   var i = CONCEPTS.findIndex(function (c) { return c[0] === current; });
   if (i < 0) return;
+  /* on a clean client link (for example /home) the page shows as a site on its own, without the gallery bar */
+  if (!/\/designs\//.test(location.pathname)) return;
   var script = document.currentScript;
   var base = new URL('../', script ? script.src : location.href); // repo root
   var href = function (c) { return new URL('designs/' + c[0] + '/', base).href; };

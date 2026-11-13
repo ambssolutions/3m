@@ -76,3 +76,20 @@
 @keyframes m3-swing{0%{transform:rotate(5deg)}30%{transform:rotate(-3deg)}55%{transform:rotate(1.4deg)}78%{transform:rotate(-.5deg)}100%{transform:none}}
 @keyframes m3-trace{from{stroke-dashoffset:.07;opacity:1}to{stroke-dashoffset:-1;opacity:1}}
 @keyframes m3-lift{0%,100%{transform:none}40%{transform:translateY(-2.5px)}}
+
+/* ---------- Shield crest (the chosen logo): an embossed PNG crest beside the live-text wordmark ---------- */
+.m3-shield-logo .m3-shield{display:block;height:56px;width:auto;flex:none}
+.m3-on-dark.m3-shield-logo .m3-shield{height:72px}
+@media (max-width:400px){.m3-shield-logo .m3-shield{height:50px}}
+@media (prefers-reduced-motion:no-preference){
+  .m3-shield-logo .m3-shield{animation:m3-crest .9s var(--m3-ease,cubic-bezier(.2,.7,.2,1)) .1s both}
+  .m3-shield-logo .m3-word{animation-delay:.45s}
+}
+@keyframes m3-crest{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+/* the white crest in the header on the dark theme; the Harbour crest everywhere else */
+.m3-shield-logo .m3-shield-dark{display:none}
+html[data-theme="night"] .hdr .m3-shield-logo .m3-shield{display:none}
+html[data-theme="night"] .hdr .m3-shield-logo .m3-shield-dark{display:block}
+/* the header shows the crest on its own (no wordmark), so it can be a little larger */
+.hdr .m3-shield-logo .m3-shield{height:60px}
+@media (max-width:400px){.hdr .m3-shield-logo .m3-shield{height:54px}}

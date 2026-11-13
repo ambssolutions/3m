@@ -139,5 +139,11 @@
         }
       ]
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/home",
+      "destination": "/designs/13-your-build/index.html"
+    }
   ]
 }
