@@ -10,6 +10,7 @@ window.SITE = {
   email: "",                // e.g. "hello@example.com.au"
   address: "",              // e.g. "12 Example Road, Parramatta NSW 2150"
   mapsUrl: "",              // Google Maps link for the address
+  whatsapp: "",             // international digits only, e.g. "61400000000" (shows a WhatsApp link)
   hours: "",                // e.g. "Monday to Friday, 7am to 4pm"
   abn: "",                  // e.g. "12 345 678 901"
   licence: "",              // builder licence number for their state, e.g. "NSW 123456C" or "QBCC 1234567"
@@ -18,6 +19,8 @@ window.SITE = {
   stats: [],                // e.g. [{ value: "120", label: "homes completed", asAt: "1 November 2026" }]
   testimonials: [],         // e.g. [{ quote: "…", name: "A. Client", place: "Penrith" }]  (with written permission)
   reviewsUrl: "",           // Google reviews link
+  areas: [],                // suburbs or regions served, e.g. ["Parramatta", "The Hills District"]
+  guideUrl: "",             // link to a downloadable building guide (PDF), if they have one
   team: [],                 // e.g. [{ name: "…", role: "Site supervisor", photo: "img/team-1-600.webp" }]
   social: { facebook: "", instagram: "" },
   formEndpoint: "",         // e.g. "https://api.web3forms.com/submit"

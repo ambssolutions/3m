@@ -13,7 +13,7 @@ The site is built and works today. Anything below that has not been supplied is 
 | Phone, email, office address, hours | content.js `phone`, `phoneLink`, `email`, `address`, `mapsUrl`, `hours` |
 | Every promise on the page: fixed-price contracts, written variations, one site supervisor, weekly photo reports, own carpenters, licensed trades, safe work method statements, tidy site, call back within one business day. Strike out any that are not true | page: services panels, "How a job runs", "Who you deal with", "What happens next" |
 | Which state they build in. The process and FAQ are written state-neutral (DA or CDC, council or private certifier, occupation certificate or final inspection). Once the state is known, use that state's terms, for example building permit and occupancy permit in Victoria, QBCC and Form 21 in Queensland | page: "How a job runs" and "Common questions" |
-| Builder licence number for their state (NSW Fair Trading, QBCC, VBA and so on) | content.js `licence` |
+| Builder licence number for their state (NSW Fair Trading, QBCC, VBA and so on). Most states require it on a builder's advertising, so this is needed before launch | content.js `licence` (shows in the hero strip, contact block and footer) |
 | Memberships (for example HIA, Master Builders) with logo files | content.js `memberships` |
 | Home warranty or building compensation insurance wording for their state | content.js `insurance` |
 
@@ -38,3 +38,12 @@ The site is built and works today. Anything below that has not been supplied is 
 |---|---|
 | Web3Forms access key, so enquiries arrive without the visitor's email app | content.js `formEndpoint`, `web3formsKey` |
 | Domain name | `canonical`, `og:url`, `sitemap.xml`, and remove `noindex` from `index.html`, `privacy.html`, `robots.txt` and `vercel.json` |
+
+## Added for the merged design (concept 11)
+| Need | Goes in |
+|---|---|
+| Which services they really offer, especially knockdown rebuild (listed in the enquiry form as a job type) and duplexes | page: the enquiry form's job types and the services section |
+| WhatsApp number, if they take enquiries there | content.js `whatsapp` (international digits, for example 61400000000) |
+| Suburbs or regions they build in | content.js `areas` (footer "Where we build" line) |
+| A downloadable building guide (PDF), if they have one | content.js `guideUrl` |
+| Confirm the progress payment stages in their contract (the "Built in layers" section uses the usual base, frame, lock-up, fixing and practical completion) | page: Built in layers |
