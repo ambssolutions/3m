@@ -29,6 +29,26 @@
     '[data-theme=night] #sketch .sk-thumb{background:#EFE8DA}' +
     '[data-theme=night] #sketch .sk-seg input:checked + *{color:#15130F}';
   document.head.appendChild(fix);
+  /* Custom: two colours in, a full readable palette out. The main colour is darkened until it passes 4.5:1
+     as text on the page background; the second colour is only used in gradients. */
+  function hex2rgb(h) { h = h.replace('#', ''); if (h.length === 3) h = h.replace(/./g, '$&$&'); var n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+  function rgb2hsl(r, g, b) { r /= 255; g /= 255; b /= 255; var mx = Math.max(r, g, b), mn = Math.min(r, g, b), h = 0, s = 0, l = (mx + mn) / 2; if (mx !== mn) { var dd = mx - mn; s = l > .5 ? dd / (2 - mx - mn) : dd / (mx + mn); h = mx === r ? (g - b) / dd + (g < b ? 6 : 0) : mx === g ? (b - r) / dd + 2 : (r - g) / dd + 4; h *= 60; } return [h, s * 100, l * 100]; }
+  function hsl(h, s, l) { s /= 100; l /= 100; var k = function (n) { return (n + h / 30) % 12; }, a = s * Math.min(l, 1 - l), f = function (n) { return l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); }; return '#' + [f(0), f(8), f(4)].map(function (x) { return ('0' + Math.round(x * 255).toString(16)).slice(-2); }).join(''); }
+  function lum(hx) { return hex2rgb(hx).map(function (v) { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }).reduce(function (a, v, i) { return a + v * [.2126, .7152, .0722][i]; }, 0); }
+  function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
+  function makeCustom(c1, c2) {
+    var a = rgb2hsl.apply(null, hex2rgb(c1)), h = a[0], sat = Math.min(a[1], 70), paper = hsl(h, Math.min(sat, 22), 95.5), l = a[2];
+    while (l > 8 && contrast(hsl(h, a[1], l), paper) < 4.7) l -= 2;
+    var main = hsl(h, a[1], l);
+    return { id: 'custom', name: 'Custom', note: 'Your own two colours', dark: false, custom: [c1, c2],
+      t: { glow: c2, paper: paper, 'paper-2': hsl(h, Math.min(sat, 20), 90.5), field: hsl(h, Math.min(sat, 25), 98.4), ink: hsl(h, Math.min(sat, 38), 12.5), 'ink-2': hsl(h, Math.min(sat, 16), 31), 'ink-3': hsl(h, Math.min(sat, 10), 43), rust: main, 'rust-2': hsl(h, a[1], Math.max(6, l - 9)), moss: hsl((h + 140) % 360, 22, 33), rule: hsl(h, Math.min(sat, 16), 84), 'rule-2': hsl(h, Math.min(sat, 14), 73) } };
+  }
+  var CKEY = 'm3-custom', cust = null;
+  try { var qs = new URLSearchParams(location.search); if (qs.get('c1') && qs.get('c2')) cust = ['#' + qs.get('c1').replace('#', ''), '#' + qs.get('c2').replace('#', '')]; } catch (e) {}
+  if (!cust) { try { cust = JSON.parse(localStorage.getItem(CKEY) || 'null'); } catch (e) {} }
+  if (!cust || !/^#[0-9a-f]{6}$/i.test(cust[0]) || !/^#[0-9a-f]{6}$/i.test(cust[1])) cust = ['#1F5F8B', '#2FA4C2'];
+  THEMES.push(makeCustom(cust[0], cust[1]));
+  window.M3_customTheme = function (c1, c2) { var i = THEMES.length - 1; THEMES[i] = makeCustom(c1, c2); try { localStorage.setItem(CKEY, JSON.stringify([c1, c2])); } catch (e) {} window.M3_setTheme('custom'); };
   var KEY = 'm3-theme', root = document.documentElement;
   function find(id) { for (var i = 0; i < THEMES.length; i++) if (THEMES[i].id === id) return THEMES[i]; return null; }
   function apply(id) {
@@ -52,6 +72,7 @@
     if (!btn) return;
     var th = find(current);
     btn.style.setProperty('--sw-a', th.t.paper); btn.style.setProperty('--sw-b', th.t.rust); btn.style.setProperty('--sw-c', th.t.ink);
+    var cb = panel.querySelector('button[data-id=custom] .sw'); if (cb) { var ct = find('custom').t; cb.style.background = 'conic-gradient(' + ct.paper + ' 0 50%,' + ct.rust + ' 0 75%,' + ct.glow + ' 0)'; }
     btn.setAttribute('aria-label', 'Colour theme: ' + th.name);
     [].forEach.call(panel.querySelectorAll('button'), function (b) { b.setAttribute('aria-pressed', String(b.dataset.id === current)); });
   }
@@ -63,9 +84,18 @@
       '.th-pick{position:relative;display:flex;align-items:center}' +
       '.th-pick.th-m{grid-column:3;grid-row:1;justify-self:end;margin-right:56px}' +
       '.th-m ~ .menu-btn{grid-column:3;grid-row:1}' +
-      '.th-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--rule-2);background:conic-gradient(var(--sw-a) 0 50%,var(--sw-b) 0 75%,var(--sw-c) 0);cursor:pointer;flex:none;transition:transform .4s}' +
-      '.th-btn:hover{transform:scale(1.06)}' +
-      '.th-panel{position:absolute;right:0;top:calc(100% + 10px);z-index:300;width:260px;padding:8px;border-radius:12px;background:var(--field);border:1px solid var(--rule-2);box-shadow:0 18px 40px -18px rgba(0,0,0,.45);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .4s,transform .4s,visibility 0s .4s}' +
+      '.th-btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 13px 0 5px;border-radius:999px;border:1px solid var(--rule-2);background:var(--field);color:var(--ink);font:600 14px/1 var(--sans);cursor:pointer;flex:none;transition:transform .4s,border-color .4s}' +
+      '.th-dot{width:30px;height:30px;border-radius:50%;flex:none;border:1px solid rgba(0,0,0,.12);background:conic-gradient(var(--sw-a) 0 50%,var(--sw-b) 0 75%,var(--sw-c) 0)}' +
+      '.th-btn:hover{border-color:var(--rust)}' +
+      '.th-m .th-btn{padding:0 4px;width:40px;justify-content:center}.th-m .th-lab{display:none}' +
+      '@media (max-width:1240px){.th-pick:not(.th-m) .th-btn{padding:0 4px;width:40px;justify-content:center}.th-pick:not(.th-m) .th-lab{display:none}}' +
+      '.th-cust{margin:6px 0 2px;padding:10px 8px 6px;border-top:1px solid var(--rule)}' +
+      '.th-cust .row{display:flex;gap:10px;margin-top:8px}' +
+      '.th-cust label{flex:1;display:grid;gap:5px;font:500 12.5px/1.2 var(--sans);color:var(--ink-2)}' +
+      '.th-cust input{width:100%;height:38px;padding:2px;border:1px solid var(--rule-2);border-radius:8px;background:var(--paper);cursor:pointer}' +
+      '.th-cust .hint{margin:8px 0 0;font:400 12px/1.4 var(--sans);color:var(--ink-3);text-transform:none;letter-spacing:0}' +
+      
+      '.th-panel{position:absolute;right:0;top:calc(100% + 10px);z-index:300;width:280px;max-height:calc(100vh - 110px);overflow:auto;padding:8px;border-radius:12px;background:var(--field);border:1px solid var(--rule-2);box-shadow:0 18px 40px -18px rgba(0,0,0,.45);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .4s,transform .4s,visibility 0s .4s}' +
       '.th-pick.open .th-panel{opacity:1;visibility:visible;transform:none;transition:opacity .4s,transform .4s}' +
       '.th-panel p{margin:4px 8px 8px;font:500 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}' +
       '.th-panel button{display:grid;grid-template-columns:34px 1fr;gap:2px 10px;align-items:center;width:100%;text-align:left;padding:8px;border-radius:9px;background:none;border:0;cursor:pointer;color:var(--ink)}' +
@@ -78,7 +108,7 @@
       '@media (prefers-reduced-motion:reduce){.th-btn,.th-panel{transition:none}}';
     document.head.appendChild(css);
     var wrap = document.createElement('div'); wrap.className = 'th-pick';
-    btn = document.createElement('button'); btn.type = 'button'; btn.className = 'th-btn'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'th-panel'); btn.title = 'Colour theme';
+    btn = document.createElement('button'); btn.type = 'button'; btn.className = 'th-btn'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', 'th-panel'); btn.title = 'Colour theme'; btn.innerHTML = '<span class="th-dot"></span><span class="th-lab">Colour</span>';
     panel = document.createElement('div'); panel.className = 'th-panel'; panel.id = 'th-panel'; panel.setAttribute('role', 'group'); panel.setAttribute('aria-label', 'Colour theme');
     panel.innerHTML = '<p>Colour theme</p>';
     THEMES.forEach(function (th) {
@@ -89,6 +119,11 @@
       b.addEventListener('click', function () { window.M3_setTheme(th.id); close(); btn.focus(); });
       panel.appendChild(b);
     });
+    var cbox = document.createElement('div'); cbox.className = 'th-cust';
+    cbox.innerHTML = '<div class="row"><label>Main colour<input type="color" data-c="1"></label><label>Second colour<input type="color" data-c="2"></label></div><p class="hint">Pick from your logo. The main colour is darkened if needed so text stays readable.</p>';
+    var ci = cbox.querySelectorAll('input'), cc = find('custom').custom; ci[0].value = cc[0]; ci[1].value = cc[1];
+    [].forEach.call(ci, function (inp) { inp.addEventListener('input', function () { window.M3_customTheme(ci[0].value, ci[1].value); }); });
+    panel.appendChild(cbox);
     wrap.appendChild(btn); wrap.appendChild(panel);
     var cta = host.querySelector('.nav > .btn'), menuBtn = host.querySelector('.menu-btn');
     function place() { var phone = matchMedia('(max-width:900px)').matches; if (phone && menuBtn) { menuBtn.parentNode.insertBefore(wrap, menuBtn); wrap.classList.add('th-m'); } else if (cta) { cta.parentNode.insertBefore(wrap, cta); wrap.classList.remove('th-m'); } else host.appendChild(wrap); }
