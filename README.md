@@ -4,6 +4,7 @@ Homepage concepts for 3M Construction, a residential and commercial builder in A
 
 - `index.html`: the concept gallery (shortlist, compare, send your pick), noindex
 - `designs/NN-slug/index.html`: the ten concepts, each self-contained (inline CSS and JS, no build step); `thumb.webp` beside each
+- `designs/11-the-build/index.html`: the merged design. Site Diary (the client's number one) as the base, with one section each in the language of another concept. Each section's styles and behaviour live in `assets/build/s-<section>.css` and `.js`; the brief is the last part of `CONCEPTS.md`
 - `assets/concepts.js`: the floating switcher on every concept page
 - `assets/motion.js`: the animation layer for concept 01 (split-text reveals, smooth scroll, magnetic buttons, spotlight, staggered reveals). Additive: the page works without it, and it does nothing under reduced motion
 - `assets/vendor/`: self-hosted GSAP 3.12.5, ScrollTrigger and Lenis 1.1.13

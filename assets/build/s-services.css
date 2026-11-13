@@ -1,0 +1,92 @@
+/* s-services: "In this issue: what we build"
+   Night Shift's tabbed showcase on paper (embossed paper tabs, the active one pressed in with a rust edge
+   and a progress line during a slow autoplay) and Glasshouse's 12-slat photo reveal in paper colour.
+   Without JS the four articles show stacked and ruled, like the diary. */
+
+#services .svc-show{margin-top:clamp(40px,5vw,64px)}
+
+/* ---------- the articles (stacked without JS) ---------- */
+#services .svc-panels{border-top:1px solid var(--rule)}
+#services .svc-panel{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(28px,4vw,64px);align-items:center;padding:clamp(32px,4vw,56px) 0;border-bottom:1px solid var(--rule)}
+#services .svc-fig{margin:0}
+#services .svc-ph{position:relative;overflow:hidden;border:1px solid var(--rule-2);background:var(--paper-2)}
+#services .svc-ph img{width:100%;aspect-ratio:4/3;object-fit:cover}
+#services .svc-fig figcaption{margin-top:10px}
+#services .svc-body{display:grid;gap:14px;text-align:left}
+#services .svc-body .lead{font:600 clamp(17px,1.3vw,19px)/1.4 var(--display);color:var(--ink-2)}
+#services .svc-body p{color:var(--ink-2)}
+#services .svc-body .sc.rust{color:var(--rust)}
+#services .svc-body .tick{margin-top:6px}
+#services .svc-panel:focus-visible{outline-offset:8px}
+
+/* ---------- the showcase (JS adds .is-tabs) ---------- */
+#services .is-tabs .svc-panels{display:grid;border:0}
+/* every panel shares one cell, so the section keeps its height when the tab changes */
+#services .is-tabs .svc-panel{grid-area:1/1;padding:0;border:0;visibility:hidden}
+#services .is-tabs .svc-panel.is-on{visibility:visible}
+#services .is-tabs .svc-body>.sc.rust{display:none}
+
+/* embossed paper tabs: a raised sheet and a pressed sheet, crossfaded (only opacity moves) */
+#services .svc-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(10px,1.3vw,18px);margin:0 0 clamp(26px,3vw,40px)}
+#services .svc-tab{position:relative;isolation:isolate;display:grid;align-content:start;gap:3px;min-height:44px;padding:14px 16px 23px 22px;border-radius:3px;text-align:left;color:var(--ink-2);transition:transform .6s var(--ease),color .6s}
+#services .svc-tab::before,#services .svc-tab::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;transition:opacity .7s var(--ease)}
+#services .svc-tab::before{background:var(--field);border:1px solid var(--rule);box-shadow:0 1px 0 rgba(80,60,30,.07),5px 7px 16px -6px rgba(80,60,30,.3),inset 1px 1px 0 rgba(255,255,255,.95),inset -1px -1px 0 rgba(80,60,30,.07)}
+#services .svc-tab::after{background:var(--paper-2);border:1px solid var(--rule-2);box-shadow:inset 3px 0 0 var(--rust),inset 3px 3px 8px rgba(80,60,30,.18),inset -3px -3px 8px rgba(255,255,255,.7);opacity:0}
+#services .svc-tab .sc{color:var(--ink-3);transition:color .6s}
+#services .svc-tab b{font:600 clamp(16px,1.3vw,19.5px)/1.2 var(--display);letter-spacing:-.01em;color:inherit;text-wrap:balance}
+#services .svc-tab[aria-selected=true]{color:var(--ink);transform:translateY(1px)}
+#services .svc-tab[aria-selected=true]::before{opacity:0}
+#services .svc-tab[aria-selected=true]::after{opacity:1}
+#services .svc-tab[aria-selected=true] .sc{color:var(--rust)}
+@media (hover:hover) and (pointer:fine){
+  #services .svc-tab[aria-selected=false]:hover{transform:translateY(-2px);color:var(--ink)}
+}
+
+/* the progress line: fills during the slow autoplay, gone once the visitor chooses */
+#services .svc-bar{position:absolute;left:22px;right:16px;bottom:11px;height:2px;background:var(--rule);overflow:hidden;opacity:0;transition:opacity .6s}
+#services .svc-bar i{display:block;height:100%;background:var(--rust);transform:scaleX(0);transform-origin:0 50%}
+#services .svc-auto .svc-tab[aria-selected=true] .svc-bar{opacity:1}
+#services .svc-auto .svc-tab[aria-selected=true] .svc-bar i{animation:svc-fill 8s linear forwards}
+#services .svc-auto.svc-paused .svc-bar i{animation-play-state:paused}
+@keyframes svc-fill{to{transform:scaleX(1)}}
+
+/* the slat reveal: paper slats over the photo, each folds away to its right edge, 60ms apart */
+#services .svc-slats{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:repeat(var(--n,12),minmax(0,1fr));pointer-events:none}
+#services .svc-slats i{position:relative;display:block;width:calc(100% + 1px);background:var(--paper);transform-origin:100% 50%}
+#services .svc-slats i::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--rule)}
+#services .svc-open .svc-slats i{animation:svc-slat .8s cubic-bezier(.6,.04,.24,1) both;animation-delay:calc(var(--i) * 60ms)}
+#services .svc-done .svc-slats{display:none}
+@keyframes svc-slat{to{transform:scaleX(0)}}
+
+/* the article text settles in as the slats open */
+#services .svc-wait .svc-body>*{opacity:0}
+#services .svc-open .svc-body>*{animation:svc-up 1.1s var(--ease) both}
+#services .svc-open .svc-body>:nth-child(3){animation-delay:.1s}
+#services .svc-open .svc-body>:nth-child(4){animation-delay:.2s}
+#services .svc-open .svc-body>:nth-child(5){animation-delay:.3s}
+#services .svc-open .svc-fig figcaption{animation:svc-up 1.1s var(--ease) .5s both}
+@keyframes svc-up{from{opacity:0;transform:translateY(10px)}}
+
+/* ---------- tablet and phone ---------- */
+@media (max-width:900px){
+  #services .svc-panel{grid-template-columns:1fr;gap:22px;align-items:start}
+  #services .svc-tabs{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  #services .svc-tabs{gap:10px;margin-bottom:26px}
+  #services .svc-tab{padding:12px 12px 20px 17px}
+  #services .svc-tab b{font-size:16px}
+  #services .svc-bar{left:17px;right:12px;bottom:10px}
+  #services .svc-body{gap:12px}
+}
+
+/* lighter on low-power phones: the slats still open, the text simply appears */
+.lite #services .svc-open .svc-body>*,.lite #services .svc-open .svc-fig figcaption{animation:none}
+.lite #services .svc-tab,.lite #services .svc-tab::before,.lite #services .svc-tab::after{transition:none}
+
+@media (prefers-reduced-motion:reduce){
+  #services .svc-slats{display:none}
+  #services .svc-wait .svc-body>*{opacity:1}
+  #services .svc-open .svc-body>*,#services .svc-open .svc-fig figcaption{animation:none}
+  #services .svc-tab,#services .svc-tab::before,#services .svc-tab::after,#services .svc-tab .sc,#services .svc-bar{transition:none}
+}

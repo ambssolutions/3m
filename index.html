@@ -216,8 +216,8 @@ footer{border-top:1px solid var(--line);padding:24px 0 120px;color:var(--muted);
 
 <main class="wrap">
   <section class="intro" aria-labelledby="h1">
-    <span class="eyebrow">Design review · 10 homepage concepts</span>
-    <h1 id="h1">Ten directions for <em>3M Construction</em></h1>
+    <span class="eyebrow">Design review · 10 concepts and the merged design</span>
+    <h1 id="h1">Eleven directions for <em>3M Construction</em></h1>
     <p>Each concept is a complete working homepage built from the same copy and the same content rules, with its own look, type, motion and flow. Open them full screen, try them at laptop, tablet and phone sizes, shortlist the ones you like and send us your pick. Business facts, photos and reviews are placeholders until the client supplies them.</p>
     <ol class="steps">
       <li><b>Explore</b><span>Click any preview to open the concept. Scroll it to see the motion, and try the tabs, sliders and forms.</span></li>
@@ -228,7 +228,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 120px;color:var(--muted);
 
   <div class="bar">
     <div class="seg" role="group" aria-label="Filter concepts">
-      <button type="button" aria-pressed="true" data-filter="all">All 10</button>
+      <button type="button" aria-pressed="true" data-filter="all">All 11</button>
       <button type="button" aria-pressed="false" data-filter="rec">★ Recommended</button>
       <button type="button" aria-pressed="false" data-filter="short">Shortlisted <span class="count" id="countSeg">0</span></button>
     </div>
@@ -340,7 +340,8 @@ const CONCEPTS = [
   {id:"07",motion:"Interactive",slug:"07-control-room",name:"Control Room",insp:"Dashboard · Status board",desc:"Your build as a status board: a terminal types the build log line by line and lights each stage of the pipeline as it goes, services sit in an expanding table, and finished jobs in a log.",tags:["Dashboard","Tables","Mono"],sw:["#0D1117","#161B22","#3FB950"]},
   {id:"08",motion:"Animated",slug:"08-timber",name:"Timber",insp:"Natural · Warm and rounded",desc:"A family builder of solid homes. A timber frame builds itself piece by piece behind the headline, stud by stud and rafter by rafter, then a warm light passes over it. Oak and bark tones, rounded shapes, a swipeable project reel.",tags:["Warm","Rounded","Reel"],sw:["#F8F5EF","#C8A165","#3B2F2A"]},
   {id:"09",motion:"Animated",slug:"09-skyline",name:"Skyline",insp:"Cinematic · Chaptered",desc:"Cinematic chapters with condensed uppercase type. City silhouettes drift with your cursor and the scroll, a crane draws in and lifts the headline into place, and photos crossfade behind.",tags:["Cinematic","Full-bleed","Chapters"],sw:["#07090C","#FFFFFF","#35C4E8"]},
-  {id:"10",motion:"Interactive",rec:"Built around the enquiry: the fastest route from a visitor to a booked site visit.",slug:"10-quote-builder",name:"Quote Builder",insp:"Conversion · Estimate stepper",desc:"The hero is a three-step enquiry, and a little house builds itself beside it as you go: slab, walls, roof and a lit window. Compact services, a five-step line that fills, answers in two columns. No prices implied.",tags:["Conversion","Stepper","Friendly"],sw:["#FFFFFF","#2A5BFF","#C6F135"]}
+  {id:"10",motion:"Interactive",rec:"Built around the enquiry: the fastest route from a visitor to a booked site visit.",slug:"10-quote-builder",name:"Quote Builder",insp:"Conversion · Estimate stepper",desc:"The hero is a three-step enquiry, and a little house builds itself beside it as you go: slab, walls, roof and a lit window. Compact services, a five-step line that fills, answers in two columns. No prices implied.",tags:["Conversion","Stepper","Friendly"],sw:["#FFFFFF","#2A5BFF","#C6F135"]},
+  {id:"11",motion:"Highly animated",rec:"Your pick, Site Diary, as the base, with the strongest design language and motion from the other nine and Australian market conventions throughout.",slug:"11-the-build",name:"The Build",insp:"Merged · Site Diary plus the best of the rest",desc:"Site Diary's paper, serif type and page-turning diary hero, with a marquee band, embossed service tabs and slat reveals, an exploded blueprint house that pays in Australian contract stages, a timber frame that builds as you read the diary, plan-to-built sliders, a skyline footer and a three-step enquiry with a house that assembles.",tags:["Merged","Editorial","Australian"],sw:["#F4EFE6","#221F1A","#B5471F"]}
 ];
 const url = c => "designs/" + c.slug + "/";
 const byId = id => CONCEPTS.find(c => c.id === id);

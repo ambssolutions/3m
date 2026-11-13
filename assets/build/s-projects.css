@@ -1,0 +1,93 @@
+/* s-projects: owned by the projects section builder */
+/* From the archive: Before and After comparison plates on Site Diary paper.
+   The plan side is the same photo drawn as a pencil sketch: a light graphite tone, then an edge pass
+   (the photo differenced with itself shifted 1px, then inverted) multiplied onto paper, toned toward
+   ink, over a faint grid. Every copy shares one src/srcset/sizes, so each photo downloads once. */
+@property --pj-x{syntax:'<percentage>';inherits:true;initial-value:50%}
+
+/* filter tabs (shown by JS only), set between two hairlines like the cover's issue line */
+#projects .pj-filter{display:flex;align-items:center;justify-content:center;gap:0 clamp(14px,2.4vw,30px);margin:calc(-1 * clamp(12px,2vw,26px)) auto clamp(30px,3.6vw,48px)}
+#projects .pj-filter::before,#projects .pj-filter::after{content:"";flex:1;max-width:150px;border-top:1px solid var(--rule-2)}
+#projects .pj-tab{position:relative;min-height:44px;padding:0 4px;font:500 15.5px/1 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.09em;color:var(--ink-2);transition:color .5s}
+#projects .pj-tab::after{content:"";position:absolute;left:4px;right:4px;bottom:9px;height:2px;background:var(--rust);transform:scaleX(0);transform-origin:left center;transition:transform .9s var(--ease)}
+#projects .pj-tab:hover{color:var(--ink)}
+#projects .pj-tab[aria-pressed=true]{color:var(--ink)}
+#projects .pj-tab[aria-pressed=true]::after{transform:none}
+#projects .pj-tab i{font-style:normal;margin-left:6px;color:var(--ink-3);font-variant-numeric:oldstyle-nums}
+#projects .pj-tab[aria-pressed=true] i{color:var(--rust)}
+@media (max-width:480px){#projects .pj-filter::before,#projects .pj-filter::after{display:none}}
+
+/* the plates */
+#projects .pj-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(36px,4vw,56px) clamp(20px,2.6vw,36px);align-items:start;margin:0 auto;transition:opacity .45s ease,transform .45s ease}
+#projects .pj-grid.pj-out{opacity:0;transform:translateY(8px)}
+#projects .pj-grid[data-n="2"],#projects .pj-grid[data-n="4"]{grid-template-columns:repeat(2,minmax(0,1fr));max-width:880px}
+/* a photo-essay stagger: the middle column sits lower */
+@media (min-width:901px){html:not(.js) #projects .pj-card:nth-child(3n+2),#projects .pj-grid:not([data-n="2"]):not([data-n="4"]) .pj-card.pj-mid{margin-top:52px}}
+#projects .pj-card{margin:0;min-width:0}
+#projects .pj-mount{padding:6px;background:var(--field);border:1px solid var(--rule-2)}
+#projects .pj-cmp{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--paper-2);isolation:isolate;--pj-x:50%}
+#projects .pj-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+
+/* plan side: pencil on paper */
+#projects .pj-plan{position:absolute;inset:0;z-index:1;overflow:hidden;background:var(--field);clip-path:inset(0 calc(100% - var(--pj-x)) 0 0)}
+#projects .pj-tone{filter:grayscale(1) contrast(1.6) brightness(1.35) sepia(.4);opacity:.22;mix-blend-mode:multiply}
+#projects .pj-sk{position:absolute;inset:-2px;filter:brightness(2.6) invert(1) grayscale(1) contrast(1.35) sepia(.45) brightness(.97);mix-blend-mode:multiply}
+#projects .pj-sk img{inset:0}
+#projects .pj-sk .pj-edge{mix-blend-mode:difference;transform:translate(1px,1px)}
+#projects .pj-plan::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;background-image:linear-gradient(rgba(126,119,107,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(126,119,107,.16) 1px,transparent 1px);background-size:24px 24px;background-position:-1px -1px}
+/* the drawing's edge: a pencil line where the sketch meets the photo */
+#projects .pj-ui{position:absolute;inset:0;z-index:2;pointer-events:none}
+#projects .pj-handle{position:absolute;inset:0;transform:translateX(var(--pj-x))}
+#projects .pj-handle::before{content:"";position:absolute;top:0;bottom:0;left:-1px;width:2px;background:var(--rust)}
+#projects .pj-knob{position:absolute;top:50%;left:0;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:var(--rust);color:var(--paper);display:grid;place-items:center;transition:transform .6s var(--ease),background .5s}
+#projects .pj-knob svg{width:18px;height:18px}
+#projects .pj-lbl{position:absolute;top:10px;padding:4px 9px 6px;border-radius:2px;font:500 13px/1 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.1em}
+#projects .pj-lbl.l{left:10px;background:var(--field);color:var(--ink);box-shadow:inset 0 0 0 1px var(--rule-2)}
+#projects .pj-lbl.r{right:10px;background:var(--ink);color:var(--paper)}
+
+/* the range input drives the split; it only appears when JS can listen to it */
+#projects .pj-cmp input{display:none}
+.js #projects .pj-cmp input{display:block;position:absolute;inset:0;z-index:3;width:100%;height:100%;margin:0;padding:0;opacity:0;cursor:ew-resize;-webkit-appearance:none;appearance:none;background:none;touch-action:pan-y}
+#projects .pj-cmp input::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:100%}
+#projects .pj-cmp input::-moz-range-thumb{width:44px;height:100%;border:0}
+#projects .pj-mount:focus-within{outline:2px solid var(--rust);outline-offset:3px}
+#projects .pj-mount:has(input:focus:not(:focus-visible)){outline:none}
+@media (hover:hover) and (pointer:fine){#projects .pj-cmp:hover .pj-knob{background:var(--rust-2)}}
+#projects .pj-cmp.pj-drag .pj-knob{transform:scale(.92)}
+
+/* captions */
+#projects .pj-card figcaption{margin-top:14px;display:grid;gap:4px;text-align:left}
+#projects .pj-card h3{font-size:clamp(1.2rem,1.45vw,1.42rem)}
+#projects .pj-card figcaption p{color:var(--ink-2);font-size:15.5px;max-width:46ch}
+#projects .pj-note{text-align:center;margin:clamp(40px,4.6vw,60px) auto 0;max-width:640px;padding-top:18px;border-top:1px solid var(--rule)}
+
+/* the first plate's handle sweeps once on entry: left, right, then back to the middle */
+#projects .pj-cmp.pj-sweep{animation:pj-sweep 3.4s both}
+@keyframes pj-sweep{
+  0%{--pj-x:50%;animation-timing-function:cubic-bezier(.45,0,.25,1)}
+  24%{--pj-x:10%;animation-timing-function:cubic-bezier(.45,0,.25,1)}
+  66%{--pj-x:90%;animation-timing-function:cubic-bezier(.45,0,.25,1)}
+  100%{--pj-x:50%}
+}
+/* filtering: plates fade back in one after another */
+#projects .pj-card.pj-enter>*{animation:pj-in 1.1s var(--ease) both;animation-delay:calc(var(--i,0) * 90ms)}
+@keyframes pj-in{from{opacity:0;transform:translateY(14px)}}
+
+@media (max-width:900px){
+  #projects .pj-grid,#projects .pj-grid[data-n]{grid-template-columns:repeat(2,minmax(0,1fr));max-width:none}
+}
+@media (max-width:600px){
+  #projects .pj-grid,#projects .pj-grid[data-n]{grid-template-columns:minmax(0,1fr);gap:40px}
+  #projects .pj-mount{padding:5px}
+  #projects .pj-knob{width:40px;height:40px;margin:-20px 0 0 -20px}
+}
+
+/* low-power phones: a single-layer sketch (no edge pass) */
+.lite #projects .pj-sk{display:none}
+.lite #projects .pj-tone{opacity:.75}
+.lite #projects .pj-grid,.lite #projects .pj-knob{transition:none}
+
+@media (prefers-reduced-motion:reduce){
+  #projects .pj-cmp.pj-sweep,#projects .pj-card.pj-enter>*{animation:none}
+  #projects .pj-grid,#projects .pj-tab,#projects .pj-tab::after,#projects .pj-knob{transition:none}
+}

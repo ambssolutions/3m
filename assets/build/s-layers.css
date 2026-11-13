@@ -1,0 +1,162 @@
+/* s-layers: owned by the layers section builder.
+   "Built in layers, paid in stages": the language of 02 Blueprint (grid paper, sheet border, title block,
+   mono labels, a CSS 3D exploded isometric house) drawn in Site Diary's ink on paper. Five layers, one per
+   contract stage. Only transform and opacity move, and opacity only on leaf faces, never on a preserve-3d group.
+   State lives in custom properties: --x 1 = layers apart, --on 1 = the layer for the stage in focus. */
+
+#layers{--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--blue:#2B4C7E;--x:1}
+.js #layers{--x:0}
+
+/* ---------- the sheet: grid paper, hairline border, a title block ---------- */
+#layers .layers-sheet{position:relative;border:1px solid var(--ink-3);padding:clamp(18px,2.6vw,36px);background-color:var(--field);background-image:linear-gradient(rgba(34,31,26,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(34,31,26,.075) 1px,transparent 1px),linear-gradient(rgba(34,31,26,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(34,31,26,.035) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px;background-position:-1px -1px}
+#layers .layers-sheet::before{content:"";position:absolute;inset:7px;border:1px solid var(--rule-2);pointer-events:none}
+#layers .layers-grid{position:relative;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);grid-template-rows:minmax(0,1fr) auto;gap:22px clamp(24px,3.4vw,52px);align-items:start}
+
+/* the stage schedule: real content, left-aligned, works without JS */
+#layers .layers-list{grid-column:2;list-style:none;margin:0;padding:0;counter-reset:ly;border:1px solid var(--ink-3);background:var(--field);text-align:left}
+#layers .layers-list li{counter-increment:ly;position:relative;display:grid;grid-template-columns:54px minmax(0,1fr);gap:3px 18px;padding:15px 20px 16px 0;border-top:1px solid var(--rule);outline-offset:-3px;transition:background-color .6s var(--ease)}
+#layers .layers-list li:first-child{border-top:0}
+#layers .layers-list li::before{content:counter(ly,decimal-leading-zero);grid-row:1/3;align-self:stretch;display:flex;justify-content:center;padding-top:5px;border-right:1px solid var(--rule);font:500 13px/1.4 var(--mono);letter-spacing:.04em;color:var(--ink-3);transition:color .6s,border-color .6s}
+#layers .layers-list li::after{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:3px;background:var(--rust);transform:scaleY(0);transform-origin:50% 0;transition:transform .8s var(--ease)}
+#layers .layers-list b{grid-column:2;font:600 clamp(1.15rem,1.35vw,1.32rem)/1.25 var(--display);letter-spacing:-.01em;color:var(--ink);transition:color .6s}
+#layers .layers-list span{grid-column:2;color:var(--ink-2);font-size:15.5px;line-height:1.55}
+#layers .layers-list li:focus-visible{background:var(--paper)}
+#layers .layers-list li:focus-visible::before{color:var(--rust);border-color:var(--rust)}
+#layers .layers-list li:focus-visible::after{transform:none}
+@media (hover:hover){
+  #layers .layers-list li{cursor:default}
+  #layers .layers-list li:hover{background:var(--paper)}
+  #layers .layers-list li:hover::before{color:var(--rust);border-color:var(--rust)}
+  #layers .layers-list li:hover::after{transform:none}
+}
+
+#layers .layers-tb{grid-column:2;justify-self:end;align-self:end;margin:0;display:grid;grid-template-columns:repeat(4,auto);border:1px solid var(--ink-3);background:var(--field)}
+#layers .layers-tb>div{padding:7px 12px 8px;border-left:1px solid var(--ink-3)}
+#layers .layers-tb>div:first-child{border-left:0}
+#layers .layers-tb dt{font:500 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+#layers .layers-tb dd{margin:3px 0 0;font:500 13px/1.3 var(--mono);color:var(--ink);white-space:nowrap}
+#layers .layers-note{max-width:640px;margin:22px auto 0;text-align:center}
+
+/* ---------- the model: an exploded isometric house ----------
+   --s scales the model, line weights and labels divide by it so they stay crisp; --k scales the explode. */
+#layers .layers-model{grid-column:1;grid-row:1/3;align-self:stretch;position:relative;min-height:clamp(440px,40vw,540px);--s:.8;--g:.5;--k:1;--cx:-96px;--cy:-8px;--sx:-63px;--sy:45px;--lw:calc(1.1px/var(--s))}
+/* apart, the model sits left of centre to leave room for its labels (--cx, --cy); settled, the house is centred (--sx, --sy) */
+#layers .lm{position:absolute;left:calc(50% + var(--sx));top:calc(50% + var(--sy));width:0;height:0;transform-style:preserve-3d;transform:translate3d(calc((var(--cx) - var(--sx))*var(--x)),calc((var(--cy) - var(--sy))*var(--x)),0) scale3d(calc(var(--s)*(1 + var(--g,0)*(1 - var(--x)))),calc(var(--s)*(1 + var(--g,0)*(1 - var(--x)))),calc(var(--s)*(1 + var(--g,0)*(1 - var(--x))))) rotateX(-30deg);transition:transform var(--dur) var(--ease)}
+#layers .lm-turn{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;transform:rotateY(-40deg)}
+#layers .ly{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;--dl:calc((4 - var(--i))*90ms);transform:translateY(calc(var(--ex)*var(--k)*var(--x)*1px - var(--on,0)*24px));transition:transform var(--dur) var(--ease) var(--dl)}
+
+#layers .f{position:absolute;left:0;top:0;display:block;margin:0;box-sizing:border-box;transform-origin:0 0;background-color:var(--field);border:var(--lw) solid var(--c,var(--ink));backface-visibility:hidden;-webkit-backface-visibility:hidden;opacity:calc(var(--dim,1)*(1 - var(--inner,0)*(1 - var(--x))));transition:opacity .9s var(--ease),border-color .6s}
+/* frame and fixing sit inside the finished house: once it settles their faces fade out (no hidden-line noise through the roof) */
+#layers .ly2,#layers .ly4{--inner:1}
+#layers .f.two{backface-visibility:visible;-webkit-backface-visibility:visible}
+#layers .f.sv{border:0;background:none;overflow:visible}
+#layers .sv *{fill:none;stroke:var(--c,var(--ink));stroke-width:var(--lw);stroke-linecap:round;stroke-linejoin:round;transition:stroke .6s,fill .6s}
+
+/* 01 base: set-out strings, pegs and dimension lines (blueprint blue), then the slab */
+#layers .setout .str{stroke:var(--c,var(--ink-3));stroke-dasharray:7 4}
+#layers .setout .peg{fill:var(--field)}
+#layers .setout .dim{stroke:var(--blue)}
+#layers .setout .dimt{fill:var(--blue);stroke:none;font:500 calc(9.5px/var(--s)) var(--mono);letter-spacing:.14em}
+#layers .slabtop{background-color:#EFE9DC}
+#layers .slabtop i{position:absolute;inset:7px;border:var(--lw) dashed var(--c,var(--ink-3))}
+#layers .slab{background-color:var(--paper-2);background-image:repeating-linear-gradient(135deg,rgba(34,31,26,.4) 0 var(--lw),transparent 0 5px)}
+#layers .slab.side{background-color:#E4DCCB}
+
+/* 02 frame: stud walls and trusses as line work */
+#layers .fr *{stroke:var(--c,var(--ink-2))}
+#layers .ridge{height:var(--lw);border:0;background:var(--c,var(--ink-2))}
+
+/* 03 lock-up: weatherboard cladding, windows and a door, roof sheets */
+#layers .clad{background-image:repeating-linear-gradient(to bottom,transparent 0 7px,rgba(34,31,26,.17) 7px 8px)}
+#layers .clad.side{background-color:var(--paper-2)}
+#layers .w,#layers .dr{position:absolute;box-sizing:border-box;border:var(--lw) solid var(--c,var(--ink))}
+#layers .w{background:#E3DBCA linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))) 50% 0/var(--lw) 100% no-repeat}
+#layers .dr{border-bottom:0;background:var(--paper-2) linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))) 78% 52%/3px 3px no-repeat}
+#layers .gable polygon{fill:var(--paper-2)}
+#layers .roof.back{background-image:none}
+#layers .roof{background-color:#EEE7D9;background-image:repeating-linear-gradient(90deg,rgba(34,31,26,.2) 0 var(--lw),transparent 0 10px)}
+
+/* 04 fixing: linings with sheet joints, a kitchen bench */
+#layers .lin .sh{fill:var(--field)}
+#layers .lin .op{fill:var(--paper-2)}
+#layers .lin .jt{stroke:var(--c,var(--ink-3));stroke-dasharray:3 3}
+#layers .bench{background-color:#E8E0D0;background-image:linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))),linear-gradient(var(--c,var(--ink)),var(--c,var(--ink)));background-size:var(--lw) 100%;background-position:33.3% 0,66.6% 0;background-repeat:no-repeat}
+#layers .bench.top{background:#F2ECE0}
+#layers .bench.side{background:#DDD4C2}
+
+/* 05 practical completion: a lit window and the key tag */
+#layers .lit{background:#E7AE8A linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))) 50% 0/var(--lw) 100% no-repeat}
+#layers .tag .ring,#layers .tag .cord{stroke:var(--ink)}
+#layers .tag .tg{fill:var(--rust);stroke:var(--rust-2)}
+#layers .tag .hole{fill:var(--field);stroke:var(--rust-2)}
+#layers .tag .key{stroke:var(--paper)}
+
+/* mono labels, counter-rotated to face the reader, with a leader to their layer */
+#layers .lab{position:absolute;left:0;top:0;transform-origin:0 0;white-space:nowrap;font:500 calc(11px/var(--s))/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--c,var(--ink));transform:translate3d(150px,var(--ly),-100px) rotateY(40deg) rotateX(30deg) translateY(-50%)}
+#layers .lab b{position:relative;display:inline-block;font-weight:500;margin-left:calc(30px/var(--s));padding:calc(6px/var(--s)) calc(9px/var(--s));border:var(--lw) solid var(--c,var(--ink));background:var(--c2,var(--field));transform-origin:0 50%;opacity:calc(var(--x)*(.55 + var(--dim,1)*.45));transform:scaleX(calc(.4 + var(--x)*.6));transition:opacity .5s var(--ease),transform .9s var(--ease),color .6s,background-color .6s,border-color .6s;transition-delay:var(--ld,0s)}
+#layers .lab b::before{content:"";position:absolute;right:100%;top:50%;width:calc(30px/var(--s));height:var(--lw);margin-top:calc(var(--lw)*-.5);background:currentColor}
+#layers .lab b::after{content:"";position:absolute;right:calc(100% + 27px/var(--s));top:50%;width:calc(6px/var(--s));height:calc(6px/var(--s));margin-top:calc(-3px/var(--s));border-radius:50%;background:currentColor}
+
+/* ---------- states ---------- */
+/* entering the section: JS adds .apart, the layers float apart one by one and the labels pop in, then settle */
+.js #layers .layers-model.apart{--x:1}
+.js #layers .layers-model.apart .ly{--dl:calc(var(--i)*110ms)}
+.js #layers .layers-model.apart .lab b{--ld:calc(.6s + var(--i)*.22s);transition-duration:.7s,.9s,.6s,.6s,.6s}
+/* a stage in focus: the model opens, that layer lifts and turns rust, the others fade back */
+#layers .layers-grid:has(.layers-list li:focus-visible){--x:1;--dim:.3}
+#layers .layers-grid:has(.layers-list li:focus-visible) .ly{--dl:0s}
+#layers .layers-grid:has(.layers-list li:focus-visible) .lab b{--ld:0s}
+#layers .layers-grid:has(.layers-list li:nth-child(1):focus-visible) .ly1,
+#layers .layers-grid:has(.layers-list li:nth-child(2):focus-visible) .ly2,
+#layers .layers-grid:has(.layers-list li:nth-child(3):focus-visible) .ly3,
+#layers .layers-grid:has(.layers-list li:nth-child(4):focus-visible) .ly4,
+#layers .layers-grid:has(.layers-list li:nth-child(5):focus-visible) .ly5{--on:1;--dim:1;--c:var(--rust);--c2:var(--paper)}
+@media (hover:hover){
+  #layers .layers-grid:has(.layers-list li:hover){--x:1;--dim:.3}
+  #layers .layers-grid:has(.layers-list li:hover) .ly{--dl:0s}
+  #layers .layers-grid:has(.layers-list li:hover) .lab b{--ld:0s}
+  #layers .layers-grid:has(.layers-list li:nth-child(1):hover) .ly1,
+  #layers .layers-grid:has(.layers-list li:nth-child(2):hover) .ly2,
+  #layers .layers-grid:has(.layers-list li:nth-child(3):hover) .ly3,
+  #layers .layers-grid:has(.layers-list li:nth-child(4):hover) .ly4,
+  #layers .layers-grid:has(.layers-list li:nth-child(5):hover) .ly5{--on:1;--dim:1;--c:var(--rust);--c2:var(--paper)}
+}
+
+/* scroll-driven: the model turns 20 degrees as the section passes (native, no JS) */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    #layers{view-timeline:--ly-sheet block}
+    #layers .lm-turn{animation:ly-turn linear both;animation-timeline:--ly-sheet;animation-range:cover 10% cover 90%}
+    .lite #layers .lm-turn{animation:none}
+  }
+}
+@keyframes ly-turn{from{transform:rotateY(-50deg)}to{transform:rotateY(-30deg)}}
+
+/* ---------- smaller screens ---------- */
+@media (max-width:1100px){#layers .layers-model{--s:.56;--g:.6;--cx:-34px;--sx:-67px;--sy:48px}}
+@media (max-width:900px){
+  #layers .layers-grid{grid-template-columns:1fr;grid-template-rows:auto;gap:22px}
+  #layers .layers-model{grid-column:1;grid-row:auto;min-height:0;height:clamp(330px,70vw,460px);--s:.6;--g:.35;--k:.82;--cx:-99px;--cy:-16px;--sx:-58px;--sy:30px}
+  #layers .layers-list,#layers .layers-tb{grid-column:1}
+  #layers .layers-tb{justify-self:stretch}
+}
+@media (max-width:600px){
+  #layers .layers-sheet{padding:14px}
+  #layers .layers-sheet::before{inset:5px}
+  #layers .layers-model{height:clamp(290px,80vw,330px);--s:.45;--g:.45;--k:.92;--cx:-50px;--cy:-6px;--sx:-23px;--sy:23px}
+  #layers .lab{font-size:calc(9.5px/var(--s));line-height:1.25}
+  #layers .lab b{margin-left:calc(14px/var(--s));padding:calc(4px/var(--s)) calc(6px/var(--s));white-space:normal;width:max-content;max-width:calc(112px/var(--s))}
+  #layers .lab b::before{width:calc(14px/var(--s))}
+  #layers .lab b::after{right:calc(100% + 11px/var(--s))}
+  #layers .layers-list li{grid-template-columns:44px minmax(0,1fr);gap:3px 14px;padding:14px 14px 15px 0}
+  #layers .layers-list span{font-size:15px}
+  #layers .layers-tb{grid-template-columns:1fr 1fr}
+  #layers .layers-tb>div:nth-child(3){border-left:0}
+  #layers .layers-tb>div:nth-child(n+3){border-top:1px solid var(--ink-3)}
+}
+
+/* low-power phones and reduced motion: no travel, the finished house (a stage in focus still opens, instantly) */
+.lite #layers .lm,.lite #layers .ly,.lite #layers .f,.lite #layers .lab b,.lite #layers .sv *{transition:none}
+@media (prefers-reduced-motion:reduce){
+  #layers .lm,#layers .ly,#layers .f,#layers .lab b,#layers .sv *,#layers .layers-list li,#layers .layers-list li::before,#layers .layers-list li::after{transition:none}
+}

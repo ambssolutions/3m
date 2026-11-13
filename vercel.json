@@ -56,6 +56,11 @@
       "source": "/quote-builder",
       "destination": "/designs/10-quote-builder/",
       "permanent": false
+    },
+    {
+      "source": "/the-build",
+      "destination": "/designs/11-the-build/",
+      "permanent": false
     }
   ],
   "headers": [

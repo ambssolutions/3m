@@ -1,0 +1,91 @@
+/* s-process: owned by the process section builder.
+   "Thirty weeks on site": the diary entries plus a timber wall frame with a gable,
+   drawn in ink and rust on paper. On laptops the drawing sheet is sticky beside the
+   entries and draws one part per entry; on phones and tablets it sits above the entries
+   and draws once. Without JS (or with reduced motion) the frame shows finished. */
+
+#process .pf{max-width:540px;margin:0 auto clamp(36px,5vw,56px)}
+#process .pf-sheet{position:relative;background:var(--field);border:1px solid var(--rule-2);padding:14px clamp(14px,1.6vw,20px) 16px}
+#process .pf-sheet::before{content:"";position:absolute;inset:5px;border:1px solid var(--rule);pointer-events:none}
+#process .pf-top,#process .pf-foot{position:relative;display:flex;justify-content:space-between;align-items:center;gap:14px}
+#process .pf-top{padding:2px 4px 8px;border-bottom:1px solid var(--rule)}
+#process .pf-top .sc{color:var(--ink-3)}
+#process .pf-svg{display:block;width:100%;height:auto;margin:10px 0 4px;color:var(--ink);overflow:visible}
+#process .pf-foot{padding:10px 4px 0;border-top:1px solid var(--rule)}
+
+/* the drawing */
+#process .pf .so{color:var(--rust)}
+#process .pf .cl{color:var(--ink-3)}
+#process .pf-gd{fill:none;stroke:var(--rule-2);stroke-width:1.5}
+#process .pf-lit{fill:var(--rust);opacity:.14}
+#process .pf-glint{color:var(--rust)}
+#process .pf-beam{transform:translateX(0)}
+
+/* stage name: the five labels share one cell; the finished one shows by default */
+#process .pf-st{display:grid;min-width:0}
+#process .pf-st .sc{grid-area:1/1;color:var(--rust);opacity:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#process .pf-st .sc:last-child{opacity:1}
+
+/* a drawing scale bar of five cells that fills in rust, stage by stage */
+#process .pf-bar{flex:none;display:flex;border:1px solid var(--ink-2)}
+#process .pf-bar i{position:relative;width:clamp(12px,1.3vw,16px);height:6px;overflow:hidden}
+#process .pf-bar i+i{border-left:1px solid var(--ink-2)}
+#process .pf-bar i::after{content:"";position:absolute;inset:0;background:var(--rust);transform-origin:left;transform:scaleX(1)}
+
+/* each entry's dot fills in rust once the reader reaches it */
+#process .entry::before{transition:background-color .9s var(--ease),border-color .9s var(--ease)}
+#process .entry.pf-on::before{background:var(--rust);border-color:var(--rust)}
+
+/* ---------- armed by s-process.js: parts wait to be drawn ---------- */
+#process .pf.armed .s{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s cubic-bezier(.4,0,.6,1)}
+#process .pf.armed.g1 .k1 .s,#process .pf.armed.g2 .k2 .s,#process .pf.armed.g3 .k3 .s,#process .pf.armed.g4 .k4 .s{stroke-dashoffset:0;transition:stroke-dashoffset var(--t,.7s) var(--ease) calc(var(--d,0s) + var(--i,0) * 45ms)}
+#process .pf.armed .pf-lit{opacity:0;transition:opacity .6s}
+#process .pf.armed.g5 .pf-lit{opacity:.14;transition:opacity 1.4s var(--ease) 1.2s}
+#process .pf.armed.g5 .pf-beam{animation:pf-sweep 2s cubic-bezier(.45,0,.3,1) .25s both}
+@keyframes pf-sweep{to{transform:translateX(1500px)}}
+
+#process .pf.armed .pf-st .sc{transition:opacity .35s ease-out}
+#process .pf.armed .pf-st .sc:last-child{opacity:0}
+#process .pf.armed:not(.g1) .pf-st .sc:first-child{opacity:1;color:var(--ink-3)}
+#process .pf.armed.g1:not(.g2) .pf-st .sc:nth-child(1),
+#process .pf.armed.g2:not(.g3) .pf-st .sc:nth-child(2),
+#process .pf.armed.g3:not(.g4) .pf-st .sc:nth-child(3),
+#process .pf.armed.g4:not(.g5) .pf-st .sc:nth-child(4),
+#process .pf.armed.g5 .pf-st .sc:nth-child(5){opacity:1;transition:opacity .8s var(--ease) .35s}
+
+#process .pf.armed .pf-bar i::after{transform:scaleX(0);transition:transform .9s var(--ease)}
+#process .pf.armed.g1 .pf-bar i:nth-child(1)::after,
+#process .pf.armed.g2 .pf-bar i:nth-child(2)::after,
+#process .pf.armed.g3 .pf-bar i:nth-child(3)::after,
+#process .pf.armed.g4 .pf-bar i:nth-child(4)::after,
+#process .pf.armed.g5 .pf-bar i:nth-child(5)::after{transform:scaleX(1)}
+
+/* lighter variant: no light sweep */
+.lite #process .pf .pf-beam{animation:none}
+
+/* ---------- laptops: the sheet is sticky beside the entries ---------- */
+@media (min-width:1100px){
+  #process .proc-grid{display:grid;grid-template-columns:minmax(0,1fr) clamp(340px,31vw,420px);gap:0 clamp(44px,4.6vw,72px);max-width:1140px;margin:0 auto}
+  #process .proc-grid>.diary{grid-column:1;grid-row:1;max-width:none;margin:0;--dw:124px;--gap:48px}
+  #process .date b{white-space:nowrap}
+  #process .pf{grid-column:2;grid-row:1;max-width:none;margin:0;padding:clamp(30px,3.5vw,44px) 0}
+  #process .pf-sheet{position:sticky;top:max(calc(var(--top) + 20px),calc(50vh + var(--top)/2 - 195px))}
+}
+@media (min-width:1100px) and (max-height:760px){
+  #process .pf-sheet{padding-bottom:12px}
+  #process .pf-svg{margin:4px 0 0}
+}
+
+/* phones */
+@media (max-width:600px){
+  #process .pf{margin-bottom:28px}
+  #process .pf-sheet{padding:10px 12px 12px}
+  #process .pf-top .sc:last-child{display:none}
+  #process .pf-top{justify-content:center}
+}
+
+@media (prefers-reduced-motion:reduce){
+  #process .entry::before{transition:none}
+  #process .pf .s,#process .pf .pf-lit,#process .pf .pf-st .sc,#process .pf .pf-bar i::after{transition:none}
+  #process .pf .pf-beam{animation:none}
+}

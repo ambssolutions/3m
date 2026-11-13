@@ -1,0 +1,137 @@
+/* s-people: owned by the people section builder. People (05 Glasshouse), questions (07 Control Room) and the footer (09 Skyline), in Site Diary's paper, ink and rust */
+
+/* ---------- people: large framed photos in an offset grid ---------- */
+#people .pp-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(20px,2.6vw,36px);row-gap:0;max-width:1120px;margin:0 auto;align-items:start}
+#people .pp-fig{margin:0;min-width:0}
+#people .pp-1{grid-column:1/6;grid-row:1/3;position:sticky;top:calc(var(--top) + 28px)}
+#people .pp-1 .ph{width:min(100%,calc((100svh - var(--top) - 128px) * .8))}
+#people .pp-copy{grid-column:7/13;grid-row:1;padding:4px 0 clamp(44px,5vw,72px);text-align:left}
+#people .pp-2{grid-column:7/10;grid-row:2}
+#people .pp-3{grid-column:10/13;grid-row:2;margin-top:clamp(40px,6vw,88px)}
+#people .ph{position:relative;isolation:isolate;background:var(--field);border:1px solid var(--rule-2);padding:clamp(5px,.55vw,8px)}
+#people .ph img{width:100%;aspect-ratio:4/5;object-fit:cover}
+#people .pp-fig figcaption{display:flex;justify-content:center;align-items:baseline;gap:10px;margin-top:12px}
+#people .pp-fig figcaption span{color:var(--rust)}
+#people .pp-lead{font:600 clamp(19px,1.55vw,22px)/1.45 var(--display);color:var(--ink);letter-spacing:-.005em;text-wrap:pretty}
+#people .pp-ticks{grid-template-columns:1fr 1fr;gap:24px 32px;margin-top:28px;padding-top:28px;border-top:1px solid var(--rule);color:var(--ink-2);font-size:15.5px;line-height:1.55}
+#people .pp-ticks b{display:block;font:600 19px/1.25 var(--display);color:var(--ink);margin-bottom:5px}
+#people .pp-ticks li::before{top:8px}
+#people .pp-note{text-align:center;margin-top:clamp(36px,4vw,52px);color:var(--ink-3)}
+#people #team{max-width:1120px;margin:clamp(40px,5vw,64px) auto 0}
+#people #team img{background:var(--field);padding:6px}
+@media (max-width:1100px){#people .pp-ticks{grid-template-columns:1fr;gap:18px}}
+@media (max-width:760px){
+  #people .pp-grid{grid-template-columns:1fr 1fr;column-gap:14px;row-gap:0}
+  #people .pp-copy{grid-column:1/-1;grid-row:1;padding:0 0 36px}
+  #people .pp-1{grid-column:1/-1;grid-row:2;position:static;margin-bottom:28px}
+  #people .pp-1 .ph{width:100%}
+  #people .pp-2{grid-column:1;grid-row:3}
+  #people .pp-3{grid-column:2;grid-row:3;margin-top:44px}
+  #people .pp-ticks{grid-template-columns:1fr}
+  #people .pp-fig figcaption{gap:6px;flex-wrap:wrap}
+}
+/* photos open with a clip-path wipe as they enter (class added by s-people.js, so they show without it) */
+#people .pp-2{--wd:.18s}#people .pp-3{--wd:.36s}
+#people.pp-on .pp-fig .ph img{clip-path:inset(0 100% 0 0);transition:clip-path var(--dur) var(--ease) var(--wd,0s)}
+#people.pp-on .pp-fig.in .ph img{clip-path:inset(0)}
+#people.pp-on .pp-fig figcaption{opacity:0;transition:opacity 1s var(--ease) calc(var(--wd,0s) + .7s)}
+#people.pp-on .pp-fig.in figcaption{opacity:1}
+.lite #people.pp-on .pp-fig .ph img{clip-path:none;opacity:0;transition:opacity 1s var(--ease)}
+.lite #people.pp-on .pp-fig.in .ph img{opacity:1}
+/* hover lifts the photo 4px with a soft shadow that fades in */
+#people .ph::before{content:"";position:absolute;inset:0;z-index:-1;box-shadow:0 26px 44px -28px rgba(34,31,26,.5);opacity:0;pointer-events:none;transition:opacity var(--dur) var(--ease)}
+@media (hover:hover) and (pointer:fine){
+  #people .pp-fig .ph{transition:transform var(--dur) var(--ease)}
+  #people .pp-fig:hover .ph{transform:translateY(-4px)}
+  #people .pp-fig:hover .ph::before{opacity:1}
+}
+@media (prefers-reduced-motion:reduce){
+  #people .pp-fig .ph,#people .ph::before,#people.pp-on .pp-fig .ph img,#people.pp-on .pp-fig figcaption{transition:none}
+  #people .pp-fig:hover .ph{transform:none}
+}
+
+/* ---------- questions: bordered panel rows with mono indexes ---------- */
+#faq{--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+#faq .faq-list{max-width:860px;margin:0 auto;border-top:0;display:grid;gap:10px}
+#faq .q{position:relative;border:1px solid var(--rule-2);border-radius:3px;background:var(--field)}
+#faq .q::before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:3px;border-radius:3px 0 0 3px;background:var(--rust);transform:scaleY(0);transform-origin:50% 0;transition:transform var(--dur) var(--ease)}
+#faq .q.open::before{transform:none}
+#faq .q button{grid-template-columns:52px minmax(0,1fr) 38px;gap:0 18px;align-items:center;padding:16px 16px 16px 18px;font:600 clamp(18px,1.5vw,21px)/1.3 var(--display)}
+#faq .qn{display:grid;place-items:center;height:28px;border:1px solid var(--rule-2);border-radius:2px;background:var(--paper);font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--rust)}
+#faq .q .ic{width:38px;height:38px;margin:0;border:1px solid var(--rule-2);border-radius:2px;background:var(--paper);color:var(--ink-2);transition:background-color .6s,border-color .6s,color .6s}
+#faq .q button:hover .ic{border-color:var(--ink-3);color:var(--ink)}
+#faq .q button[aria-expanded=true] .ic{transform:none;background:var(--ink);border-color:var(--ink);color:var(--paper)}
+#faq .q .ic svg{width:14px;height:14px;transition:transform var(--dur) var(--ease)}
+#faq .q button[aria-expanded=true] .ic svg{transform:rotate(45deg)}
+#faq .q button:focus-visible{outline-offset:-4px}
+#faq .a .ans{display:block;max-width:none;margin:0 18px 0 88px;padding:16px 40px 24px 0;border-top:1px dashed var(--rule-2);color:var(--ink-2)}
+#faq .a .ans p{max-width:66ch}
+#faq .faq-more{text-align:center;margin-top:30px;color:var(--ink-2);font-size:15.5px}
+@media (max-width:600px){
+  #faq .q button{grid-template-columns:40px minmax(0,1fr) 36px;gap:0 12px;padding:14px 12px 14px 14px;font-size:17.5px}
+  #faq .qn{height:24px;font-size:11px;letter-spacing:.03em}
+  #faq .q .ic{width:36px;height:36px}
+  #faq .a .ans{margin:0 14px;padding:14px 0 20px}
+}
+@media (prefers-reduced-motion:reduce){#faq .q::before,#faq .q .ic,#faq .q .ic svg{transition:none}}
+
+/* ---------- footer: a suburban skyline on a rust horizon, then the ink footer ---------- */
+.foot{padding:0;background:var(--ink);color:#B8AE9C;text-align:center}
+.foot .foot-sky{position:relative;height:max(13.75vw,132px);background:var(--paper);overflow:hidden}
+.foot .sky-in{position:absolute;left:50%;bottom:0;width:max(100%,960px);height:100%;transform:translateX(-50%)}
+.foot .sk{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+.foot .horizon{position:absolute;left:0;right:0;bottom:0;z-index:2;height:2px;background:var(--rust)}
+.foot .crane .hook{transform-box:view-box;transform-origin:720px 53px}
+@media (pointer:fine){.foot .sk{will-change:transform}}
+/* the crane draws itself and the horizon runs out from the centre once the footer comes into view */
+.foot.sky-on .crane .dr{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 2.2s var(--ease) var(--d,0s)}
+.foot.sky-on .crane .cs{opacity:0;transition:opacity 1.2s var(--ease) 1.8s}
+.foot.sky-on .horizon{transform:scaleX(0);transition:transform 2s var(--ease)}
+.foot.sky-on .drawn .crane .dr{stroke-dashoffset:0}
+.foot.sky-on .drawn .crane .cs{opacity:1}
+.foot.sky-on .drawn .horizon{transform:none}
+/* while on screen the load on the hook sways a little */
+.foot.sky-on .live .crane .hook{animation:ft-sway 7s ease-in-out 3s infinite alternate}
+@keyframes ft-sway{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
+/* native scroll-driven rise: the near layer moves most, the far layer least */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .foot .foot-sky{view-timeline-name:--ftsky}
+    .foot .sk{animation:ft-rise linear both;animation-timeline:--ftsky;animation-range:entry 0% cover 45%}
+    .foot .sk-far{--rise:8px}.foot .sk-mid{--rise:16px}.foot .sk-near{--rise:28px}
+    .lite .foot .sk{animation:none}
+  }
+}
+@keyframes ft-rise{from{translate:0 var(--rise,0px)}to{translate:0 0}}
+
+.foot .foot-body{padding:clamp(48px,6vw,80px) 0 calc(150px + env(safe-area-inset-bottom))}
+@media (min-width:761px){.foot .foot-body{padding-bottom:56px}}
+.foot .foot-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:start;margin-bottom:clamp(40px,4.5vw,60px)}
+.foot .foot-brand{grid-column:2;grid-row:1}
+.foot .foot-svc{grid-column:1;grid-row:1}
+.foot .foot-exp{grid-column:3;grid-row:1}
+.foot .logo{color:var(--paper);justify-content:center}
+.foot .tag{max-width:440px;margin:18px auto 0;font-size:15.5px;line-height:1.6;color:#B8AE9C}
+.foot .areas{max-width:440px;margin:16px auto 0;padding-top:14px;border-top:1px solid rgba(244,239,230,.14);font-size:15px;color:#D9D0C0}
+.foot .areas .sc{display:block;color:#D9825C;margin-bottom:2px}
+.foot h3{color:var(--paper);margin-bottom:14px}
+.foot ul{gap:9px}
+.foot ul a{color:#D9D0C0;font-size:15.5px}
+.foot a:hover{color:var(--paper);text-decoration:underline;text-decoration-color:#D9825C;text-underline-offset:4px}
+.foot :focus-visible{outline-color:#D9825C}
+.foot .legal{border-top:1px solid rgba(244,239,230,.14);color:#A0978A}
+.foot .legal a{color:#D9D0C0}
+@media (max-width:760px){
+  .foot .foot-grid{grid-template-columns:1fr 1fr;gap:36px 20px}
+  .foot .foot-brand{grid-column:1/-1}
+  .foot .foot-svc{grid-column:1;grid-row:2}
+  .foot .foot-exp{grid-column:2;grid-row:2}
+}
+@media (prefers-reduced-motion:reduce){
+  .foot.sky-on .crane .dr,.foot.sky-on .crane .cs,.foot.sky-on .horizon{transition:none;stroke-dashoffset:0;opacity:1;transform:none}
+  .foot .crane .hook{animation:none}
+}
+/* without JS every answer shows open, so nothing is out of reach */
+html:not(.js) #faq .a{grid-template-rows:1fr}
+html:not(.js) #faq .a>div{opacity:1;visibility:visible}
+html:not(.js) #faq .q .ic{visibility:hidden}
