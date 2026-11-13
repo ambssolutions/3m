@@ -42,7 +42,8 @@
   }
   var fromUrl = null; try { fromUrl = new URLSearchParams(location.search).get('theme'); } catch (e) {}
   var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
-  var current = apply(find(fromUrl) ? fromUrl : find(saved) ? saved : 'diary').id;
+  var pageDefault = root.getAttribute('data-default-theme');
+  var current = apply(find(fromUrl) ? fromUrl : find(saved) ? saved : find(pageDefault) ? pageDefault : 'diary').id;
   window.M3_setTheme = function (id) { current = apply(id).id; try { localStorage.setItem(KEY, current); } catch (e) {} paint(); };
 
   /* the picker: a swatch button in the header, a small panel of themes */
