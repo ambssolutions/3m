@@ -218,7 +218,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 120px;color:var(--muted);
 <main class="wrap">
   <section class="intro" aria-labelledby="h1">
     <span class="eyebrow">Design review · 12 homepage designs</span>
-    <h1 id="h1">Twelve directions for <em>3M Construction</em></h1>
+    <h1 id="h1">Your build, and twelve directions for <em>3M Construction</em></h1>
     <p>Each concept is a complete working homepage built from the same copy and the same content rules, with its own look, type, motion and flow. Open them full screen, try them at laptop, tablet and phone sizes, shortlist the ones you like and send us your pick. Business facts, photos and reviews are placeholders until the client supplies them.</p>
     <ol class="steps">
       <li><b>Explore</b><span>Click any preview to open the concept. Scroll it to see the motion, and try the tabs, sliders and forms.</span></li>
@@ -230,7 +230,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 120px;color:var(--muted);
 
   <div class="bar">
     <div class="seg" role="group" aria-label="Filter concepts">
-      <button type="button" aria-pressed="true" data-filter="all">All 12</button>
+      <button type="button" aria-pressed="true" data-filter="all">All 13</button>
       <button type="button" aria-pressed="false" data-filter="rec">★ Recommended</button>
       <button type="button" aria-pressed="false" data-filter="short">Shortlisted <span class="count" id="countSeg">0</span></button>
     </div>
@@ -344,7 +344,8 @@ const CONCEPTS = [
   {id:"09",motion:"Animated",slug:"09-skyline",name:"Skyline",insp:"Cinematic · Chaptered",desc:"Cinematic chapters with condensed uppercase type. City silhouettes drift with your cursor and the scroll, a crane draws in and lifts the headline into place, and photos crossfade behind.",tags:["Cinematic","Full-bleed","Chapters"],sw:["#07090C","#FFFFFF","#35C4E8"]},
   {id:"10",motion:"Interactive",rec:"Built around the enquiry: the fastest route from a visitor to a booked site visit.",slug:"10-quote-builder",name:"Quote Builder",insp:"Conversion · Estimate stepper",desc:"The hero is a three-step enquiry, and a little house builds itself beside it as you go: slab, walls, roof and a lit window. Compact services, a five-step line that fills, answers in two columns. No prices implied.",tags:["Conversion","Stepper","Friendly"],sw:["#FFFFFF","#2A5BFF","#C6F135"]},
   {id:"11",motion:"Highly animated",rec:"Your pick, Site Diary, as the base, with the strongest design language and motion from the other nine and Australian market conventions throughout.",slug:"11-the-build",name:"The Build",insp:"Merged · Site Diary plus the best of the rest",desc:"Site Diary's paper, serif type and page-turning diary hero, with a marquee band, embossed service tabs and slat reveals, an exploded blueprint house that pays in Australian contract stages, a timber frame that builds as you read the diary, plan-to-built sliders, a skyline footer and a three-step enquiry with a house that assembles.",tags:["Merged","Editorial","Australian"],sw:["#F4EFE6","#221F1A","#B5471F"]},
-  {id:"12",motion:"Animated",slug:"12-front-door",name:"Front Door",insp:"Bright · Embossed cards",desc:"In the style of your MD Projects site: a bright, embossed look with promise cards that deal out from behind the hero, sticky stacked service cards with outline numbers and inset photos, five step cards and a swipeable homes carousel.",tags:["Bright","Embossed","Sticky cards"],sw:["#F4F7FB","#2F49B5","#121A2B"]}
+  {id:"12",motion:"Animated",slug:"12-front-door",name:"Front Door",insp:"Bright · Embossed cards",desc:"In the style of your MD Projects site: a bright, embossed look with promise cards that deal out from behind the hero, sticky stacked service cards with outline numbers and inset photos, five step cards and a swipeable homes carousel.",tags:["Bright","Embossed","Sticky cards"],sw:["#F4F7FB","#2F49B5","#121A2B"]},
+  {id:"13",motion:"Animated",rec:"Your build: Front Door hero, Timber chapters and The Build, all in Harbour.",slug:"13-your-build",name:"Your Build",insp:"Your mix · Harbour",desc:"Assembled from your choices in the site builder: Front Door's hero with the promise cards fanning out, Timber's five chapters with a line that draws down them, and everything else from The Build, redrawn as one design in Harbour navy and sea blue.",tags:["Your mix","Harbour","Gradient"],sw:["#F1F3F4","#1F5F8B","#13233A"]}
 ];
 const url = c => "designs/" + c.slug + "/";
 const byId = id => CONCEPTS.find(c => c.id === id);
