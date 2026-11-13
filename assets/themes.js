@@ -5,17 +5,17 @@
 (function () {
   var THEMES = [
     { id: 'diary',    name: 'Site Diary',         note: 'Warm paper, ink and rust',            dark: false,
-      t: { paper: '#F4EFE6', 'paper-2': '#ECE5D6', field: '#FBF8F2', ink: '#221F1A', 'ink-2': '#5B554B', 'ink-3': '#7E776B', rust: '#B5471F', 'rust-2': '#953A17', moss: '#4E5A3A', rule: '#D9D0C0', 'rule-2': '#C4B9A3' } },
+      t: { glow: '#D98A2B', paper: '#F4EFE6', 'paper-2': '#ECE5D6', field: '#FBF8F2', ink: '#221F1A', 'ink-2': '#5B554B', 'ink-3': '#7E776B', rust: '#B5471F', 'rust-2': '#953A17', moss: '#4E5A3A', rule: '#D9D0C0', 'rule-2': '#C4B9A3' } },
     { id: 'harbour',  name: 'Harbour',            note: 'Cool white, navy and sea blue',       dark: false,
-      t: { paper: '#F1F3F4', 'paper-2': '#E3E8EB', field: '#F9FAFB', ink: '#13233A', 'ink-2': '#45546A', 'ink-3': '#66758A', rust: '#1F5F8B', 'rust-2': '#174B6F', moss: '#3F6B5C', rule: '#D3D9DE', 'rule-2': '#B3BEC8' } },
+      t: { glow: '#2FA4C2', paper: '#F1F3F4', 'paper-2': '#E3E8EB', field: '#F9FAFB', ink: '#13233A', 'ink-2': '#45546A', 'ink-3': '#66758A', rust: '#1F5F8B', 'rust-2': '#174B6F', moss: '#3F6B5C', rule: '#D3D9DE', 'rule-2': '#B3BEC8' } },
     { id: 'eucalypt', name: 'Eucalypt',           note: 'Pale sage, charcoal and leaf green',  dark: false,
-      t: { paper: '#EFF1EA', 'paper-2': '#E2E6DA', field: '#F7F8F3', ink: '#1D261F', 'ink-2': '#4C5A4F', 'ink-3': '#6C786E', rust: '#4C6A38', 'rust-2': '#3B5329', moss: '#7A5A3A', rule: '#D2D8CA', 'rule-2': '#B5BEAA' } },
+      t: { glow: '#9AAE5C', paper: '#EFF1EA', 'paper-2': '#E2E6DA', field: '#F7F8F3', ink: '#1D261F', 'ink-2': '#4C5A4F', 'ink-3': '#6C786E', rust: '#4C6A38', 'rust-2': '#3B5329', moss: '#7A5A3A', rule: '#D2D8CA', 'rule-2': '#B5BEAA' } },
     { id: 'outback',  name: 'Outback',            note: 'Sand, red earth and saltbush',        dark: false,
-      t: { paper: '#F6EDE3', 'paper-2': '#EDDFCF', field: '#FBF5EE', ink: '#2A1C14', 'ink-2': '#5E4A3C', 'ink-3': '#7E6B5B', rust: '#A3391D', 'rust-2': '#842C15', moss: '#5F6B3A', rule: '#E0CFBC', 'rule-2': '#C9B39A' } },
+      t: { glow: '#D9852B', paper: '#F6EDE3', 'paper-2': '#EDDFCF', field: '#FBF5EE', ink: '#2A1C14', 'ink-2': '#5E4A3C', 'ink-3': '#7E6B5B', rust: '#A3391D', 'rust-2': '#842C15', moss: '#5F6B3A', rule: '#E0CFBC', 'rule-2': '#C9B39A' } },
     { id: 'brass',    name: 'Charcoal and brass', note: 'Stone, charcoal and aged brass',      dark: false,
-      t: { paper: '#F3F1EC', 'paper-2': '#E6E2D9', field: '#FAF9F6', ink: '#1B1B1B', 'ink-2': '#4F4C47', 'ink-3': '#706C65', rust: '#7F6126', 'rust-2': '#634B1C', moss: '#3E4A44', rule: '#D9D4C9', 'rule-2': '#BDB5A6' } },
+      t: { glow: '#C29A4E', paper: '#F3F1EC', 'paper-2': '#E6E2D9', field: '#FAF9F6', ink: '#1B1B1B', 'ink-2': '#4F4C47', 'ink-3': '#706C65', rust: '#7F6126', 'rust-2': '#634B1C', moss: '#3E4A44', rule: '#D9D4C9', 'rule-2': '#BDB5A6' } },
     { id: 'night',    name: 'Night edition',      note: 'Dark paper, cream ink and ember',     dark: true,
-      t: { paper: '#15130F', 'paper-2': '#1E1B16', field: '#221F1A', ink: '#EFE8DA', 'ink-2': '#C2B8A6', 'ink-3': '#9A9183', rust: '#E58A5F', 'rust-2': '#F0A47F', moss: '#A8B994', rule: '#3A342C', 'rule-2': '#4D463B',
+      t: { glow: '#F2B66B', paper: '#15130F', 'paper-2': '#1E1B16', field: '#221F1A', ink: '#EFE8DA', 'ink-2': '#C2B8A6', 'ink-3': '#9A9183', rust: '#E58A5F', 'rust-2': '#F0A47F', moss: '#A8B994', rule: '#3A342C', 'rule-2': '#4D463B',
            deep: '#0B0A08', 'on-deep-hi': '#F7F1E6', 'on-deep': '#EFE8DA', 'on-deep-2': '#C2B8A6', 'on-deep-3': '#9A9183', 'on-deep-accent': '#E58A5F' } }
   ];
   window.M3_THEMES = THEMES;
