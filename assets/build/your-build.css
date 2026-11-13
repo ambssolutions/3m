@@ -6,7 +6,8 @@
    Motion: transform, opacity and clip-path only (plus stroke-dashoffset for the chapter drawings). Reduced motion shows the finished state. */
 
 /* ========== hero: the front door ========== */
-.hero{position:relative;height:100svh;min-height:600px;max-height:1100px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;isolation:isolate;padding:calc(var(--top) + 20px) var(--pad) clamp(22px,4.6vh,52px);text-align:center;background:var(--paper-2)}
+/* the hero leaves room for the moving band, so the band shows on the first screen everywhere */
+.hero{position:relative;height:calc(100svh - 43px);min-height:560px;max-height:1060px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;isolation:isolate;padding:calc(var(--top) + 20px) var(--pad) clamp(22px,4.6vh,52px);text-align:center;background:var(--paper-2)}
 .hero::before{content:none}
 .yb-sym{position:absolute;width:0;height:0;overflow:hidden}
 .hero-img{position:absolute;inset:0;z-index:-2;background:var(--paper-2)}
