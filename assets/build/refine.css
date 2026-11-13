@@ -1,0 +1,90 @@
+/* refine: phone refinements for The Your Build (13) after the owner's review on a real phone.
+   Linked only by designs/13-your-build, after svc-plus.css; every rule is scoped to its section id.
+   Layout only: no change to content, fields, names or behaviour. Laptops and tablets are unchanged.
+   (The service cards' own phone layout lives in svc-plus.css, which is 13-only.) */
+
+/* ========== Built in layers, paid in stages: phones ==========
+   The model gets its own short drafting panel (grid paper, hairline border), and the stage list sits below it on the
+   section's paper with a clear gap, instead of floating over the bottom of one tall sheet. The title block is a
+   decorative drawing detail (aria-hidden); on a phone it only added length, so it is left out there. */
+@media (max-width:600px){
+  #layers .layers-sheet{padding:0;border:0;border-radius:0;background:none;box-shadow:none}
+  #layers .layers-sheet::before{display:none}
+  #layers .layers-grid{gap:20px}
+  #layers .layers-model{height:clamp(300px,84vw,340px);overflow:hidden;border:1px solid var(--ink-3);border-radius:6px;box-shadow:var(--m-sh2,none);
+    background-color:var(--field);background-image:linear-gradient(rgba(34,31,26,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(34,31,26,.075) 1px,transparent 1px),linear-gradient(rgba(34,31,26,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(34,31,26,.035) 1px,transparent 1px);background-size:80px 80px,80px 80px,16px 16px,16px 16px;background-position:-1px -1px}
+  #layers .layers-model::after{content:"";position:absolute;inset:5px;border:1px solid var(--rule-2);border-radius:3px;pointer-events:none}
+  #layers .layers-tb{display:none}
+  #layers .layers-note{margin-top:18px}
+}
+
+/* ========== The enquiry card: phones ==========
+   Calm and plain: one label with the card count beside it in the normal font, a slim three-part progress bar in place
+   of the double rule and the numbered stepper, tighter option rows with the box on the title's first line, and no
+   stacked-paper edge. The form stays left-aligned; every field and the send logic are untouched. */
+@media (max-width:600px){
+  #contact .qc-cardwrap{margin:0}
+  #contact .qc-cardwrap::before,#contact .qc-cardwrap::after{display:none}
+  #contact .qc-card{gap:18px;padding:20px 18px 18px}
+
+  #contact .qc-top{align-items:baseline;padding:0;margin:0;border:0}
+  #contact .qc-top::after{display:none}
+  #contact .qc-top .sc{font:600 15px/1.3 var(--sans);font-variant-caps:normal;letter-spacing:0;color:var(--ink)}
+  #contact .qc-no{font:400 14px/1.3 var(--sans);letter-spacing:0;color:var(--ink-3)}
+  #contact .qc-no span{color:inherit}
+
+  /* the stepper: three short bars, filled up to the current card (step names stay for screen readers) */
+  #contact .qc-dots{gap:6px;margin-top:-6px}
+  #contact .qc-dots li,#contact .qc-dots li+li{flex:1 1 0;gap:0;min-width:0}
+  #contact .qc-dots .ln{display:none}
+  #contact .qc-dots .n{width:100%;height:4px;border:0;border-radius:2px;background:var(--rule);font-size:0;line-height:0;color:transparent;transition:background-color .8s}
+  #contact .qc-dots li[aria-current] .n,#contact .qc-dots li.done .n{background:var(--rust);color:transparent}
+  #contact .qc-dots .t,#contact .qc-dots li[aria-current] .t{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+  #contact .qc-step{gap:16px}
+  #contact .qc-step h3{padding-top:0}
+
+  /* option rows: a little tighter, the box level with the first line of the title */
+  #contact .qc-o{align-items:start;gap:2px 12px;min-height:0;padding:12px 14px 12px 12px}
+  #contact .qc-o b{font-size:15.5px;line-height:20px}
+  #contact .qc-o small{font-size:13.5px;line-height:1.35}
+  #contact .qc-tb{grid-row:1/3;align-self:start;margin-top:0}
+  #contact .qc-chips .qc-o{align-items:center;min-height:48px;padding:12px 14px 12px 12px}
+  #contact .qc-chips .qc-tb{align-self:center;width:20px;height:20px}
+  #contact .qc-chips .qc-tb::after{left:4px;top:1px;width:6px;height:11px}
+  #contact .qc-chips .qc-o b{font-size:15.5px}
+
+  #contact .qc-nav{padding-top:0}
+  #contact .qc-card .form-note{padding-top:12px}
+}
+@media (max-width:600px) and (prefers-reduced-motion:reduce){
+  #contact .qc-dots .n{transition:none}
+}
+
+/* ---------- Enquiry card: the cards turn like the pages of a book ----------
+   s-quote.js runs the sequence: the current card gets .leave for 0.45s, then the next one gets .enter for 0.95s,
+   with .back on both when going back. Here, going forward, the current page lifts at its right edge and turns
+   over the spine on the left; the next page is revealed with a soft shadow that clears. Going back, the open page
+   darkens slightly and the previous page turns back over from the spine. Transform and opacity only.
+   Reduced motion: s-quote.css already switches the step animations off. */
+@media (prefers-reduced-motion:no-preference){
+  .js #contact .qc-steps{perspective:1800px;perspective-origin:0 50%}
+  .js #contact .qc-step{position:relative;transform-origin:0 50%;backface-visibility:hidden}
+  .js #contact .qc-step::after{content:"";position:absolute;inset:-8px -10px;border-radius:14px;pointer-events:none;opacity:0;
+    background:linear-gradient(90deg,color-mix(in srgb,var(--ink) 26%,transparent),color-mix(in srgb,var(--ink) 8%,transparent) 45%,transparent 80%)}
+  /* forward */
+  .js #contact .qc-step.leave{animation:qcPageOut .45s cubic-bezier(.35,.1,.65,.9) both}
+  .js #contact .qc-step.leave::after{animation:qcShade .45s ease-in both}
+  .js #contact .qc-step.enter{animation:none}
+  .js #contact .qc-step.enter::after{animation:qcUnshade .8s cubic-bezier(.2,.7,.2,1) both}
+  /* back */
+  .js #contact .qc-step.back.leave{animation:none}
+  .js #contact .qc-step.back.leave::after{animation:qcShade .45s ease-in both}
+  .js #contact .qc-step.back.enter{animation:qcPageIn .9s cubic-bezier(.2,.7,.2,1) both}
+  .js #contact .qc-step.back.enter::after{animation:qcUnshade .9s ease-out both}
+  html.lite #contact .qc-step.leave,html.lite #contact .qc-step.back.enter{animation-duration:.3s}
+}
+@keyframes qcPageOut{0%{transform:rotateY(0)}100%{transform:rotateY(-89deg)}}
+@keyframes qcPageIn{0%{transform:rotateY(-89deg)}100%{transform:rotateY(0)}}
+@keyframes qcShade{from{opacity:0}to{opacity:1}}
+@keyframes qcUnshade{from{opacity:1}to{opacity:0}}

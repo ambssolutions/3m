@@ -1,0 +1,114 @@
+/* harbour: the footer strip as a Sydney Harbour panorama (concept 13). Scoped to .foot-sky.harbour so the
+   shared s-people.css / s-modern.css skyline rules stay as they are for concept 11.
+   Layers: far (CBD, North Sydney, the water plane), mid (the Bridge, a ferry, the Opera House), near (foreshore).
+   Every colour is a theme token. Only transform and opacity animate, on small HTML-level layers the compositor
+   can move, and only while .hb-run is set (harbour.js: on screen and the tab visible). Reduced motion: a still
+   scene. html.lite: only the water lines move. */
+.foot .foot-sky.harbour{
+  --hb-dk:var(--deep,var(--ink));
+  --hb-far:color-mix(in oklab,var(--rule) 82%,var(--rule-2));
+  --hb-far2:color-mix(in oklab,var(--rule-2) 80%,var(--rule));
+  --hb-mid:color-mix(in oklab,var(--ink-3) 78%,var(--ink-2));
+  --hb-mid2:color-mix(in oklab,var(--rule-2) 55%,var(--ink-3));
+  --hb-sail:var(--field,var(--paper));
+  --hb-sail2:color-mix(in oklab,var(--rule) 70%,var(--rule-2));
+  --hb-near:color-mix(in oklab,var(--hb-dk) 84%,var(--ink-3));
+  --hb-near2:color-mix(in oklab,var(--hb-dk) 45%,var(--ink-3));
+  --hb-sky:color-mix(in oklab,var(--paper) 84%,var(--glow));
+  --hb-sun:color-mix(in oklab,var(--glow) 26%,var(--paper));
+  --hb-glint:color-mix(in oklab,var(--glow) 62%,var(--paper));
+  --hb-w0:color-mix(in oklab,color-mix(in oklab,var(--rule-2) 62%,var(--ink-3)) 80%,var(--rust));
+  --hb-w1:color-mix(in oklab,var(--hb-dk) 78%,var(--rust));
+  --hb-line:color-mix(in oklab,var(--paper) 72%,var(--glow));
+  height:auto;
+  /* the sky stops behind the water, so the water fades straight into the footer's own background */
+  background:linear-gradient(180deg,var(--paper),var(--hb-sky) 66%) top/100% 82% no-repeat;
+  contain:layout paint;
+}
+[data-theme=night] .foot .foot-sky.harbour{
+  --hb-far:color-mix(in oklab,var(--rule) 70%,var(--paper));
+  --hb-far2:color-mix(in oklab,var(--rule) 70%,var(--rule-2));
+  --hb-mid:color-mix(in oklab,var(--rule-2) 60%,var(--ink-3));
+  --hb-mid2:var(--rule-2);
+  --hb-sail:color-mix(in oklab,var(--ink) 88%,var(--paper));
+  --hb-sail2:color-mix(in oklab,var(--ink-3) 70%,var(--rule-2));
+  --hb-near:color-mix(in oklab,var(--hb-dk) 70%,var(--rule));
+  --hb-near2:color-mix(in oklab,var(--glow) 70%,var(--hb-dk));
+  --hb-sky:color-mix(in oklab,var(--paper) 88%,var(--rust));
+  --hb-sun:color-mix(in oklab,var(--ink) 80%,var(--paper));
+  --hb-glint:color-mix(in oklab,var(--glow) 70%,var(--ink));
+  --hb-w0:color-mix(in oklab,var(--rule) 86%,var(--glow));
+  --hb-w1:color-mix(in oklab,var(--hb-dk) 82%,var(--rust));
+}
+/* the strip keeps the panorama's own proportions (1600 x 240), so nothing shifts as it loads */
+.foot .foot-sky.harbour .sky-in{position:relative;left:50%;bottom:auto;width:max(100%,960px);height:auto;aspect-ratio:1600/240;transform:translateX(-50%)}
+/* phones see the Opera House and the Bridge */
+@media (max-width:960px){.foot .foot-sky.harbour .sky-in{transform:translateX(calc(-50% - (960px - 100vw) * .077))}}
+.foot .foot-sky.harbour .hb-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+
+/* far */
+.foot-sky.harbour .f0{fill:var(--hb-far)}
+.foot-sky.harbour .hb-crane{fill:none;stroke:var(--hb-far);stroke-width:2}
+.foot-sky.harbour .f1{fill:var(--hb-far2)}
+.foot-sky.harbour .hb-sun{fill:var(--hb-sun)}
+.foot-sky.harbour .w0{stop-color:var(--hb-w0)}
+.foot-sky.harbour .w1{stop-color:var(--hb-w1)}
+.foot-sky.harbour .w2{stop-color:var(--hb-dk)}
+.foot-sky.harbour .w3{stop-color:var(--hb-dk);stop-opacity:0}
+/* mid */
+.foot-sky.harbour .m0{fill:var(--hb-mid)}
+.foot-sky.harbour .m1{fill:var(--hb-mid2)}
+.foot-sky.harbour .hb-web{fill:none;stroke:var(--hb-sky);stroke-width:1.1;stroke-linejoin:round}
+.foot-sky.harbour .hb-hang{fill:none;stroke:var(--hb-mid);stroke-width:1.2}
+.foot-sky.harbour .hb-pyd{fill:none;stroke:var(--hb-mid2);stroke-width:1.2}
+.foot-sky.harbour .hb-s{fill:var(--hb-sail);stroke:var(--hb-mid);stroke-width:1;stroke-linejoin:round}
+.foot-sky.harbour .hb-sd{fill:var(--hb-sail2)}
+.foot-sky.harbour .hb-step{fill:none;stroke:var(--hb-sky);stroke-width:1}
+.foot-sky.harbour .hb-refl{fill:none;stroke:var(--hb-sail);stroke-width:1.6;stroke-linecap:round;opacity:.28}
+/* near */
+.foot-sky.harbour .n0{fill:var(--hb-near)}
+.foot-sky.harbour .n1{fill:var(--hb-near2)}
+.foot-sky.harbour .hb-pile{fill:none;stroke:var(--hb-near);stroke-width:3}
+.foot-sky.harbour .hb-boat{fill:var(--hb-near)}
+/* night edition: lit windows in the city and lights along the Bridge, as small dots */
+.foot-sky.harbour .hb-win,.foot-sky.harbour .hb-bl{display:none}
+[data-theme=night] .foot-sky.harbour .hb-win{display:inline;fill:var(--glow);opacity:.75}
+[data-theme=night] .foot-sky.harbour .hb-bl{display:inline;fill:none;stroke:var(--glow);stroke-width:2;stroke-linecap:round;stroke-dasharray:0 13}
+[data-theme=night] .foot-sky.harbour .hb-bl1{stroke-dasharray:0 9}
+
+/* the water lines: two wide strips of a repeating tile, drifting opposite ways */
+.foot-sky.harbour .hb-waves{position:absolute;left:0;top:65.83%;width:200%;height:34.17%;overflow:visible;pointer-events:none}
+.foot-sky.harbour .hb-l1{fill:none;stroke:var(--hb-line);stroke-width:1;stroke-linecap:round;opacity:.55}
+.foot-sky.harbour .hb-l2{fill:none;stroke:var(--hb-line);stroke-width:1.4;stroke-linecap:round;opacity:.3}
+.foot-sky.harbour .hb-wb{left:-100%}
+/* the sun's (or moon's) glint on the water under the Bridge */
+.foot-sky.harbour .hb-glint{position:absolute;left:60%;top:67.5%;width:5%;height:auto;aspect-ratio:80/76;overflow:visible}
+.foot-sky.harbour .hb-glint path{fill:none;stroke:var(--hb-glint);stroke-width:1.7;stroke-linecap:round}
+/* the ferries: cream cabins on a dark hull */
+.foot-sky.harbour .hb-ferry{position:absolute;height:auto;aspect-ratio:48/18;overflow:visible}
+.foot-sky.harbour .hb-fh{fill:var(--hb-mid)}
+.foot-sky.harbour .hb-fc{fill:var(--hb-sail)}
+.foot-sky.harbour .hb-fw{fill:none;stroke:var(--hb-mid);stroke-width:2}
+.foot-sky.harbour .hb-ff{fill:none;stroke:var(--hb-line);stroke-width:1.2;stroke-linecap:round;opacity:.6}
+/* ferry A leaves from behind the Opera House and heads under the Bridge; ferry B crosses the foreground */
+.foot-sky.harbour .hb-fa{left:52.5%;top:63.4%;width:2.6%}
+.foot-sky.harbour .hb-fb{left:30%;top:80.5%;width:4.2%}
+
+/* motion: defined here, paused until harbour.js says the strip is on screen and the tab is visible */
+.foot-sky.harbour .hb-wa{animation:hb-drift 38s linear infinite,hb-breathe 9s ease-in-out infinite alternate}
+.foot-sky.harbour .hb-wb{animation:hb-drift 30s linear infinite reverse,hb-breathe 7s ease-in-out -3s infinite alternate}
+.foot-sky.harbour .hb-glint{animation:hb-breathe 5s ease-in-out infinite alternate}
+.foot-sky.harbour .hb-fa{animation:hb-fa 62s linear infinite}
+.foot-sky.harbour .hb-fb{animation:hb-fb 70s linear -24s infinite}
+.foot-sky.harbour .hb-waves,.foot-sky.harbour .hb-glint,.foot-sky.harbour .hb-ferry{animation-play-state:paused;will-change:transform,opacity}
+.foot-sky.harbour.hb-run .hb-waves,.foot-sky.harbour.hb-run .hb-glint,.foot-sky.harbour.hb-run .hb-ferry{animation-play-state:running}
+@keyframes hb-drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes hb-breathe{from{opacity:1}to{opacity:.55}}
+/* ferry A: from behind the Opera House (x 700) out past the right edge; it waits hidden, then sails */
+@keyframes hb-fa{0%,6%{transform:translateX(-450%)}100%{transform:translateX(2100%)}}
+/* ferry B: from past the right edge to past the left edge, facing the way it goes */
+@keyframes hb-fb{from{transform:translateX(1700%) scaleX(-1)}to{transform:translateX(-900%) scaleX(-1)}}
+html.lite .foot-sky.harbour .hb-glint,html.lite .foot-sky.harbour .hb-ferry{animation:none}
+@media (prefers-reduced-motion:reduce){
+  .foot-sky.harbour .hb-waves,.foot-sky.harbour .hb-glint,.foot-sky.harbour .hb-ferry{animation:none;will-change:auto}
+}

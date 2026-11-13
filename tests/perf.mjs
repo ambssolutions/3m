@@ -15,10 +15,15 @@ const SITE = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..")
 const DES = path.join(SITE, "designs");
 const BUDGET = { lcp: 2500, cls: 0.05, tbt: 300, htmlKB: 150, weightKB: 1200 };
 const PORT = 5600 + Math.floor(Math.random() * 300);
-const srv = spawn("python3", ["-m", "http.server", String(PORT), "--bind", "127.0.0.1"], { cwd: SITE, stdio: "ignore" });
+// Files are served compressed like production (Vercel sends text as Brotli): tests/serve.mjs. --raw uses the old uncompressed
+// python server, which overstates HTML/CSS/JS transfer time on the throttled link.
+const RAW = process.argv.includes("--raw");
+const srv = RAW ? spawn("python3", ["-m", "http.server", String(PORT), "--bind", "127.0.0.1"], { cwd: SITE, stdio: "ignore" })
+  : spawn(process.execPath, [path.join(SITE, "tests/serve.mjs"), String(PORT), SITE], { cwd: SITE, stdio: "ignore" });
 await new Promise(r => setTimeout(r, 800));
+console.log(RAW ? "server: python http.server, uncompressed" : "server: tests/serve.mjs, Brotli for text like Vercel");
 
-const want = process.argv.slice(2);
+const want = process.argv.slice(2).filter(a => !a.startsWith("--"));
 const slugs = readdirSync(DES).filter(d => /^\d\d-/.test(d) && existsSync(path.join(DES, d, "index.html")) && (!want.length || want.some(w => d.startsWith(w))));
 const b = await chromium.launch();
 let fails = 0, total = 0;

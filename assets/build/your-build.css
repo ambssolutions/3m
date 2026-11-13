@@ -204,3 +204,46 @@
 @media (prefers-reduced-motion:reduce){
   .hcard,.hcard>*,.fc{animation:none}
 }
+
+/* ========== photo placeholders ==========
+   Each photo carries a tiny blurred copy of itself (16px WebP, about 200 bytes) as its background, so a frame never shows
+   empty while the real file loads on a slow phone. The photo is opaque and covers it once it arrives. */
+.hero-img img,#services .sv-ph img,#projects .pj-built,#people .ph img{background-size:cover;background-position:50% 50%;background-repeat:no-repeat}
+.hero-img img{background-position:50% 40%;background-image:url(data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAABQAgCdASoQAAwAA4BaJYgCdAYvrv6DarfVpAAA/tPa9ikHOK6VWfro+Ud6a+/J+68aQ2lWxKdUGZEORL3SgTiUu0119wUziJgxllLS75h97xlfZZ4iSzR94zV9ldpTe1AHXe5F19+4AAAA)}
+@media (max-width:700px) and (orientation:portrait){.hero-img img{background-image:url(data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAACQBACdASoPABQAPu1iqU2ppaOiMAgBMB2JagCdOUB1f4tjEsi0+vbKTCsdygAA/o0gQ1c6ozOauQ4ddEbGc4F2nt6+FDO4+d9Wuby6J+BTqpalusUf70r52OJ+2aUU1NQSvRex/+bh60nPwvpADHjvzmoxjU+R9k3F3ZQh759/1SMKqfYEYZDjrV4wi90nLGspAlQ7RLl0VTgA)}}
+#services .sv-ph img[srcset*="svc-new-homes-480"]{background-image:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQAgCdASoQAAwAA4BaJQBOgMXX5aEIovOAAP6Fx3wwd/S8uzsd9pXwXcGTvqaSxIgAx2vfwcxmr0U+suritUQAVgl8PehovxFWs6IutmdcLX1hN7WgiwAA)}
+#services .sv-ph img[srcset*="svc-renovations-480"]{background-image:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAABwAgCdASoQAAwAA4BaJYwBTAFvh5TJaO5jyHaAAP0C/9TA6azI35e8Ffj8ujy0Ae5JGKtU/YR5+GzMmGQ4hTtiWLHUkk3zjcQ85onGp6gCWn03mVDULzvylpj38iWk1YAAAA==)}
+#services .sv-ph img[srcset*="svc-fitouts-480"]{background-image:url(data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAQCdASoQAAwAA4BaJZQCdAELXH6czAAA/ueotzsTaRZPqp7WP8/0pgL52tb354zyQxm49/2NI84K1EsrC38CRiTQMZIJt7I6BwPbO0nCFsIAAAA=)}
+#services .sv-ph img[srcset*="svc-commercial-480"]{background-image:url(data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAwAgCdASoQAAwAA4BaJZgCdAYvrwfo8Td2EAD9d/nMdHReq4F/dxuY+uqkZr0dqFlPa9LItzpNRsNBtukpY6B19K4K8pNB9wVbWNGBcw1/2+I3tzReRZkD+rXB2oULPRFyPoAA)}
+#projects .pj-built[srcset*="proj-pool-house-480"]{background-image:url(data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAABQAgCdASoQAAwAA4BaJYgCdAYvrv6DarfVpAAA/tPa9ikHOK6VWfro+Ud6a+/J+68aQ2lWxKdUGZEORL3SgTiUu0119wUziJgxllLS75h97xlfZZ4iSzR94zV9ldpTe1AHXe5F19+4AAAA)}
+#projects .pj-built[srcset*="proj-loft-480"]{background-image:url(data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAwAgCdASoQAAwAA4BaJbACdAEe/dBUeVzaEAD6i9YqY7OS9pXKkQUUCHHiSuDtPY/gsxzJ8r8dI4qstDcsq0Jw7Fatd6jDq0h2ysL4Q7OtnBtz9MaqId34FP/ydKoT7QAAAA==)}
+#projects .pj-built[srcset*="proj-white-house-480"]{background-image:url(data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAAAwAgCdASoQAAwAA4BaJYgC7AEC3NoP3uoLUAD+63mKCHT2U4rgm7Ib8vBhmhgpV84LZ2srcW3pNcaoD9rU0Ihu1hcU3vdDGWVGLkirb8F3cFXjcxPqqOmyUIJ4jckGzS01UAAA)}
+#projects .pj-built[srcset*="proj-living-480"]{background-image:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAwAgCdASoQAAwAA4BaJQBdgMX67MTNlqkPwAD+ZnAuAVeGd575PgISfg5P3ZUgvEteN6xuQKrNE2hCI9c9tEf1ERTbjbnvlKUhsu8IT9qQspB1TixC0aAA)}
+#projects .pj-built[srcset*="proj-tower-480"]{background-image:url(data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAAAQAgCdASoQAAwAA4BaJbACdADibZx7A2OIAPdJ1OcbAolqtOdTbJcLgy6OBt+NLC3qgFIc+ugEA+KiqTFkya2yKDQJR8Hk86u0MmTNt+tQh4lAAAA=)}
+#projects .pj-built[srcset*="proj-weatherboard-480"]{background-image:url(data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAQCdASoQAAwAA4BaJYwAAlo/2/5KcgAA/u5jK+m7irX0S+bNTF1KnE/eFbje2hSXNPs7uuNiZfhHvt+U0TFSHoG6f38AFhCYL/R16exsAA==)}
+#people .ph img[srcset*="people-plans-480"]{background-image:url(data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAABwBACdASoQABQAPu1iqU2ppaOiMAgBMB2JZACsAYwmql7IzgtTIMEMEjVUAAD+5EonKFGTewSZOFfcrCgVfHKfmfeeKH86X+ndybTzqUiNCntL0z/rwmpvISw4nLGvn0J2/GR0/wCKZawLSSgn5jkx4xuLJOAeIAA=)}
+#people .ph img[srcset*="people-crew-480"]{background-image:url(data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAAAwBACdASoQABQAPu1iqU2ppaOiMAgBMB2JYgAD5dIFnGab+wz3VoW9FQAA/sdWhj3veNfSisozW7bMEXJ6kBdqfBHGjgs/cUgEHFHX8wLMbGRiww5rY+PQqDecYT1mGm4rLKsi4APzrZvhKbxeFzyJjzq7R4SO40tZkgnZOOQ400yvlORLl4cmHhTxAascATYAAA==)}
+#people .ph img[srcset*="people-electrician-480"]{background-image:url(data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADQAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JQBWAA40rfzXbLkgjaWAAzjMOE9nbznNS2fzyatS5FCaG/ZHvHOJ4OoAJfQ8gpCxFLP5bR6MYpNpw6R+03DG1vzJCCZ4LzVnQXGRww/sHQkAfwAA=)}
+
+/* ========== Built in layers: the 3D model holds still on touch screens ==========
+   s-layers-3d-model.js reads --l3-sway: with 0 it skips the slow idle turn and stops drawing between the explode, the settle
+   and a drag, so a phone's GPU is free while the visitor scrolls past. Laptops keep the turn. */
+@media (pointer:coarse){#layers .layers-model{--l3-sway:0}}
+html.lite #layers .layers-model{--l3-sway:0}
+
+/* ========== From the archive: the comparison plates repaint cheaply ==========
+   The plan side (toned photo, pencil copy and grid, all filtered and blended) is drawn once on its own layer, and the
+   handle rides on its own layer, so the opening sweep and a drag only move a clip and a transform instead of repainting
+   the filtered photos every frame. Nothing changes in how the plates look. */
+#projects .pj-plan>*,#projects .pj-handle{will-change:transform}
+
+/* ========== phones: far sections skip work until they come near ==========
+   content-visibility lets a phone skip style, layout and paint for these sections at load (about 40% of the page's
+   nodes), and fill them in as they come near the screen. None of them has sticky parts at this width, and the remembered
+   size ("auto") keeps the nav anchors landing in the right place. The look is unchanged. */
+@media (max-width:760px){
+  #process{content-visibility:auto;contain-intrinsic-size:auto 3900px}
+  #projects{content-visibility:auto;contain-intrinsic-size:auto 2950px}
+  #people{content-visibility:auto;contain-intrinsic-size:auto 1920px}
+  #faq{content-visibility:auto;contain-intrinsic-size:auto 740px}
+}

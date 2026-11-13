@@ -55,3 +55,19 @@
   }, { rootMargin: '-36% 0px -36% 0px', threshold: th });
   items.forEach(function (it) { io2.observe(it); });
 })();
+
+/* photos load ahead of the reader: once the page has loaded (so nothing competes with the first screen), any lazy photo
+   within about three screens below the view, or one screen above, is switched to eager and starts downloading. The
+   browser's own lazy margin is closer than that on fast connections, which is why photos could still arrive late on a phone. */
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  function arm() {
+    var imgs = [].slice.call(document.querySelectorAll('img[loading=lazy]')); if (!imgs.length) return;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.loading = 'eager'; io.unobserve(e.target); } });
+    }, { rootMargin: '100% 0px 300% 0px' });
+    imgs.forEach(function (i) { io.observe(i); });
+  }
+  function later() { if ('requestIdleCallback' in window) requestIdleCallback(arm, { timeout: 2000 }); else setTimeout(arm, 300); }
+  if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
+})();

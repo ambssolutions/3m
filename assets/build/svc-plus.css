@@ -37,7 +37,7 @@
 #services .sv-fig{grid-area:fig;margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
 #services .sv-ph{position:relative;aspect-ratio:3/2;overflow:hidden;border-radius:12px;background:var(--paper-2)}
 #services .sv-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-#services .sv-fig figcaption{color:var(--ink-3);line-height:1.4}
+#services .sv-fig figcaption{color:var(--ink-3);line-height:1.4;text-align:center;text-wrap:balance}
 
 #services .sv-para{grid-area:para;color:var(--ink-2);font-size:16px;line-height:1.6}
 #services .sv-k{margin:0 0 10px;font:500 13px/1.4 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.09em;color:var(--rust)}
@@ -46,7 +46,7 @@
 #services .sv-fit{grid-area:fit;min-width:0}
 #services .sv-fit ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 #services .sv-fit li{position:relative;padding-left:24px;font-size:15.5px;line-height:1.5;color:var(--ink)}
-#services .sv-fit li::before{content:"";position:absolute;left:2px;top:.72em;width:12px;height:2px;border-radius:2px;background:var(--m-line,var(--rust))}
+#services .sv-fit li::before{content:"";position:absolute;left:2px;top:calc(.75em - 1px);width:12px;height:2px;border-radius:2px;background:var(--m-line,var(--rust))}
 
 #services .sv-inc{grid-area:inc;min-width:0}
 #services .sv-inc .tick{gap:8px;font-size:15.5px;line-height:1.5;color:var(--ink-2)}
@@ -65,6 +65,21 @@
 #services .sv-more{display:none}
 #services .sv-note{max-width:620px;margin:28px auto 0;text-align:center;font-size:15px;color:var(--ink-3)}
 
+/* ---------- phones: one centred column ----------
+   The card head is a centred block (the drawing, then the number small above the title, then the hairline);
+   the caption and the intro are centred; "A good fit if", "Included" and "Approvals" stay left-aligned lists
+   in a centred block of the same width. */
+@media (max-width:700px){
+  #services .sv-card{grid-template-columns:minmax(0,1fr);grid-template-areas:"art" "head" "fig" "para" "fit" "inc" "appr" "cta";gap:20px;padding:24px 18px 22px}
+  #services .sv-card::before{grid-area:head}
+  #services .sv-art{justify-self:center;width:112px;margin-bottom:-6px}
+  #services .sv-head{flex-direction:column;justify-content:center;gap:4px;min-height:0;padding-bottom:16px;text-align:center}
+  #services .sv-no{font-size:15px;letter-spacing:.06em}
+  #services .sv-head h3{font-size:1.35rem;line-height:1.2;text-wrap:balance}
+  #services .sv-para{justify-self:center;max-width:34em;text-align:center;text-wrap:pretty}
+  #services :is(.sv-fit,.sv-inc,.sv-appr,.sv-more){justify-self:center;width:100%;max-width:360px}
+}
+
 /* ---------- phones: the fold for "Included" and "Approvals" (the button comes from svc-plus.js) ---------- */
 @media (max-width:700px){
   #services .sv-more{grid-area:more;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;padding:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-weight:600;font-size:15.5px;color:var(--ink);text-align:left}
@@ -72,8 +87,8 @@
   #services .sv-more i::before,#services .sv-more i::after{content:"";position:absolute;left:8px;right:8px;top:13px;height:2px;border-radius:2px;background:var(--rust)}
   #services .sv-more i::after{transform:rotate(90deg)}
   #services .sv-more[aria-expanded=true] i{transform:rotate(45deg)}
-  #services.sv-folds .sv-card{grid-template-areas:"head art" "fig fig" "para para" "fit fit" "more more" "inc inc" "appr appr" "cta cta"}
-  #services.sv-folds .sv-shut{grid-template-areas:"head art" "fig fig" "para para" "fit fit" "more more" "cta cta"}
+  #services.sv-folds .sv-card{grid-template-areas:"art" "head" "fig" "para" "fit" "more" "inc" "appr" "cta"}
+  #services.sv-folds .sv-shut{grid-template-areas:"art" "head" "fig" "para" "fit" "more" "cta"}
   #services .sv-shut .sv-inc,#services .sv-shut .sv-appr{display:none}
   #services.sv-folds .sv-card:not(.sv-shut) .sv-inc,#services.sv-folds .sv-card:not(.sv-shut) .sv-appr{animation:sv-in var(--dur) var(--ease) both}
   #services.sv-folds .sv-card:not(.sv-shut) .sv-appr{animation-delay:.12s}

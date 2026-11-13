@@ -12,6 +12,9 @@ export function build(T) {
   const COARSE = matchMedia('(pointer:coarse)').matches;
   const FINE = matchMedia('(pointer:fine)').matches;
   const EDGES = !LITE;
+  /* the idle turn: a page can switch it off (--l3-sway:0 on .layers-model, e.g. on phones); the model then holds a still
+     frame and draws only while it explodes, settles or is dragged */
+  const SWAY = !REDUCE && getComputedStyle(box).getPropertyValue('--l3-sway').trim() !== '0';
   const now = () => performance.now();
   const rad = a => a * Math.PI / 180;
 
@@ -286,9 +289,12 @@ export function build(T) {
   let renderer;
   try { renderer = new T.WebGLRenderer({ antialias: !LITE, alpha: true, powerPreference: 'low-power' }); } catch (e) { return; }
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+  renderer.debug.checkShaderErrors = false; /* skips the blocking shader-log reads; the shaders are fixed and tested */
   renderer.setClearColor(0x000000, 0);
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = T.PCFSoftShadowMap;
+  /* the shadow map is redrawn only when a layer, its fade or the sun moves, never for a camera turn alone */
+  renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true;
   const cv = renderer.domElement; cv.className = 'l3-cv'; cv.setAttribute('aria-hidden', 'true');
   const scene = new T.Scene();
   const camera = new T.PerspectiveCamera(24, 1, .5, 400);
@@ -417,7 +423,7 @@ export function build(T) {
     o[k] = a.f + (a.to - a.f) * a.e(p); return true;
   }
   let holdUntil = 0, holdT = 0, introDone = false, focus = -1, dirty = true;
-  function settle() { holdUntil = 0; layers.forEach((ly, i) => { tw(ly, 'lift', 0, 1700, (4 - i) * 90, eIO); tw(ly, 'lab', 0, 600, 0); }); }
+  function settle() { holdUntil = 0; layers.forEach((ly, i) => { tw(ly, 'lift', 0, 1700, (4 - i) * 90, eIO); tw(ly, 'lab', 0, 600, 0); }); kick(); }
   function intro(fromCss) {
     introDone = true;
     if (REDUCE) return;
@@ -486,14 +492,15 @@ export function build(T) {
   }
 
   /* ---------- frame loop ---------- */
-  const EXK = () => vw < 600 ? .8 : 1;
-  let raf = 0, last = 0, onScreen = false, ready = false;
+  const EXK = () => vw < 600 ? .8 : 1, PHZ = .2;
+  let raf = 0, last = 0, onScreen = false, ready = false, sunX = NaN, sunY = NaN, sunZ = NaN;
   const scr = new T.Vector3();
   function proj(v) { scr.copy(v).project(camera); return [(scr.x + 1) / 2 * vw, (1 - scr.y) / 2 * vh]; }
   function frame() {
     const t = now(); raf = 0; const dt = Math.min(50, last ? t - last : 16); last = t;
     let moving = false;
     layers.forEach(ly => { ['lift', 'on', 'dim', 'lab'].forEach(k => { if (step(ly, k, t)) moving = true; }); });
+    const tween = moving;
     /* lifts: a stacked exploded view; a stage in focus rises a little further */
     const k = EXK(), EX = [0, 1.0, 7.9, 14.9, 26.2];
     layers.forEach((ly, i) => { ly.group.position.y = (EX[i] * ly.lift) * k + ly.on * 1.1; });
@@ -503,7 +510,7 @@ export function build(T) {
     /* turning */
     if (!REDUCE && !drag) {
       if (Math.abs(azV) > 1e-5) { az += azV * dt; azV *= Math.pow(.93, dt / 16); moving = true; }
-      else if (t - lastDrag > 1600) {
+      else if (SWAY && t - lastDrag > 1600) {
         if (az > SW1) dir = -1; else if (az < SW0) dir = 1;
         az += dir * rad(2.4) * dt / 1000; moving = true;
       }
@@ -515,18 +522,23 @@ export function build(T) {
     const el = rad(22 + 4 * ex) + leanY * rad(-2.5), a = az + leanX * rad(4);
     labFrac = Math.min(.42, (labW + 30) / vw) * Math.min(1, lv * 1.4);
     fitD = fit(el, labFrac);
+    /* phones: the fit above leaves room for the whole turning range, which on a small canvas leaves the settled house
+       small; come in a little closer once it has settled (eased with the explode). Wider canvases are unchanged. */
+    if (vw < 600) fitD /= 1 + PHZ * (1 - ex);
     camera.position.set(tgt.x + Math.sin(a) * Math.cos(el) * fitD, tgt.y + Math.sin(el) * fitD, tgt.z + Math.cos(a) * Math.cos(el) * fitD);
     camera.lookAt(tgt);
     /* lens shift: the model sits in the part of the canvas the labels leave free */
     camera.filmOffset = labFrac * Math.tan(rad(camera.fov / 2)) * camera.aspect * camera.getFilmWidth();
     camera.updateProjectionMatrix();
     sun.position.set(tgt.x - 6, 20 + tgt.y * .4, tgt.z + 14); sun.target.position.set(tgt.x * .5, 0, tgt.z);
-    if (dirty || moving) paint();
+    if (dirty || tween) { paint(); renderer.shadowMap.needsUpdate = true; }
+    if (sun.position.x !== sunX || sun.position.y !== sunY || sun.position.z !== sunZ) { sunX = sun.position.x; sunY = sun.position.y; sunZ = sun.position.z; renderer.shadowMap.needsUpdate = true; }
     dirty = false;
     renderer.render(scene, camera);
     placeLabels(lv);
     if (!ready) { ready = true; box.classList.add('gl'); }
-    if (onScreen && !d.hidden && !REDUCE) raf = requestAnimationFrame(frame);
+    /* keep drawing only while something moves (or the idle turn is on); otherwise hold the still frame until kick() */
+    if (onScreen && !d.hidden && !REDUCE && (moving || drag || SWAY)) raf = requestAnimationFrame(frame);
     else if (REDUCE && moving) raf = requestAnimationFrame(frame);
   }
   function kick() { if (!raf && onScreen && !d.hidden) { last = 0; raf = requestAnimationFrame(frame); } }
@@ -538,7 +550,8 @@ export function build(T) {
       let best = null;
       ly.anchors.forEach(a => { pt.copy(a); pt.y += ly.group.position.y; const s = proj(pt); if (!best || s[0] > best[0]) best = s; });
       if (ly.sx == null || !ly.lab) { ly.sx = best[0]; ly.sy = best[1]; } else { ly.sx += (best[0] - ly.sx) * .3; ly.sy += (best[1] - ly.sy) * .3; }
-      return { ly, ax: ly.sx, ay: ly.sy, y: ly.sy, h: ly.chip.offsetHeight || 26 };
+      if (!ly.cw) { ly.cw = ly.chip.offsetWidth; ly.ch = ly.chip.offsetHeight; }
+      return { ly, ax: ly.sx, ay: ly.sy, y: ly.sy, h: ly.ch || 26 };
     });
     let col = Math.max(...rows.map(r => r.ax)) + 22;
     rows.sort((p, q) => p.y - q.y);
@@ -547,13 +560,13 @@ export function build(T) {
     const over = rows[rows.length - 1].y + rows[rows.length - 1].h / 2 - (vh - 6); if (over > 0) rows.forEach(r => { r.y -= over; });
     const top = rows[0].y - rows[0].h / 2 - 6; if (top < 0) rows.forEach(r => { r.y -= top; });
     rows.forEach(r => {
-      const ly = r.ly, w = ly.chip.offsetWidth || 120;
+      const ly = r.ly, w = ly.cw || 120;
       const lx = Math.max(r.ax + 12, Math.min(col, vw - w - 6));
       const dx = lx - r.ax, dy = r.y - r.ay, len = Math.hypot(dx, dy), ang = Math.atan2(dy, dx);
       const o = ly.lab * (.55 + ly.dim * .45);
       ly.el.style.opacity = o.toFixed(3);
       ly.el.classList.toggle('on', ly.on > .5);
-      ly.chip.style.transform = 'translate3d(' + lx.toFixed(1) + 'px,' + (r.y - (ly.chip.offsetHeight || 24) / 2).toFixed(1) + 'px,0) scaleX(' + (.6 + .4 * Math.min(1, ly.lab)).toFixed(3) + ')';
+      ly.chip.style.transform = 'translate3d(' + lx.toFixed(1) + 'px,' + (r.y - (ly.ch || 24) / 2).toFixed(1) + 'px,0) scaleX(' + (.6 + .4 * Math.min(1, ly.lab)).toFixed(3) + ')';
       ly.ld.style.width = len.toFixed(1) + 'px';
       ly.ld.style.transform = 'translate3d(' + r.ax.toFixed(1) + 'px,' + r.ay.toFixed(1) + 'px,0) rotate(' + ang.toFixed(4) + 'rad) scaleX(' + Math.min(1, ly.lab).toFixed(3) + ')';
       ly.dt.style.transform = 'translate3d(' + (r.ax - 3).toFixed(1) + 'px,' + (r.ay - 3).toFixed(1) + 'px,0)';
@@ -564,12 +577,14 @@ export function build(T) {
   function resize() {
     const w = Math.max(1, box.clientWidth), h = Math.max(1, box.clientHeight);
     vw = w; vh = h; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    layers.forEach(ly => { ly.cw = 0; });
     labW = Math.max(...layers.map(ly => ly.chip.offsetWidth || 120)) || 150;
     dirty = true; if (ready) { if (REDUCE || !raf) frame(); }
   }
   box.appendChild(cv); box.appendChild(labs);
   recolour();
   new ResizeObserver(resize).observe(box);
+  if (d.fonts && d.fonts.ready) d.fonts.ready.then(() => { layers.forEach(ly => { ly.cw = 0; }); });
   resize();
   new IntersectionObserver(es => { onScreen = es[es.length - 1].isIntersecting; if (onScreen) kick(); }).observe(box);
   const iio = new IntersectionObserver(es => { if (es[es.length - 1].isIntersecting && !introDone) { iio.disconnect(); intro(false); kick(); } }, { threshold: .5 });
@@ -578,6 +593,9 @@ export function build(T) {
   cv.addEventListener('webglcontextlost', e => { e.preventDefault(); box.classList.remove('gl'); onScreen = false; });
   /* first frame: if the CSS model is mid-explode, start apart and settle; then swap the CSS model out */
   if (box.classList.contains('apart') && !REDUCE) intro(true);
-  frame();
+  /* the shaders compile in parallel where the browser allows it, and the first frame draws in a later task,
+     so the build and the first draw are two shorter pieces of work instead of one long one */
+  const first = () => { if (!ready) frame(); };
+  if (renderer.compileAsync) renderer.compileAsync(scene, camera).then(first, first); else requestAnimationFrame(first);
   if (!introDone) iio.observe(box);
 }
