@@ -1,8 +1,9 @@
 /* your-build: the client's own homepage (designs/13-your-build only). Loaded after s-modern.css.
    Hero from 12 Front Door (full-bleed photo, the opaque card, four promise cards dealt out from behind it),
-   process from 08 Timber (rounded chapter cards on a vertical line), both in The Build's tokens and gradient finish.
+   process as an alternating chapter timeline round a centre spine (one column with the spine on the left on phones),
+   both in The Build's tokens and gradient finish.
    Every colour comes from the theme tokens, so the header picker still works. Harbour is the page default.
-   Motion: transform, opacity and clip-path only. Reduced motion shows the finished state. */
+   Motion: transform, opacity and clip-path only (plus stroke-dashoffset for the chapter drawings). Reduced motion shows the finished state. */
 
 /* ========== hero: the front door ========== */
 .hero{position:relative;height:100svh;min-height:600px;max-height:1100px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;isolation:isolate;padding:calc(var(--top) + 20px) var(--pad) clamp(22px,4.6vh,52px);text-align:center;background:var(--paper-2)}
@@ -76,11 +77,18 @@
 @keyframes yb-deal{from{transform:translate(0,30px) rotate(0) scale(.94)}to{transform:translate(var(--x),var(--y)) rotate(var(--r))}}
 @keyframes yb-sweep{0%{transform:translateX(0) skewX(-18deg)}24%,100%{transform:translateX(450%) skewX(-18deg)}}
 
-/* ========== process: a build in five chapters ========== */
-#process .yb-chapters{--mk:44px;--rail:76px;--gap:clamp(22px,2.6vw,32px);--pt:clamp(22px,2.6vw,34px);position:relative;list-style:none;margin:0 auto;padding:0 0 0 var(--rail);max-width:1020px;display:grid;gap:var(--gap);text-align:left;counter-reset:none}
+/* ========== process: a build in five chapters ==========
+   Phones and tablets: one column, the spine on the left with the numbered badges on it, a small drawing at the top of each card.
+   Laptops (1000px and up): an alternating timeline round a centre spine. Each card sits on one side with a short connector to its
+   badge, its line drawing on the other side, and a quiet sticky "Chapter 3 of 5" marker rides the spine.
+   Classes come from your-build.js (IntersectionObserver only, never the scroll position): .yb-js on .yb-tl (script running),
+   .yb-focus (a chapter is current), .yb-live on the list (drawing allowed), .on per reached chapter, .cur on the current one.
+   Without JS or under reduced motion everything shows finished. Only transform, opacity and stroke-dashoffset move. */
+#process .yb-tl{position:relative;max-width:1120px;margin:0 auto}
+#process .yb-chapters{--mk:44px;--rail:76px;--gap:clamp(22px,2.6vw,32px);--bt:clamp(22px,2.6vw,30px);--art-bg:var(--field);position:relative;list-style:none;margin:0 auto;padding:0 0 0 var(--rail);max-width:900px;display:grid;gap:var(--gap);text-align:left}
 #process .yb-chap{position:relative}
-/* the line: a faint track, and a gradient segment from each marker to the next */
-#process .yb-chap::before,#process .yb-chap::after{content:"";position:absolute;left:calc(var(--rail) * -1 + var(--mk) / 2 - 1.5px);top:calc(var(--pt) - 14px + var(--mk) / 2);height:calc(100% + var(--gap));width:3px;border-radius:3px}
+/* the spine: a faint track, and a gradient segment from each badge to the next */
+#process .yb-chap::before,#process .yb-chap::after{content:"";position:absolute;left:calc(var(--rail) * -1 + var(--mk) / 2 - 1.5px);top:calc(var(--bt) + var(--mk) / 2);height:calc(100% + var(--gap));width:3px;border-radius:3px}
 #process .yb-chap::before{background:var(--rule)}
 #process .yb-chap::after{background:linear-gradient(180deg,var(--c0),var(--c1));transform-origin:50% 0}
 #process .yb-chap:last-child::before,#process .yb-chap:last-child::after{content:none}
@@ -88,37 +96,81 @@
 #process .yb-chap:nth-child(2){--c0:color-mix(in oklab,var(--rust) 78%,var(--gl));--c1:color-mix(in oklab,var(--rust) 55%,var(--gl))}
 #process .yb-chap:nth-child(3){--c0:color-mix(in oklab,var(--rust) 55%,var(--gl));--c1:color-mix(in oklab,var(--rust) 30%,var(--gl))}
 #process .yb-chap:nth-child(4){--c0:color-mix(in oklab,var(--rust) 30%,var(--gl));--c1:var(--gl)}
-/* the marker: a small embossed gradient badge, rust to glow */
-#process .yb-mk{position:absolute;z-index:1;left:calc(var(--rail) * -1);top:calc(var(--pt) - 14px);width:var(--mk);height:var(--mk);display:grid;place-items:center;border-radius:14px;font:600 19px/1 var(--display);color:var(--paper);background:linear-gradient(150deg,var(--m-rust-dk),var(--rust) 42%,color-mix(in oklab,var(--rust) 40%,var(--gl)) 100%);box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 28%,transparent),inset 0 -2px 0 color-mix(in srgb,#000 20%,transparent),0 1px 2px color-mix(in srgb,var(--m-shc) 20%,transparent),0 10px 18px -10px color-mix(in srgb,var(--m-shc) 60%,transparent)}
-/* the card: rounded, a gradient edge, a soft lift */
-#process .yb-card{position:relative;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:0 clamp(20px,3vw,40px);padding:var(--pt) clamp(22px,3vw,38px) clamp(22px,2.6vw,32px);border:1px solid transparent;border-radius:22px;background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb) border-box;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,60%),transparent),var(--m-sh1)}
-#process .yb-top{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 14px;min-height:20px;padding-bottom:14px;border-bottom:1px solid;border-image:linear-gradient(90deg,var(--rule-2),color-mix(in srgb,var(--rule) 50%,transparent)) 1}
-#process .yb-when{font:500 13.5px/1 var(--sans);color:var(--ink-2);padding:7px 12px 6px;border-radius:999px;background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--rule)}
-#process .yb-card h3{margin:20px 0 16px}
+/* the badge: a small embossed gradient tile, rust to glow */
+#process .yb-mk{position:absolute;z-index:2;left:calc(var(--rail) * -1);top:var(--bt);width:var(--mk);height:var(--mk);display:grid;place-items:center;border-radius:14px;font:600 19px/1 var(--display);color:var(--paper);background:linear-gradient(150deg,var(--m-rust-dk),var(--rust) 42%,color-mix(in oklab,var(--rust) 40%,var(--gl)) 100%);box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 28%,transparent),inset 0 -2px 0 color-mix(in srgb,#000 20%,transparent),0 1px 2px color-mix(in srgb,var(--m-shc) 20%,transparent),0 10px 18px -10px color-mix(in srgb,var(--m-shc) 60%,transparent)}
+/* the card: rounded and opaque; its gradient edge is a separate layer so it can fade with opacity */
+#process .yb-card{position:relative;container:yb-card/inline-size;padding:var(--bt) clamp(20px,2.6vw,32px) clamp(22px,2.4vw,30px);border:1px solid transparent;border-radius:22px;background:linear-gradient(var(--field),var(--field)) padding-box,linear-gradient(var(--rule-2),var(--rule-2)) border-box;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,60%),transparent),var(--m-sh1)}
+#process .yb-card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:var(--m-gb);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);pointer-events:none}
+#process .yb-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 14px;min-height:31px;padding-bottom:14px;border-bottom:1px solid;border-image:linear-gradient(90deg,var(--rule-2),color-mix(in srgb,var(--rule) 40%,transparent)) 1}
+#process .yb-ic{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#process .yb-when{display:inline-flex;align-items:center;gap:7px;font:500 13.5px/1 var(--sans);color:var(--ink-2);padding:8px 13px 7px 10px;border-radius:999px;background:var(--paper-2);box-shadow:inset 0 0 0 1px var(--rule)}
+#process .yb-when .yb-ic{width:15px;height:15px;margin-top:-1px;color:var(--rust)}
+#process .yb-card h3{margin:20px 0 15px}
 #process .yb-card .tick{color:var(--ink-2);font-size:16.5px;line-height:1.55}
-#process .yb-foot{display:grid;gap:12px;align-content:start;margin:0;padding-top:22px}
-#process .yb-foot>div{padding:14px 16px 15px;border-radius:14px;background:var(--paper-2);box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,55%),transparent)}
+/* signed off by, you get: stacked when narrow, side by side under the points when the card is wide */
+#process .yb-foot{display:grid;gap:10px;margin:24px 0 0;padding:0}
+@container yb-card (min-width:376px){#process .yb-foot{grid-template-columns:1fr 1fr}}
+#process .yb-foot>div{padding:13px 15px 14px;border-radius:14px;background:var(--paper-2);box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,55%),transparent)}
 #process .yb-foot>.yb-get{background:linear-gradient(135deg,color-mix(in srgb,var(--gl) 14%,var(--field)),color-mix(in srgb,var(--rust) 9%,var(--field)));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--rust) 14%,transparent)}
-#process .yb-foot dt{font:500 13px/1.5 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.09em;color:var(--rust)}
-#process .yb-foot dd{margin:3px 0 0;font-weight:500;font-size:16px;line-height:1.45;color:var(--ink)}
-@media (max-width:860px){
-  #process .yb-card{grid-template-columns:1fr;gap:0}
-  #process .yb-foot{grid-template-columns:1fr 1fr;padding-top:18px}
-}
+#process .yb-foot dt{display:flex;align-items:center;gap:7px;font:500 13px/1.5 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.09em;color:var(--rust)}
+#process .yb-foot dd{margin:5px 0 0;font-weight:500;font-size:15.5px;line-height:1.45;color:var(--ink)}
+/* the line drawings: ink and rust, one stroke weight, drawn with stroke-dashoffset (pathLength=1 on every shape) */
+#process .yb-art{display:block;width:clamp(118px,24vw,150px);height:auto;aspect-ratio:4/3;margin:-4px 0 12px -4px;overflow:visible;fill:none;stroke:var(--ink);stroke-width:3.1;stroke-linecap:round;stroke-linejoin:round}
+#process .yb-art>*{stroke-dasharray:1}
+#process .yb-art .r{stroke:var(--rust)}
+#process .yb-art .f{fill:var(--art-bg)}
+/* the progress marker shows only on laptops with the script running */
+#process .yb-prog{display:none}
 @media (max-width:600px){
-  #process .yb-chapters{--mk:34px;--rail:44px;--pt:22px}
-  #process .yb-mk{border-radius:11px;font-size:16px;top:calc(var(--pt) - 7px)}
-  #process .yb-chap::before,#process .yb-chap::after{top:calc(var(--pt) - 7px + var(--mk) / 2)}
-  #process .yb-card{padding:var(--pt) 18px 20px;border-radius:18px}
-  #process .yb-foot{grid-template-columns:1fr}
+  #process .yb-chapters{--mk:34px;--rail:44px;--bt:20px}
+  #process .yb-mk{border-radius:11px;font-size:16px}
+  #process .yb-card{padding:var(--bt) 18px 20px;border-radius:18px}
   #process .yb-card .tick{font-size:16px}
 }
-/* drawing: the class comes from your-build.js (IntersectionObserver), never from the scroll position */
+@media (min-width:1000px){
+  #process .yb-chapters{--mk:52px;--mid:148px;--ov:72px;--bt:30px;--art-bg:var(--paper);max-width:none;padding:0;display:block}
+  #process .yb-chap+.yb-chap{margin-top:calc(var(--ov) * -1)}
+  #process .yb-chap::before,#process .yb-chap::after{left:calc(50% - 1.5px);height:calc(100% - var(--ov))}
+  #process .yb-mk{left:calc(50% - var(--mk) / 2);border-radius:16px;font-size:22px}
+  #process .yb-card{width:calc(50% - var(--mid) / 2);padding:var(--bt) 32px 30px}
+  #process .yb-chap:nth-child(even) .yb-card{margin-left:auto}
+  /* the connector from the badge to its card */
+  #process .yb-card::after{content:"";position:absolute;top:calc(var(--bt) + var(--mk) / 2 - 1px);right:calc((var(--mid) - var(--mk)) / -2 - 1px);width:calc((var(--mid) - var(--mk)) / 2 + 1px);height:2px;border-radius:2px;background:linear-gradient(270deg,var(--rust),color-mix(in srgb,var(--gl) 75%,transparent));transform-origin:100% 50%}
+  #process .yb-chap:nth-child(even) .yb-card::after{right:auto;left:calc((var(--mid) - var(--mk)) / -2 - 1px);background:linear-gradient(90deg,var(--rust),color-mix(in srgb,var(--gl) 75%,transparent));transform-origin:0 50%}
+  /* the drawing sits on the far side of the spine, centred against its card */
+  #process .yb-art{position:absolute;top:calc(50% - 108px);left:calc(150% + var(--mid) - 144px);width:288px;height:216px;margin:0;stroke-width:1.5}
+  #process .yb-chap:nth-child(even) .yb-art{left:auto;right:calc(150% + var(--mid) - 144px)}
+  /* the current chapter at full strength, the others ease back a little */
+  #process .yb-focus .yb-chap:not(.cur) .yb-card::before{opacity:0}
+  #process .yb-focus .yb-chap:not(.cur) .yb-card.in{opacity:.8}
+  #process .yb-tl{max-width:1060px}
+}
+/* the marker: a small chapter index in the margin beside the timeline, native sticky, never over a card or badge */
+@media (min-width:1200px){
+  #process .yb-tl.yb-js .yb-prog{display:block;position:sticky;top:calc(50vh - 80px);z-index:4;height:162px;margin:0 0 -162px}
+  #process .yb-pin{position:absolute;left:-82px;top:0;width:60px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:14px 0 15px;border-radius:16px;background:var(--field);border:1px solid var(--rule);box-shadow:var(--m-sh1)}
+  #process .yb-pt{display:flex;flex-direction:column;align-items:center;gap:3px;font:500 13px/1 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.09em;color:var(--ink-3)}
+  #process .yb-pt b{font:600 26px/1 var(--display);letter-spacing:0;color:var(--rust);font-variant-numeric:tabular-nums}
+  #process .yb-dots{display:flex;flex-direction:column;gap:6px}
+  #process .yb-dots i{position:relative;width:7px;height:7px;border-radius:50%;background:var(--rule-2)}
+  #process .yb-dots i::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,var(--rust),var(--gl));opacity:0}
+  #process .yb-dots i.on::after{opacity:1}
+  #process .yb-dots i.cur{transform:scale(1.5)}
+}
 @media (prefers-reduced-motion:no-preference){
+  #process .yb-card.in{transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
+  #process .yb-card::before{transition:opacity 1s var(--ease)}
+  #process .yb-dots i,#process .yb-dots i::after{transition:transform .8s var(--ease),opacity .8s var(--ease)}
+  /* drawing in: the class comes from your-build.js (IntersectionObserver), never from the scroll position */
   #process .yb-live .yb-chap::after{transform:scaleY(0);transition:transform var(--dur) var(--ease) .35s}
   #process .yb-live .yb-mk{opacity:.3;transform:scale(.62);transition:opacity .8s var(--ease),transform 1s cubic-bezier(.34,1.5,.64,1)}
-  #process .yb-live .yb-chap.on::after{transform:none}
-  #process .yb-live .yb-chap.on .yb-mk{opacity:1;transform:none}
+  #process .yb-live .yb-card::after{transform:scaleX(0);transition:transform .9s var(--ease) .25s}
+  #process .yb-live .yb-art>*{stroke-dashoffset:1;transition:stroke-dashoffset var(--dur) var(--ease) var(--ad,.3s)}
+  #process .yb-live .yb-chap.on::after,#process .yb-live .yb-chap.on .yb-mk,#process .yb-live .yb-chap.on .yb-card::after{opacity:1;transform:none}
+  #process .yb-live .yb-chap.on .yb-art>*{stroke-dashoffset:0}
+  #process .yb-art>:nth-child(2){--ad:.42s}#process .yb-art>:nth-child(3){--ad:.54s}#process .yb-art>:nth-child(4){--ad:.66s}
+  #process .yb-art>:nth-child(5){--ad:.78s}#process .yb-art>:nth-child(6){--ad:.9s}#process .yb-art>:nth-child(7){--ad:1.02s}
+  #process .yb-art>:nth-child(8){--ad:1.14s}#process .yb-art>:nth-child(9){--ad:1.26s}#process .yb-art>:nth-child(n+10){--ad:1.38s}
 }
 
 /* ========== one design in every theme ========== */
