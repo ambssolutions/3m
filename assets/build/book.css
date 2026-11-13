@@ -1,0 +1,79 @@
+/* book: "A build in five chapters" reads like the pages of a book. Linked after energy.css and before flair.css.
+   Each chapter card is a page hinged on the spine. As it comes up the screen it turns down from upright onto the pile,
+   and a page shadow (.bk-sh) clears as it lands.
+   - Phones and tablets (one column, spine on the left): every page hinges on its left edge.
+   - Laptops (two-page spread around the centre spine): pages on the left hinge on their right edge, pages on the right on
+     their left edge, so each turns about the spine. The line drawing beside each page fades and settles once it lands.
+   Driven by a view timeline on each chapter (animation-timeline), so the turn follows the finger exactly and runs on the
+   compositor, with no scroll handlers. Browsers without view timelines get a one-time 1.2s turn when the page's own reveal
+   (.rv -> .in, the inline IntersectionObserver) fires, with the same keyframes; no extra script.
+   Only transform and opacity animate. The pages stay opaque and in normal flow: on phones a chapter is 640 to 740px tall,
+   too tall to stack as sticky pages with the earlier titles still showing, so they turn in one after another instead.
+   Reduced motion: nothing here applies, the pages lie flat and show at once. html.lite: no 3D, the plain fade-up reveal.
+   The five tiles over the photo keep their deal-in; each tile's number fills with the accent once its chapter is reached
+   (.rd from your-build.js), a one-time class change. No :has(), so class changes in the section stay cheap. */
+
+#process .bk-sh{display:none}
+
+@media (prefers-reduced-motion:no-preference){
+  /* ---------- the page ---------- */
+  .js:not(.lite) #process .yb-chap{view-timeline:--bk block}
+  .js:not(.lite) #process .yb-card{transform-origin:0 var(--bk-oy,110px);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  /* the page shadow: darker toward the free edge, cleared once the page lies flat */
+  .js:not(.lite) #process .bk-sh{display:block;position:absolute;inset:-1px;z-index:5;border-radius:inherit;pointer-events:none;opacity:0;
+    background:linear-gradient(90deg,color-mix(in srgb,var(--m-shc,#000) 10%,transparent),color-mix(in srgb,var(--m-shc,#000) 42%,transparent))}
+
+  /* ---------- laptops: a two-page spread, left pages hinge on the spine at their right edge ---------- */
+  @media (min-width:1000px){
+    .js:not(.lite) #process .yb-chap:nth-child(odd) .yb-card{transform-origin:100% var(--bk-oy,110px)}
+    .js:not(.lite) #process .yb-chap:nth-child(odd) .bk-sh{background:linear-gradient(270deg,color-mix(in srgb,var(--m-shc,#000) 10%,transparent),color-mix(in srgb,var(--m-shc,#000) 42%,transparent))}
+  }
+
+  /* ---------- scroll-linked: the turn follows the finger ---------- */
+  @supports (animation-timeline:view()){
+    /* the page turns instead of fading up, so the reveal's fade is not needed (the laptop focus dimming still applies).
+       Few layers: the animations fill neither way. Before its range a page is still below the screen, and after it the
+       page lies flat, which is its own resting style, so a page is a compositor layer only while it is turning (one or
+       two at a time) and needs no will-change. The drawing beside a laptop page shares the page's range and stays hidden
+       for its first 64%, so it too needs no fill. */
+    .js:not(.lite) #process .yb-card.rv{opacity:1}
+    .js:not(.lite) #process .yb-card{animation:bk-turn cubic-bezier(.3,.55,.45,1) none;animation-timeline:--bk;animation-range:entry 0% entry min(50vh,460px)}
+    .js:not(.lite) #process .bk-sh{animation:bk-shade linear none;animation-timeline:--bk;animation-range:entry 0% entry min(50vh,460px)}
+    @media (min-width:601px) and (max-width:999px){.js:not(.lite) #process .yb-card{animation-name:bk-turn-t}}
+    @media (min-width:1000px){
+      .js:not(.lite) #process .yb-chap:nth-child(odd) .yb-card{animation-name:bk-turn-r}
+      .js:not(.lite) #process .yb-art{animation:bk-settle-v linear none;animation-timeline:--bk;animation-range:entry 0% entry min(72vh,640px)}
+    }
+  }
+
+  /* ---------- no view timelines (older Safari, Firefox): one turn when the page's reveal fires ---------- */
+  @supports not (animation-timeline:view()){
+    .js:not(.lite) #process .yb-card.rv.in{animation:bk-turn 1.2s var(--ease) backwards}
+    .js:not(.lite) #process .yb-card.rv.in .bk-sh{animation:bk-shade 1.2s var(--ease) backwards}
+    @media (min-width:601px) and (max-width:999px){.js:not(.lite) #process .yb-card.rv.in{animation-name:bk-turn-t}}
+    @media (min-width:1000px){
+      .js:not(.lite) #process .yb-chap:nth-child(odd) .yb-card.rv.in{animation-name:bk-turn-r}
+      .js:not(.lite) #process .yb-card.rv.in .yb-art{animation:bk-settle .9s var(--ease) 1s backwards}
+    }
+  }
+
+  /* ---------- the tiles over the photo: each number fills with the accent once its chapter is reached ----------
+     your-build.js sets .yb-tiles on the section when the chapters draw in, and .rd on a tile as its chapter is reached */
+  #process.yb-tiles .en-fc i{position:relative;isolation:isolate;color:var(--rust);background:var(--field);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--rust) 60%,transparent);transition:color .9s var(--ease),box-shadow .9s var(--ease)}
+  #process.yb-tiles .en-fc i::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;opacity:0;transition:opacity .9s var(--ease);
+    background:linear-gradient(150deg,var(--m-rust-dk),var(--rust) 42%,color-mix(in oklab,var(--rust) 40%,var(--gl)) 100%);box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 28%,transparent),inset 0 -2px 0 color-mix(in srgb,#000 20%,transparent)}
+  html.flair #process.yb-tiles .en-fc i::before{background:var(--m-btn)}
+  #process.yb-tiles .en-fc.rd i{color:var(--paper);box-shadow:inset 0 0 0 1.5px transparent}
+  #process.yb-tiles .en-fc.rd i::before{opacity:1}
+}
+
+/* the page stands up off the spine (its free edge toward the reader) and lies down flat; -r is the mirror for a right hinge,
+   -t the same turn for the wider single-column pages on tablets. The depth is set for each width so the lines of text stay
+   level enough that no two lines' boxes cross mid-turn (concept-check measures boxes), and the vanishing point sits near
+   the top of the page (110px), where the chapter label and title are, so those stay level while the page turns. */
+@keyframes bk-turn{from{transform:perspective(2200px) rotateY(-84deg)}to{transform:perspective(2200px) rotateY(0deg)}}
+@keyframes bk-turn-t{from{transform:perspective(4800px) rotateY(-84deg)}to{transform:perspective(4800px) rotateY(0deg)}}
+@keyframes bk-turn-r{from{transform:perspective(2200px) rotateY(84deg)}to{transform:perspective(2200px) rotateY(0deg)}}
+@keyframes bk-shade{0%{opacity:1}70%{opacity:.25}100%{opacity:0}}
+@keyframes bk-settle-v{0%,64%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:none}}
+@keyframes bk-settle{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}

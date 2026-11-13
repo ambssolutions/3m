@@ -14,22 +14,25 @@
   if (!tl || !list || !items.length || !('IntersectionObserver' in window)) return;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var prog = tl.querySelector('.yb-prog'), num = prog && prog.querySelector('b'), dots = prog ? [].slice.call(prog.querySelectorAll('.yb-dots i')) : [];
+  var tiles = [].slice.call(sec.querySelectorAll('.en-fc')); /* the five tiles over the photo: each is marked read (.rd) with its chapter */
   tl.classList.add('yb-js');
 
   /* reached, in order */
   var shown = 0, target = 0, timer = null;
   function step() {
     timer = null; if (shown >= target) return;
-    items[shown].classList.add('on'); if (dots[shown]) dots[shown].classList.add('on'); shown++;
+    items[shown].classList.add('on'); if (dots[shown]) dots[shown].classList.add('on'); if (tiles[shown]) tiles[shown].classList.add('rd'); shown++;
     if (shown < target) timer = setTimeout(step, 320);
   }
   function reach(n) { if (n > target) { target = n; if (!timer) step(); } }
   if (reduce) { items.forEach(function (it, i) { it.classList.add('on'); if (dots[i]) dots[i].classList.add('on'); }); shown = target = items.length; }
   else {
-    list.classList.add('yb-live');
+    list.classList.add('yb-live'); sec.classList.add('yb-tiles');
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
-        if (!e.isIntersecting && e.boundingClientRect.top > 0) return;
+        /* below the screen, or not laid out yet (phones skip the section with content-visibility until it is near, and
+           report an empty box): wait. Only a chapter already above the screen (a jump) counts as reached unseen. */
+        if (!e.isIntersecting && (e.boundingClientRect.top > 0 || !e.boundingClientRect.height)) return;
         reach(items.indexOf(e.target) + 1); io.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -42% 0px' });
