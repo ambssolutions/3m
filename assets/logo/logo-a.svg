@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 3 65 34" width="260" height="136">
+  <title>3M Construction, direction A: Roofline (proposed)</title>
+  <!-- one continuous line: the 3, the ground line, then the M as two roof pitches on posts -->
+  <path d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34" fill="none" stroke="#1F5F8B" style="stroke:var(--rust,#1F5F8B)" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3"/>
+</svg>

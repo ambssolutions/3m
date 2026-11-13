@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en-AU" data-default-theme="harbour">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3M Construction | Proposed logo directions</title>
+<meta name="description" content="Three proposed logo directions for 3M Construction, each with a short build-up animation.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F1F3F4">
+<link rel="icon" href="assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/fraunces-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/work-sans.woff2" as="font" type="font/woff2" crossorigin>
+<script src="assets/themes.js?v=1"></script>
+<style>
+@font-face{font-family:"Fraunces";font-style:normal;font-weight:600;font-display:swap;src:url(assets/fonts/fraunces-600.woff2) format("woff2")}
+@font-face{font-family:"Work Sans";font-style:normal;font-weight:400 600;font-display:swap;src:url(assets/fonts/work-sans.woff2) format("woff2")}
+:root{
+  --paper:#F1F3F4; --paper-2:#E3E8EB; --field:#F9FAFB; --glow:#2FA4C2;
+  --ink:#13233A; --ink-2:#45546A; --ink-3:#66758A;
+  --rust:#1F5F8B; --rust-2:#174B6F; --moss:#3F6B5C;
+  --rule:#D3D9DE; --rule-2:#B3BEC8;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --pad:clamp(16px,5.5vw,80px); --top:72px; --ease:cubic-bezier(.22,1,.36,1);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+h1,h2{font-family:var(--display);font-weight:600;margin:0;line-height:1.08;letter-spacing:-.012em;text-wrap:balance}
+h1{font-size:clamp(34px,4.4vw,54px)}
+h2{font-size:clamp(24px,2.2vw,28px)}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--rust);outline-offset:3px}
+.wrap{width:min(100% - 2*var(--pad),1320px);margin-inline:auto}
+.skip{position:fixed;left:16px;top:-80px;z-index:400;background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:2px;font-weight:600;text-decoration:none}
+.skip:focus{top:12px}
+
+/* header, the same shape as the homepage so the Colour picker sits in the same place */
+.hdr{position:sticky;top:0;z-index:200;height:var(--top);display:flex;align-items:center;background:var(--paper);border-bottom:1px solid var(--rule-2)}
+.hdr .wrap{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+.logo{text-decoration:none;font:600 20px/1 var(--display)}
+.nav{display:flex;align-items:center;justify-content:flex-end;gap:16px;grid-column:3}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;background:var(--rust);color:var(--paper);font:600 14px/1 var(--sans);letter-spacing:.02em;text-decoration:none;border-radius:2px;transition:background .5s}
+.btn:hover{background:var(--rust-2)}
+@media (max-width:600px){.hdr .m3-word .m3-w2{display:none}.nav .btn{padding:0 14px}}
+@media (max-width:420px){.nav .btn .long{display:none}}
+
+.intro{text-align:center;padding:clamp(48px,7vw,96px) 0 clamp(32px,4vw,56px)}
+.intro p{max-width:620px;margin:18px auto 0;color:var(--ink-2)}
+
+.dirs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,28px);align-items:start}
+@media (max-width:1100px){.dirs{grid-template-columns:minmax(0,1fr);max-width:620px;margin-inline:auto}}
+.dir{background:var(--field);border:1px solid var(--rule);border-radius:4px;padding:clamp(22px,2.4vw,32px);text-align:center}
+.dir .pick{display:block;margin-bottom:8px;font:600 13px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--rust)}
+.dir .idea{margin:10px auto 0;max-width:34ch;color:var(--ink-2);font-size:16px;line-height:1.55}
+.stage{display:grid;place-items:center;height:clamp(190px,17vw,240px);margin:22px 0 6px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.stage .m3-logo{--m3-h:clamp(104px,9vw,128px)}
+.dir .m3-logo{--m3-knock:var(--field)}
+.use.light .m3-logo{--m3-knock:var(--paper)}
+.use.dark .m3-logo{--m3-knock:var(--deep,var(--ink))}
+.sizes{display:flex;align-items:center;justify-content:center;gap:clamp(14px,2vw,26px);min-height:84px;padding:10px 12px;border:1px solid var(--rule);border-radius:2px}
+.sizes .m3-logo{gap:0}
+.sizes small{flex:0 0 4.8em;font:500 12.5px/1.3 var(--sans);color:var(--ink-3);margin-right:auto}
+.replay{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:12px 0 4px;padding:0 18px;border:1px solid var(--rule-2);border-radius:2px;background:var(--paper);color:var(--ink);font:600 14px/1 var(--sans);cursor:pointer;transition:border-color .4s}
+.replay:hover{border-color:var(--rust)}
+.replay svg{width:16px;height:16px}
+
+.uses{display:grid;gap:10px;margin-top:18px;text-align:left}
+.use{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center;gap:12px;min-height:64px;padding:0 16px;border-radius:2px}
+.use small{font:500 12.5px/1.3 var(--sans);color:var(--ink-3)}
+.use.light{background:var(--paper);border:1px solid var(--rule)}
+.use.dark{background:var(--deep,var(--ink));color:var(--on-deep-hi,var(--paper))}
+.use.dark small{color:var(--on-deep-2,#B8AE9C)}
+.use .m3-logo{text-decoration:none;font:600 20px/1 var(--display);min-width:0}
+.tabs{display:flex;gap:10px}
+.tab{display:flex;align-items:center;gap:10px;flex:1;min-height:52px;padding:0 12px;border-radius:2px;font:500 13px/1 var(--sans);white-space:nowrap}
+@media (max-width:480px){.use{grid-template-columns:minmax(0,1fr);gap:6px;padding:12px 16px 14px}.tab{gap:8px;padding:0 10px}.sizes{flex-wrap:wrap;gap:12px 18px}.sizes small{flex:0 0 100%}}
+.uses>*{min-width:0}
+.tab.l{background:#FFFFFF;color:#3C4043;border:1px solid var(--rule)}
+.tab.d{background:#202124;color:#E8EAED}
+.tab svg{width:32px;height:32px;flex:none}
+.tab svg+svg{width:16px;height:16px}
+
+.why{max-width:680px;margin:clamp(48px,6vw,80px) auto 0;text-align:center}
+.why p{margin-top:14px;color:var(--ink-2)}
+.notes{max-width:680px;margin:28px auto 0;padding:0;list-style:none;display:grid;gap:10px;text-align:left;color:var(--ink-2);font-size:16px}
+.notes li{position:relative;padding-left:28px}
+.notes li::before{content:"";position:absolute;left:2px;top:9px;width:11px;height:6px;border-left:2px solid var(--rust);border-bottom:2px solid var(--rust);transform:rotate(-45deg)}
+
+.foot{margin-top:clamp(56px,7vw,96px);padding:28px 0 calc(28px + env(safe-area-inset-bottom));border-top:1px solid var(--rule);text-align:center;font-size:14px;color:var(--ink-3)}
+.foot a{color:var(--ink-2);text-decoration-color:var(--rust);text-underline-offset:4px}
+</style>
+<link rel="stylesheet" href="assets/logo/logo.css?v=2">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="logo m3-logo m3-dir-a" href="#top" aria-label="3M Construction logo ideas, top of page"><svg class="m3-mark" viewBox="0 3 65 34" aria-hidden="true" focusable="false"><path class="m3-one m3-acc-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/><path class="m3-trace" pathLength="1" stroke-width="4" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/></svg><span class="m3-word"><span class="m3-w1">3M</span> <span class="m3-w2">Construction</span></span></a>
+    <nav class="nav" aria-label="Main">
+      <a class="btn" href="designs/13-your-build/">See it<span class="long">&nbsp;on the homepage</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap" id="top">
+    <section class="intro" aria-labelledby="h1">
+      <h1 id="h1">Logo ideas for 3M Construction</h1>
+      <p>Three proposed directions for a new 3M Construction logo, each drawn from the way a building goes up. They are drafts for you to choose from and refine, not a finished logo. Each one builds itself once when the page opens. Use the Colour button to see them in each colour scheme.</p>
+    </section>
+
+    <div class="dirs">
+      <article class="dir" aria-labelledby="ha">
+        <span class="pick">Our recommendation</span>
+        <h2 id="ha">A. Roofline</h2>
+        <p class="idea">One line draws the 3, runs along the ground and climbs the two roof pitches of the M.</p>
+        <div class="stage"><span class="m3-logo m3-dir-a"><svg class="m3-mark" viewBox="0 3 65 34" aria-hidden="true" focusable="false"><path class="m3-one m3-acc-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/><path class="m3-trace" pathLength="1" stroke-width="4" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/></svg></span></div>
+        <button class="replay" type="button" aria-label="Replay direction A" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9M2.5 2.5v3h3"/></svg>Replay</button>
+        <div class="uses">
+          <div class="sizes"><small>16, 28 and 64 px</small><span class="m3-logo m3-dir-a" style="--m3-h:16px"><svg class="m3-mark" viewBox="0 3 65 34" aria-hidden="true" focusable="false"><path class="m3-one m3-acc-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/><path class="m3-trace" pathLength="1" stroke-width="4" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/></svg></span><span class="m3-logo m3-dir-a" style="--m3-h:28px"><svg class="m3-mark" viewBox="0 3 65 34" aria-hidden="true" focusable="false"><path class="m3-one m3-acc-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/><path class="m3-trace" pathLength="1" stroke-width="4" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/></svg></span><span class="m3-logo m3-dir-a" style="--m3-h:64px"><svg class="m3-mark" viewBox="0 3 65 34" aria-hidden="true" focusable="false"><path class="m3-one m3-acc-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/><path class="m3-trace" pathLength="1" stroke-width="4" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/></svg></span></div>
+          <div class="use light"><small>Header</small><span class="m3-logo m3-dir-a"><svg class="m3-mark" viewBox="0 3 65 34" aria-hidden="true" focusable="false"><path class="m3-one m3-acc-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/><path class="m3-trace" pathLength="1" stroke-width="4" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/></svg><span class="m3-word"><span class="m3-w1">3M</span> <span class="m3-w2">Construction</span></span></span></div>
+          <div class="use dark"><small>Footer</small><span class="m3-logo m3-dir-a m3-on-dark"><svg class="m3-mark" viewBox="0 3 65 34" aria-hidden="true" focusable="false"><path class="m3-one m3-acc-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/><path class="m3-trace" pathLength="1" stroke-width="4" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/></svg><span class="m3-word"><span class="m3-w1">3M</span> <span class="m3-w2">Construction</span></span></span></div>
+          <div class="tabs" aria-label="Browser tab icon at 32 and 16 pixels, on a light and a dark tab">
+            <span class="tab l"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-a"/></svg><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-a"/></svg>Light tab</span>
+            <span class="tab d"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-a"/></svg><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-a"/></svg>Dark tab</span>
+          </div>
+        </div>
+      </article>
+      <article class="dir" aria-labelledby="hb">
+        
+        <h2 id="hb">B. Block</h2>
+        <p class="idea">A solid block, like a slab or a building plot, with 3M cut out of it. The roof of the M breaks out of the top.</p>
+        <div class="stage"><span class="m3-logo m3-dir-b"><svg class="m3-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="m3-acc" d="M7 15H41A6 6 0 0 1 47 21V41A6 6 0 0 1 41 47H7A6 6 0 0 1 1 41V21A6 6 0 0 1 7 15z"/><g class="m3-hv"><path class="m3-roof m3-acc" d="M17.13 15.5L31.8 4.5L47 15.9V22H17.13z"/></g><g class="m3-knock-line" stroke-width="4.4" stroke-linecap="square" stroke-miterlimit="3"><path d="M7.2 21.2H14.8V25.15L9 29.5H9.15A5.65 5.65 0 0 1 9.15 40.8H7.2"/><path d="M22.8 40.8V19L27.3 15.6L31.8 30L36.3 15.6L40.8 19V40.8"/></g></svg></span></div>
+        <button class="replay" type="button" aria-label="Replay direction B" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9M2.5 2.5v3h3"/></svg>Replay</button>
+        <div class="uses">
+          <div class="sizes"><small>16, 28 and 64 px</small><span class="m3-logo m3-dir-b" style="--m3-h:16px"><svg class="m3-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="m3-acc" d="M7 15H41A6 6 0 0 1 47 21V41A6 6 0 0 1 41 47H7A6 6 0 0 1 1 41V21A6 6 0 0 1 7 15z"/><g class="m3-hv"><path class="m3-roof m3-acc" d="M17.13 15.5L31.8 4.5L47 15.9V22H17.13z"/></g><g class="m3-knock-line" stroke-width="4.4" stroke-linecap="square" stroke-miterlimit="3"><path d="M7.2 21.2H14.8V25.15L9 29.5H9.15A5.65 5.65 0 0 1 9.15 40.8H7.2"/><path d="M22.8 40.8V19L27.3 15.6L31.8 30L36.3 15.6L40.8 19V40.8"/></g></svg></span><span class="m3-logo m3-dir-b" style="--m3-h:28px"><svg class="m3-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="m3-acc" d="M7 15H41A6 6 0 0 1 47 21V41A6 6 0 0 1 41 47H7A6 6 0 0 1 1 41V21A6 6 0 0 1 7 15z"/><g class="m3-hv"><path class="m3-roof m3-acc" d="M17.13 15.5L31.8 4.5L47 15.9V22H17.13z"/></g><g class="m3-knock-line" stroke-width="4.4" stroke-linecap="square" stroke-miterlimit="3"><path d="M7.2 21.2H14.8V25.15L9 29.5H9.15A5.65 5.65 0 0 1 9.15 40.8H7.2"/><path d="M22.8 40.8V19L27.3 15.6L31.8 30L36.3 15.6L40.8 19V40.8"/></g></svg></span><span class="m3-logo m3-dir-b" style="--m3-h:64px"><svg class="m3-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="m3-acc" d="M7 15H41A6 6 0 0 1 47 21V41A6 6 0 0 1 41 47H7A6 6 0 0 1 1 41V21A6 6 0 0 1 7 15z"/><g class="m3-hv"><path class="m3-roof m3-acc" d="M17.13 15.5L31.8 4.5L47 15.9V22H17.13z"/></g><g class="m3-knock-line" stroke-width="4.4" stroke-linecap="square" stroke-miterlimit="3"><path d="M7.2 21.2H14.8V25.15L9 29.5H9.15A5.65 5.65 0 0 1 9.15 40.8H7.2"/><path d="M22.8 40.8V19L27.3 15.6L31.8 30L36.3 15.6L40.8 19V40.8"/></g></svg></span></div>
+          <div class="use light"><small>Header</small><span class="m3-logo m3-dir-b"><svg class="m3-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="m3-acc" d="M7 15H41A6 6 0 0 1 47 21V41A6 6 0 0 1 41 47H7A6 6 0 0 1 1 41V21A6 6 0 0 1 7 15z"/><g class="m3-hv"><path class="m3-roof m3-acc" d="M17.13 15.5L31.8 4.5L47 15.9V22H17.13z"/></g><g class="m3-knock-line" stroke-width="4.4" stroke-linecap="square" stroke-miterlimit="3"><path d="M7.2 21.2H14.8V25.15L9 29.5H9.15A5.65 5.65 0 0 1 9.15 40.8H7.2"/><path d="M22.8 40.8V19L27.3 15.6L31.8 30L36.3 15.6L40.8 19V40.8"/></g></svg><span class="m3-word"><span class="m3-w1">3M</span> <span class="m3-w2">Construction</span></span></span></div>
+          <div class="use dark"><small>Footer</small><span class="m3-logo m3-dir-b m3-on-dark"><svg class="m3-mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path class="m3-acc" d="M7 15H41A6 6 0 0 1 47 21V41A6 6 0 0 1 41 47H7A6 6 0 0 1 1 41V21A6 6 0 0 1 7 15z"/><g class="m3-hv"><path class="m3-roof m3-acc" d="M17.13 15.5L31.8 4.5L47 15.9V22H17.13z"/></g><g class="m3-knock-line" stroke-width="4.4" stroke-linecap="square" stroke-miterlimit="3"><path d="M7.2 21.2H14.8V25.15L9 29.5H9.15A5.65 5.65 0 0 1 9.15 40.8H7.2"/><path d="M22.8 40.8V19L27.3 15.6L31.8 30L36.3 15.6L40.8 19V40.8"/></g></svg><span class="m3-word"><span class="m3-w1">3M</span> <span class="m3-w2">Construction</span></span></span></div>
+          <div class="tabs" aria-label="Browser tab icon at 32 and 16 pixels, on a light and a dark tab">
+            <span class="tab l"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-b"/></svg><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-b"/></svg>Light tab</span>
+            <span class="tab d"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-b"/></svg><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-b"/></svg>Dark tab</span>
+          </div>
+        </div>
+      </article>
+      <article class="dir" aria-labelledby="hc">
+        
+        <h2 id="hc">C. Crane</h2>
+        <p class="idea">The M is a tower crane. The mast is the first leg, the jib runs across the top and the hook line drops to make the last leg.</p>
+        <div class="stage"><span class="m3-logo m3-dir-c"><svg class="m3-mark" viewBox="0 1 66 38" aria-hidden="true" focusable="false"><path class="m3-three m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 10H20V14.4L11.5 20.8H12.4A7.6 7.6 0 0 1 12.4 36H4"/><path class="m3-mast m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" d="M30 36V6"/><path class="m3-brace m3-line" pathLength="1" stroke-width="4" d="M30 13L44 31L58 13"/><g class="m3-hv"><g class="m3-swing"><path class="m3-rope m3-line" stroke-width="4" d="M58 6V30.5A3.5 3.5 0 0 1 51 30.5V28.5"/></g></g><path class="m3-jib m3-acc-line" pathLength="1" stroke-width="4" d="M23 4H63"/><path class="m3-cw m3-acc" d="M23 5h4.5v5H23z"/></svg></span></div>
+        <button class="replay" type="button" aria-label="Replay direction C" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9M2.5 2.5v3h3"/></svg>Replay</button>
+        <div class="uses">
+          <div class="sizes"><small>16, 28 and 64 px</small><span class="m3-logo m3-dir-c" style="--m3-h:16px"><svg class="m3-mark" viewBox="0 1 66 38" aria-hidden="true" focusable="false"><path class="m3-three m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 10H20V14.4L11.5 20.8H12.4A7.6 7.6 0 0 1 12.4 36H4"/><path class="m3-mast m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" d="M30 36V6"/><path class="m3-brace m3-line" pathLength="1" stroke-width="4" d="M30 13L44 31L58 13"/><g class="m3-hv"><g class="m3-swing"><path class="m3-rope m3-line" stroke-width="4" d="M58 6V30.5A3.5 3.5 0 0 1 51 30.5V28.5"/></g></g><path class="m3-jib m3-acc-line" pathLength="1" stroke-width="4" d="M23 4H63"/><path class="m3-cw m3-acc" d="M23 5h4.5v5H23z"/></svg></span><span class="m3-logo m3-dir-c" style="--m3-h:28px"><svg class="m3-mark" viewBox="0 1 66 38" aria-hidden="true" focusable="false"><path class="m3-three m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 10H20V14.4L11.5 20.8H12.4A7.6 7.6 0 0 1 12.4 36H4"/><path class="m3-mast m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" d="M30 36V6"/><path class="m3-brace m3-line" pathLength="1" stroke-width="4" d="M30 13L44 31L58 13"/><g class="m3-hv"><g class="m3-swing"><path class="m3-rope m3-line" stroke-width="4" d="M58 6V30.5A3.5 3.5 0 0 1 51 30.5V28.5"/></g></g><path class="m3-jib m3-acc-line" pathLength="1" stroke-width="4" d="M23 4H63"/><path class="m3-cw m3-acc" d="M23 5h4.5v5H23z"/></svg></span><span class="m3-logo m3-dir-c" style="--m3-h:64px"><svg class="m3-mark" viewBox="0 1 66 38" aria-hidden="true" focusable="false"><path class="m3-three m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 10H20V14.4L11.5 20.8H12.4A7.6 7.6 0 0 1 12.4 36H4"/><path class="m3-mast m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" d="M30 36V6"/><path class="m3-brace m3-line" pathLength="1" stroke-width="4" d="M30 13L44 31L58 13"/><g class="m3-hv"><g class="m3-swing"><path class="m3-rope m3-line" stroke-width="4" d="M58 6V30.5A3.5 3.5 0 0 1 51 30.5V28.5"/></g></g><path class="m3-jib m3-acc-line" pathLength="1" stroke-width="4" d="M23 4H63"/><path class="m3-cw m3-acc" d="M23 5h4.5v5H23z"/></svg></span></div>
+          <div class="use light"><small>Header</small><span class="m3-logo m3-dir-c"><svg class="m3-mark" viewBox="0 1 66 38" aria-hidden="true" focusable="false"><path class="m3-three m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 10H20V14.4L11.5 20.8H12.4A7.6 7.6 0 0 1 12.4 36H4"/><path class="m3-mast m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" d="M30 36V6"/><path class="m3-brace m3-line" pathLength="1" stroke-width="4" d="M30 13L44 31L58 13"/><g class="m3-hv"><g class="m3-swing"><path class="m3-rope m3-line" stroke-width="4" d="M58 6V30.5A3.5 3.5 0 0 1 51 30.5V28.5"/></g></g><path class="m3-jib m3-acc-line" pathLength="1" stroke-width="4" d="M23 4H63"/><path class="m3-cw m3-acc" d="M23 5h4.5v5H23z"/></svg><span class="m3-word"><span class="m3-w1">3M</span> <span class="m3-w2">Construction</span></span></span></div>
+          <div class="use dark"><small>Footer</small><span class="m3-logo m3-dir-c m3-on-dark"><svg class="m3-mark" viewBox="0 1 66 38" aria-hidden="true" focusable="false"><path class="m3-three m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" stroke-miterlimit="3" d="M4 10H20V14.4L11.5 20.8H12.4A7.6 7.6 0 0 1 12.4 36H4"/><path class="m3-mast m3-line" pathLength="1" stroke-width="4" stroke-linecap="square" d="M30 36V6"/><path class="m3-brace m3-line" pathLength="1" stroke-width="4" d="M30 13L44 31L58 13"/><g class="m3-hv"><g class="m3-swing"><path class="m3-rope m3-line" stroke-width="4" d="M58 6V30.5A3.5 3.5 0 0 1 51 30.5V28.5"/></g></g><path class="m3-jib m3-acc-line" pathLength="1" stroke-width="4" d="M23 4H63"/><path class="m3-cw m3-acc" d="M23 5h4.5v5H23z"/></svg><span class="m3-word"><span class="m3-w1">3M</span> <span class="m3-w2">Construction</span></span></span></div>
+          <div class="tabs" aria-label="Browser tab icon at 32 and 16 pixels, on a light and a dark tab">
+            <span class="tab l"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-c"/></svg><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-c"/></svg>Light tab</span>
+            <span class="tab d"><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-c"/></svg><svg viewBox="0 0 64 64" aria-hidden="true"><use href="#fav-c"/></svg>Dark tab</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <section class="why" aria-labelledby="hw">
+      <h2 id="hw">Why we suggest A</h2>
+      <p>It is the simplest of the three: one line, nothing added, and it still reads as 3M at the size of a browser tab. The two roof pitches say homes and building without a picture, and a single line is easy to paint on a ute door, cut into a site sign or stitch on a shirt. B is the strongest as an app or tab icon. C has the most character but needs more room to read.</p>
+      <ul class="notes">
+        <li>Every line is drawn on a grid as simple shapes, so the logo is sharp at any size and does not depend on a font.</li>
+        <li>The colours come from the colour scheme, so the logo changes with it, including the night scheme.</li>
+        <li>The build-up plays once, in under two seconds. People who turn off motion on their device see the finished logo straight away.</li>
+        <li>The shapes, wording and colours can all be adjusted before anything is final.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap"><p>Proposed logo directions for 3M Construction. Proudly designed by AMBS Solutions</p></div>
+</footer>
+
+<!-- browser tab icons, one per direction. A tab icon keeps a fixed colour, so these use the default Harbour blue. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="fav-a"><path fill="#1F5F8B" d="M13 0h38a13 13 0 0 1 13 13v38a13 13 0 0 1-13 13H13A13 13 0 0 1 0 51V13A13 13 0 0 1 13 0z"/><g transform="translate(4.4 14.2) scale(.85)"><path fill="none" stroke="#F1F3F4" stroke-width="6.4" stroke-linecap="square" stroke-miterlimit="3" d="M4 6H20V10.75L11 17.5H11.75A8.25 8.25 0 0 1 11.75 34H2H29V12L36 6.75L45 24L54 6.75L61 12V34"/></g></g>
+    <g id="fav-b"><g transform="translate(-1.33 -4.1) scale(1.389)"><path fill="#1F5F8B" d="M7 15H41A6 6 0 0 1 47 21V41A6 6 0 0 1 41 47H7A6 6 0 0 1 1 41V21A6 6 0 0 1 7 15z"/><path fill="#1F5F8B" d="M17.13 15.5L31.8 4.5L47 15.9V22H17.13z"/><g fill="none" stroke="#F1F3F4" stroke-width="4.4" stroke-linecap="square" stroke-miterlimit="3"><path d="M7.2 21.2H14.8V25.15L9 29.5H9.15A5.65 5.65 0 0 1 9.15 40.8H7.2"/><path d="M22.8 40.8V19L27.3 15.6L31.8 30L36.3 15.6L40.8 19V40.8"/></g></g></g>
+    <g id="fav-c"><path fill="#1F5F8B" d="M13 0h38a13 13 0 0 1 13 13v38a13 13 0 0 1-13 13H13A13 13 0 0 1 0 51V13A13 13 0 0 1 13 0z"/><g transform="translate(4.6 9) scale(.83)" fill="none" stroke-width="5" stroke="#F1F3F4"><path stroke-linecap="square" stroke-miterlimit="3" d="M4 10H20V14.4L11.5 20.8H12.4A7.6 7.6 0 0 1 12.4 36H4"/><path stroke-linecap="square" d="M30 36V6"/><path d="M30 13L44 31L58 13"/><path d="M58 6V30.5A3.5 3.5 0 0 1 51 30.5V28.5"/><path stroke="#2FA4C2" d="M23 4H63"/><path fill="#2FA4C2" stroke="none" d="M23 5h4.5v5H23z"/></g></g>
+  </defs>
+</svg>
+
+<script>
+/* Replay: swap each logo in the card for a fresh copy, so its CSS build-up runs again. */
+(function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  [].forEach.call(document.querySelectorAll('.replay'), function (b) {
+    b.hidden = false;
+    b.addEventListener('click', function () {
+      [].forEach.call(b.closest('.dir').querySelectorAll('.m3-logo'), function (el) { el.replaceWith(el.cloneNode(true)); });
+    });
+  });
+})();
+</script>
+</body>
+</html>

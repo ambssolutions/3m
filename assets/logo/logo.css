@@ -1,0 +1,78 @@
+/* 3M Construction logo: three proposed directions and their one-time build-up.
+   Markup: <a class="m3-logo m3-dir-a"> <svg class="m3-mark">...</svg> <span class="m3-word"><span class="m3-w1">3M</span> <span class="m3-w2">Construction</span></span> </a>
+   Colours come from the page theme: currentColor for the line work, --rust for the accent, --paper for cut-outs.
+   Add .m3-on-dark where the logo sits on a dark band (the footer). Only transform, opacity, clip-path and
+   stroke-dashoffset animate. The finished logo is the resting state, so it shows complete with reduced motion. */
+
+.m3-logo{
+  --m3-acc:var(--rust,#1F5F8B);
+  --m3-acc2:var(--glow,#2FA4C2);
+  --m3-knock:var(--paper,#F1F3F4);
+  --m3-word2:var(--ink-2,#45546A);
+  --m3-h:28px;
+  --m3-ease:cubic-bezier(.22,1,.36,1);
+  --m3-draw:cubic-bezier(.65,0,.35,1);
+  display:inline-flex;align-items:center;gap:12px;
+}
+.m3-logo.m3-on-dark{
+  --m3-acc:var(--on-deep-accent,var(--glow,#2FA4C2));
+  --m3-acc2:var(--on-deep-hi,var(--paper,#F1F3F4));
+  --m3-knock:var(--deep,var(--ink,#13233A));
+  --m3-word2:var(--on-deep,#D9D0C0);
+}
+.m3-logo .m3-mark{display:block;flex:none;height:var(--m3-h);width:auto;overflow:visible}
+.m3-logo.m3-dir-a .m3-mark{aspect-ratio:65/34}
+.m3-logo.m3-dir-b .m3-mark{aspect-ratio:1;height:calc(var(--m3-h) * 1.25)}
+.m3-logo.m3-dir-c .m3-mark{aspect-ratio:66/38;height:calc(var(--m3-h) * 1.1)}
+.m3-logo .m3-line{fill:none;stroke:currentColor}
+.m3-logo .m3-ink{fill:currentColor}
+.m3-logo .m3-acc{fill:var(--m3-acc)}
+.m3-logo .m3-acc-line{fill:none;stroke:var(--m3-acc)}
+.m3-logo .m3-trace{fill:none;stroke:var(--m3-acc2);opacity:0}
+.m3-logo .m3-knock-line{fill:none;stroke:var(--m3-knock)}
+
+/* wordmark: 3M in the display serif, Construction calmer in the text face, on one baseline */
+.m3-logo .m3-word{display:inline-flex;align-items:baseline;gap:.3em;white-space:nowrap;line-height:1}
+.m3-logo .m3-w1{font-family:var(--display,"Fraunces",Georgia,serif);font-weight:600;letter-spacing:-.01em}
+.m3-logo .m3-w2{font-family:var(--sans,"Work Sans",system-ui,sans-serif);font-weight:500;font-size:.8em;letter-spacing:.015em;color:var(--m3-word2)}
+
+/* ---------- the build-up: about 1.8s, once ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .m3-logo .m3-mark *{transform-box:fill-box}
+  .m3-logo .m3-word{animation:m3-up .7s var(--m3-ease) 1.2s both}
+
+  /* A, Roofline: one line draws the 3, runs along the base and climbs the two roof pitches of the M */
+  .m3-logo .m3-one{stroke-dasharray:1 1;animation:m3-draw 1.6s var(--m3-draw) both}
+
+  /* B, Block: the block rises from its baseline, then the roof settles on top */
+  .m3-logo.m3-dir-b .m3-mark{animation:m3-rise-clip .8s var(--m3-ease) both}
+  .m3-logo .m3-roof{animation:m3-settle .8s var(--m3-ease) .65s both}
+
+  /* C, Crane: the 3 is drawn, the mast goes up, the jib runs across, the hook drops and swings once */
+  .m3-logo .m3-three{stroke-dasharray:1 1;animation:m3-draw .9s var(--m3-draw) both}
+  .m3-logo .m3-mast{stroke-dasharray:1 1;animation:m3-draw .6s var(--m3-draw) .15s both}
+  .m3-logo .m3-jib{stroke-dasharray:1 1;animation:m3-draw .55s var(--m3-draw) .6s both}
+  .m3-logo .m3-cw{animation:m3-fade .4s ease-out .95s both}
+  .m3-logo .m3-brace{stroke-dasharray:1 1;animation:m3-draw .6s var(--m3-draw) .75s both}
+  .m3-logo .m3-rope{transform-origin:50% 0;animation:m3-drop .5s var(--m3-ease) .95s both}
+  .m3-logo .m3-swing{transform-box:view-box;transform-origin:58px 4px;animation:m3-swing 1s ease-out 1.25s both}
+}
+
+/* hover, fine pointers only: one detail moves once (A: a short mark in the second colour runs along the line, B: the roof is lifted and set down, C: the hook swings) */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .m3-logo .m3-hv{transform-box:view-box}
+  .m3-logo.m3-dir-a:hover .m3-trace{stroke-dasharray:.07 1.2;animation:m3-trace 1.8s var(--m3-draw)}
+  .m3-logo.m3-dir-b:hover .m3-hv{animation:m3-lift 1.4s var(--m3-ease) both}
+  .m3-logo.m3-dir-c .m3-hv{transform-origin:58px 4px}
+  .m3-logo.m3-dir-c:hover .m3-hv{animation:m3-swing 1.4s ease-out both}
+}
+
+@keyframes m3-draw{0%{stroke-dashoffset:1;opacity:0}3%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
+@keyframes m3-up{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes m3-fade{from{opacity:0}to{opacity:1}}
+@keyframes m3-rise-clip{from{clip-path:inset(100% -20% -20% -20%)}to{clip-path:inset(-20% -20% -20% -20%)}}
+@keyframes m3-settle{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:none}}
+@keyframes m3-drop{0%{opacity:0;transform:scaleY(.15)}25%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes m3-swing{0%{transform:rotate(5deg)}30%{transform:rotate(-3deg)}55%{transform:rotate(1.4deg)}78%{transform:rotate(-.5deg)}100%{transform:none}}
+@keyframes m3-trace{from{stroke-dashoffset:.07;opacity:1}to{stroke-dashoffset:-1;opacity:1}}
+@keyframes m3-lift{0%,100%{transform:none}40%{transform:translateY(-2.5px)}}

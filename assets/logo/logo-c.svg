@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 1 66 38" width="264" height="152">
+  <title>3M Construction, direction C: Crane (proposed)</title>
+  <!-- the 3, the mast, the bracing and the hook line take the text colour; the jib and counterweight take the accent -->
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <path d="M4 10H20V14.4L11.5 20.8H12.4A7.6 7.6 0 0 1 12.4 36H4" stroke-linecap="square" stroke-miterlimit="3"/>
+    <path d="M30 36V6" stroke-linecap="square"/>
+    <path d="M30 13L44 31L58 13"/>
+    <path d="M58 6V30.5A3.5 3.5 0 0 1 51 30.5V28.5"/>
+  </g>
+  <!-- drawn last so the jib sits over the top of the mast -->
+  <path d="M23 4H63" fill="none" stroke="#1F5F8B" style="stroke:var(--rust,#1F5F8B)" stroke-width="4"/>
+  <path d="M23 5h4.5v5H23z" fill="#1F5F8B" style="fill:var(--rust,#1F5F8B)"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="192" height="192">
+  <title>3M Construction, direction B: Block (proposed)</title>
+  <!-- the block and its roof in the accent colour, 3M cut out in the page colour -->
+  <g fill="#1F5F8B" style="fill:var(--rust,#1F5F8B)"><path d="M7 15H41A6 6 0 0 1 47 21V41A6 6 0 0 1 41 47H7A6 6 0 0 1 1 41V21A6 6 0 0 1 7 15z"/><path d="M17.13 15.5L31.8 4.5L47 15.9V22H17.13z"/></g>
+  <g fill="none" stroke="#F1F3F4" style="stroke:var(--paper,#F1F3F4)" stroke-width="4.4" stroke-linecap="square" stroke-miterlimit="3"><path d="M7.2 21.2H14.8V25.15L9 29.5H9.15A5.65 5.65 0 0 1 9.15 40.8H7.2"/><path d="M22.8 40.8V19L27.3 15.6L31.8 30L36.3 15.6L40.8 19V40.8"/></g>
+</svg>
