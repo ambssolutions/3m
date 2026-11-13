@@ -144,6 +144,10 @@
     {
       "source": "/home",
       "destination": "/designs/13-your-build/"
+    },
+    {
+      "source": "/home-2",
+      "destination": "/designs/13-your-build/"
     }
   ]
 }
