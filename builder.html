@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en-AU" data-no-theme-picker>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3M Construction · Build your site</title>
+<meta name="description" content="Build the 3M Construction homepage part by part, like configuring a car: pick the colour and a design for each section and watch the page change.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#101418">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0E14'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='30' fill='%23F2A91B'%3E3M%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--b-bg:#0F1317;--b-panel:#171C22;--b-panel-2:#1F262E;--b-line:rgba(255,255,255,.1);--b-line-2:rgba(255,255,255,.18);--b-ink:#EEF1F4;--b-muted:#A3ADB8;--b-accent:#F2A91B;--b-accent-2:#E8641B;--b-ok:#4CC38A;--b-stage:#2A3139;--serif:"Fraunces",Georgia,serif;--sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;--ease:cubic-bezier(.22,1,.36,1);--bar:60px;--side:400px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--b-bg);color:var(--b-ink);font:400 15.5px/1.55 var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--b-accent);outline-offset:2px;border-radius:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 16px;border-radius:999px;border:1px solid var(--b-line-2);font-weight:600;font-size:14px;text-decoration:none;white-space:nowrap;transition:background .3s,border-color .3s}
+.btn:hover{background:rgba(255,255,255,.06)}
+.btn.go{background:linear-gradient(180deg,#FFD070,#F2A91B 55%,#D9880C);color:#1A1104;border-color:transparent}
+.btn.go:hover{filter:brightness(1.05)}
+
+/* top bar */
+.bar{position:fixed;inset:0 0 auto;height:var(--bar);z-index:20;display:flex;align-items:center;gap:12px;padding:0 16px;background:#0B0E11;border-bottom:1px solid var(--b-line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;text-decoration:none;white-space:nowrap}
+.brand span{color:var(--b-muted);font-weight:500}
+.bar .grow{flex:1}
+.seg{display:inline-flex;gap:3px;padding:3px;border-radius:999px;background:var(--b-panel-2)}
+.seg button{min-height:34px;padding:0 14px;border-radius:999px;font-size:13.5px;font-weight:600;color:var(--b-muted)}
+.seg button[aria-pressed=true]{background:var(--b-ink);color:#0B0E11}
+
+/* layout */
+.app{position:fixed;inset:var(--bar) 0 0;display:grid;grid-template-columns:minmax(0,1fr) var(--side)}
+.stage{position:relative;overflow:auto;background:radial-gradient(120% 80% at 30% 0%,#30383F,var(--b-stage) 60%);scroll-behavior:smooth}
+.canvas{margin:24px auto 120px;width:var(--cw);background:#fff;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);border-radius:12px;overflow:hidden;transition:width .6s var(--ease)}
+.phone .canvas{border-radius:34px;box-shadow:0 0 0 10px #05070A,0 30px 80px -30px rgba(0,0,0,.8)}
+.part{position:relative;overflow:hidden;background:#F4EFE6}
+.part .holder{position:relative;transform-origin:0 0}
+.part iframe{display:block;border:0;width:var(--vw);transform:scale(var(--k));transform-origin:0 0;background:transparent}
+.part.loading::after{content:"Fitting this part…";position:absolute;inset:0;display:grid;place-items:center;font-weight:600;color:#6B7480;background:repeating-linear-gradient(135deg,#EEF0F2 0 14px,#E6E9EC 14px 28px)}
+.tag{position:absolute;top:10px;left:10px;z-index:3;display:inline-flex;align-items:center;gap:8px;padding:6px 8px 6px 12px;border-radius:999px;background:rgba(11,14,17,.86);color:#fff;font-size:12.5px;font-weight:600;box-shadow:0 6px 18px -6px rgba(0,0,0,.5);opacity:0;transform:translateY(-4px);transition:opacity .35s,transform .35s;pointer-events:none}
+.labels .part:hover .tag,.labels .part.cur .tag,.part:focus-within .tag{opacity:1;transform:none;pointer-events:auto}
+.tag small{color:#C9D0D8;font-weight:500}
+.tag button{min-height:28px;padding:0 10px;border-radius:999px;background:var(--b-accent);color:#1A1104;font-size:12px;font-weight:700}
+.part.cur{outline:3px solid var(--b-accent);outline-offset:-3px}
+.part.flash::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(242,169,27,.28),transparent);animation:sweep 1.1s var(--ease) forwards}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.gap{padding:18px 20px;background:repeating-linear-gradient(135deg,#F2F3F4 0 12px,#ECEEF0 12px 24px);color:#4B5560;font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+
+/* side panel */
+.side{background:var(--b-panel);border-left:1px solid var(--b-line);display:grid;grid-template-rows:auto minmax(0,1fr) auto;min-height:0}
+.side-head{padding:18px 18px 10px}
+.side-head h1{font:600 24px/1.15 var(--serif);letter-spacing:-.015em;margin:0 0 4px}
+.side-head p{margin:0;color:var(--b-muted);font-size:14px}
+.parts{overflow:auto;padding:6px 10px 18px}
+.pt{border-radius:14px;margin:6px 0;background:transparent;transition:background .3s}
+.pt.open{background:var(--b-panel-2)}
+.pt>button{width:100%;display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:2px 12px;text-align:left;padding:10px 10px;border-radius:14px}
+.pt>button:hover{background:rgba(255,255,255,.04)}
+.pt .n{grid-row:1/3;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:12.5px;font-weight:700;background:var(--b-panel-2);color:var(--b-muted);overflow:hidden}
+.pt.open .n{background:var(--b-bg)}
+.pt .n img{width:100%;height:100%;object-fit:cover;object-position:top}
+.pt .n{grid-column:1}
+.pt b{grid-column:2;grid-row:1;font-weight:600;font-size:15px}
+.pt .chev{grid-column:3}
+.pt small{grid-column:2;grid-row:2;color:var(--b-muted);font-size:13px}
+.pt small i{font-style:normal;color:var(--b-accent)}
+.pt .chev{grid-row:1/3;color:var(--b-muted);transition:transform .4s var(--ease)}
+.pt.open .chev{transform:rotate(180deg)}
+.opts{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s var(--ease)}
+.opts>div{overflow:hidden}
+.pt.open .opts{grid-template-rows:1fr}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:4px 10px 12px}
+.op{text-align:left;border-radius:10px;overflow:hidden;background:var(--b-bg);border:2px solid transparent;transition:border-color .3s,transform .3s}
+.op:hover{transform:translateY(-2px)}
+.op[aria-pressed=true]{border-color:var(--b-accent)}
+.op img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;background:#20262D}
+.op span{display:block;padding:7px 9px 8px;font-size:12.5px;font-weight:600;line-height:1.25}
+.op span em{display:block;font-style:normal;color:var(--b-muted);font-weight:500;font-size:11.5px}
+.op.none{display:grid;place-items:center;min-height:90px;border:2px dashed var(--b-line-2);color:var(--b-muted);font-weight:600;font-size:13px;background:transparent}
+.op.none[aria-pressed=true]{border-color:var(--b-accent);color:var(--b-ink)}
+.sw{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;aspect-ratio:16/10}
+.sw i:first-child{grid-row:1/3}
+.op .sw{display:grid;padding:0}
+.note{margin:0 10px 12px;padding:10px 12px;border-radius:10px;background:rgba(242,169,27,.08);color:#E9D3A6;font-size:12.5px;line-height:1.45}
+.side-foot{border-top:1px solid var(--b-line);padding:14px 16px 16px;display:grid;gap:10px;background:#13181D}
+.side-foot .sum{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13.5px;color:var(--b-muted)}
+.side-foot .sum b{color:var(--b-ink);font:600 18px/1.1 var(--serif)}
+.side-foot .row{display:flex;gap:8px;flex-wrap:wrap}
+.side-foot .row .btn{flex:1}
+.status{min-height:1.3em;font-size:13px;color:var(--b-ok)}
+
+/* phones and narrow screens: canvas full width, parts in a bottom sheet */
+@media (max-width:980px){
+  :root{--bar:56px}
+  .bar .hide-sm{display:none}
+  .app{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}
+  .canvas{margin:0 auto 20px;border-radius:0;box-shadow:none}
+  .phone .canvas{border-radius:0;box-shadow:none}
+  .side{border-left:0;border-top:1px solid var(--b-line);max-height:46vh;grid-template-rows:auto minmax(0,1fr) auto}
+  .side-head{padding:10px 14px 4px}
+  .side-head h1{font-size:18px}
+  .side-head p{display:none}
+  .grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:520px){.grid{grid-template-columns:1fr 1fr}.bar .seg{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.stage{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="./"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1F262E"/><text x="32" y="43" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="30" fill="#F2A91B">3M</text></svg>3M Construction<span class="hide-sm">· Build your site</span></a>
+  <span class="grow"></span>
+  <div class="seg" role="group" aria-label="Preview size"><button type="button" data-dev="laptop" aria-pressed="true">Laptop</button><button type="button" data-dev="phone" aria-pressed="false">Phone</button></div>
+  <button class="btn hide-sm" type="button" id="labelsBtn" aria-pressed="true">Labels on</button>
+  <a class="btn hide-sm" href="./">All designs</a>
+</header>
+
+<div class="app labels" id="app">
+  <main class="stage" id="stage" aria-label="Your homepage, live">
+    <div class="canvas" id="canvas"></div>
+  </main>
+  <aside class="side" aria-label="Parts">
+    <div class="side-head"><h1>Build your site</h1><p>Start from the base model, then swap any part. The page on the left changes as you choose.</p></div>
+    <div class="parts" id="parts"></div>
+    <div class="side-foot">
+      <div class="sum"><span>Your build</span><b id="sumTxt">Base model</b></div>
+      <div class="row"><button class="btn" type="button" id="copyLink">Copy link</button><button class="btn go" type="button" id="send">Send to AMBS</button></div>
+      <div class="row"><button class="btn" type="button" id="reset">Back to the base model</button></div>
+      <p class="status" role="status" aria-live="polite" id="status"></p>
+    </div>
+  </aside>
+</div>
+
+<script src="assets/themes.js?v=2"></script>
+<script src="assets/mix-data.js?v=3"></script>
+<script>
+(function(){
+  /* Where a finished build is sent. FORM_ENDPOINT takes JSON; with neither set the visitor's email app opens. */
+  var FORM_ENDPOINT = "", SEND_TO = "";
+  var M = window.MIX, TH = window.M3_THEMES || [], d = document, $ = function(id){return d.getElementById(id)};
+  var BASE = '11-the-build', NAMES = {}, THN = {};
+  M.designs.forEach(function(x){NAMES[x[0]] = x[1]}); TH.forEach(function(t){THN[t.id] = t});
+  var SECS = M.sections.filter(function(s){return s.kind !== 'theme'});
+  function opts(s){ return M.designs.map(function(x){return x[0]}).filter(function(slug){return !s.only || s.only.indexOf(slug) > -1}) }
+  function baseOf(s){ var o = opts(s); return o.indexOf(BASE) > -1 ? BASE : o[0] }
+
+  /* the build: shared with the section picker (same key and link format) */
+  var KEY = 'm3-mix', picks = {};
+  try { picks = JSON.parse(localStorage.getItem(KEY) || '{}') || {} } catch(e) {}
+  var q = new URLSearchParams(location.search).get('mix');
+  if (q) { picks = {}; q.split(',').forEach(function(p){ var a = p.split('.'), s = M.sections.find(function(x){return x.key === a[0]}); if (!s) return;
+    if (a[1] === 'none') picks[a[0]] = 'none'; else if (s.kind === 'theme') { if (THN[a[1]]) picks[a[0]] = a[1] } else { var z = M.designs.find(function(x){return x[0].slice(0,2) === a[1]}); if (z) picks[a[0]] = z[0] } }); save(); history.replaceState(null, '', location.pathname) }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(picks)) } catch(e) {} }
+  function pick(s){ return picks[s.key] || baseOf(s) }
+  function theme(){ return picks.theme || 'diary' }
+
+  /* preview geometry */
+  var dev = 'laptop', stage = $('stage'), canvas = $('canvas');
+  function geom(){ var vw = dev === 'phone' ? 390 : 1280, avail = stage.clientWidth - (innerWidth > 980 ? 48 : 0), cw = Math.min(vw, avail); return { vw: vw, cw: cw, k: cw / vw, hero: dev === 'phone' ? 844 : 800 } }
+
+  /* parts on the canvas */
+  var frames = {};
+  function src(s, slug){ var p = new URLSearchParams({ only: s.sel, k: s.key, theme: theme() }); if (s.key === 'hero') p.set('hdr', '1'); return 'designs/' + slug + '/?' + p.toString() }
+  function buildCanvas(){
+    var g = geom(); canvas.innerHTML = ''; frames = {};
+    canvas.style.setProperty('--cw', g.cw + 'px'); canvas.style.width = g.cw + 'px';
+    stage.classList.toggle('phone', dev === 'phone');
+    SECS.forEach(function(s){
+      var slug = pick(s);
+      if (slug === 'none') return;
+      var part = d.createElement('section'); part.className = 'part loading'; part.id = 'part-' + s.key; part.setAttribute('aria-label', s.name + ', from ' + NAMES[slug]);
+      part.style.setProperty('--vw', g.vw + 'px'); part.style.setProperty('--k', g.k);
+      var h0 = s.key === 'hero' ? g.hero : 700; part.style.height = Math.round(h0 * g.k) + 'px';
+      var holder = d.createElement('div'); holder.className = 'holder';
+      var f = d.createElement('iframe'); f.title = s.name + ' from the ' + NAMES[slug] + ' design'; f.loading = s.key === 'hero' ? 'eager' : 'lazy';
+      f.style.height = h0 + 'px'; f.src = src(s, slug);
+      var tag = d.createElement('div'); tag.className = 'tag'; tag.innerHTML = '<span></span><button type="button">Change</button>';
+      tag.firstChild.innerHTML = ''; var b = d.createElement('b'); b.textContent = s.name; var sm = d.createElement('small'); sm.textContent = ' · ' + NAMES[slug]; tag.firstChild.appendChild(b); tag.firstChild.appendChild(sm);
+      tag.querySelector('button').addEventListener('click', function(){ openPart(s.key, true) });
+      holder.appendChild(f); part.appendChild(holder); part.appendChild(tag); canvas.appendChild(part);
+      frames[s.key] = { part: part, frame: f, h: h0 };
+    });
+  }
+  function swap(s){
+    var g = geom(), slug = pick(s), fr = frames[s.key];
+    if (slug === 'none') { if (fr) { fr.part.remove(); delete frames[s.key] } return }
+    if (!fr) { buildCanvas(); fr = frames[s.key] }
+    else { fr.part.classList.add('loading'); fr.frame.loading = 'eager'; fr.frame.src = src(s, slug); fr.part.setAttribute('aria-label', s.name + ', from ' + NAMES[slug]); fr.part.querySelector('.tag small').textContent = ' · ' + NAMES[slug] }
+    if (fr) { scrollToPart(s.key); fr.part.classList.remove('flash'); void fr.part.offsetWidth; fr.part.classList.add('flash') }
+  }
+  function scrollToPart(key){ var fr = frames[key]; if (!fr) return; stage.scrollTo({ top: fr.part.offsetTop - 24, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); Object.keys(frames).forEach(function(k){ frames[k].part.classList.toggle('cur', k === key) }) }
+  addEventListener('message', function(e){
+    var m = e.data; if (!m || !m.m3) return;
+    var key = null; Object.keys(frames).forEach(function(k){ if (frames[k].frame.contentWindow === e.source) key = k });
+    if (!key) return; var fr = frames[key], g = geom();
+    if (m.m3 === 'ready' || m.m3 === 'missing') fr.part.classList.remove('loading');
+    if (m.m3 === 'h' && key !== 'hero') { fr.h = m.h; fr.frame.style.height = m.h + 'px'; fr.part.style.height = Math.round(m.h * g.k) + 'px' }
+    if (m.m3 === 'go') { var id = m.hash.slice(1), map = { top: 'hero' }; var k = map[id] || (frames[id] ? id : null); if (!k) { SECS.forEach(function(s){ if (s.sel.indexOf('#' + id) > -1) k = s.key }) } if (k && frames[k]) scrollToPart(k) }
+  });
+
+  /* the parts panel */
+  var openKey = null;
+  function partLabel(s){ var slug = pick(s); if (slug === 'none') return 'Left out'; return NAMES[slug] + (picks[s.key] ? '' : ' (base)') }
+  function renderParts(){
+    var box = $('parts'); box.innerHTML = '';
+    var all = [M.sections.find(function(s){return s.kind === 'theme'})].concat(SECS);
+    all.forEach(function(s, i){
+      var el = d.createElement('div'); el.className = 'pt' + (openKey === s.key ? ' open' : '');
+      var head = d.createElement('button'); head.type = 'button'; head.setAttribute('aria-expanded', String(openKey === s.key));
+      head.innerHTML = '<span class="n"></span><b></b><small></small><svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+      head.querySelector('b').textContent = s.kind === 'theme' ? 'Colour' : s.name;
+      var n = head.querySelector('.n');
+      if (s.kind === 'theme') { var t = THN[theme()]; n.style.background = 'conic-gradient(' + t.t.paper + ' 0 50%,' + t.t.rust + ' 0 75%,' + t.t.ink + ' 0)'; head.querySelector('small').textContent = t.name + (picks.theme ? '' : ' (base)') }
+      else { var slug = pick(s); if (slug !== 'none') { var im = d.createElement('img'); im.alt = ''; im.src = 'designs/' + slug + '/sec-' + s.key + '.webp?v=1'; n.appendChild(im) } else n.textContent = '–'; head.querySelector('small').textContent = partLabel(s) }
+      head.addEventListener('click', function(){ openPart(openKey === s.key ? null : s.key, false) });
+      el.appendChild(head);
+      var wrap = d.createElement('div'); wrap.className = 'opts'; var inner = d.createElement('div'); wrap.appendChild(inner);
+      if (openKey === s.key) {
+        if (s.kind === 'theme') {
+          var gt = d.createElement('div'); gt.className = 'grid';
+          TH.forEach(function(t){ var b = d.createElement('button'); b.type = 'button'; b.className = 'op'; b.setAttribute('aria-pressed', String(theme() === t.id));
+            var sw = d.createElement('span'); sw.className = 'sw'; [t.t.paper, t.t.rust, t.t.ink].forEach(function(c){ var x = d.createElement('i'); x.style.background = c; sw.appendChild(x) }); b.appendChild(sw);
+            var lab = d.createElement('span'); lab.textContent = t.name; var em = d.createElement('em'); em.textContent = t.note; lab.appendChild(em); b.appendChild(lab);
+            b.addEventListener('click', function(){ picks.theme = t.id; save(); SECS.forEach(function(x){ var fr = frames[x.key]; if (fr && pick(x) === BASE) { fr.part.classList.add('loading'); fr.frame.src = src(x, BASE) } }); renderParts(); summary() });
+            gt.appendChild(b) });
+          inner.appendChild(gt);
+          var note = d.createElement('p'); note.className = 'note'; note.textContent = 'The colour shows on The Build parts now. When we build your site, every part you pick is redrawn in this colour.'; inner.appendChild(note);
+        } else {
+          var gr = d.createElement('div'); gr.className = 'grid';
+          opts(s).forEach(function(slug){ var b = d.createElement('button'); b.type = 'button'; b.className = 'op'; b.setAttribute('aria-pressed', String(pick(s) === slug));
+            b.innerHTML = '<img alt="" loading="lazy" decoding="async" width="640" height="400"><span></span>'; b.querySelector('img').src = 'designs/' + slug + '/sec-' + s.key + '.webp?v=1';
+            var lab = b.querySelector('span'); lab.textContent = NAMES[slug]; var em = d.createElement('em'); em.textContent = slug === baseOf(s) ? 'Base model' : 'Design ' + slug.slice(0,2); lab.appendChild(em);
+            b.setAttribute('aria-label', NAMES[slug] + ' ' + s.name);
+            b.addEventListener('click', function(){ picks[s.key] = slug; save(); swap(s); renderParts(); summary() });
+            gr.appendChild(b) });
+          if (s.optional) { var nb = d.createElement('button'); nb.type = 'button'; nb.className = 'op none'; nb.setAttribute('aria-pressed', String(pick(s) === 'none')); nb.textContent = 'Leave this part out';
+            nb.addEventListener('click', function(){ picks[s.key] = 'none'; save(); swap(s); renderParts(); summary() }); gr.appendChild(nb) }
+          inner.appendChild(gr);
+        }
+      }
+      el.appendChild(wrap); box.appendChild(el);
+    });
+  }
+  function openPart(key, fromCanvas){ openKey = key; renderParts(); if (key && key !== 'theme') scrollToPart(key); var el = $('parts').querySelector('.pt.open'); if (el && fromCanvas) el.scrollIntoView({ block: 'nearest' }) }
+
+  /* summary, share and send */
+  function mixParam(){ return M.sections.filter(function(s){return picks[s.key]}).map(function(s){ return s.key + '.' + (picks[s.key] === 'none' ? 'none' : s.kind === 'theme' ? picks[s.key] : picks[s.key].slice(0,2)) }).join(',') }
+  function mixText(){ return 'Colour: ' + THN[theme()].name + '\n' + SECS.map(function(s){ return s.name + ': ' + partLabel(s) }).join('\n') }
+  function summary(){ var n = M.sections.filter(function(s){return picks[s.key]}).length; $('sumTxt').textContent = n ? n + ' part' + (n === 1 ? '' : 's') + ' changed' : 'Base model' }
+  function shareUrl(){ return location.origin + location.pathname + '?mix=' + encodeURIComponent(mixParam()) }
+  $('copyLink').addEventListener('click', function(){ var u = shareUrl(); (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function(){ $('status').textContent = 'Link copied. It opens this exact build.' }).catch(function(){ prompt('Copy this link', u) }) });
+  $('send').addEventListener('click', function(){
+    var body = '3M Construction website: my build\n\n' + mixText() + '\n\nLink: ' + shareUrl();
+    if (FORM_ENDPOINT) fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ subject: '3M Construction site build', build: mixText(), link: shareUrl() }) }).then(function(r){ if (!r.ok) throw 0; $('status').textContent = 'Sent. We will build the site from this.' }).catch(function(){ $('status').textContent = 'That did not send. Use Copy link instead.' });
+    else { location.href = 'mailto:' + SEND_TO + '?subject=' + encodeURIComponent('3M Construction site build') + '&body=' + encodeURIComponent(body); $('status').textContent = 'Your email app should open with your build filled in.' }
+  });
+  $('reset').addEventListener('click', function(){ if (!confirm('Go back to the base model? Your choices will be cleared.')) return; picks = {}; save(); buildCanvas(); renderParts(); summary(); $('status').textContent = '' });
+
+  /* controls */
+  [].forEach.call(d.querySelectorAll('.seg button'), function(b){ b.addEventListener('click', function(){ dev = b.dataset.dev; [].forEach.call(d.querySelectorAll('.seg button'), function(x){ x.setAttribute('aria-pressed', String(x === b)) }); buildCanvas() }) });
+  $('labelsBtn').addEventListener('click', function(){ var on = !$('app').classList.contains('labels'); $('app').classList.toggle('labels', on); this.setAttribute('aria-pressed', String(on)); this.textContent = on ? 'Labels on' : 'Labels off' });
+  var rt; addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(function(){ var g = geom(); canvas.style.width = g.cw + 'px'; Object.keys(frames).forEach(function(k){ var fr = frames[k]; fr.part.style.setProperty('--k', g.k); fr.part.style.height = Math.round(fr.h * g.k) + 'px' }) }, 150) });
+  if (innerWidth < 700) { dev = 'phone'; [].forEach.call(d.querySelectorAll('.seg button'), function(x){ x.setAttribute('aria-pressed', String(x.dataset.dev === 'phone')) }) }
+
+  buildCanvas(); renderParts(); summary();
+})();
+</script>
+</body>
+</html>

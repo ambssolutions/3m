@@ -3,6 +3,55 @@
    and shortlist the current one. Rendered in a shadow root so it never inherits or
    leaks a concept's styles. Shortlist is shared with the gallery via localStorage. */
 (function () {
+  /* Part mode for the site builder: ?only=<selector>&k=<part key>[&hdr=1] shows just that part of the page
+     (plus the header when hdr=1), reports its height to the builder, and hands in-page links to the builder. */
+  var q = new URLSearchParams(location.search), sel = q.get('only');
+  if (!sel || window.self === window.top) return;
+  var key = q.get('k') || '', root = document.documentElement;
+  root.setAttribute('data-no-theme-picker', '');
+  root.setAttribute('data-part', key);
+  var st = document.createElement('style');
+  st.textContent = '[data-path]>:not([data-path]):not([data-only]){display:none!important}' +
+    'html[data-part],html[data-part] body{background:transparent;min-height:0!important;overflow:hidden!important}' +
+    'html[data-part]{scroll-padding-top:0!important}';
+  document.head.appendChild(st);
+  var target = null;
+  function mark() {
+    try { target = document.querySelector(sel); } catch (e) { target = null; }
+    if (!target) return false;
+    target.setAttribute('data-only', '');
+    if (q.get('hdr') === '1') { var h = document.querySelector('header.hdr, header.top, body > header'); if (h && h !== target && !target.contains(h)) h.setAttribute('data-only', ''); }
+    for (var n = target.parentElement; n && n !== document.documentElement; n = n.parentElement) n.setAttribute('data-path', '');
+    document.body.setAttribute('data-path', '');
+    var bg = getComputedStyle(document.body).backgroundColor; target.style.backgroundColor = target.style.backgroundColor || '';
+    if (bg && bg !== 'rgba(0, 0, 0, 0)') root.style.background = bg;
+    return true;
+  }
+  var sent = 0, last = 0;
+  function report() {
+    if (!target || sent > 12) return;
+    var r = target.getBoundingClientRect(), h = Math.ceil(r.bottom + window.scrollY);
+    if (key === 'hero') return;
+    if (Math.abs(h - last) < 2) return;
+    last = h; sent++;
+    parent.postMessage({ m3: 'h', k: key, h: h }, '*');
+  }
+  function start() {
+    if (!mark()) { parent.postMessage({ m3: 'missing', k: key }, '*'); return; }
+    parent.postMessage({ m3: 'ready', k: key }, '*');
+    report(); setTimeout(report, 600); setTimeout(report, 1800); setTimeout(report, 4000);
+    if ('ResizeObserver' in window) new ResizeObserver(function () { report(); }).observe(target);
+    if (document.fonts) document.fonts.ready.then(report);
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return; var h = a.getAttribute('href'); if (h.length < 2) return;
+    e.preventDefault(); e.stopPropagation(); parent.postMessage({ m3: 'go', hash: h }, '*');
+  }, true);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+
+(function () {
   var CONCEPTS = [
     ['01-night-shift', 'Night Shift', 'Dark gradient, embossed'],
     ['02-blueprint', 'Blueprint', 'Drawing set'],

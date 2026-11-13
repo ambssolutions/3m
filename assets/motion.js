@@ -11,7 +11,7 @@
 
   /* ---- smooth scroll on mouse and trackpad only ---- */
   var lenis = null;
-  if (fine && window.Lenis) {
+  if (fine && window.Lenis && !/[?&]only=/.test(location.search)) {
     lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
     lenis.on('scroll', function () { if (window.ScrollTrigger) ScrollTrigger.update(); });
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
