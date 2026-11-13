@@ -12,6 +12,7 @@
   var sec = document.getElementById('process'); if (!sec) return;
   var tl = sec.querySelector('.yb-tl'), list = sec.querySelector('.yb-chapters'), items = [].slice.call(sec.querySelectorAll('.yb-chap'));
   if (!tl || !list || !items.length || !('IntersectionObserver' in window)) return;
+  if (sec.classList.contains('bk-on')) return; /* book.js turns the chapters as the pages of a book and keeps the count */
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var prog = tl.querySelector('.yb-prog'), num = prog && prog.querySelector('b'), dots = prog ? [].slice.call(prog.querySelectorAll('.yb-dots i')) : [];
   var tiles = [].slice.call(sec.querySelectorAll('.en-fc')); /* the five tiles over the photo: each is marked read (.rd) with its chapter */
