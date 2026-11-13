@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en-AU" data-no-theme-picker>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3M Construction · Build your own mix</title>
+<meta name="description" content="Choose a design for each section of the 3M Construction homepage, then send us your mix.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F5F4EF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0E14'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='30' fill='%23F2A91B'%3E3M%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F4EF;--surface:#fff;--surface-2:#EDECE5;--ink:#141A22;--muted:#535E57;--line:rgba(21,32,26,.12);--accent:#C98A0E;--accent-2:#F2A91B;--ok:#2E7D4F;--r:16px;--shadow:0 1px 2px rgba(21,32,26,.06),0 12px 32px -12px rgba(21,32,26,.18);--ease:cubic-bezier(.22,1,.36,1);--serif:"Fraunces",Georgia,serif;--sans:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;--top:64px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:15px;letter-spacing:-.005em;text-decoration:none;white-space:nowrap;transition:box-shadow .3s,transform .3s}
+.btn:hover{box-shadow:var(--shadow)}
+.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.accent{background:var(--accent-2);border-color:var(--accent-2);color:#140C02}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.count{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:var(--accent-2);color:#140C02;font-size:12px;font-weight:700}
+
+/* header */
+.top{position:sticky;top:0;z-index:30;height:var(--top);display:flex;align-items:center;gap:14px;padding:0 20px;background:var(--bg);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16.5px;letter-spacing:-.01em;text-decoration:none;white-space:nowrap}
+.brand span{color:var(--muted);font-weight:500}
+.top nav{margin-left:auto;display:flex;gap:8px;align-items:center}
+
+/* layout */
+.app{display:grid;grid-template-columns:310px minmax(0,1fr);min-height:calc(100vh - var(--top))}
+.app>*{min-width:0}
+.side{position:sticky;top:var(--top);align-self:start;height:calc(100vh - var(--top));overflow:auto;border-right:1px solid var(--line);padding:30px 18px 34px}
+.side h1{font:600 27px/1.12 var(--serif);letter-spacing:-.02em;margin:0 10px 12px;font-variation-settings:"opsz" 72}
+.side p{margin:0 10px 24px;color:var(--muted);font-size:15px;line-height:1.55}
+.secs{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.secs button{width:100%;text-align:left;display:grid;grid-template-columns:30px 1fr;align-items:center;gap:1px 12px;padding:11px 12px;border-radius:12px;transition:background .3s}
+.secs button:hover{background:var(--surface-2)}
+.secs button[aria-current=true]{background:var(--surface);box-shadow:var(--shadow)}
+.secs .n{grid-row:1/3;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;background:var(--surface-2);color:var(--muted)}
+.secs .done .n{background:var(--ok);color:#fff}
+.secs .skip .n{background:var(--ink);color:#fff}
+.secs b{font-weight:600;font-size:15.5px;letter-spacing:-.01em;line-height:1.3}
+.secs small{color:var(--muted);font-size:13.5px;line-height:1.35}
+.secs .done small{color:var(--ok);font-weight:500}
+.side .finish{margin:18px 8px 0;width:calc(100% - 16px)}
+
+.main{padding:24px clamp(16px,3vw,40px) 120px;min-width:0}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 20px;justify-content:space-between;margin-bottom:16px}
+.head h2{font:600 clamp(34px,3.6vw,50px)/1.05 var(--serif);letter-spacing:-.025em;margin:0;font-variation-settings:"opsz" 144}
+.head p{margin:10px 0 0;color:var(--muted);max-width:60ch;font-size:16.5px;line-height:1.55}
+.stepper{display:flex;gap:8px}
+
+/* options */
+.opts{display:flex;gap:12px;overflow-x:auto;padding:6px 2px 14px;scroll-snap-type:x proximity}
+.opt{flex:0 0 230px;scroll-snap-align:start;text-align:left;border-radius:14px;background:var(--surface);border:2px solid transparent;box-shadow:var(--shadow);overflow:hidden;transition:border-color .3s,transform .3s}
+.opt:hover{transform:translateY(-2px)}
+.opt[aria-pressed=true]{border-color:var(--ink)}
+.opt img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;background:var(--surface-2)}
+.opt .cap{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px 13px}
+.opt .cap b{font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+.opt .cap small{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.opt .tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--ok);color:#fff}
+.opt .swatch{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;aspect-ratio:16/10}
+.opt .swatch i:first-child{grid-row:1/3}
+.sum li .swatch{width:150px;aspect-ratio:16/10;border-radius:8px;display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;overflow:hidden}
+.sum li .swatch i:first-child{grid-row:1/3}
+@media (max-width:900px){.sum li .swatch{width:110px}}
+.opt.none{display:grid;place-items:center;min-height:170px;color:var(--muted);font-weight:600;border:2px dashed var(--line);box-shadow:none;background:transparent}
+.opt.none[aria-pressed=true]{border-color:var(--ink);color:var(--ink)}
+
+/* preview */
+.pv{margin-top:6px;background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.pv-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.pv-bar .t{font-weight:600;font-size:16px}
+.pv-bar .t small{color:var(--muted);font-weight:500;font-size:14px;margin-left:8px}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--surface-2)}
+.seg button{min-height:36px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.pv-bar .grow{flex:1}
+.stage{position:relative;background:#E6E4DC;display:grid;place-items:start center;overflow:hidden}
+.frame-wrap{position:relative;overflow:hidden;transform-origin:0 0}
+.frame-wrap iframe{display:block;border:0;background:#fff;transform-origin:0 0}
+.phone .frame-wrap{border-radius:26px;box-shadow:0 0 0 10px #141A22,0 20px 50px -20px rgba(0,0,0,.5);margin:22px 0}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-weight:600;pointer-events:none;opacity:0;transition:opacity .3s}
+.stage.busy .loading{opacity:1}
+.pv-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px;border-top:1px solid var(--line)}
+.pv-foot p{margin:0;color:var(--muted);font-size:14.5px}
+
+/* summary */
+.sum{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:28px;align-items:start}
+.sum ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.sum li{display:grid;grid-template-columns:150px 1fr auto;gap:14px;align-items:center;background:var(--surface);border-radius:14px;box-shadow:var(--shadow);padding:10px}
+.sum li img{width:150px;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:8px;background:var(--surface-2)}
+.sum li b{display:block;font-weight:600;font-size:16px}
+.sum li small{color:var(--muted)}
+.sum li.missing{opacity:.6}
+.send{position:sticky;top:calc(var(--top) + 20px);background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;display:grid;gap:12px}
+.send h3{font:600 26px/1.1 var(--serif);letter-spacing:-.02em;margin:0}
+.send label{display:grid;gap:6px;font-weight:600;font-size:14.5px}
+.send input,.send textarea{font:inherit;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg)}
+.send textarea{min-height:90px;resize:vertical}
+.send .row{display:flex;flex-wrap:wrap;gap:8px}
+.status{min-height:1.4em;font-weight:500;color:var(--ok)}
+
+/* phones */
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{position:sticky;top:var(--top);z-index:20;height:auto;overflow:visible;border-right:0;border-bottom:1px solid var(--line);background:var(--bg);padding:10px 0 8px}
+  .side h1,.side>p,.side .finish{display:none}
+  .secs{display:flex;overflow-x:auto;gap:6px;padding:0 14px;scrollbar-width:none}
+  .secs::-webkit-scrollbar{display:none}
+  .secs li{flex:none}
+  .secs button{grid-template-columns:22px auto;padding:7px 12px 7px 8px;border-radius:999px;background:var(--surface-2)}
+  .secs .n{width:22px;height:22px;font-size:11px}
+  .secs small{display:none}
+  .main{padding:16px 14px 110px}
+  .opt{flex-basis:180px}
+  .head h2{font-size:34px}
+  .secs b{font-size:14.5px}
+  .sum{grid-template-columns:1fr}
+  .sum li{grid-template-columns:110px 1fr;}
+  .sum li img{width:110px}
+  .sum li .btn{grid-column:1/-1}
+  .send{position:static}
+  .hide-sm{display:none}
+  .pick-bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:40;display:flex;gap:8px}
+  .pick-bar .btn{flex:1;min-height:52px}
+}
+@media (min-width:901px){.pick-bar{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="./"><svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0A0E14"/><text x="32" y="43" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="30" fill="#F2A91B">3M</text></svg>3M Construction<span class="hide-sm">· Build your own mix</span></a>
+  <nav aria-label="Actions">
+    <a class="btn hide-sm" href="./">All designs</a>
+    <button class="btn primary" type="button" id="toSummary">Your mix <span class="count" id="countTop">0</span></button>
+  </nav>
+</header>
+
+<div class="app">
+  <aside class="side" aria-label="Sections">
+    <h1>Pick a design for each section</h1>
+    <p>Go through the sections, preview each version live, and choose one. Your choices are saved in this browser.</p>
+    <ol class="secs" id="secs"></ol>
+    <button class="btn accent finish" type="button" id="finish">See your mix</button>
+  </aside>
+
+  <main class="main" id="main">
+    <section id="pick" aria-labelledby="secTitle">
+      <div class="head">
+        <div><h2 id="secTitle">Hero</h2><p id="secNote"></p></div>
+        <div class="stepper"><button class="btn" type="button" id="prev">Previous</button><button class="btn" type="button" id="next">Next section</button></div>
+      </div>
+      <div class="opts" id="opts" role="group" aria-label="Versions of this section"></div>
+      <div class="pv">
+        <div class="pv-bar">
+          <span class="t" id="pvTitle">Preview</span>
+          <span class="grow"></span>
+          <div class="seg" role="group" aria-label="Preview size"><button type="button" data-dev="laptop" aria-pressed="true">Laptop</button><button type="button" data-dev="phone" aria-pressed="false">Phone</button></div>
+          <a class="btn hide-sm" id="openFull" href="#" target="_blank" rel="noopener">Open full page</a>
+        </div>
+        <div class="stage busy" id="stage"><div class="frame-wrap" id="fw"><iframe id="frame" title="Live preview of the selected section" loading="eager"></iframe></div><div class="loading">Loading the live preview…</div></div>
+        <div class="pv-foot"><p id="pvNote">The preview is the real page, scrolled to this section. You can scroll and click inside it.</p><button class="btn primary" type="button" id="choose">Choose this</button></div>
+      </div>
+    </section>
+
+    <section id="summary" aria-labelledby="sumTitle" hidden>
+      <div class="head"><div><h2 id="sumTitle">Your mix</h2><p>One design per section. Change any of them, then send it to AMBS and we will build the final site from it.</p></div><div class="stepper"><button class="btn" type="button" id="back">Back to the sections</button></div></div>
+      <div class="sum">
+        <ol id="sumList"></ol>
+        <form class="send" id="send" novalidate>
+          <h3>Send your mix</h3>
+          <label>Your name<input name="name" autocomplete="name"></label>
+          <label>Notes <textarea name="notes" placeholder="Anything to change, keep or combine."></textarea></label>
+          <div class="row"><button class="btn primary" type="submit">Send to AMBS</button><button class="btn" type="button" id="copyLink">Copy link to this mix</button><button class="btn" type="button" id="reset">Start again</button></div>
+          <p class="status" role="status" aria-live="polite" id="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="pick-bar" id="pickBar"><button class="btn primary" type="button" id="choose2">Choose this</button><button class="btn" type="button" id="next2">Next</button></div>
+
+<script src="assets/themes.js?v=1"></script>
+<script src="assets/mix-data.js?v=2"></script>
+<script>
+(function(){
+  /* Where to send a finished mix. FORM_ENDPOINT takes JSON (Formspree or Web3Forms); with neither set the visitor's email app opens. */
+  var FORM_ENDPOINT = "", SEND_TO = "";
+  var M = window.MIX, d = document, $ = function(id){return d.getElementById(id)};
+  var NAMES = {}; M.designs.forEach(function(x){NAMES[x[0]] = x[1]});
+  var KEY = 'm3-mix', picks = {}, THN0 = {}; (window.M3_THEMES || []).forEach(function(t){THN0[t.id] = t});
+  try { picks = JSON.parse(localStorage.getItem(KEY) || '{}') || {} } catch(e) { picks = {} }
+  /* a shared link carries a mix: ?mix=hero.03,services.01,layers.none */
+  var q = new URLSearchParams(location.search).get('mix');
+  if (q) { q.split(',').forEach(function(p){var a = p.split('.'); var s = M.sections.find(function(x){return x.key === a[0]}); if (!s) return; if (a[1] === 'none') picks[a[0]] = 'none'; else if (s.kind === 'theme') { if (THN0[a[1]]) picks[a[0]] = a[1]; } else { var dz = M.designs.find(function(x){return x[0].slice(0,2) === a[1]}); if (dz) picks[a[0]] = dz[0]; } }); save(); }
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(picks)) } catch(e) {} }
+  var TH = window.M3_THEMES || [], THN = {}; TH.forEach(function(t){THN[t.id] = t});
+  function opts(s){ if (s.kind === 'theme') return TH.map(function(t){return t.id}); return M.designs.map(function(x){return x[0]}).filter(function(slug){return !s.only || s.only.indexOf(slug) > -1}) }
+  function swatch(id){ var t = THN[id].t, el = d.createElement('span'); el.className = 'swatch'; [t.paper, t.rust, t.ink].forEach(function(c){ var i = d.createElement('i'); i.style.background = c; el.appendChild(i) }); return el }
+  function nameOf(key, v){ if (key === 'theme') return THN[v] ? THN[v].name : v; return label(v) }
+  function label(slug){ return slug === 'none' ? 'Leave this section out' : slug.slice(0,2) + ' ' + NAMES[slug] }
+
+  var cur = 0, dev = 'laptop', viewing = null;
+  var startKey = location.hash.slice(1); var si = M.sections.findIndex(function(s){return s.key === startKey}); if (si > -1) cur = si;
+
+  /* sidebar */
+  function renderSide(){
+    $('secs').innerHTML = '';
+    M.sections.forEach(function(s, i){
+      var li = d.createElement('li'), b = d.createElement('button'), p = picks[s.key];
+      b.type = 'button'; b.className = p ? (p === 'none' ? 'skip' : 'done') : ''; b.setAttribute('aria-current', String(i === cur && $('summary').hidden));
+      b.innerHTML = '<span class="n"></span><b></b><small></small>';
+      b.querySelector('.n').textContent = p ? (p === 'none' ? '–' : '✓') : (i + 1);
+      b.querySelector('b').textContent = s.name;
+      b.querySelector('small').textContent = p ? nameOf(s.key, p) : 'Not chosen yet';
+      b.addEventListener('click', function(){ go(i) });
+      li.appendChild(b); $('secs').appendChild(li);
+    });
+    var n = M.sections.filter(function(s){return picks[s.key]}).length;
+    $('countTop').textContent = n;
+  }
+
+  /* options row */
+  function renderOpts(){
+    var s = M.sections[cur], list = opts(s);
+    $('secTitle').textContent = s.name; $('secNote').textContent = s.note;
+    $('opts').innerHTML = '';
+    if (!viewing || (viewing !== 'none' && list.indexOf(viewing) < 0)) viewing = picks[s.key] && picks[s.key] !== 'none' ? picks[s.key] : list[0];
+    list.forEach(function(slug){
+      var b = d.createElement('button'); b.type = 'button'; b.className = 'opt'; b.setAttribute('aria-pressed', String(viewing === slug));
+      b.innerHTML = '<img alt="" loading="lazy" decoding="async" width="640" height="400"><span class="cap"><span><b></b><br><small></small></span></span>';
+      if (s.kind === 'theme') { b.replaceChild(swatch(slug), b.querySelector('img')); b.querySelector('b').textContent = THN[slug].name; b.querySelector('small').textContent = THN[slug].note; }
+      else { b.querySelector('img').src = 'designs/' + slug + '/sec-' + s.key + '.webp?v=1'; b.querySelector('b').textContent = NAMES[slug]; b.querySelector('small').textContent = 'Design ' + slug.slice(0,2); }
+      if (picks[s.key] === slug) { var t = d.createElement('span'); t.className = 'tag'; t.textContent = 'Chosen'; b.querySelector('.cap').appendChild(t) }
+      b.setAttribute('aria-label', (s.kind === 'theme' ? THN[slug].name + ' theme' : NAMES[slug] + ' version of ' + s.name) + (picks[s.key] === slug ? ', chosen' : ''));
+      b.addEventListener('click', function(){ viewing = slug; renderOpts(); load() });
+      $('opts').appendChild(b);
+    });
+    if (s.optional) {
+      var nb = d.createElement('button'); nb.type = 'button'; nb.className = 'opt none'; nb.setAttribute('aria-pressed', String(viewing === 'none'));
+      nb.textContent = picks[s.key] === 'none' ? 'Left out (chosen)' : 'Leave this section out';
+      nb.addEventListener('click', function(){ viewing = 'none'; renderOpts(); load() });
+      $('opts').appendChild(nb);
+    }
+    var chosen = picks[s.key] === viewing;
+    ['choose','choose2'].forEach(function(id){ $(id).textContent = chosen ? 'Chosen' : (viewing === 'none' ? 'Leave it out' : 'Choose this'); $(id).disabled = chosen });
+    $('pvTitle').innerHTML = ''; $('pvTitle').textContent = viewing === 'none' ? 'No section' : (s.kind === 'theme' ? THN[viewing].name : NAMES[viewing]); if (viewing !== 'none') { var sm = d.createElement('small'); sm.textContent = s.name; $('pvTitle').appendChild(sm) }
+    $('prev').disabled = cur === 0;
+    $('next').textContent = cur === M.sections.length - 1 ? 'See your mix' : 'Next section';
+  }
+
+  /* live preview: the real page in a frame, scrolled to the section and scaled to fit */
+  var frame = $('frame'), fw = $('fw'), stage = $('stage'), loadedSrc = '';
+  function size(){
+    var W = dev === 'phone' ? 390 : 1280, H = dev === 'phone' ? 844 : 800;
+    var avail = stage.clientWidth - (dev === 'phone' ? 40 : 0);
+    var k = Math.min(1, avail / W); if (dev === 'phone') k = Math.min(k, 0.78);
+    frame.style.width = W + 'px'; frame.style.height = H + 'px'; frame.style.transform = 'scale(' + k + ')';
+    fw.style.width = (W * k) + 'px'; fw.style.height = (H * k) + 'px';
+    stage.classList.toggle('phone', dev === 'phone');
+  }
+  function scrollFrame(){
+    var s = M.sections[cur];
+    try {
+      var w = frame.contentWindow, doc = w.document, el = doc.querySelector(s.sel); if (!el) return;
+      var hdr = doc.querySelector('header, .hdr'), off = hdr && w.getComputedStyle(hdr).position === 'fixed' ? hdr.offsetHeight : 0;
+      var y = (s.key === 'hero' || s.kind === 'theme') ? 0 : s.key === 'footer' ? doc.documentElement.scrollHeight : Math.max(0, el.getBoundingClientRect().top + w.scrollY - off);
+      doc.documentElement.style.scrollBehavior = 'auto'; w.scrollTo(0, y);
+    } catch(e) {}
+  }
+  function load(){
+    var s = M.sections[cur];
+    if (viewing === 'none') { stage.classList.remove('busy'); frame.style.visibility = 'hidden'; $('openFull').hidden = true; return }
+    frame.style.visibility = ''; $('openFull').hidden = false;
+    var src = s.kind === 'theme' ? 'designs/11-the-build/?theme=' + viewing : 'designs/' + viewing + '/';
+    $('openFull').href = src + (s.kind === 'theme' || s.key === 'hero' || s.key === 'footer' ? '' : '#' + s.sel.split(',')[0].trim().replace('#',''));
+    size();
+    if (loadedSrc === src + dev) { scrollFrame(); return }
+    stage.classList.add('busy'); loadedSrc = src + dev; frame.src = src;
+  }
+  frame.addEventListener('load', function(){ setTimeout(function(){ scrollFrame(); stage.classList.remove('busy') }, 700) });
+  addEventListener('resize', size);
+  [].forEach.call(d.querySelectorAll('.seg button'), function(b){ b.addEventListener('click', function(){ dev = b.dataset.dev; [].forEach.call(d.querySelectorAll('.seg button'), function(x){x.setAttribute('aria-pressed', String(x === b))}); loadedSrc = ''; load() }) });
+
+  function go(i){ cur = i; viewing = null; $('pick').hidden = false; $('summary').hidden = true; $('pickBar').hidden = false; history.replaceState(null, '', location.pathname + location.search.replace(/[?&]mix=[^&]*/,'') + '#' + M.sections[i].key); renderSide(); renderOpts(); load(); scrollTo(0,0) }
+  function choose(){ picks[M.sections[cur].key] = viewing; save(); renderSide(); renderOpts() }
+  function next(){ if (cur < M.sections.length - 1) go(cur + 1); else summary() }
+  $('choose').addEventListener('click', choose); $('choose2').addEventListener('click', choose);
+  $('next').addEventListener('click', next); $('next2').addEventListener('click', next);
+  $('prev').addEventListener('click', function(){ if (cur > 0) go(cur - 1) });
+
+  /* summary */
+  function mixParam(){ return M.sections.filter(function(s){return picks[s.key]}).map(function(s){return s.key + '.' + (picks[s.key] === 'none' ? 'none' : s.kind === 'theme' ? picks[s.key] : picks[s.key].slice(0,2))}).join(',') }
+  function mixText(){ return M.sections.map(function(s){return s.name + ': ' + (picks[s.key] ? nameOf(s.key, picks[s.key]) : 'not chosen')}).join('\n') }
+  function summary(){
+    $('pick').hidden = true; $('summary').hidden = false; $('pickBar').hidden = true; history.replaceState(null, '', location.pathname + '#summary');
+    $('sumList').innerHTML = '';
+    M.sections.forEach(function(s, i){
+      var p = picks[s.key], li = d.createElement('li'); if (!p) li.className = 'missing';
+      li.innerHTML = '<img alt="" loading="lazy" decoding="async" width="640" height="400"><span><b></b><small></small></span><button class="btn" type="button">Change</button>';
+      var img = li.querySelector('img'); if (s.kind === 'theme' && p) li.replaceChild(swatch(p), img); else if (p && p !== 'none') img.src = 'designs/' + p + '/sec-' + s.key + '.webp?v=1'; else img.style.visibility = 'hidden';
+      li.querySelector('b').textContent = s.name; li.querySelector('small').textContent = p ? nameOf(s.key, p) : 'Not chosen yet';
+      li.querySelector('button').addEventListener('click', function(){ go(i) });
+      $('sumList').appendChild(li);
+    });
+    renderSide(); scrollTo(0,0);
+  }
+  $('toSummary').addEventListener('click', summary); $('finish').addEventListener('click', summary); $('back').addEventListener('click', function(){ go(cur) });
+  function shareUrl(){ return location.origin + location.pathname + '?mix=' + encodeURIComponent(mixParam()) }
+  $('copyLink').addEventListener('click', function(){ var u = shareUrl(); (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function(){ $('status').textContent = 'Link copied. Anyone who opens it sees this mix.' }).catch(function(){ prompt('Copy this link', u) }) });
+  $('reset').addEventListener('click', function(){ if (!confirm('Clear all your choices?')) return; picks = {}; save(); go(0) });
+  $('send').addEventListener('submit', function(e){
+    e.preventDefault(); var f = e.target, name = f.name.value.trim(), notes = f.notes.value.trim();
+    var body = '3M Construction website: section mix\n\n' + mixText() + '\n\nLink: ' + shareUrl() + (notes ? '\n\nNotes: ' + notes : '') + (name ? '\n\nFrom: ' + name : '');
+    if (FORM_ENDPOINT) {
+      fetch(FORM_ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json',Accept:'application/json'}, body: JSON.stringify({subject:'3M Construction section mix' + (name ? ' from ' + name : ''), name:name, notes:notes, mix:mixText(), link:shareUrl()})}).then(function(r){ if (!r.ok) throw 0; $('status').textContent = 'Sent. Thank you, we will build the final site from your mix.' }).catch(function(){ $('status').textContent = 'That did not send. Use Copy link and send it to us instead.' });
+    } else {
+      location.href = 'mailto:' + SEND_TO + '?subject=' + encodeURIComponent('3M Construction section mix' + (name ? ' from ' + name : '')) + '&body=' + encodeURIComponent(body);
+      $('status').textContent = 'Your email app should open with your mix filled in.';
+    }
+  });
+
+  if (location.hash === '#summary') summary(); else go(cur);
+})();
+</script>
+</body>
+</html>

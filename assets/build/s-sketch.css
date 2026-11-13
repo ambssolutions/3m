@@ -1,0 +1,168 @@
+/* s-sketch: owned by the sketch section builder.
+   "Sketch your home on your block": an ink drafting table with a paper sheet on it. The front elevation
+   redraws with stroke-dashoffset and opacity only. Visibility of each drawing layer is a custom property:
+   --on 1 = drawn, 0 = not drawn. The svg carries st1..st5 for the five build stages. */
+
+#sketch{
+  --sk-table:var(--ink); --sk-text:var(--paper); --sk-dim:rgba(244,239,230,.74); --sk-line:rgba(244,239,230,.24);
+  --sk-soft:rgba(244,239,230,.1); --sk-hi:#E3916B; --sk-sheet:var(--field);
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  background:var(--sk-table) radial-gradient(120% 80% at 28% 30%,rgba(244,239,230,.055),rgba(244,239,230,0) 60%);
+  color:var(--sk-text);
+}
+#sketch>.wrap{border-top-color:var(--sk-line)}
+#sketch>.wrap::before{border-top-color:var(--sk-line)}
+#sketch .sec-head h2{color:var(--sk-text)}
+#sketch .sec-head .intro{color:var(--sk-dim)}
+#sketch :focus-visible{outline-color:var(--sk-hi)}
+#sketch .sc{color:var(--sk-dim)}
+
+#sketch .sk-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(28px,3.6vw,60px);align-items:start}
+#sketch .sk-col{position:sticky;top:calc(var(--top) + 18px);z-index:2}
+
+/* ---------- the drawing sheet ---------- */
+#sketch .sk-sheet{position:relative;margin:0;background:var(--sk-sheet) linear-gradient(160deg,rgba(255,255,255,.5),rgba(255,255,255,0) 40%,rgba(80,60,30,.05));color:var(--ink);padding:clamp(14px,1.7vw,24px) clamp(14px,1.7vw,24px) clamp(12px,1.4vw,18px);border-radius:1px;box-shadow:0 36px 60px -26px rgba(0,0,0,.75),0 3px 0 rgba(0,0,0,.28)}
+#sketch .sk-sheet::before,#sketch .sk-sheet::after{content:"";position:absolute;top:-11px;width:86px;height:24px;background:rgba(236,229,214,.86);box-shadow:0 1px 2px rgba(0,0,0,.18);pointer-events:none}
+#sketch .sk-sheet::before{left:22px;transform:rotate(-4deg)}
+#sketch .sk-sheet::after{right:22px;transform:rotate(3.5deg)}
+#sketch .sk-sheet .sc{color:var(--ink-2)}
+#sketch .sk-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 2px 9px;border-bottom:1px solid var(--rule-2)}
+#sketch .sk-mono{font:500 11.5px/1.4 var(--mono);letter-spacing:.06em;color:var(--ink-3);text-transform:uppercase}
+#sketch .sk-box{position:relative;aspect-ratio:16/9;overflow:hidden;margin-top:8px}
+#sketch.on-block .sk-box{background:var(--ink-2)}
+#sketch .sk-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#sketch .sk-place{position:absolute;inset:0}
+#sketch .sk-art{position:absolute;inset:0;width:100%;height:100%;overflow:visible;--k:1}
+#sketch .sk-sum{margin:10px auto 0;max-width:40ch;text-align:center;font:italic 600 clamp(17px,1.45vw,21px)/1.3 var(--display);color:var(--ink);text-wrap:balance}
+#sketch .sk-tb{display:grid;grid-template-columns:repeat(4,minmax(0,auto));justify-content:stretch;margin:14px 0 0;border:1px solid var(--ink-3)}
+#sketch .sk-tb div{padding:6px 10px;border-left:1px solid var(--rule-2);min-width:0}
+#sketch .sk-tb div:first-child{border-left:0}
+#sketch .sk-tb dt{font:500 10px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+#sketch .sk-tb dd{margin:2px 0 0;font:500 12px/1.3 var(--mono);color:var(--ink)}
+#sketch .sk-pencil{position:absolute;right:9%;bottom:-30px;width:min(240px,34%);height:auto;transform:rotate(-5deg);filter:drop-shadow(0 8px 6px rgba(0,0,0,.45));pointer-events:none}
+
+/* the stage name during Watch it built */
+#sketch .sk-stage{position:absolute;top:10px;right:10px;z-index:3;display:grid;justify-items:end;gap:2px;padding:8px 12px 10px;background:var(--sk-sheet);border:1px solid var(--rule-2);opacity:0;transform:translateY(-6px);transition:opacity .6s var(--ease),transform .6s var(--ease);pointer-events:none}
+#sketch.building .sk-stage{opacity:1;transform:none}
+#sketch .sk-stage .sc{color:var(--rust)}
+#sketch .sk-stage strong{font:600 clamp(17px,1.6vw,22px)/1.1 var(--display);color:var(--ink)}
+#sketch .sk-bars{display:flex;gap:4px;margin-top:5px}
+#sketch .sk-bars i{width:18px;height:3px;background:var(--rule-2);position:relative;overflow:hidden}
+#sketch .sk-bars i::after{content:"";position:absolute;inset:0;background:var(--rust);transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--ease)}
+#sketch .sk-bars i.on::after{transform:none}
+
+/* ---------- the drawing: layers draw in and out ---------- */
+#sketch .g{--on:0;transition:opacity .45s ease}
+#sketch .g-scene{--on:1}
+#sketch .st1 .g-base,#sketch .st1 .g-set,#sketch .st2 .g-frame,#sketch .st3 .g-lock,#sketch .st4 .g-fix,#sketch .st5 .g-done{--on:1}
+#sketch .st3 .g-set,#sketch .st3 .g-frame{--on:0}
+#sketch .g.pre{--on:0}
+#sketch .g.out{opacity:0}
+#sketch .sk-art .l{fill:none;stroke:var(--ink);stroke-width:calc(1.9 * var(--k));stroke-linejoin:round;stroke-linecap:butt;stroke-dasharray:1 1;stroke-dashoffset:calc(1 - var(--on));transition:stroke-dashoffset .85s var(--ease) calc(var(--d,0) * 60ms)}
+#sketch .sk-art .l.t{stroke-width:calc(1.15 * var(--k))}
+#sketch .sk-art .l.x{stroke-width:calc(.8 * var(--k));stroke-opacity:.5}
+#sketch .sk-art .l.r{stroke:var(--rust)}
+#sketch .sk-art .w{opacity:calc(var(--on) * var(--a,1));transition:opacity .75s ease calc(.18s + var(--d,0) * 60ms)}
+#sketch .sk-art .bk{fill:var(--sk-sheet);opacity:0}
+#sketch .sk-art .sk-blkonly{display:none}
+#sketch .snap .l,#sketch .snap .w,#sketch .snap .g{transition:none}
+
+/* ---------- on a photo of the block ---------- */
+#sketch.on-block .sk-place{inset:auto;left:0;top:0;width:52%;aspect-ratio:var(--ar,1.3);transform-origin:50% 100%;cursor:grab;touch-action:none}
+#sketch.on-block .sk-place.grab{cursor:grabbing}
+#sketch.on-block .sk-art{--k:1.3}
+#sketch.on-block .g-scene,#sketch.on-block .ft{display:none}
+#sketch.on-block .sk-art .sk-blkonly{display:inline}
+#sketch.on-block .sk-art .bk{opacity:calc(var(--on) * .9);transition:opacity .75s ease}
+#sketch.on-block .sk-place:focus-visible{outline:2px dashed var(--rust);outline-offset:4px}
+
+/* ---------- the controls ---------- */
+#sketch .sk-side{min-width:0}
+#sketch .sk-ctrl{display:grid;gap:clamp(18px,2vw,24px)}
+#sketch .sk-set{border:0;margin:0;padding:0;min-width:0}
+#sketch .sk-set legend{padding:0;margin:0 0 9px;float:left;width:100%}
+#sketch .sk-set legend+*{clear:both}
+#sketch .sk-seg{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));padding:4px;border-radius:4px;background:rgba(0,0,0,.3);border:1px solid rgba(244,239,230,.14);box-shadow:inset 0 2px 7px rgba(0,0,0,.5),0 1px 0 rgba(244,239,230,.06)}
+#sketch .sk-seg label{position:relative;z-index:1;display:flex;cursor:pointer;min-width:0}
+#sketch .sk-seg label span{flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;padding:6px 8px;text-align:center;font:500 15px/1.2 var(--sans);color:rgba(244,239,230,.84);border-radius:3px}
+#sketch .sk-seg label:hover span{color:var(--sk-text)}
+#sketch .sk-seg input:checked+span{color:var(--ink);background:var(--paper);box-shadow:0 2px 0 rgba(0,0,0,.4),inset 0 -2px 0 var(--rust)}
+#sketch .sk-seg input:focus-visible+span{outline:2px solid var(--sk-hi);outline-offset:3px}
+#sketch .sk-thumb{display:none}
+@supports selector(:has(*)){
+  #sketch .sk-thumb{display:block;position:absolute;top:4px;bottom:4px;left:4px;width:calc((100% - 8px) / var(--n));border-radius:3px;background:var(--paper);box-shadow:0 2px 0 rgba(0,0,0,.42),0 7px 14px rgba(0,0,0,.32),inset 0 1px 0 #fff,inset 0 -2px 0 var(--rust);transition:transform .6s var(--ease)}
+  #sketch .sk-seg input:checked+span{background:none;box-shadow:none}
+  #sketch .sk-seg:has(label:nth-of-type(2) input:checked) .sk-thumb{transform:translateX(100%)}
+  #sketch .sk-seg:has(label:nth-of-type(3) input:checked) .sk-thumb{transform:translateX(200%)}
+  #sketch .sk-seg:active .sk-thumb{box-shadow:0 1px 0 rgba(0,0,0,.42),0 3px 8px rgba(0,0,0,.3),inset 0 1px 0 #fff,inset 0 -2px 0 var(--rust)}
+}
+
+/* Colorbond swatches, like paint chips */
+#sketch .sk-sws{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#sketch .sk-sw{position:relative;display:grid;gap:7px;padding:7px 7px 9px;border-radius:3px;border:1px solid rgba(244,239,230,.12);background:rgba(244,239,230,.03);cursor:pointer}
+#sketch .sk-sw:hover{border-color:rgba(244,239,230,.32)}
+#sketch .sk-chip{position:relative;display:block;height:38px;border-radius:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.09) 0 2px,rgba(0,0,0,.05) 2px 3px,transparent 3px 8px),var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),inset 0 -12px 16px rgba(0,0,0,.12),0 3px 8px rgba(0,0,0,.35)}
+#sketch .sk-swn{font:500 14px/1.2 var(--sans);color:rgba(244,239,230,.84)}
+#sketch .sk-sw input:checked~.sk-swn{color:var(--sk-text)}
+#sketch .sk-sw:has(input:checked){border-color:var(--paper);background:rgba(244,239,230,.08)}
+#sketch .sk-sw input:checked+.sk-chip::after{content:"";position:absolute;left:50%;top:50%;width:13px;height:7px;margin:-6px 0 0 -7px;border-left:2px solid var(--t,#221F1A);border-bottom:2px solid var(--t,#221F1A);transform:rotate(-45deg)}
+#sketch .sk-sw input:focus-visible+.sk-chip{outline:2px solid var(--sk-hi);outline-offset:3px}
+#sketch .sk-fine{margin-top:9px;font-size:14px;color:var(--sk-dim)}
+
+/* actions */
+#sketch .sk-acts{display:grid;gap:12px;padding-top:clamp(18px,2vw,24px);border-top:1px solid var(--sk-line)}
+#sketch .sk-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#sketch .sk-filewrap{display:grid;min-width:0}
+#sketch .sk-btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:52px;padding:6px 14px;border:1px solid rgba(244,239,230,.42);border-radius:2px;color:var(--sk-text);font:600 15px/1.15 var(--sans);text-align:center;cursor:pointer;background:rgba(244,239,230,.02);transition:background .5s,border-color .5s}
+#sketch .sk-btn:hover{background:rgba(244,239,230,.09);border-color:var(--sk-text)}
+#sketch .sk-btn svg{width:18px;height:18px;flex:none}
+#sketch #sk-file:focus-visible+.sk-btn{outline:2px solid var(--sk-hi);outline-offset:3px}
+#sketch .sk-add{width:100%;background:var(--rust);border-color:var(--rust)}
+#sketch .sk-add:hover{background:var(--rust-2);border-color:var(--rust-2)}
+#sketch .sk-priv{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.45;color:var(--sk-dim)}
+#sketch .sk-priv svg{width:15px;height:15px;flex:none;margin-top:2px}
+#sketch .sk-blk{display:grid;gap:12px;padding:14px;border:1px dashed rgba(244,239,230,.3);border-radius:3px}
+#sketch .sk-blk p{font-size:14.5px;line-height:1.45;color:var(--sk-dim)}
+#sketch .sk-range{display:grid;gap:6px;font:500 13px/1.4 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.09em;color:var(--sk-dim)}
+#sketch .sk-range input{width:100%;accent-color:var(--rust);height:28px}
+#sketch .sk-mini{min-height:44px;padding:0 14px;border:1px solid rgba(244,239,230,.32);border-radius:2px;font:500 14.5px/1 var(--sans);color:var(--sk-text)}
+#sketch .sk-mini:hover{border-color:var(--sk-text)}
+#sketch .sk-row{display:flex;gap:10px;flex-wrap:wrap}
+#sketch .sk-status{min-height:1.45em;font-size:15px;line-height:1.45;color:var(--sk-text)}
+#sketch .sk-status:not(:empty)::before{content:"";display:inline-block;width:10px;height:5px;margin:0 10px 3px 2px;border-left:2px solid var(--sk-hi);border-bottom:2px solid var(--sk-hi);transform:rotate(-45deg)}
+#sketch .sk-note{text-align:center;max-width:62ch;margin:clamp(40px,4.5vw,60px) auto 0}
+
+/* without JS: the static default sketch and the choices as a short list */
+#sketch .sk-nojs{color:var(--sk-dim)}
+#sketch .sk-nojs p{margin-top:16px}
+.js #sketch .sk-nojs{display:none}
+html:not(.js) #sketch .sk-ctrl,html:not(.js) #sketch .sk-stage{display:none}
+
+/* ---------- smaller screens ---------- */
+@media (max-width:1100px){#sketch .sk-tb div:nth-child(4){display:none}#sketch .sk-tb{grid-template-columns:repeat(3,minmax(0,auto))}}
+@media (max-width:980px){
+  #sketch .sk-grid{grid-template-columns:minmax(0,1fr);max-width:680px;margin-inline:auto}
+  #sketch .sk-col{position:relative;top:auto}
+}
+@media (max-width:640px){
+  #sketch .sk-tb,#sketch .sk-pencil,#sketch .sk-sheet::before,#sketch .sk-sheet::after{display:none}
+  #sketch .sk-art{--k:1.7}
+  #sketch.on-block .sk-art{--k:2}
+  #sketch .sk-sheet{padding:10px 10px 10px}
+  #sketch .sk-top{padding-bottom:6px}
+  #sketch .sk-sum{font-size:16px;margin-top:6px}
+  #sketch .sk-stage{top:5px;right:5px;display:flex;align-items:baseline;gap:7px;padding:2px 8px 3px}
+  #sketch .sk-stage .sc{font-size:12px}
+  #sketch .sk-stage strong{font-size:14px}
+  #sketch .sk-bars{display:none}
+  #sketch .sk-seg label span{font-size:14.5px;padding:6px 4px}
+  #sketch .sk-swn{font-size:13.5px}
+  #sketch .sk-btn{font-size:14.5px;padding:6px 10px}
+}
+@media (max-width:640px) and (min-height:640px){
+  .js #sketch .sk-col{position:sticky;top:var(--top);margin:0 calc(var(--pad) * -1);padding:8px var(--pad) 14px;background:var(--sk-table)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  #sketch .g,#sketch .sk-art .l,#sketch .sk-art .w,#sketch .sk-art .bk,#sketch .sk-thumb,#sketch .sk-stage,#sketch .sk-bars i::after{transition:none}
+}

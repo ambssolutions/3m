@@ -73,7 +73,7 @@ html:not(.js) #contact .qc-step+.qc-step{margin-top:30px;padding-top:26px;border
 #contact .qc-chips .qc-tb::after{left:3.5px;top:.5px;width:5px;height:10px}
 #contact .qc-chips .qc-o b{font-size:15px}
 #contact .qc-o:hover{background:var(--paper-2)}
-#contact .qc-opt input:checked+.qc-o{background:#F6E8DC;box-shadow:inset 0 0 0 1px var(--rust)}
+#contact .qc-opt input:checked+.qc-o{background:color-mix(in srgb,var(--rust) 10%,var(--field));box-shadow:inset 0 0 0 1px var(--rust)}
 #contact .qc-opt input:checked+.qc-o .qc-tb{border-color:var(--rust)}
 #contact .qc-opt input:checked+.qc-o .qc-tb::after{clip-path:inset(0)}
 #contact .qc-opt input:focus-visible+.qc-o{outline:2px solid var(--rust);outline-offset:-5px}

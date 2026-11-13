@@ -1,0 +1,84 @@
+/* hero crane: an ink line drawing of a tower crane that lifts the headline into place (ported from 09 Skyline)
+   Laptops: the crane stands in the left margin, its jib above the dateline. Phones and tablets: a smaller crane
+   standing on the dateline's left rule. Only transform, opacity, clip-path and stroke-dashoffset animate. */
+.hero{isolation:isolate;--hc-room:clamp(32px,4.6vh,56px);--hc-k:18px}
+.hero .cover-head{padding-top:var(--hc-room)}
+.hero>.hc{position:absolute;inset:0;width:auto;z-index:-1;pointer-events:none;
+  --s:1;--wide:1;--mx:max(140px,50% - 450px);
+  --jy:calc(var(--top) + clamp(14px,2.2vh,32px) + var(--hc-room) - var(--hc-k));
+  /* rig units: trolley parked (R0) and at the hook (R), hook line lengths (rest Lr, meet L, lowered Ld) */
+  --R0:120;--R:250;--Lr:22;--L:30;--Ld:70;--Hl:70;--k1:.4286;--kr:.3143}
+.hc-rig{position:absolute;left:var(--mx);top:var(--jy);bottom:0;width:0;transform-origin:0 0}
+.hc svg{position:absolute;display:block;overflow:visible;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.hc-mast{left:-10px;top:14px;width:20px;height:calc(100% - 23px)}
+.hc-top{left:-130px;top:-40px;width:480px;height:80px}
+.hc-foot{left:-70px;bottom:0;width:140px;height:14px}
+.hc-base{display:none;left:-14px;bottom:0;width:28px;height:3px}
+.hc-trolley{position:absolute;left:0;top:9px;width:0;height:0;transform:translateX(calc(var(--R0) * 1px))}
+.hc-car{left:-10px;top:-2px;width:20px;height:9px}
+.hc-hang{position:absolute;left:0;top:5px;width:0;height:0}
+.hc-line{position:absolute;left:calc(-.5px / var(--s));top:0;width:calc(1px / var(--s));height:calc(var(--Hl) * 1px);background:var(--ink);transform-origin:50% 0;transform:scaleY(var(--kr))}
+.hc-block{left:-9px;top:0;width:18px;height:28px;transform:translateY(calc(var(--Lr) * 1px))}
+/* line weights stay the same on screen at every scale */
+.hc .k{stroke:var(--ink);stroke-width:calc(1.3px / var(--s))}
+.hc .l{stroke:var(--ink-2);stroke-opacity:.75;stroke-width:calc(.8px / var(--s))}
+.hc .t{stroke:var(--ink-2);stroke-width:calc(1px / var(--s))}
+.hc .g{stroke:var(--rule-2);stroke-width:calc(1px / var(--s))}
+.hc .r{stroke:var(--rust)}
+.hc .p{fill:var(--paper)}
+
+/* phones and tablets: a smaller crane standing on the dateline's left rule */
+@media (max-width:1099px){
+  .hero{--hc-room:34px;--hc-k:30px}
+  .hero>.hc{--wide:0;--s:.5;--R0:46;--mx:max(58px,50% - 106px - min(160px,(100% - 2 * var(--pad) - 212px) / 2) + 24px)}
+  .hc-rig{bottom:auto;height:calc((var(--hc-k) + 10px) / var(--s));transform:scale(var(--s))}
+  .hc-mast{height:calc(100% - 17px)}
+  .hc-foot{display:none}
+  .hc-base{display:block}
+}
+@media (max-width:600px){
+  .hero{--hc-room:26px;--hc-k:26px}
+  .hero>.hc{--s:.36;--mx:max(44px,var(--pad) + 24px)}
+}
+
+/* intro (JS pages only): after the dateline types, the mast rises, the jib and ties draw, the trolley runs out,
+   the hook drops to the headline and lifts it 40px into place, then retracts and the trolley parks */
+.js .hc-mast{clip-path:inset(100% 0 0 0);animation:hc-rise .6s var(--ease) .4s forwards}
+.js .hc .dr{stroke-dasharray:1;stroke-dashoffset:1;animation:hc-draw .45s linear var(--d,1s) forwards}
+.js .hc .fd{opacity:0;animation:hc-fade .4s ease-out var(--d,1.2s) forwards}
+.js .hc-trolley{animation:hc-fade .4s ease-out 1s both,hc-out .3s ease-in-out 1.05s both,hc-back .7s ease-in-out 3.25s forwards}
+.js .hc-line{animation:hc-ldrop .25s cubic-bezier(.4,0,.2,1) 1.3s both,hc-llift 1.1s var(--ease) 1.55s forwards,hc-lup .7s cubic-bezier(.45,0,.25,1) 2.9s forwards}
+.js .hc-block{animation:hc-bdrop .25s cubic-bezier(.4,0,.2,1) 1.3s both,hc-blift 1.1s var(--ease) 1.55s forwards,hc-bup .7s cubic-bezier(.45,0,.25,1) 2.9s forwards}
+/* the headline keeps its clip-path reveal and rides the hook up on the separate translate property */
+html.js .hero .cover-head>h1{animation:up var(--dur) var(--ease) .25s forwards,hc-lift 1.1s var(--ease) 1.55s both}
+@keyframes hc-rise{to{clip-path:inset(0 0 0 0)}}
+@keyframes hc-draw{to{stroke-dashoffset:0}}
+@keyframes hc-fade{from{opacity:0}to{opacity:1}}
+@keyframes hc-out{from{transform:translateX(calc(var(--R0) * 1px))}to{transform:translateX(calc(var(--R) * 1px))}}
+@keyframes hc-back{from{transform:translateX(calc(var(--R) * 1px))}to{transform:translateX(calc(var(--R0) * 1px))}}
+@keyframes hc-ldrop{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes hc-llift{from{transform:scaleY(1)}to{transform:scaleY(var(--k1))}}
+@keyframes hc-lup{from{transform:scaleY(var(--k1))}to{transform:scaleY(var(--kr))}}
+@keyframes hc-bdrop{from{transform:translateY(0)}to{transform:translateY(calc(var(--Ld) * 1px))}}
+@keyframes hc-blift{from{transform:translateY(calc(var(--Ld) * 1px))}to{transform:translateY(calc(var(--L) * 1px))}}
+@keyframes hc-bup{from{transform:translateY(calc(var(--L) * 1px))}to{transform:translateY(calc(var(--Lr) * 1px))}}
+@keyframes hc-lift{from{translate:0 40px}to{translate:0 0}}
+
+/* a very slight sway on the hook, only while the hero is on screen and the tab is visible (.live from s-hero.js) */
+.hc.idle .hc-hang{animation:hc-sway 6.4s ease-in-out infinite;animation-play-state:paused}
+.hc.idle.live .hc-hang{animation-play-state:running}
+@keyframes hc-sway{0%,100%{rotate:0deg}25%{rotate:1.6deg}75%{rotate:-1.6deg}}
+
+/* low-power phones: the crane draws in, the hook stays parked, no lift and no sway */
+html.lite .hc-trolley{animation:hc-fade .4s ease-out 1s both}
+html.lite .hc-line,html.lite .hc-block{animation:none}
+html.lite.js .hero .cover-head>h1{animation:up var(--dur) var(--ease) .25s forwards}
+
+/* reduced motion: the finished drawing, headline in place */
+@media (prefers-reduced-motion:reduce){
+  .js .hc-mast,.js .hc .dr,.js .hc .fd,.js .hc-trolley,.js .hc-line,.js .hc-block,.hc.idle .hc-hang{animation:none}
+  .js .hc-mast{clip-path:none}
+  .js .hc .dr{stroke-dashoffset:0}
+  .js .hc .fd{opacity:1}
+  html.js .hero .cover-head>h1{animation:none;clip-path:none;transform:none;translate:none}
+}

@@ -57,10 +57,10 @@
 #layers .setout .peg{fill:var(--field)}
 #layers .setout .dim{stroke:var(--blue)}
 #layers .setout .dimt{fill:var(--blue);stroke:none;font:500 calc(9.5px/var(--s)) var(--mono);letter-spacing:.14em}
-#layers .slabtop{background-color:#EFE9DC}
+#layers .slabtop{background-color:color-mix(in srgb,var(--paper-2) 75%,var(--field))}
 #layers .slabtop i{position:absolute;inset:7px;border:var(--lw) dashed var(--c,var(--ink-3))}
 #layers .slab{background-color:var(--paper-2);background-image:repeating-linear-gradient(135deg,rgba(34,31,26,.4) 0 var(--lw),transparent 0 5px)}
-#layers .slab.side{background-color:#E4DCCB}
+#layers .slab.side{background-color:color-mix(in srgb,var(--paper-2),var(--rule-2) 25%)}
 
 /* 02 frame: stud walls and trusses as line work */
 #layers .fr *{stroke:var(--c,var(--ink-2))}
@@ -70,22 +70,22 @@
 #layers .clad{background-image:repeating-linear-gradient(to bottom,transparent 0 7px,rgba(34,31,26,.17) 7px 8px)}
 #layers .clad.side{background-color:var(--paper-2)}
 #layers .w,#layers .dr{position:absolute;box-sizing:border-box;border:var(--lw) solid var(--c,var(--ink))}
-#layers .w{background:#E3DBCA linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))) 50% 0/var(--lw) 100% no-repeat}
+#layers .w{background:color-mix(in srgb,var(--paper-2),var(--rule-2) 22%) linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))) 50% 0/var(--lw) 100% no-repeat}
 #layers .dr{border-bottom:0;background:var(--paper-2) linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))) 78% 52%/3px 3px no-repeat}
 #layers .gable polygon{fill:var(--paper-2)}
 #layers .roof.back{background-image:none}
-#layers .roof{background-color:#EEE7D9;background-image:repeating-linear-gradient(90deg,rgba(34,31,26,.2) 0 var(--lw),transparent 0 10px)}
+#layers .roof{background-color:color-mix(in srgb,var(--paper-2) 85%,var(--field));background-image:repeating-linear-gradient(90deg,rgba(34,31,26,.2) 0 var(--lw),transparent 0 10px)}
 
 /* 04 fixing: linings with sheet joints, a kitchen bench */
 #layers .lin .sh{fill:var(--field)}
 #layers .lin .op{fill:var(--paper-2)}
 #layers .lin .jt{stroke:var(--c,var(--ink-3));stroke-dasharray:3 3}
-#layers .bench{background-color:#E8E0D0;background-image:linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))),linear-gradient(var(--c,var(--ink)),var(--c,var(--ink)));background-size:var(--lw) 100%;background-position:33.3% 0,66.6% 0;background-repeat:no-repeat}
-#layers .bench.top{background:#F2ECE0}
-#layers .bench.side{background:#DDD4C2}
+#layers .bench{background-color:color-mix(in srgb,var(--paper-2),var(--rule) 30%);background-image:linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))),linear-gradient(var(--c,var(--ink)),var(--c,var(--ink)));background-size:var(--lw) 100%;background-position:33.3% 0,66.6% 0;background-repeat:no-repeat}
+#layers .bench.top{background:color-mix(in srgb,var(--paper-2) 45%,var(--field))}
+#layers .bench.side{background:color-mix(in srgb,var(--paper-2),var(--rule-2) 45%)}
 
 /* 05 practical completion: a lit window and the key tag */
-#layers .lit{background:#E7AE8A linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))) 50% 0/var(--lw) 100% no-repeat}
+#layers .lit{background:color-mix(in srgb,var(--rust) 45%,var(--field)) linear-gradient(var(--c,var(--ink)),var(--c,var(--ink))) 50% 0/var(--lw) 100% no-repeat}
 #layers .tag .ring,#layers .tag .cord{stroke:var(--ink)}
 #layers .tag .tg{fill:var(--rust);stroke:var(--rust-2)}
 #layers .tag .hole{fill:var(--field);stroke:var(--rust-2)}

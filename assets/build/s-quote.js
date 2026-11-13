@@ -85,7 +85,7 @@
   var MSG={type:'Please tick the kind of job.',have:'Please tick what you have so far.',start:'Please tick roughly when you would like to start.',state:'Please choose the state the site is in.',
     name:'Please add your name.',phone:'Please add a phone number so we can call you.',phonebad:'Please check the phone number. It needs at least 8 digits.',
     email:'Please add an email address.',emailbad:'Please check the email address.',suburb:'Please add the suburb of the site.',postcode:'Please check the postcode. Australian postcodes have 4 digits.'};
-  var ORDER=[['type','Type of job'],['have','Plans and approvals'],['start','Start'],['state','State'],['budget','Budget (AUD)'],['name','Name'],['phone','Phone'],['email','Email'],['suburb','Suburb'],['postcode','Postcode'],['message','About the job'],['page','Page']];
+  var ORDER=[['type','Type of job'],['have','Plans and approvals'],['start','Start'],['state','State'],['budget','Budget (AUD)'],['name','Name'],['phone','Phone'],['email','Email'],['suburb','Suburb'],['postcode','Postcode'],['message','About the job'],['design','Sketch'],['page','Page']];
   function say(msg,kind){status.className='form-status qc-status'+(kind?' '+kind:'');status.textContent=msg}
   function picked(name){var el=f.querySelector('input[name="'+name+'"]:checked');return el?el.value:''}
 
