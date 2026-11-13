@@ -61,6 +61,11 @@
       "source": "/the-build",
       "destination": "/designs/11-the-build/",
       "permanent": false
+    },
+    {
+      "source": "/front-door",
+      "destination": "/designs/12-front-door/",
+      "permanent": false
     }
   ],
   "headers": [

@@ -5,7 +5,7 @@ window.MIX = {
     ['01-night-shift', 'Night Shift'], ['02-blueprint', 'Blueprint'], ['03-site-diary', 'Site Diary'],
     ['04-hard-hat', 'Hard Hat'], ['05-glasshouse', 'Glasshouse'], ['06-before-after', 'Before and After'],
     ['07-control-room', 'Control Room'], ['08-timber', 'Timber'], ['09-skyline', 'Skyline'],
-    ['10-quote-builder', 'Quote Builder'], ['11-the-build', 'The Build']
+    ['10-quote-builder', 'Quote Builder'], ['11-the-build', 'The Build'], ['12-front-door', 'Front Door']
   ],
   sections: [
     { key: 'theme', name: 'Colour theme', kind: 'theme', sel: '#top', note: 'The colours for the whole site. Whichever sections you choose are redrawn in this theme. The preview shows it on The Build.' },

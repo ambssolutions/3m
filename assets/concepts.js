@@ -14,7 +14,8 @@
     ['08-timber', 'Timber', 'Warm and rounded'],
     ['09-skyline', 'Skyline', 'Cinematic chapters'],
     ['10-quote-builder', 'Quote Builder', 'Estimate stepper'],
-    ['11-the-build', 'The Build', 'Merged design']
+    ['11-the-build', 'The Build', 'Merged design'],
+    ['12-front-door', 'Front Door', 'Embossed cards']
   ];
   var current = document.documentElement.getAttribute('data-concept');
   var i = CONCEPTS.findIndex(function (c) { return c[0] === current; });
