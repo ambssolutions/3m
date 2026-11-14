@@ -17,16 +17,17 @@
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var els = [].slice.call(d.querySelectorAll('.en-door, #sketch .sk-sheet, #contact .qc-aside>div'));
   if (!els.length) return;
-  /* anything already on screen (a reload part-way down) shows finished, so nothing blinks out and back */
-  var vh = innerHeight;
-  els.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top < vh * 0.88 && r.bottom > 0) el.classList.add('en-in'); });
-  R.classList.add('en');
+  /* anything already on screen (a reload part-way down) shows finished, so nothing blinks out and back. The observer's
+     first report says what is on screen (the top 88% of it, as before) without forcing a layout of the whole page, and of
+     the sections phones skip, while the page starts; html.en goes on only after that first report. */
+  var first = true;
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (e) {
       if (!e.isIntersecting) return;
       e.target.classList.add('en-in');
       io.unobserve(e.target);
     });
+    if (first) { first = false; R.classList.add('en'); }
   }, { rootMargin: '0px 0px -12% 0px' });
-  els.forEach(function (el) { if (!el.classList.contains('en-in')) io.observe(el); });
+  els.forEach(function (el) { io.observe(el); });
 })();

@@ -25,7 +25,7 @@
 </style>
 <link rel="preload" as="image" href="../../img/proj-pool-house-portrait-900.webp" media="(max-width:700px) and (orientation:portrait)" fetchpriority="high">
 <link rel="preload" as="image" imagesrcset="../../img/proj-pool-house-800.webp 800w, ../../img/proj-pool-house-1600.webp 1600w, ../../img/proj-pool-house-2400.webp 2400w, ../../img/proj-pool-house-3200.webp 3200w, ../../img/proj-pool-house-3840.webp 3840w" imagesizes="100vw" media="not all and (max-width:700px) and (orientation:portrait)" fetchpriority="high">
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');if(matchMedia('(pointer:coarse)').matches&&(navigator.hardwareConcurrency||8)<=4)document.documentElement.classList.add('lite')/* low-power phones, set before the first style pass */</script>
 <script src="../../assets/themes.js?v=1"></script>
 <script>if(/^\/home-2\/?$/.test(location.pathname)||/[?&]design=flair\b/.test(location.search))document.documentElement.classList.add('flair')</script>
 <script type="application/ld+json">
@@ -253,14 +253,16 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <link rel="stylesheet" href="../../assets/build/s-quote.css?v=1">
 <link rel="stylesheet" href="../../assets/build/s-sketch.css?v=1">
 <link rel="stylesheet" href="../../assets/build/s-modern.css?v=1">
-<link rel="stylesheet" href="../../assets/build/your-build.css?v=5">
+<link rel="stylesheet" href="../../assets/build/your-build.css?v=6">
 <link rel="stylesheet" href="../../assets/build/svc-plus.css?v=5">
 <link rel="stylesheet" href="../../assets/build/refine.css?v=1">
-<link rel="stylesheet" href="../../assets/build/energy.css?v=4">
-<link rel="stylesheet" href="../../assets/build/book.css?v=9">
+<link rel="stylesheet" href="../../assets/build/layers-fit.css?v=1">
+<link rel="stylesheet" href="../../assets/build/energy.css?v=5">
+<link rel="stylesheet" href="../../assets/build/book.css?v=10">
 <link rel="stylesheet" href="../../assets/build/flair.css?v=3">
 <link rel="stylesheet" href="../../assets/logo/logo.css?v=5">
 <link rel="stylesheet" href="../../assets/build/harbour.css?v=1">
+<link rel="stylesheet" href="../../assets/build/grad.css?v=1">
 <script type="module" src="../../assets/build/s-layers-3d.js?v=2" fetchpriority="low"></script>
 </head>
 <body>
@@ -963,9 +965,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 
   /* masthead: a rule appears once past the hero, menu */
   var hdr=d.getElementById('hdr'), hero=$('.hero'), btn=$('.menu-btn'), nav=d.getElementById('nav');
-  var heroH=hero.offsetHeight;/* read once (and on resize), never inside the scroll handler */
-  function onScroll(){hdr.classList.toggle('solid',scrollY>heroH-80)}
-  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var heroH=0;/* read once (and on resize), never inside the scroll handler; the first read waits for the first frame, so the page start forces no layout */
+  function onScroll(){if(heroH)hdr.classList.toggle('solid',scrollY>heroH-80)}
+  addEventListener('scroll',onScroll,{passive:true});requestAnimationFrame(function(){heroH=hero.offsetHeight;onScroll()});
   addEventListener('resize',function(){heroH=hero.offsetHeight;onScroll()},{passive:true});
   btn.addEventListener('click',function(){var o=hdr.classList.toggle('open');btn.setAttribute('aria-expanded',o);btn.setAttribute('aria-label',o?'Close menu':'Open menu');d.body.style.overflow=o?'hidden':''});
   $$('a',nav).forEach(function(a){a.addEventListener('click',function(){hdr.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Open menu');d.body.style.overflow=''})});
@@ -1000,14 +1002,14 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <script src="../../assets/build/s-layers.js?v=1" defer></script>
 <script src="../../assets/build/s-projects.js?v=1" defer></script>
 <script src="../../assets/build/s-people.js?v=1" defer></script>
-<script src="../../assets/build/s-quote.js?v=1" defer></script>
+<script src="../../assets/build/s-quote.js?v=2" defer></script>
 <script src="../../assets/build/s-sketch.js?v=1" defer></script>
 <script src="../../assets/build/s-modern.js?v=1" defer></script>
 <script src="../../assets/concepts.js?v=5" defer></script>
 <script src="../../assets/build/book.js?v=5" defer></script>
 <script src="../../assets/build/your-build.js?v=6" defer></script>
 <script src="../../assets/build/svc-plus.js?v=3" defer></script>
-<script src="../../assets/build/energy.js?v=2" defer></script>
+<script src="../../assets/build/energy.js?v=3" defer></script>
 <script src="../../assets/build/flair.js?v=2" defer></script>
 <script src="../../assets/build/harbour.js?v=1" defer></script>
 </body>

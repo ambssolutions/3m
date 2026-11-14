@@ -170,7 +170,15 @@
   /* the house draws its slab when the section first comes into view */
   if(sk){
     if(reduce||!('IntersectionObserver' in window)){seen=true;house()}
-    else{var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){seen=true;house();io.disconnect()}},{threshold:.25});io.observe(sk.offsetParent?sk:wrap)}
+    /* it watches the sketch, or the card when the sketch is hidden (small phones). Both are observed and the choice is made
+       once one of them is on screen, instead of with offsetParent at start-up, which forced a layout of the section (one
+       that phones skip until it is near) while the page loads */
+    else{var last={},io=new IntersectionObserver(function(es){
+      es.forEach(function(e){last[e.target===sk?'sk':'wrap']=e});
+      if(!es.some(function(e){return e.isIntersecting}))return;
+      var t=getComputedStyle(sk).display==='none'?last.wrap:last.sk;
+      if(t&&t.isIntersecting){seen=true;house();io.disconnect()}
+    },{threshold:.25});io.observe(sk);io.observe(wrap)}
   }
   paint();
 

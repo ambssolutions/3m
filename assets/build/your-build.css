@@ -239,11 +239,18 @@ html.lite #layers .layers-model{--l3-sway:0}
 
 /* ========== phones: far sections skip work until they come near ==========
    content-visibility lets a phone skip style, layout and paint for these sections at load (about 40% of the page's
-   nodes), and fill them in as they come near the screen. None of them has sticky parts at this width, and the remembered
-   size ("auto") keeps the nav anchors landing in the right place. The look is unchanged. */
+   nodes), and fill them in as they come near the screen. Sticky parts inside (the sketch controls, the book) stick within
+   their own section, as before. The size estimates are content-box heights at 390px, and the remembered size ("auto")
+   keeps the nav anchors landing in the right place once a section has been seen. The look is unchanged. Not here: the
+   services cards (laid out open before svc-plus folds them, so a skipped card would remember the open height) and
+   #layers (its own fit work). */
 @media (max-width:760px){
   #process{content-visibility:auto;contain-intrinsic-size:auto 3900px}
-  #projects{content-visibility:auto;contain-intrinsic-size:auto 2950px}
-  #people{content-visibility:auto;contain-intrinsic-size:auto 1920px}
-  #faq{content-visibility:auto;contain-intrinsic-size:auto 740px}
+  #projects{content-visibility:auto;contain-intrinsic-size:auto 2880px}
+  #people{content-visibility:auto;contain-intrinsic-size:auto 2290px}
+  #faq{content-visibility:auto;contain-intrinsic-size:auto 680px}
+  #sketch,#contact,.foot{content-visibility:auto}
+  #sketch{contain-intrinsic-size:auto 1560px}
+  #contact{contain-intrinsic-size:auto 2000px}
+  .foot{contain-intrinsic-size:auto 970px}
 }

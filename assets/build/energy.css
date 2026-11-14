@@ -123,9 +123,10 @@ html.flair .en-fc i{background:var(--m-btn)}
   /* the card rises without fading (like the hero card) and its words show; then the chapters deal out */
   html.en .en-door{transition:transform 1.2s var(--ease)}
   html.en .en-door:not(.en-in){transform:translateY(28px)}
-  html.en:not(.flair) .en-door .sec-head>*{transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
-  html.en:not(.flair) .en-door .sec-head>:nth-child(2){transition-delay:.12s}
-  html.en:not(.flair) .en-door:not(.en-in) .sec-head>*{opacity:0;transform:translateY(12px)}
+  /* the head's children by name, not "*": a universal last step made adding html.en restyle the whole page */
+  html.en:not(.flair) .en-door .sec-head>:where(h2,p,blockquote){transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+  html.en:not(.flair) .en-door .sec-head>:where(h2,p,blockquote):nth-child(2){transition-delay:.12s}
+  html.en:not(.flair) .en-door:not(.en-in) .sec-head>:where(h2,p,blockquote){opacity:0;transform:translateY(12px)}
   html.en:not(.lite) .en-fc{transition:transform var(--dur) var(--ease) calc(.5s + var(--k) * .12s)}
   html.en:not(.lite) .en-door:not(.en-in) .en-fc{transform:translate(0,30px) rotate(0) scale(.94)}
 }

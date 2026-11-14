@@ -1,0 +1,99 @@
+/* grad: a richer gradient layer over The Build, loaded last. Mostly for /home (html:not(.flair)); a few shared touches
+   also reach /home-2 (html.flair). Backgrounds, borders, text gradients, pseudo overlays and dividers only: no layout,
+   size, transform or animation changes. Every colour is a theme token mixed with color-mix(), so all themes follow.
+   Static gradients only; the one transition is the button's background-position on fine pointers.
+   Rhythm on /home: light sections with stronger soft washes, two deep bands (the sketch
+   table and the people on the page), and a deep footer. /home-2 keeps its own deep bands (archive, questions). */
+
+html{
+  /* small gradient text: rust-2 into a glow-tinted rust pulled toward the ink; both ends are at least as dark as the rust
+     itself on light themes (and lighter on the night edition), so the labels read at least as well as before */
+  --g-mid:color-mix(in oklab,color-mix(in oklab,var(--rust) 45%,var(--gl)) 66%,var(--ink));
+  --g-label:linear-gradient(90deg,var(--rust-2) 0%,color-mix(in oklab,var(--g-mid) 84%,var(--ink)) 100%);
+  /* a hairline that is bright in the middle and fades out at both ends */
+  --g-edge:linear-gradient(90deg,transparent,color-mix(in srgb,var(--rust) 80%,transparent) 20%,color-mix(in srgb,var(--gl) 90%,transparent) 50%,color-mix(in srgb,var(--rust) 80%,transparent) 80%,transparent);
+  /* the same hairline for dark surfaces */
+  --g-edge-dk:linear-gradient(90deg,transparent,color-mix(in srgb,var(--gl) 55%,transparent) 30%,color-mix(in oklab,var(--gl) 60%,var(--paper)) 50%,color-mix(in srgb,var(--gl) 55%,transparent) 70%,transparent);
+  /* deep surfaces and the text that sits on them */
+  --g-deep:var(--deep,var(--ink));
+  --g-on:var(--on-deep,var(--paper));
+  --g-on2:var(--on-deep-2,color-mix(in oklab,var(--paper) 84%,var(--ink)));
+  --g-on3:var(--on-deep-3,color-mix(in oklab,var(--paper) 74%,var(--ink)));
+  --g-acc:var(--on-deep-accent,color-mix(in oklab,var(--gl) 45%,var(--paper)));
+  /* what the deep bands lean toward, and how strong their washes are */
+  --g-tint:var(--rust-2);
+  --g-wk:var(--m-k);
+}
+/* the night edition's rust-2 is a light ember: the deep bands lean toward it only a little */
+html[data-theme=night]{--g-tint:color-mix(in oklab,var(--rust-2) 35%,var(--g-deep));--g-wk:.6}
+/* stronger washes on /home (the s-modern section radials, the hero and enquiry fields, the footer glow); /home-2 keeps its own */
+html:not(.flair){--m-k:1.45}
+html:not(.flair)[data-theme=night]{--m-k:1.05}
+/* the services section keeps its wash as it was: its heading is an opaque sticky strip on laptops */
+#services{--m-k:1;--m-g:color-mix(in srgb,var(--gl) calc(15% * var(--m-k)),transparent);--m-r:color-mix(in srgb,var(--rust) calc(9% * var(--m-k)),transparent);--m-m:color-mix(in srgb,var(--moss) calc(10% * var(--m-k)),transparent)}
+[data-theme=night] #services{--m-k:.75}
+
+/* ---------- masthead: a faint tint across the bar and a brighter gradient line under it (both designs) ---------- */
+.hdr{background-image:radial-gradient(40% 170% at 0% 0%,color-mix(in srgb,var(--gl) calc(8% * var(--m-k)),transparent),transparent 72%),radial-gradient(40% 170% at 100% 100%,color-mix(in srgb,var(--rust) calc(7% * var(--m-k)),transparent),transparent 72%),linear-gradient(180deg,color-mix(in oklab,var(--field) 70%,var(--paper)),var(--paper))}
+.hdr::after{background:var(--g-edge)}
+@media (max-width:900px){
+  .nav{background-image:radial-gradient(90% 50% at 100% 0%,color-mix(in srgb,var(--gl) calc(10% * var(--m-k)),transparent),transparent 72%),radial-gradient(90% 50% at 0% 100%,color-mix(in srgb,var(--rust) calc(8% * var(--m-k)),transparent),transparent 72%)}
+}
+
+/* ---------- the moving band ---------- */
+/* /home: a glow seam on top, a slightly deeper lower edge, and two bright passes along the ribbon */
+/* the lower edge deepens under light text; the night edition's band carries dark text, so it stays flat there */
+html{--g-shade:color-mix(in srgb,#000 12%,transparent)}
+html[data-theme=night]{--g-shade:transparent}
+html:not(.flair) .band{background:var(--g-edge-dk) 0 0/100% 1px no-repeat,linear-gradient(180deg,transparent 45%,var(--g-shade)),linear-gradient(100deg,var(--m-rust-dk) 0%,var(--rust) 20%,var(--m-amber) 38%,var(--rust) 56%,var(--m-amber) 76%,var(--m-rust-dk) 100%)}
+/* /home-2: its own ribbon, now with fine seams top and bottom */
+html.flair .band{background:var(--g-edge-dk) 0 0/100% 1px no-repeat,var(--g-edge-dk) 0 100%/100% 1px no-repeat,linear-gradient(180deg,transparent 45%,var(--g-shade)),linear-gradient(90deg,var(--m-rust-dk),var(--rust) 20%,var(--m-amber) 42%,color-mix(in oklab,var(--rust-2) 90%,var(--gl)) 58%,var(--rust) 80%,var(--m-rust-dk))}
+
+/* ---------- dividers on /home: the hairline between light sections, brighter in the middle ---------- */
+html:not(.flair) .sec>.wrap::before{background:var(--g-edge)}
+
+/* ---------- /home deep band 1: the sketch table, ink running diagonally into rust-2 with a hint of glow ---------- */
+html:not(.flair) #sketch{background:var(--g-edge-dk) 0 0/100% 1px no-repeat,var(--g-edge-dk) 0 100%/100% 1px no-repeat,radial-gradient(900px 560px at 94% 0%,color-mix(in srgb,var(--gl) calc(12% * var(--g-wk)),transparent),transparent 70%),radial-gradient(880px 640px at 0% 100%,color-mix(in srgb,var(--rust) calc(18% * var(--g-wk)),transparent),transparent 70%),linear-gradient(135deg,var(--sk-table) 0%,color-mix(in oklab,var(--sk-table) 86%,var(--g-tint)) 50%,color-mix(in oklab,var(--sk-table) 74%,var(--g-tint)) 100%)}
+/* phones: the controls column is an opaque sticky strip, so the table runs left to right only and the strip takes the same gradient */
+@media (max-width:640px) and (min-height:640px){
+  html:not(.flair) #sketch{background:var(--g-edge-dk) 0 0/100% 1px no-repeat,linear-gradient(90deg,var(--sk-table),color-mix(in oklab,var(--sk-table) 80%,var(--g-tint)))}
+  html.js:not(.flair) #sketch .sk-col{background:linear-gradient(90deg,var(--sk-table),color-mix(in oklab,var(--sk-table) 80%,var(--g-tint)))}
+}
+/* /home-2: the same table, with only the fine seams added */
+html.flair #sketch{background:var(--g-edge-dk) 0 0/100% 1px no-repeat,var(--g-edge-dk) 0 100%/100% 1px no-repeat,radial-gradient(52% 40% at 16% 10%,color-mix(in srgb,var(--gl) calc(13% * var(--m-k)),transparent),transparent 72%),radial-gradient(46% 44% at 92% 90%,color-mix(in srgb,var(--rust) calc(18% * var(--m-k)),transparent),transparent 72%),linear-gradient(165deg,var(--sk-table),color-mix(in oklab,var(--sk-table) 86%,var(--rust)))}
+
+/* ---------- /home deep band 2: the people on the page. The photo leads into a deep field; the heading card
+   straddles the edge and keeps its own light face ---------- */
+html:not(.flair) #people{background:var(--g-edge-dk) 0 100%/100% 1px no-repeat,radial-gradient(940px 620px at 100% 0%,color-mix(in srgb,var(--gl) calc(11% * var(--g-wk)),transparent),transparent 70%),radial-gradient(860px 680px at 0% 100%,color-mix(in srgb,var(--rust) calc(16% * var(--g-wk)),transparent),transparent 70%),linear-gradient(200deg,var(--g-deep) 0%,color-mix(in oklab,var(--g-deep) 84%,var(--g-tint)) 52%,color-mix(in oklab,var(--g-deep) 72%,var(--g-tint)) 100%);background-color:var(--g-deep)}
+html:not(.flair) #people{--m-shc:#000}
+html:not(.flair) #people .en-photo::after{background:linear-gradient(180deg,transparent 48%,color-mix(in srgb,var(--g-deep) 16%,transparent) 72%,color-mix(in srgb,var(--g-deep) 58%,transparent) 100%)}
+html:not(.flair) #people :is(.pp-grid,.pp-note,#team){--ink:var(--g-on);--ink-2:var(--g-on2);--ink-3:var(--g-on3);--rule:color-mix(in srgb,var(--g-on) 18%,transparent);--rule-2:color-mix(in srgb,var(--g-on) 30%,transparent)}
+html:not(.flair) #people .pp-fig figcaption span{color:var(--g-acc)}
+html:not(.flair) #people .pp-ticks{border-top:1px solid;border-image:linear-gradient(90deg,transparent,color-mix(in srgb,var(--gl) 55%,transparent) 30%,color-mix(in srgb,var(--g-on) 40%,transparent) 50%,color-mix(in srgb,var(--gl) 55%,transparent) 70%,transparent) 1}
+
+/* ---------- /home-2 deep bands: fine glow seams where the archive and the questions begin and end ---------- */
+html.flair :is(#projects,#faq){background:var(--g-edge-dk) 0 0/100% 1px no-repeat,var(--g-edge-dk) 0 100%/100% 1px no-repeat,var(--fx-band)}
+
+/* ---------- buttons on /home: a wider ribbon of rust with a lighter pass; on hover (fine pointers) the light
+   pass slides across. The night edition keeps its own light button ---------- */
+html:not(.flair):not([data-theme=night]){--m-btn:linear-gradient(115deg,var(--m-rust-dk) 0%,var(--rust) 26%,var(--m-amber) 50%,var(--rust) 74%,var(--m-rust-dk) 100%)}
+html:not(.flair):not([data-theme=night]) .btn:not(.sk-btn){background-size:220% 100%;background-position:0 0}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  html:not(.flair):not([data-theme=night]) .btn:not(.sk-btn){transition:box-shadow .5s,transform .5s var(--ease),background-position 1.2s var(--ease)}
+  html:not(.flair):not([data-theme=night]) .btn:not(.sk-btn):hover{background-position:100% 0}
+}
+
+/* ---------- gradient text on the small labels and numbers that sit on light surfaces ---------- */
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  #services .sv-k,
+  #contact .qc-top .sc.rust,
+  #sketch .sk-stage .sc,
+  #layers .layers-list li::before,
+  html:not(.flair) #projects .sc.rust{background:var(--g-label);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  /* the question numbers keep their paper box */
+  html:not(.flair) #faq .qn{background:var(--g-label),var(--paper);-webkit-background-clip:text,padding-box;background-clip:text,padding-box;color:transparent;-webkit-text-fill-color:transparent}
+}
+
+/* ---------- footer: a gradient edge where the page meets the harbour strip, and a warmer deep field ---------- */
+html .foot .foot-sky.harbour{background:var(--g-edge) 0 0/100% 1px no-repeat,linear-gradient(180deg,var(--paper),var(--hb-sky) 66%) top/100% 82% no-repeat}
+html:not(.flair) .foot{background:radial-gradient(60% 70% at 50% 108%,color-mix(in srgb,var(--gl) calc(12% * var(--g-wk)),transparent),transparent 72%),radial-gradient(50% 60% at 0% 30%,color-mix(in srgb,var(--rust) calc(14% * var(--g-wk)),transparent),transparent 72%),linear-gradient(180deg,var(--g-deep),color-mix(in oklab,var(--g-deep) 82%,var(--g-tint)))}
