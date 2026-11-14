@@ -249,3 +249,29 @@
 @keyframes bk-shine{0%{opacity:1;transform:translateX(-110%)}100%{opacity:1;transform:translateX(110%)}}
 @keyframes bk-bury{0%,99.9%{opacity:0}100%{opacity:1}}
 @keyframes bk-cover{0%{opacity:1}.1%,100%{opacity:0}}
+
+/* ---------- phones and tablets: a centred running head (tile, then label and chip, then the hairline) and a centred
+   title; ticks and the two boxes stay left-aligned. The tile is a touch smaller so every chapter still fits the page. ---------- */
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    @media (max-width:999px){
+      .js #process .yb-card{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto minmax(0,1fr) auto auto minmax(0,1.6fr) auto}
+      .js #process .yb-card .bk-tile{grid-area:1/1;justify-self:center;--tz:88px}
+      .js #process .yb-top{grid-area:2/1;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 10px;margin-top:10px;text-align:center}
+      .js #process .yb-chap .yb-card::before{grid-area:3/1/4/-1;margin-top:12px}
+      .js #process .yb-main{grid-area:5/1/6/-1}
+      .js #process .yb-card h3{text-align:center;text-wrap:balance}
+      .js #process .yb-foot{grid-area:6/1/7/-1}
+      .js #process .yb-chap .yb-card::after{grid-area:8/1/9/-1;justify-self:center;text-align:center}
+    }
+    @media (max-width:760px) and (max-height:780px){
+      .js #process .yb-card .bk-tile{--tz:76px}
+      .js #process .yb-top{margin-top:8px}
+      .js #process .yb-chap .yb-card::before{margin-top:10px}
+    }
+    @media (max-width:760px) and (max-height:700px){
+      .js #process .yb-card .bk-tile{--tz:68px}
+      .js #process .yb-top{margin-top:6px}
+    }
+  }
+}
