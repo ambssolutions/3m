@@ -1,22 +1,29 @@
 /* book: "A build in five chapters" is a book whose pages turn as you scroll. Linked after energy.css and before flair.css.
    Below the photo opener the chapters become a book that stays in the middle of the screen (CSS sticky inside a tall
-   wrapper, about 80% of a screen of scroll per chapter). Each stretch of scroll turns one page over the spine.
+   wrapper, about 80% of a screen of scroll per page). Crossing from one page's stretch into the next turns the page over
+   on its own, at one steady pace: a timed transition on the page's transform (book.js sets the classes from an
+   IntersectionObserver; no scroll handlers). A flick across several pages fans them over 180ms apart; scrolling back
+   turns them back.
    - Laptops (1000px and wider): an open two-page spread. Right page: the chapter's text. Left page: its line drawing.
      Every page is a leaf with two faces: front = chapter N, back = chapter N+1's drawing (copied in by book.js), so after
      a turn the spread reads "drawing N+1 | chapter N+1". The leaves share one 3D context; each face sits a pixel above
      the next, so the unturned pile and the turned pile both stack in reading order and a turning page passes over both.
-   - Phones and tablets: one page at a time. Each page turns over its left edge and its back is hidden, so the next page
-     shows underneath. The page is sized to the space between the header and the phone's quick bar.
-   Driven by one view timeline on the tall wrapper (--bk) with a range per page, so the turn follows the finger both
-   ways and runs on the compositor. No scroll handlers. Only transform and opacity animate: the turning page, its shade,
-   and the shadow it casts on the page below (which narrows to the spine and fades). Nothing is blurred or filtered.
+     The turn is 1.1s, 0 to -180deg, eased in and out, so it lifts, speeds up over the spine and settles.
+   - Phones and tablets: one page at a time. Each page turns over its left edge, 1.1s, to edge-on, which is the end of
+     everything that can be seen of it (its back is hidden), uncovering the next page. The page is sized to the space
+     between the header and the phone's quick bar.
+   Cheap on phones: only a page in motion is its own layer (.bk-wc, will-change, added two frames before the turn starts
+   and removed when it lands); a turning page has no shadows or filters, and only its transform moves. Its shading is a
+   gradient on
+   a pseudo-element and the shadow it casts on the page below is a gradient on a span, both fading by opacity alone.
+   On the spread, faces out of sight (buried under the top page, or covered once turned) draw nothing: an instant opacity
+   switch when a turn ends (.bk-hf / .bk-hb), never a fade.
    Each chapter's line drawing sits in an embossed tile (the hero card's surface: soft face, inner light top left, inner
-   shade bottom right, a drop shadow and a thin rust-to-glow rim) with navy-to-accent strokes. When a page has landed
-   (book.js: IntersectionObserver on markers inside the wrapper, one per still stretch between two turns) its tile gets
-   .bk-on: the drawing draws itself in (stroke-dashoffset) and plays one small detail, once. Nothing draws while a page
-   turns. Each text page carries its folio ("2 of 5") at its foot. Runs on every device, low-power phones included.
-   Without view timelines (Firefox, older Safari), without JS, or under reduced motion: none of this applies and the
-   chapters stay the vertical timeline from your-build.css. */
+   shade bottom right, a drop shadow and a thin rust-to-glow rim) with navy-to-accent strokes. Once a page has landed its
+   tile gets .bk-on: the drawing draws itself in (stroke-dashoffset) and plays one small detail, once. Nothing draws while
+   a page turns. Each text page carries its folio ("2 of 5") at its foot. Runs on every device, low-power phones included.
+   Without JS or under reduced motion, none of this applies and the chapters stay the vertical timeline from
+   your-build.css (the book is also kept to browsers with scroll timelines, the set it was tested in). */
 
 #process .bk-count,#process .bk-sh{display:none}
 
@@ -29,6 +36,9 @@
   html.flair #process.yb-tiles .en-fc i::before{background:var(--m-btn)}
   #process.yb-tiles .en-fc.rd i{color:var(--paper);box-shadow:inset 0 0 0 1.5px transparent}
   #process.yb-tiles .en-fc.rd i::before{opacity:1}
+  /* in the book the tiles are filled while they are off the screen (above the pinned book), so they switch without a
+     transition and never repaint for a second while the reader is turning pages */
+  #process.bk-on.yb-tiles .en-fc i,#process.bk-on.yb-tiles .en-fc i::before{transition:none}
 }
 
 @supports (animation-timeline:view()){
@@ -41,11 +51,8 @@
     --bk-h:calc(var(--bk-ph) + var(--bk-cnt));
     --bk-top:calc(var(--top) + (100svh - var(--top) - var(--bk-low) - var(--bk-h)) / 2);
     --bk-shc:var(--m-shc,#000);
-    max-width:none;height:calc(var(--bk-h) + 5 * var(--bk-seg));
-    view-timeline:--bk block;
-    /* the timeline runs exactly while the book is pinned: from the wrapper's top reaching the book's sticky top to the
-       wrapper's bottom reaching the book's bottom */
-    view-timeline-inset:var(--bk-top) calc(100svh - var(--bk-top) - var(--bk-h))}
+    --bk-ease:cubic-bezier(.4,.08,.36,1);   /* a page: lifts gently, speeds up, settles */
+    max-width:none;height:calc(var(--bk-h) + 5 * var(--bk-seg))}
   .js #process .yb-prog{display:none}
   .js #process .bk-book{position:sticky;top:var(--bk-top);height:var(--bk-h);width:min(var(--bk-w),100%);margin:0 auto}
   /* the cover boards and the edges of the pile of pages, under the pages */
@@ -59,48 +66,46 @@
   .js #process .yb-chapters{position:relative;height:var(--bk-ph);max-width:none;margin:0;padding:0;display:block;gap:0}
   .js #process .yb-chap::before,.js #process .yb-chap::after,.js #process .yb-mk,.js #process .yb-card::before{display:none}
   .js #process .yb-chap+.yb-chap{margin:0}
-  .js #process .yb-chap{position:absolute;inset:0;margin:0;z-index:calc(5 - var(--i));transform-origin:0 50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-    animation:bk-turn-s cubic-bezier(.42,0,.58,1) both;animation-timeline:--bk;animation-range:contain var(--fa) contain var(--fb)}
-  .js #process .yb-chap:last-child{animation:none}
+  .js #process .yb-chap{position:absolute;inset:0;margin:0;z-index:calc(5 - var(--i));transform-origin:0 50%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  /* the turn (phones): a page about to move is promoted (.bk-wc), then a turn sets .bk-t (or takes it away) and the
+     transition does the rest. The perspective sits on the hinge, so edge-on the page has no width at all:
+     nothing of it is left on screen. */
+  .js #process .yb-chap.bk-wc{will-change:transform;transform:perspective(1500px) rotateY(0deg);transition:transform 1.1s var(--bk-ease)}
+  .js #process .yb-chap.bk-t{transform:perspective(1500px) rotateY(-90deg)}
+  /* turned and still: the same nothing, but flat, so it is no longer a layer; .bk-pre sets a page in its starting place
+     with no transition while it is promoted, two frames before it moves */
+  .js #process .yb-chap.bk-t:not(.bk-wc){transform:scaleX(0)}
+  .js #process .yb-chap.bk-pre{transition:none}
+  .js #process .bk-now .yb-chap,.js #process .bk-now .yb-chap *{transition:none!important;animation:none!important}
+
   /* only a page's faces take the pointer, so a turned page's hidden face is never hit */
   .js #process .yb-chapters,.js #process .yb-chap{pointer-events:none}
   .js #process .yb-card,.js #process .bk-back{pointer-events:auto}
-  /* one stretch of the pinned scroll per page, 20% each: the turn takes the 12% around the boundary between two chapters
-     and the page lies still for the 8% between turns, which is when its drawing plays.
-     --fa/--fb: this page's own turn. --pa/--pb: the turn of the page above it. --na/--nb: the turn of the next page. */
   .js #process .yb-chapters{counter-reset:bk}
   .js #process .yb-chap{counter-increment:bk}
-  .js #process .yb-chap:nth-child(1){--fa:14%;--fb:26%;--na:34%;--nb:46%}
-  .js #process .yb-chap:nth-child(2){--fa:34%;--fb:46%;--pa:14%;--pb:26%;--na:54%;--nb:66%}
-  .js #process .yb-chap:nth-child(3){--fa:54%;--fb:66%;--pa:34%;--pb:46%;--na:74%;--nb:86%}
-  .js #process .yb-chap:nth-child(4){--fa:74%;--fb:86%;--pa:54%;--pb:66%}
-  .js #process .yb-chap:nth-child(5){--pa:74%;--pb:86%}
 
   /* ---------- a page ---------- */
   .js #process .yb-card,.js #process .yb-card.rv{position:absolute;inset:0;width:auto;margin:0;opacity:1;transform:none;transition:none;overflow:hidden;border:0;border-radius:3px 10px 10px 3px;
     background:linear-gradient(90deg,color-mix(in srgb,var(--bk-shc) 13%,transparent),transparent 30px),var(--field);
-    box-shadow:inset -1px 0 0 var(--rule)}
+    border-right:1px solid var(--rule);box-shadow:none}
   .js #process .yb-foot{grid-template-columns:1fr 1fr}
   .js #process .yb-card .tick li,.js #process .yb-foot dd{text-wrap:pretty}
   /* the folio at the foot of each text page (decorative: screen readers skip it) */
   .js #process .yb-chap .yb-card::after{content:counter(bk) " of 5" / "";display:block;position:static;width:auto;height:auto;background:none;transform:none;
     margin-top:auto;padding-top:12px;text-align:center;font:500 13px/1 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.12em;color:var(--ink-3)}
 
-  /* a page buried under the one above it draws nothing until that one starts to turn, and a turned page drawing nothing
-     once the next one has landed on it: the compositor only ever draws the pages that can be seen (opacity, scroll-linked,
-     so it follows the scroll both ways). It keeps a repaint on a still page (the drawings) cheap on the laptop spread. */
-  .js #process .yb-chap:nth-child(n+2) .yb-card{animation:bk-bury linear both;animation-timeline:--bk;animation-range:contain 0% contain var(--pa)}
-  .js #process .yb-chap:nth-child(-n+3) .bk-back{animation:bk-cover linear both;animation-timeline:--bk;animation-range:contain var(--nb) contain 100%}
-  .js #process .bk-base{animation:bk-cover linear both;animation-timeline:--bk;animation-range:contain 26% contain 100%}
-
-  /* the turning page darkens a little as it rises off the paper */
-  .js #process .bk-sh{display:block;position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;border-radius:inherit;
-    background:linear-gradient(90deg,color-mix(in srgb,var(--bk-shc) 28%,transparent),color-mix(in srgb,var(--bk-shc) 7%,transparent));
-    animation:bk-shade linear none;animation-timeline:--bk;animation-range:contain var(--fa) contain var(--fb)}
+  /* the turning page darkens a little as it rises off the paper: a gradient on the page's own pseudo-element (phones) that
+     fades in by opacity with the turn, and out again on the way back */
+  .js #process .yb-chap::after{content:"";display:block;position:absolute;inset:0;width:auto;height:auto;transform:none;z-index:6;pointer-events:none;opacity:0;border-radius:3px 10px 10px 3px;
+    background:linear-gradient(90deg,color-mix(in srgb,var(--bk-shc) 40%,transparent),color-mix(in srgb,var(--bk-shc) 12%,transparent))}
+  .js #process .yb-chap.bk-mv.bk-t::after{animation:bk-sh-in 1.1s var(--bk-ease) both}
+  .js #process .yb-chap.bk-mv.bk-u::after{animation:bk-sh-out 1.1s var(--bk-ease) both}
   /* the shadow the turning page casts on the page below: it narrows to the spine as the page rises, then fades */
+  .js #process .bk-sh{display:none}
   .js #process .bk-c,.js #process .bk-lc,.js #process .bk-bs{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0}
-  .js #process .bk-c{transform-origin:0 50%;background:linear-gradient(90deg,color-mix(in srgb,var(--bk-shc) 40%,transparent),color-mix(in srgb,var(--bk-shc) 6%,transparent) 85%,transparent);
-    animation:bk-cast linear none;animation-timeline:--bk;animation-range:contain var(--pa) contain var(--pb)}
+  .js #process .bk-c{transform-origin:0 50%;background:linear-gradient(90deg,color-mix(in srgb,var(--bk-shc) 40%,transparent),color-mix(in srgb,var(--bk-shc) 6%,transparent) 85%,transparent)}
+  .js #process .yb-chap.bk-mv.bk-t+.yb-chap .bk-c{animation:bk-cast-p 1.1s var(--bk-ease) both}
+  .js #process .yb-chap.bk-mv.bk-u+.yb-chap .bk-c{animation:bk-cast-pu 1.1s var(--bk-ease) both}
 
   .js #process .bk-pg{display:none}
 
@@ -195,10 +200,30 @@
 
   /* ---------- laptops: an open two-page spread ---------- */
   @media (min-width:1000px){
-    .js #process .yb-tl{--bk-w:1080px;--bk-gap:56px;--bk-max:680px}
+    .js #process .yb-tl{--bk-w:1080px;--bk-gap:56px;--bk-max:680px;--bk-ease:cubic-bezier(.4,.05,.6,.95)}
     .js #process .bk-book::after{inset:3px -6px calc(var(--bk-cnt) + 3px) -6px;border-radius:7px}
     .js #process .yb-chapters{perspective:2800px;perspective-origin:50% 50%;transform-style:preserve-3d}
-    .js #process .yb-chap{inset:0 0 0 50%;z-index:auto;transform-style:preserve-3d;backface-visibility:visible;-webkit-backface-visibility:visible;animation-name:bk-turn}
+    .js #process .yb-chap{inset:0 0 0 50%;z-index:auto;transform-style:preserve-3d;backface-visibility:visible;-webkit-backface-visibility:visible}
+    .js #process .yb-chap.bk-wc{transform:rotateY(0deg);transition:transform 1.1s var(--bk-ease)}
+    .js #process .yb-chap.bk-t,.js #process .yb-chap.bk-t:not(.bk-wc){transform:rotateY(-180deg)}
+    /* out of sight on the spread (buried under the top page, or turned and covered): every face here is a 3D layer, so
+       these draw nothing. Switched when a turn ends, never faded. (On phones a buried page is painted once under the top
+       page and costs nothing, so it is left alone and never has to be painted again when it is uncovered.) */
+    .js #process .bk-hf .yb-card,.js #process .bk-hb .bk-back,.js #process .bk-base.bk-hb{opacity:0;pointer-events:none}
+    /* on the spread the shading rides on each face (the leaf is a 3D group, so a pseudo-element on it would sit between
+       its faces): the front darkens as it rises to edge-on, the back lightens as it comes down, and the right page and the
+       left page each take the shadow of the leaf passing over them */
+    .js #process .yb-chap::after{display:none}
+    .js #process .bk-sh{display:block;position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;border-radius:inherit;
+      background:linear-gradient(90deg,color-mix(in srgb,var(--bk-shc) 28%,transparent),color-mix(in srgb,var(--bk-shc) 7%,transparent))}
+    .js #process .yb-chap.bk-mv.bk-t .bk-sh{animation:bk-shade 1.1s linear both}
+    .js #process .yb-chap.bk-mv.bk-u .bk-sh{animation:bk-shade-u 1.1s linear both}
+    .js #process .yb-chap.bk-mv.bk-t .bk-bs{animation:bk-shade-b 1.1s linear both}
+    .js #process .yb-chap.bk-mv.bk-u .bk-bs{animation:bk-shade-bu 1.1s linear both}
+    .js #process .yb-chap.bk-mv.bk-t+.yb-chap .bk-c{animation:bk-cast-f 1.1s linear both}
+    .js #process .yb-chap.bk-mv.bk-u+.yb-chap .bk-c{animation:bk-cast-r 1.1s linear both}
+    .js #process .yb-chap:has(+.yb-chap.bk-mv.bk-t) .bk-lc,.js #process .bk-book:has(.yb-chap:first-child.bk-mv.bk-t) .bk-base .bk-lc{animation:bk-cast-l 1.1s linear both}
+    .js #process .yb-chap:has(+.yb-chap.bk-mv.bk-u) .bk-lc,.js #process .bk-book:has(.yb-chap:first-child.bk-mv.bk-u) .bk-base .bk-lc{animation:bk-cast-lu 1.1s linear both}
     /* each face a pixel above the next: page 1 on top of the unturned pile; once turned, the order reverses */
     .js #process .yb-card,.js #process .yb-card.rv{display:flex;flex-direction:column;padding:clamp(28px,5.4vh,46px) clamp(32px,3.6vw,48px) clamp(26px,4.6vh,40px);
       transform:translateZ(calc((5 - var(--i)) * 1px));backface-visibility:hidden;-webkit-backface-visibility:hidden}
@@ -210,36 +235,38 @@
     .js #process .yb-chap .yb-card::after{padding-top:16px}
     /* the left-hand pages: the first spread's left page, and the back of every page but the last */
     .js #process .bk-pg{display:grid;place-items:center;position:absolute;top:0;left:0;width:50%;height:var(--bk-ph);overflow:hidden;border-radius:10px 3px 3px 10px;
-      background:linear-gradient(270deg,color-mix(in srgb,var(--bk-shc) 13%,transparent),transparent 30px),var(--field);box-shadow:inset 1px 0 0 var(--rule)}
+      background:linear-gradient(270deg,color-mix(in srgb,var(--bk-shc) 13%,transparent),transparent 30px),var(--field);border-left:1px solid var(--rule)}
     .js #process .bk-back{left:0;width:100%;height:100%;transform:translateZ(calc((5 - var(--i)) * 1px)) rotateY(180deg);backface-visibility:hidden;-webkit-backface-visibility:hidden}
     .js #process .bk-pg .bk-tile{--tz:min(340px,calc(var(--bk-w) * .31),calc(var(--bk-ph) * .58));border-width:2px}
     .js #process .bk-pg .bk-tile .yb-art{stroke-width:2}
-    .js #process .bk-bs{background:linear-gradient(270deg,color-mix(in srgb,var(--bk-shc) 28%,transparent),color-mix(in srgb,var(--bk-shc) 7%,transparent));
-      animation:bk-shade-b linear none;animation-timeline:--bk;animation-range:contain var(--fa) contain var(--fb)}
-    .js #process .bk-lc{transform-origin:100% 50%;background:linear-gradient(270deg,color-mix(in srgb,var(--bk-shc) 40%,transparent),color-mix(in srgb,var(--bk-shc) 6%,transparent) 85%,transparent);
-      animation:bk-cast-l linear none;animation-timeline:--bk;animation-range:contain var(--na) contain var(--nb)}
-    .js #process .bk-base .bk-lc{animation-range:contain 14% contain 26%}
+    .js #process .bk-bs{background:linear-gradient(270deg,color-mix(in srgb,var(--bk-shc) 28%,transparent),color-mix(in srgb,var(--bk-shc) 7%,transparent))}
+    .js #process .bk-lc{transform-origin:100% 50%;background:linear-gradient(270deg,color-mix(in srgb,var(--bk-shc) 40%,transparent),color-mix(in srgb,var(--bk-shc) 6%,transparent) 85%,transparent)}
   }
 
-  /* ---------- the count under the book ---------- */
-  /* the markers book.js observes: the still stretch of each page (from just after the turn before it lands to just before
-     the next turn), crossing the middle of the screen. The first starts as the book comes up the screen. */
-  .js #process .bk-mk{--run:calc(5 * var(--bk-seg) / 100);position:absolute;left:0;width:1px;visibility:hidden;pointer-events:none;
-    top:calc(50svh - var(--bk-top) + (var(--k) * 20 + 6.5) * var(--run));height:calc(7.5 * var(--run))}
-  .js #process .bk-mk:nth-of-type(1){top:-40svh;height:calc(90svh - var(--bk-top) + 14 * var(--run))}
-  .js #process .bk-mk:nth-of-type(5){height:calc(20 * var(--run))}
+  /* the markers book.js observes: one stretch of the pinned scroll per page (--bk-seg), crossing the middle of the screen.
+     The line between two stretches is where a page turns. The first starts as the book comes up the screen. */
+  .js #process .bk-mk{position:absolute;left:0;width:1px;visibility:hidden;pointer-events:none;
+    top:calc(50svh - var(--bk-top) + var(--k) * var(--bk-seg));height:var(--bk-seg)}
+  .js #process .bk-mk:nth-of-type(1){top:-40svh;height:calc(90svh - var(--bk-top) + var(--bk-seg))}
+  .js #process .bk-mk:nth-of-type(5){height:calc(2 * var(--bk-seg))}
 }
 }
 
-/* a leaf turns over the spine; -s carries its own perspective for the single page on phones */
-@keyframes bk-turn{from{transform:rotateY(0deg)}to{transform:rotateY(-180deg)}}
-/* on phones the back of a page is never seen: past edge-on (90deg) the page folds to nothing at the spine instead of lying
-   face down off the left of the screen, which looks the same and keeps the page box on screen */
-@keyframes bk-turn-s{0%{transform:perspective(1500px) rotateY(0deg);animation-timing-function:cubic-bezier(.6,0,1,.75)}50%{transform:perspective(1500px) rotateY(-90deg)}50.01%,100%{transform:perspective(1500px) rotateY(-90deg) scaleX(0)}}
+/* the shading that rides with a turn: the page darkens as it rises to edge-on; on the spread the front darkens to the
+   middle of the turn and the back lightens from there; the cast shadow narrows to the spine and fades, then (on the
+   left page) widens from the spine as the page comes down. -u / -r are the same on the way back. */
+@keyframes bk-sh-in{from{opacity:0}to{opacity:1}}
+@keyframes bk-sh-out{from{opacity:1}to{opacity:0}}
 @keyframes bk-shade{0%{opacity:0}50%{opacity:1}50.1%,100%{opacity:0}}
+@keyframes bk-shade-u{0%,49.9%{opacity:0}50%{opacity:1}100%{opacity:0}}
 @keyframes bk-shade-b{0%,49.9%{opacity:0}50%{opacity:1}100%{opacity:0}}
-@keyframes bk-cast{0%{opacity:0;transform:none}22%{opacity:.85;transform:scaleX(.72)}50%{opacity:.3;transform:scaleX(.04)}50.1%,100%{opacity:0;transform:scaleX(.04)}}
+@keyframes bk-shade-bu{0%{opacity:0}50%{opacity:1}50.1%,100%{opacity:0}}
+@keyframes bk-cast-p{0%{opacity:0;transform:none}30%{opacity:.85;transform:scaleX(.7)}100%{opacity:0;transform:scaleX(.04)}}
+@keyframes bk-cast-pu{0%{opacity:0;transform:scaleX(.04)}70%{opacity:.85;transform:scaleX(.7)}100%{opacity:0;transform:none}}
+@keyframes bk-cast-f{0%{opacity:0;transform:none}22%{opacity:.85;transform:scaleX(.72)}50%{opacity:.3;transform:scaleX(.04)}50.1%,100%{opacity:0;transform:scaleX(.04)}}
+@keyframes bk-cast-r{0%,49.9%{opacity:0;transform:scaleX(.04)}50%{opacity:.3;transform:scaleX(.04)}78%{opacity:.85;transform:scaleX(.72)}100%{opacity:0;transform:none}}
 @keyframes bk-cast-l{0%,49.9%{opacity:0;transform:scaleX(.04)}50%{opacity:.3;transform:scaleX(.04)}78%{opacity:.85;transform:scaleX(.72)}100%{opacity:0;transform:none}}
+@keyframes bk-cast-lu{0%{opacity:0;transform:none}22%{opacity:.85;transform:scaleX(.72)}50%{opacity:.3;transform:scaleX(.04)}50.1%,100%{opacity:0;transform:scaleX(.04)}}
 /* the drawings' details, each played once when its page lands */
 @keyframes bk-tape{0%{transform:scaleX(.6)}62%{transform:scaleX(1.1)}100%{transform:none}}
 @keyframes bk-tape-t{0%{transform:translateX(-9px)}62%{transform:translateX(2px)}100%{transform:none}}
@@ -247,8 +274,6 @@
 @keyframes bk-settle-r{0%{transform:translateY(-16px)}100%{transform:none}}
 @keyframes bk-swing{0%{transform:none}22%{transform:rotate(16deg)}48%{transform:rotate(-9deg)}72%{transform:rotate(4deg)}100%{transform:none}}
 @keyframes bk-shine{0%{opacity:1;transform:translateX(-110%)}100%{opacity:1;transform:translateX(110%)}}
-@keyframes bk-bury{0%,99.9%{opacity:0}100%{opacity:1}}
-@keyframes bk-cover{0%{opacity:1}.1%,100%{opacity:0}}
 
 /* ---------- phones and tablets: a centred running head (tile, then label and chip, then the hairline) and a centred
    title; ticks and the two boxes stay left-aligned. The tile is a touch smaller so every chapter still fits the page. ---------- */

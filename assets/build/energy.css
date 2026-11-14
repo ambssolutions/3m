@@ -177,12 +177,22 @@ html.flair .en-fc i{background:var(--m-btn)}
   .faq-list .q:nth-child(1){--ed:.1s}.faq-list .q:nth-child(2){--ed:.2s;--en-rq:.8deg}.faq-list .q:nth-child(3){--ed:.3s}
   .faq-list .q:nth-child(4){--ed:.4s;--en-rq:.8deg}.faq-list .q:nth-child(5){--ed:.5s}
 
-  /* the site office: its cards deal out beside the enquiry card */
+  /* the site office: its cards deal out below the enquiry card; each card's rows then deal in once as that card
+     arrives (energy.js gives the card .en-in), and the line between the next steps is drawn down. The transitions
+     sit on the arrived state only, so nothing fades out when html.en is first set. */
   html.js:not(.lite) #contact .qc-aside.rv>div{transition:opacity 1s var(--ease) var(--ed,0s),transform 1.2s var(--ease) var(--ed,0s)}
   html.js:not(.lite) #contact .qc-aside.rv:not(.in)>div{opacity:0;transform:translateY(30px) rotate(var(--en-ra,-1.8deg))}
   #contact .qc-aside>div:nth-child(1){--ed:.15s}
   #contact .qc-aside>div:nth-child(2){--ed:.28s;--en-ra:1.6deg}
   #contact .qc-aside>div:nth-child(3){--ed:.41s;--en-ra:-1.2deg}
+  html.en:not(.lite) #contact .qc-aside>.en-in :is(.qc-tell li,.qc-seq li,.qc-free){transition:opacity 1s var(--ease) calc(var(--ed,0s) + var(--li,.4s)),transform 1.2s var(--ease) calc(var(--ed,0s) + var(--li,.4s))}
+  html.en:not(.lite) #contact .qc-aside>div:not(.en-in) :is(.qc-tell li,.qc-seq li,.qc-free){opacity:0;transform:translateY(16px)}
+  #contact .qc-aside li:nth-child(1){--li:.4s}#contact .qc-aside li:nth-child(2){--li:.52s}
+  #contact .qc-aside li:nth-child(3){--li:.64s}#contact .qc-aside li:nth-child(4){--li:.76s}
+  #contact .qc-free{--li:.9s}
+  #contact .qc-seq li::after{transform-origin:50% 0}
+  html.en:not(.lite) #contact .qc-aside>.en-in .qc-seq li::after{transition:transform 1.4s var(--ease) calc(var(--ed,0s) + var(--li,.4s) + .35s)}
+  html.en:not(.lite) #contact .qc-aside>div:not(.en-in) .qc-seq li::after{transform:scaleY(0)}
 }
 
 /* ---------- people: the crew photo leads; the heading and the pull quote share the card over its foot ---------- */
@@ -193,10 +203,38 @@ html.flair .en-fc i{background:var(--m-btn)}
 #people .pp-3{grid-column:8/12;margin-top:clamp(28px,4vw,56px)}
 @media (max-width:760px){#people .pp-3{grid-column:1/-1;justify-self:center;width:min(62vw,300px);margin-top:0}}
 
-/* ---------- the site office: what to tell us and what happens next on small cards ---------- */
-#contact .qc-aside>div{padding:clamp(18px,2vw,24px) clamp(18px,2vw,26px) clamp(16px,1.8vw,22px);border:1px solid transparent;border-radius:20px;background:var(--en-face),linear-gradient(var(--rule-2),var(--rule-2)) border-box;box-shadow:var(--en-lift-s)}
-#contact .qc-aside>div:last-child{background:var(--en-face),var(--en-edge) border-box}
-#contact .qc-aside h3{margin-bottom:14px}
+/* ---------- the site office: what to tell us and what happens next ----------
+   Both cards take the hero card's edge and shadow and the same padding; the heading rule is the gradient hairline
+   of the people pull quote. "What to tell us": four rows, each an embossed number badge (the chapter badges'
+   recipe) beside a bold lead. "What happens next": the sentence as three steps, a line icon on each, joined by a
+   thin line, then the note. The rows are left-aligned blocks centred in their card. Phones: stacked. Laptops: the
+   cards sit side by side under the enquiry card, and the drawing stays beside the card. */
+#contact .qc-aside{gap:clamp(20px,2.4vw,28px)}
+#contact .qc-aside>div{padding:clamp(22px,2.4vw,30px) clamp(20px,2.6vw,34px) clamp(24px,2.6vw,32px);border:1px solid transparent;border-radius:22px;background:var(--en-face),var(--en-edge) border-box;box-shadow:var(--en-lift)}
+#contact .qc-aside h3{margin-bottom:clamp(18px,2.2vw,24px);padding-bottom:12px;border-bottom:1px solid;border-image:linear-gradient(90deg,transparent,var(--rust) 25%,var(--gl) 60%,transparent) 1}
+#contact .qc-aside :is(.qc-tell,.qc-after) ol{list-style:none;margin:0 auto;padding:0;width:fit-content;max-width:100%;display:grid;text-align:left;color:var(--ink-2)}
+#contact .qc-aside :is(.qc-tell,.qc-after) b{font-weight:600;color:var(--ink)}
+#contact .qc-tell ol{counter-reset:qt;gap:16px}
+#contact .qc-tell li{counter-increment:qt;position:relative;min-height:34px;padding-left:50px;line-height:1.5;text-wrap:pretty}
+#contact .qc-tell li::before{content:counter(qt);position:absolute;left:0;top:calc(.75em - 17px);display:grid;place-items:center;width:34px;height:34px;border-radius:11px;font:600 16px/1 var(--display);color:var(--paper);
+  background:linear-gradient(150deg,var(--m-rust-dk),var(--rust) 42%,color-mix(in oklab,var(--rust) 40%,var(--gl)) 100%);
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 28%,transparent),inset 0 -2px 0 color-mix(in srgb,#000 20%,transparent),0 1px 2px color-mix(in srgb,var(--m-shc) 20%,transparent),0 8px 14px -8px color-mix(in srgb,var(--m-shc) 55%,transparent)}
+html.flair #contact .qc-tell li::before{background:var(--m-btn)}
+#contact .qc-seq{--ic:42px;--sg:18px;gap:var(--sg)}
+#contact .qc-seq li{position:relative;display:flex;align-items:flex-start;gap:14px;line-height:1.5}
+#contact .qc-seq li>span{padding-top:calc((var(--ic) - 1.5em) / 2);text-wrap:pretty}
+#contact .qc-seq svg{flex:none;width:var(--ic);height:var(--ic);padding:10px;border-radius:50%;border:1px solid color-mix(in srgb,var(--rust) 34%,var(--rule-2));background:color-mix(in srgb,var(--rust) 7%,var(--field));fill:none;stroke:var(--rust);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#contact .qc-seq li:not(:last-child)::after{content:"";position:absolute;left:calc(var(--ic) / 2 - .5px);top:calc(var(--ic) + 4px);bottom:calc(4px - var(--sg));width:1px;background:linear-gradient(180deg,var(--rust),color-mix(in srgb,var(--gl) 70%,var(--rule-2)))}
+#contact .qc-free{margin-top:clamp(18px,2.2vw,22px);font-weight:500;color:var(--ink)}
+/* laptops: the drawing beside the enquiry card, the site office cards side by side under both */
+@media (min-width:901px){
+  #contact .qc-grid{grid-template-rows:auto auto;grid-template-areas:"card sketch" "aside aside"}
+  #contact .qc-sketch{align-self:center}
+  #contact .qc-aside{grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);align-items:stretch}
+  #contact .qc-seq{--sg:26px}
+}
+/* the gap before the harbour: the strip's own sky already gives room, so the section closes at a shorter rhythm */
+#contact{padding-bottom:clamp(40px,4vw,56px)}
 
 /* ---------- the chapter marker leaves with the chapters: hidden once the next section is well up the screen ---------- */
 #process .yb-pin{transition:opacity .6s var(--ease)}
@@ -232,9 +270,8 @@ html:not(.flair) #people{background-color:color-mix(in oklab,var(--paper-2) 72%,
   #people .pp-1 .ph{width:100%}
   #people .pp-3{grid-column:7/12;grid-row:2;margin-top:clamp(40px,6vw,88px)}
 }
-/* the site office: headings and words centred; the "what to tell us" list a left-aligned block in the middle */
+/* the site office: headings and words centred; the lists are left-aligned blocks in the middle (see above) */
 #contact .qc-aside{text-align:center}
-#contact .qc-aside ol{width:fit-content;max-width:100%;margin-inline:auto;text-align:left}
 #contact .qc-aside p{text-wrap:pretty}
 /* footer: the columns centred at every size */
 .foot .cols3{text-align:center}
