@@ -46,7 +46,7 @@ html.flair #people,html.flair #proof{background:radial-gradient(760px 520px at 9
 html.flair #contact{background:radial-gradient(720px 560px at 2% 30%,var(--fx-a),transparent 70%),radial-gradient(760px 600px at 98% 86%,var(--fx-b),transparent 70%)}
 
 /* the services heading is an opaque sticky strip on laptops, so that section stays flat paper there */
-@media (min-width:1000px) and (min-height:800px){html.flair #services:not(.sv-flat){background:none}}
+@media (min-width:1000px) and (min-height:800px){html.flair #services.sv-folds:not(.sv-flat){background:none}}
 
 /* ---------- deep bands: the archive and the reader questions ---------- */
 html.flair :is(#projects,#faq){background:var(--fx-band);color:var(--fx-on);--fx-onc:var(--fx-on);--ink:var(--fx-on);--ink-2:var(--fx-on2);--ink-3:var(--fx-on3);--rule:color-mix(in srgb,var(--fx-on) 16%,transparent);--rule-2:color-mix(in srgb,var(--fx-on) 30%,transparent);--m-shc:#000}
@@ -95,8 +95,8 @@ html.flair #fx-defs .b{stop-color:color-mix(in oklab,var(--rust) 65%,var(--ink-2
 html.flair #fx-defs .c{stop-color:var(--rust)}
 html.flair #fx-defs .d{stop-color:color-mix(in oklab,var(--rust) 45%,var(--gl))}
 html.flair #fx-defs .e{stop-color:var(--ink)}
-html.flair #services .sv-art path:not(.r):not(.g):not(.f){stroke:url(#fx-s-ink) var(--ink-2)}
-html.flair #services .sv-art .r{stroke:url(#fx-s-acc) var(--rust)}
+/* the service drawings already stroke in their own navy-to-accent gradient (svc-plus.css); flair adds the gradient rim on their tiles */
+html.flair #services .sv-tile{background:linear-gradient(160deg,var(--field),var(--paper-2)) padding-box,var(--fx-gb) border-box}
 html.flair #process .yb-art{stroke:url(#fx-p-ink) var(--ink)}
 html.flair #process .yb-art .r{stroke:url(#fx-p-acc) var(--rust)}
 

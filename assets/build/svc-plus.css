@@ -1,155 +1,184 @@
-/* svc-plus: "In this issue: what we build" as four service cards, each with its own line drawing.
+/* svc-plus: "In this issue: what we build" as four calm service cards, one structure for all four.
+   Laptops: the photo on one side (alternating), and one content column beside it, every block left-aligned on one
+   edge: the drawing tile with the number and title, one lead line, the paragraph, "Included", then the button at
+   the foot. "A good fit if" and "Approvals" sit behind one quiet "Approvals and fit" toggle that lays an opaque
+   panel over the photo. Phones and tablets: one centred column (tile, number, title, photo, words), the lists
+   left-aligned in a centred block, and the same toggle opens the panel in place. Without JS everything shows in flow.
    Laptops tall enough to hold a whole card: opaque CSS sticky stacking cards under a pinned heading, each card's
-   number and title left showing as the next one stacks (no JS pinning, nothing tied to the scroll position).
-   Shorter laptops, tablets and phones: the same cards in normal flow. On phones "Included" and "Approvals"
-   sit behind a fold that svc-plus.js adds; without JS everything shows.
-   Motion: only the drawings move (stroke-dashoffset, 1.4s), once, when a card comes into view; static under
-   reduced motion or without JS. Colours come from the theme tokens only. Every rule is scoped to #services. */
+   tile, number and title left showing as the next one stacks (no JS pinning, nothing tied to the scroll position).
+   Shorter laptops use normal flow. Motion: the tile settles and its drawing draws in once (transform, opacity,
+   stroke-dashoffset, 1.4s); the panel fades up (opacity, transform). Static under reduced motion. Colours come
+   from the theme tokens only. Every rule is scoped to #services. */
 
 #services{
-  --sv-row:54px; --sv-hh:70px; --sv-gap:20px;
+  --sv-row:72px; --sv-hh:60px; --sv-gap:20px; --sv-tile:54px; --sv-pt:16px; --sv-cg:clamp(32px,3.4vw,48px);
   /* the gradient field moves down the taller section, so the pinned heading sits on plain paper */
   background:radial-gradient(46% 20% at 90% 40%,var(--m-g),transparent 72%),radial-gradient(40% 18% at 6% 76%,var(--m-m),transparent 72%);
 }
+#services .sv-defs{position:absolute;width:0;height:0;overflow:hidden}
+#services .sv-defs .s1{stop-color:var(--ink)}
+#services .sv-defs .s2{stop-color:var(--rust)}
+#services .sv-defs .s3{stop-color:var(--rust)}
+#services .sv-defs .s4{stop-color:color-mix(in oklab,var(--rust) 62%,var(--gl,var(--glow)))}
 
-/* ---------- the cards (phone first) ---------- */
+/* ---------- the cards (phone first: one centred column) ---------- */
 #services .sv-list{display:grid;gap:var(--sv-gap);max-width:1180px;margin:clamp(36px,4.5vw,56px) auto 0;text-align:left}
-#services .sv-card{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 92px;
-  grid-template-areas:"head art" "fig fig" "para para" "fit fit" "inc inc" "appr appr" "cta cta";
-  gap:16px 14px;padding:0 18px 20px;border:1px solid transparent;border-radius:18px;
-  background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb,var(--rule-2)) border-box;
-  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,60%),transparent),var(--m-sh1,none)}
-/* the hairline under the number and title row */
-#services .sv-card::before{content:"";grid-area:1/1/2/-1;border-bottom:1px solid var(--rule);pointer-events:none}
+#services .sv-card{position:relative;display:grid;grid-template-columns:minmax(0,1fr);
+  grid-template-areas:"head" "fig" "lead" "para" "inc" "xtra" "cta";
+  gap:18px;padding:26px 18px 22px;border:1px solid transparent;border-radius:18px;
+  background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb,var(--rule-2)) border-box}
 
-#services .sv-head{grid-area:head;display:flex;align-items:center;gap:12px;min-width:0;min-height:var(--sv-row)}
-#services .sv-no{flex:none;font:600 24px/1 var(--display);font-variant-numeric:lining-nums tabular-nums;color:var(--rust);background:var(--m-text,none);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-#services .sv-head h3{min-width:0;font-size:clamp(1.2rem,1.75vw,1.6rem);line-height:1.15}
-#services .sv-lead{display:none}
+/* the head: the drawing tile, then the number small above the title */
+#services .sv-head{grid-area:head;display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0;text-align:center}
+#services .sv-ttl{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+#services .sv-no{font:600 15px/1 var(--display);letter-spacing:.06em;font-variant-numeric:lining-nums tabular-nums;color:var(--rust);background:var(--m-text,none);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#services .sv-head h3{min-width:0;font-size:1.4rem;line-height:1.2;text-wrap:balance}
 
-/* the line drawing: ink for the structure, the accent for what is new, faint for what is temporary or removed */
-#services .sv-art{grid-area:art;align-self:center;display:block;width:92px;height:auto;overflow:visible}
-#services .sv-art path{fill:none;stroke:var(--ink-2);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
-#services .sv-art .r{stroke:var(--rust)}
-#services .sv-art .g{stroke:var(--ink-3)}
-#services .sv-art .f{stroke:color-mix(in srgb,var(--ink-3) 55%,transparent)}
+/* the tile: a small embossed rounded square (inner highlight and shade, gradient rim) holding the line drawing */
+#services .sv-tile{flex:none;display:grid;place-items:center;width:76px;height:76px;border:1px solid transparent;border-radius:18px;
+  background:linear-gradient(160deg,var(--field),var(--paper-2)) padding-box,linear-gradient(150deg,color-mix(in srgb,var(--rust) 55%,transparent),color-mix(in srgb,var(--gl,var(--glow)) 38%,transparent) 46%,var(--rule-2) 82%) border-box;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,70%),transparent),inset 0 -2px 3px color-mix(in srgb,var(--m-shc,#000) 7%,transparent),0 1px 2px color-mix(in srgb,var(--m-shc,#000) 10%,transparent),0 10px 18px -12px color-mix(in srgb,var(--m-shc,#000) 50%,transparent)}
+/* the drawing: one navy-to-accent gradient for the structure, the accent gradient for what is new, faint for what
+   is temporary or removed (the plain colours stand in where gradients are not drawn) */
+#services .sv-art{display:block;width:78%;height:auto;overflow:visible}
+#services .sv-art path{fill:none;stroke:url(#sv-gi) var(--ink-2);stroke-width:6.5;stroke-linecap:round;stroke-linejoin:round}
+#services .sv-art .r{stroke:url(#sv-ga) var(--rust)}
+#services .sv-art .g{stroke:var(--ink-3);stroke-width:5}
+#services .sv-art .f{stroke:color-mix(in srgb,var(--ink-3) 55%,transparent);stroke-width:5}
 
-#services .sv-fig{grid-area:fig;margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+/* the photo, with one small label in its corner */
+#services .sv-fig{grid-area:fig;position:relative;margin:0;min-width:0;display:flex;flex-direction:column}
 #services .sv-ph{position:relative;aspect-ratio:3/2;overflow:hidden;border-radius:12px;background:var(--paper-2)}
 #services .sv-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-#services .sv-fig figcaption{color:var(--ink-3);line-height:1.4;text-align:center;text-wrap:balance}
+#services .sv-cap{position:absolute;left:10px;bottom:10px;padding:5px 10px 4px;border-radius:999px;background:color-mix(in srgb,var(--field) 90%,transparent);color:var(--ink-2);font:500 12.5px/1.2 var(--sans);letter-spacing:.01em}
 
-#services .sv-para{grid-area:para;color:var(--ink-2);font-size:16px;line-height:1.6}
+/* the words */
+#services .sv-lead{grid-area:lead;justify-self:center;max-width:30em;font-weight:500;font-size:17px;line-height:1.45;color:var(--ink);text-align:center;text-wrap:balance}
+#services .sv-para{grid-area:para;justify-self:center;max-width:34em;margin-top:-6px;color:var(--ink-2);font-size:16px;line-height:1.6;text-align:center;text-wrap:pretty}
 #services .sv-k{margin:0 0 10px;font:500 13px/1.4 var(--sans);font-variant-caps:all-small-caps;letter-spacing:.09em;color:var(--rust)}
+#services :is(.sv-inc,.sv-xtra,.sv-more){justify-self:center;width:100%;max-width:380px;min-width:0}
+#services .sv-inc{grid-area:inc}
+#services .sv-inc .tick{gap:8px;font-size:15.5px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
 
-/* who it suits: short lines with a small accent rule */
-#services .sv-fit{grid-area:fit;min-width:0}
+/* "Approvals and fit": who it suits, then the approvals path, both left-aligned */
+#services .sv-xtra{grid-area:xtra;display:grid;gap:22px;align-content:start}
 #services .sv-fit ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-#services .sv-fit li{position:relative;padding-left:24px;font-size:15.5px;line-height:1.5;color:var(--ink)}
+#services .sv-fit li{position:relative;padding-left:24px;font-size:15.5px;line-height:1.5;color:var(--ink);text-wrap:pretty}
 #services .sv-fit li::before{content:"";position:absolute;left:2px;top:calc(.75em - 1px);width:12px;height:2px;border-radius:2px;background:var(--m-line,var(--rust))}
-
-#services .sv-inc{grid-area:inc;min-width:0}
-#services .sv-inc .tick{gap:8px;font-size:15.5px;line-height:1.5;color:var(--ink-2)}
-
-/* the approvals path: three steps on a line (down the card on phones, across it on laptops) */
-#services .sv-appr{grid-area:appr;min-width:0}
-#services .sv-appr ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-#services .sv-appr li{position:relative;padding-left:26px;font-size:15px;line-height:1.45;color:var(--ink-2)}
+#services .sv-appr ol{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+#services .sv-appr li{position:relative;padding-left:26px;font-size:15px;line-height:1.45;color:var(--ink-2);text-wrap:pretty}
 #services .sv-appr li span{display:block;font-weight:600;font-size:14.5px;color:var(--ink)}
 #services .sv-appr li::before{content:"";position:absolute;z-index:1;left:2px;top:5px;width:12px;height:12px;box-sizing:border-box;border-radius:50%;border:2px solid var(--rust);background:var(--field)}
-#services .sv-appr li:not(:last-child)::after{content:"";position:absolute;left:7px;top:19px;bottom:-9px;width:2px;background:var(--rule)}
+#services .sv-appr li:not(:last-child)::after{content:"";position:absolute;left:7px;top:19px;bottom:-11px;width:2px;background:var(--rule)}
 
 #services .sv-cta{grid-area:cta;margin:0}
 #services .sv-cta .btn{width:100%;padding:0 22px;text-align:center}
 
+/* the toggle (svc-plus.js adds it; without JS the panel simply shows) */
 #services .sv-more{display:none}
+#services.sv-folds .sv-more{grid-area:more;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-weight:600;font-size:15.5px;color:var(--ink);text-align:left}
+#services .sv-more i{position:relative;flex:none;width:28px;height:28px;border-radius:50%;background:var(--paper-2);transition:transform var(--dur) var(--ease)}
+#services .sv-more i::before,#services .sv-more i::after{content:"";position:absolute;left:8px;right:8px;top:13px;height:2px;border-radius:2px;background:var(--rust)}
+#services .sv-more i::after{transform:rotate(90deg)}
+#services .sv-more[aria-expanded=true] i{transform:rotate(45deg)}
 #services .sv-note{max-width:620px;margin:28px auto 0;text-align:center;font-size:15px;color:var(--ink-3)}
 
-/* ---------- phones: one centred column ----------
-   The card head is a centred block (the drawing, then the number small above the title, then the hairline);
-   the caption and the intro are centred; "A good fit if", "Included" and "Approvals" stay left-aligned lists
-   in a centred block of the same width. */
-@media (max-width:700px){
-  #services .sv-card{grid-template-columns:minmax(0,1fr);grid-template-areas:"art" "head" "fig" "para" "fit" "inc" "appr" "cta";gap:20px;padding:24px 18px 22px}
-  #services .sv-card::before{grid-area:head}
-  #services .sv-art{justify-self:center;width:112px;margin-bottom:-6px}
-  #services .sv-head{flex-direction:column;justify-content:center;gap:4px;min-height:0;padding-bottom:16px;text-align:center}
-  #services .sv-no{font-size:15px;letter-spacing:.06em}
-  #services .sv-head h3{font-size:1.35rem;line-height:1.2;text-wrap:balance}
-  #services .sv-para{justify-self:center;max-width:34em;text-align:center;text-wrap:pretty}
-  #services :is(.sv-fit,.sv-inc,.sv-appr,.sv-more){justify-self:center;width:100%;max-width:360px}
-}
-
-/* ---------- phones: the fold for "Included" and "Approvals" (the button comes from svc-plus.js) ---------- */
-@media (max-width:700px){
-  #services .sv-more{grid-area:more;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;padding:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-weight:600;font-size:15.5px;color:var(--ink);text-align:left}
-  #services .sv-more i{position:relative;flex:none;width:28px;height:28px;border-radius:50%;background:var(--paper-2);transition:transform var(--dur) var(--ease)}
-  #services .sv-more i::before,#services .sv-more i::after{content:"";position:absolute;left:8px;right:8px;top:13px;height:2px;border-radius:2px;background:var(--rust)}
-  #services .sv-more i::after{transform:rotate(90deg)}
-  #services .sv-more[aria-expanded=true] i{transform:rotate(45deg)}
-  #services.sv-folds .sv-card{grid-template-areas:"art" "head" "fig" "para" "fit" "more" "inc" "appr" "cta"}
-  #services.sv-folds .sv-shut{grid-template-areas:"art" "head" "fig" "para" "fit" "more" "cta"}
-  #services .sv-shut .sv-inc,#services .sv-shut .sv-appr{display:none}
-  #services.sv-folds .sv-card:not(.sv-shut) .sv-inc,#services.sv-folds .sv-card:not(.sv-shut) .sv-appr{animation:sv-in var(--dur) var(--ease) both}
-  #services.sv-folds .sv-card:not(.sv-shut) .sv-appr{animation-delay:.12s}
+/* ---------- phones and tablets: the toggle opens the panel in place ---------- */
+@media (max-width:999px){
+  #services.sv-folds .sv-card{grid-template-areas:"head" "fig" "lead" "para" "inc" "more" "xtra" "cta"}
+  #services.sv-folds .sv-card.sv-shut{grid-template-areas:"head" "fig" "lead" "para" "inc" "more" "cta"}
+  #services.sv-folds .sv-shut .sv-xtra{display:none}
+  #services.sv-folds .sv-card:not(.sv-shut) .sv-xtra{animation:sv-in var(--dur) var(--ease) both}
 }
 @keyframes sv-in{from{opacity:0;transform:translateY(12px)}}
 
 /* ---------- tablets ---------- */
-@media (min-width:701px){
-  #services .sv-card{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 120px;
-    grid-template-areas:"head head art" "fig fig fig" "para para para" "fit inc inc" "appr appr appr" "cta cta cta";
-    gap:20px 28px;padding:0 26px 26px;border-radius:22px}
-  #services .sv-art{width:120px}
-  #services .sv-art path{stroke-width:2.2}
-  #services .sv-ph{aspect-ratio:16/10}
-  #services .sv-appr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:0 20px;align-items:start}
-  #services .sv-appr .sv-k{margin:2px 0 0}
-  #services .sv-appr ol{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 18px}
-  #services .sv-appr li{padding:22px 0 0}
-  #services .sv-appr li::before{left:0;top:0}
-  #services .sv-appr li:not(:last-child)::after{left:16px;right:-14px;top:5px;bottom:auto;width:auto;height:2px}
+@media (min-width:701px) and (max-width:999px){
+  #services .sv-card{padding:30px 32px 30px;border-radius:22px}
+  #services .sv-ph{aspect-ratio:16/9}
+  #services .sv-head h3{font-size:1.6rem}
+  #services :is(.sv-inc,.sv-xtra,.sv-more){max-width:520px}
+  #services .sv-cta{justify-self:center}
   #services .sv-cta .btn{width:auto}
 }
 
-/* ---------- laptops: photo beside the words; the even cards mirror ---------- */
+/* ---------- laptops: the photo beside one content column; the odd cards mirror ---------- */
 @media (min-width:1000px){
-  #services .sv-card{grid-template-columns:minmax(0,40fr) repeat(4,minmax(0,15fr));grid-template-rows:var(--sv-row) auto 1fr auto;
-    grid-template-areas:"head head head head head" "fig art para para para" "fig fit fit inc inc" "appr appr appr cta cta";
-    gap:16px 22px;padding:0 30px 24px}
-  #services .sv-alt{grid-template-columns:repeat(4,minmax(0,15fr)) minmax(0,40fr);
-    grid-template-areas:"head head head head head" "para para para art fig" "fit fit inc inc fig" "cta cta appr appr appr"}
-  #services .sv-head{height:var(--sv-row);gap:16px}
-  #services .sv-no{font-size:28px}
-  #services .sv-head h3{flex:none;max-width:60%}
-  #services .sv-lead{display:block;flex:1 1 auto;min-width:0;margin-left:auto;text-align:right;font-size:15px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  #services .sv-art{width:100%;max-width:170px;align-self:center;justify-self:center}
-  #services .sv-art path{stroke-width:2}
-  #services .sv-ph{aspect-ratio:auto;flex:1 1 auto;min-height:210px}
-  #services .sv-fig{margin-right:8px}
-  #services .sv-alt .sv-fig{margin:0 0 0 8px}
-  #services .sv-para{align-self:center;max-width:62ch}
-  #services .sv-fit li,#services .sv-inc .tick{font-size:15px}
-  #services .sv-cta{align-self:end;justify-self:end}
-  #services .sv-alt .sv-cta{justify-self:start}
+  #services .sv-card{grid-template-columns:minmax(0,43%) auto minmax(0,1fr);grid-template-rows:auto auto auto auto auto 1fr;
+    grid-template-areas:"fig head head" "fig lead lead" "fig para para" "fig inc inc" "fig xtra xtra" "fig cta cta";
+    gap:0 var(--sv-cg);min-height:490px;padding:var(--sv-pt) clamp(30px,3vw,44px) var(--sv-pt) var(--sv-pt);border-radius:22px}
+  #services .sv-alt{grid-template-columns:auto minmax(0,1fr) minmax(0,43%);
+    grid-template-areas:"head head fig" "lead lead fig" "para para fig" "inc inc fig" "xtra xtra fig" "cta cta fig";
+    padding:var(--sv-pt) var(--sv-pt) var(--sv-pt) clamp(30px,3vw,44px)}
+  #services.sv-folds .sv-card{grid-template-rows:auto auto auto auto 1fr;grid-template-areas:"fig head head" "fig lead lead" "fig para para" "fig inc inc" "fig cta more"}
+  #services.sv-folds .sv-alt{grid-template-areas:"head head fig" "lead lead fig" "para para fig" "inc inc fig" "cta more fig"}
+
+  /* the head: the tile beside the number and title, its top level with the photo's */
+  #services .sv-head{flex-direction:row;align-items:center;gap:18px;text-align:left}
+  #services .sv-ttl{align-items:flex-start;gap:6px}
+  #services .sv-no{font-size:15px}
+  #services .sv-head h3{font-size:clamp(1.45rem,1.9vw,1.75rem);line-height:1.15}
+  #services .sv-tile{width:var(--sv-tile);height:var(--sv-tile);border-radius:15px}
+  #services .sv-art{width:84%}
+  #services .sv-art path{stroke-width:7}
+  #services .sv-art :is(.g,.f){stroke-width:5.5}
+
+  /* the photo fills its side, top to bottom */
+  #services .sv-fig{min-height:340px}
+  #services .sv-ph{flex:1 1 auto;aspect-ratio:auto}
+  #services .sv-cap{left:12px;bottom:12px}
+
+  /* the words: one left edge, even steps between blocks */
+  #services .sv-lead{justify-self:start;max-width:36em;margin-top:18px;font-size:18px;line-height:1.4;text-align:left}
+  #services .sv-para{justify-self:start;max-width:62ch;margin-top:10px;text-align:left}
+  #services :is(.sv-inc,.sv-xtra){justify-self:start;max-width:none;margin-top:20px}
+  #services .sv-inc .tick{gap:7px;font-size:15.5px}
+  #services .sv-cta{align-self:end;justify-self:start;margin-top:24px}
+  #services .sv-cta .btn{width:auto;padding:0 28px}
+
+  /* the toggle on laptops: a quiet text button beside the main button */
+  #services.sv-folds .sv-more{grid-area:more;align-self:end;justify-self:start;max-width:none;width:auto;min-height:52px;margin:24px 0 0 calc(26px - var(--sv-cg));padding:0 4px;gap:10px;border:0;font-size:15px;color:var(--ink-2)}
+  #services.sv-folds .sv-more:hover{color:var(--ink)}
+  #services.sv-folds .sv-more i{width:26px;height:26px}
+  #services.sv-folds .sv-more i::before,#services.sv-folds .sv-more i::after{left:7px;right:7px;top:12px}
+
+  /* the panel lies over the photo, opaque, and fades up when opened */
+  #services.sv-folds .sv-xtra{grid-area:fig;z-index:2;align-self:stretch;justify-self:stretch;margin:0;min-height:0;overflow:auto;
+    gap:22px;align-content:center;padding:24px clamp(22px,2.4vw,34px);border-radius:12px;background:var(--field);
+    box-shadow:inset 0 0 0 1px var(--rule-2)}
+  #services.sv-folds .sv-shut .sv-xtra{visibility:hidden;opacity:0;transform:translateY(10px)}
 }
 
 /* ---------- laptops tall enough for a whole card: sticky stacking cards ----------
    svc-plus.js adds .sv-flat if a card's words would not fit the screen, and the cards fall back to flow. */
 @media (min-width:1000px) and (min-height:800px){
-  #services{--sv-h:min(600px,calc(100vh - var(--top) - var(--sv-hh) - 3 * var(--sv-row) - 16px))}
-  #services:not(.sv-flat) .sec-head{position:sticky;top:var(--top);z-index:4;display:flex;align-items:center;justify-content:center;height:var(--sv-hh);max-width:none;margin-bottom:28px;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax)}
-  #services:not(.sv-flat) .sv-list{gap:0}
-  #services:not(.sv-flat) .sv-card{position:sticky;z-index:1;top:calc(var(--top) + var(--sv-hh) + var(--i,0) * var(--sv-row));height:var(--sv-h)}
-  #services:not(.sv-flat) .sv-card:not(:last-child){margin-bottom:max(48px,14vh)}
+  #services{--sv-h:min(560px,calc(100vh - var(--top) - var(--sv-hh) - 3 * var(--sv-row) - 12px))}
+  #services.sv-folds:not(.sv-flat) .sec-head{position:sticky;top:var(--top);z-index:4;display:flex;align-items:center;justify-content:center;height:var(--sv-hh);max-width:none;margin-bottom:24px;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax)}
+  #services.sv-folds:not(.sv-flat) .sv-list{gap:0}
+  #services.sv-folds:not(.sv-flat) .sv-card{position:sticky;z-index:1;top:calc(var(--top) + var(--sv-hh) + var(--i,0) * var(--sv-row));height:var(--sv-h);min-height:0}
+  /* the space between cards sits above each card, not below: a bottom margin would count against the list's end
+     and push the earlier cards up over the strips of the ones before them as the last card arrives */
+  #services.sv-folds:not(.sv-flat) .sv-card+.sv-card{margin-top:max(48px,14vh)}
+  #services.sv-folds:not(.sv-flat) .sv-fig{min-height:0}
+  /* the panel takes the photo's space and scrolls inside it if it ever must, so it never stretches a card */
+  #services.sv-folds:not(.sv-flat) .sv-xtra{contain:size}
 }
 
-/* ---------- the drawings draw in (svc-plus.js adds .sv-live, and .on to each card as it comes into view) ---------- */
+/* ---------- motion: the tile settles and its drawing draws in, once (svc-plus.js adds .sv-live, and .on to each card) ---------- */
 @media (prefers-reduced-motion:no-preference){
-  #services.sv-live .sv-art path{stroke-dasharray:1 2;stroke-dashoffset:1.05;transition:stroke-dashoffset var(--dur) var(--ease) calc(var(--d,0) * 1s)}
+  #services.sv-live .sv-tile{opacity:0;transform:translateY(6px) scale(.94);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
+  #services.sv-live .sv-card.on .sv-tile{opacity:1;transform:none}
+  #services.sv-live .sv-art path{stroke-dasharray:1 2;stroke-dashoffset:1.05;transition:stroke-dashoffset var(--dur) var(--ease) calc(.25s + var(--d,0) * 1s)}
   #services.sv-live .sv-card.on .sv-art path{stroke-dashoffset:0}
+  @media (min-width:1000px){
+    #services.sv-folds .sv-xtra{transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease),visibility 0s}
+    #services.sv-folds .sv-shut .sv-xtra{transition:opacity .6s var(--ease),transform .6s var(--ease),visibility 0s .6s}
+  }
 }
 @media (prefers-reduced-motion:reduce){
   #services .sv-more i{transition:none}
-  #services.sv-folds .sv-card .sv-inc,#services.sv-folds .sv-card .sv-appr{animation:none}
+  #services.sv-folds .sv-card .sv-xtra{animation:none;transition:none}
 }
+
+/* the lead line repeated the paragraph opening on every card; the paragraph carries it on its own */
+#services .sv-lead{display:none}

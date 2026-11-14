@@ -1,7 +1,8 @@
 /* svc-plus: the service cards in "In this issue: what we build".
-   1. Each card's line drawing draws in once, when the card comes into view (a class change from an
-      IntersectionObserver; the stroke itself is a CSS transition). Without JS or under reduced motion it shows finished.
-   2. On phones, "Included" and "Approvals" fold behind one button per card. Without JS they simply show.
+   1. Each card's tile settles and its line drawing draws in once, when the card comes into view (a class change
+      from an IntersectionObserver; the motion itself is CSS). Without JS or under reduced motion it shows finished.
+   2. "A good fit if" and "Approvals" sit behind one "Approvals and fit" toggle per card: in place on phones and
+      tablets, as a panel over the photo on laptops. Escape closes an open panel. Without JS they simply show.
    3. "Talk to us about ..." keeps its normal jump to the enquiry form and ticks the matching job type there.
    4. Stacking cards are CSS only; if a card's words would not fit the screen, .sv-flat puts the cards back in flow. */
 (function () {
@@ -18,22 +19,27 @@
         e.target.closest('.sv-card').classList.add('on'); io.unobserve(e.target);
       });
     }, { threshold: .6 });
-    cards.forEach(function (c) { var a = c.querySelector('.sv-art'); if (a) io.observe(a); else c.classList.add('on'); });
+    cards.forEach(function (c) { var a = c.querySelector('.sv-head'); if (a) io.observe(a); else c.classList.add('on'); });
   }
 
-  /* 2. the phone fold */
+  /* 2. the "Approvals and fit" toggle */
   sec.classList.add('sv-folds');
   cards.forEach(function (c) {
-    var inc = c.querySelector('.sv-inc'), ap = c.querySelector('.sv-appr'); if (!inc || !ap) return;
+    var x = c.querySelector('.sv-xtra'); if (!x) return;
     var b = d.createElement('button');
     b.type = 'button'; b.className = 'sv-more';
-    b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', inc.id + ' ' + ap.id);
-    b.innerHTML = '<span>Included work and approvals</span><i aria-hidden="true"></i>';
-    inc.parentNode.insertBefore(b, inc);
+    b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', x.id);
+    b.innerHTML = '<span>Approvals and fit</span><i aria-hidden="true"></i>';
+    x.parentNode.insertBefore(b, x);
     c.classList.add('sv-shut');
-    b.addEventListener('click', function () {
-      var open = c.classList.toggle('sv-shut') === false;
+    function set(open) {
+      c.classList.toggle('sv-shut', !open);
       b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    b.addEventListener('click', function () { set(c.classList.contains('sv-shut')); });
+    c.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || c.classList.contains('sv-shut')) return;
+      set(false); b.focus();
     });
   });
 

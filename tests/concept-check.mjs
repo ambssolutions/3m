@@ -33,10 +33,18 @@ for (const [w, h] of SIZES) {
         .filter(o => o.r.width > 4 && o.r.height > 4 && o.r.bottom > 0 && o.r.top < VH && o.r.right > 0 && o.r.left < W);
       for (const o of els) if (o.r.right > W + 2 || o.r.left < -2) out.push(`offscreen: "${o.el.textContent.trim().slice(0, 40)}"`);
       for (const o of els) { const s = getComputedStyle(o.el); if ((s.overflow === "hidden" || s.overflowY === "hidden") && o.el.scrollHeight > o.el.clientHeight + 4 && !/ellipsis/.test(s.textOverflow)) out.push(`clipped: "${o.el.textContent.trim().slice(0, 40)}"`); }
+      // Text on a page turned in perspective (any 3D transform): getBoundingClientRect gives the axis-aligned bounds of each
+      // line's projected trapezoid, so the boxes of neighbouring lines cross while the lines themselves do not. A perspective
+      // projection of a plane never makes two separate regions overlap, so for two elements on the same 3D-transformed
+      // element the test uses their untransformed layout boxes on that element. Real overlaps there still count.
+      const plane = x => { for (let n = x.parentElement; n; n = n.parentElement) { const t = getComputedStyle(n).transform; if (t && t !== "none" && !new DOMMatrixReadOnly(t).is2D) return n; } return null; };
+      const flat = (x, anc) => { let l = 0, t = 0, n = x; while (n && n !== anc) { l += n.offsetLeft; t += n.offsetTop; n = n.offsetParent; } return n === anc ? { l, t, r: l + x.offsetWidth, b: t + x.offsetHeight } : null; };
+      const apart = (a, c) => { const pa = plane(a.el); if (!pa || pa !== plane(c.el)) return false; const A = flat(a.el, pa), C = flat(c.el, pa); if (!A || !C) return false;
+        return !(Math.min(A.r, C.r) - Math.max(A.l, C.l) > 6 && Math.min(A.b, C.b) - Math.max(A.t, C.t) > 6); };
       for (let i = 0; i < els.length; i++) for (let j = i + 1; j < els.length; j++) {
         const a = els[i], c = els[j]; if (a.el.contains(c.el) || c.el.contains(a.el)) continue;
         const ix = Math.min(a.r.right, c.r.right) - Math.max(a.r.left, c.r.left), iy = Math.min(a.r.bottom, c.r.bottom) - Math.max(a.r.top, c.r.top);
-        if (ix > 6 && iy > 6 && ix * iy > 0.15 * Math.min(a.r.width * a.r.height, c.r.width * c.r.height)) {
+        if (ix > 6 && iy > 6 && ix * iy > 0.15 * Math.min(a.r.width * a.r.height, c.r.width * c.r.height) && !apart(a, c)) {
           const inH = x => header && header.contains(x.el); if (inH(a) !== inH(c)) continue;
           const cx = (Math.max(a.r.left, c.r.left) + Math.min(a.r.right, c.r.right)) / 2, cy = (Math.max(a.r.top, c.r.top) + Math.min(a.r.bottom, c.r.bottom)) / 2;
           const hit = document.elementFromPoint(cx, cy); if (!hit) continue;
