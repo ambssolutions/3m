@@ -1,13 +1,15 @@
 /* svc-plus: "In this issue: what we build" as four calm service cards, one structure for all four.
    Laptops: the photo on one side (alternating), and one content column beside it, every block left-aligned on one
-   edge: the drawing tile with the number and title, one lead line, the paragraph, "Included", then the button at
-   the foot. "A good fit if" and "Approvals" sit behind one quiet "Approvals and fit" toggle that lays an opaque
-   panel over the photo. Phones and tablets: one centred column (tile, number, title, photo, words), the lists
-   left-aligned in a centred block, and the same toggle opens the panel in place. Without JS everything shows in flow.
+   edge: the drawing tile with the title, the paragraph, "Included", then the button at the foot.
+   The photo slot holds two faces in one place: the photo, and "A good fit if" with "Approvals". They crossfade on
+   their own (photo about 5s, text about 7s) while the card is on screen, and the "Approvals and fit" button
+   switches to the text by hand. Phones and tablets: one centred column (tile, title, the photo slot, words), the
+   lists left-aligned in a centred block. Without JS nothing fades and the text simply shows in flow.
    Laptops tall enough to hold a whole card: opaque CSS sticky stacking cards under a pinned heading, each card's
    tile, number and title left showing as the next one stacks (no JS pinning, nothing tied to the scroll position).
    Shorter laptops use normal flow. Motion: the tile settles and its drawing draws in once (transform, opacity,
-   stroke-dashoffset, 1.4s); the panel fades up (opacity, transform). Static under reduced motion. Colours come
+   stroke-dashoffset, 1.4s); the photo slot crossfades (opacity, plus a 6px rise on the incoming face, 1s).
+   Under reduced motion nothing fades by itself and the button swaps the faces at once. Colours come
    from the theme tokens only. Every rule is scoped to #services. */
 
 #services{
@@ -24,7 +26,7 @@
 /* ---------- the cards (phone first: one centred column) ---------- */
 #services .sv-list{display:grid;gap:var(--sv-gap);max-width:1180px;margin:clamp(36px,4.5vw,56px) auto 0;text-align:left}
 #services .sv-card{position:relative;display:grid;grid-template-columns:minmax(0,1fr);
-  grid-template-areas:"head" "fig" "lead" "para" "inc" "xtra" "cta";
+  grid-template-areas:"head" "fig" "para" "inc" "xtra" "cta";
   gap:18px;padding:26px 18px 22px;border:1px solid transparent;border-radius:18px;
   background:linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb,var(--rule-2)) border-box}
 
@@ -50,7 +52,7 @@
 #services .sv-fig{grid-area:fig;position:relative;margin:0;min-width:0;display:flex;flex-direction:column}
 #services .sv-ph{position:relative;aspect-ratio:3/2;overflow:hidden;border-radius:12px;background:var(--paper-2)}
 #services .sv-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-#services .sv-cap{position:absolute;left:10px;bottom:10px;padding:5px 10px 4px;border-radius:999px;background:color-mix(in srgb,var(--field) 90%,transparent);color:var(--ink-2);font:500 12.5px/1.2 var(--sans);letter-spacing:.01em}
+#services .sv-cap{position:absolute;left:10px;bottom:10px;padding:5px 10px 4px;border-radius:999px;background:var(--field);color:var(--ink-2);font:500 12.5px/1.2 var(--sans);letter-spacing:.01em}
 
 /* the words */
 #services .sv-lead{grid-area:lead;justify-self:center;max-width:30em;font-weight:500;font-size:17px;line-height:1.45;color:var(--ink);text-align:center;text-wrap:balance}
@@ -83,21 +85,45 @@
 #services .sv-more[aria-expanded=true] i{transform:rotate(45deg)}
 #services .sv-note{max-width:620px;margin:28px auto 0;text-align:center;font-size:15px;color:var(--ink-3)}
 
-/* ---------- phones and tablets: the toggle opens the panel in place ---------- */
+/* ---------- the photo slot: two faces, one place (svc-plus.js adds .sv-folds, and .sv-b while the text shows) ----------
+   Both faces share the photo's grid area, so the slot is as tall as the taller face and neither overflows. The
+   hidden face has opacity 0 (it stays in the DOM, so screen readers still read the text). */
+#services.sv-folds .sv-xtra{grid-area:fig;z-index:1;align-self:stretch;justify-self:stretch;width:auto;max-width:none;margin:0;min-width:0;
+  gap:20px;align-content:center;padding:22px clamp(20px,2.4vw,34px);border:1px solid transparent;border-radius:12px;
+  background:linear-gradient(165deg,var(--field),color-mix(in oklab,var(--paper-2) 55%,var(--field))) padding-box,
+    linear-gradient(150deg,color-mix(in srgb,var(--rust) 50%,transparent),color-mix(in srgb,var(--gl,var(--glow)) 34%,transparent) 42%,var(--rule-2) 80%) border-box;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,70%),transparent),inset 0 -3px 6px -2px color-mix(in srgb,var(--m-shc,#000) 8%,transparent);
+  text-align:left}
+html.flair #services.sv-folds .sv-xtra{background:linear-gradient(165deg,var(--field),color-mix(in oklab,var(--paper-2) 55%,var(--field))) padding-box,var(--fx-gb) border-box}
+#services.sv-folds .sv-xtra :is(.sv-fit li,.sv-appr li,.sv-appr li span){font-size:15px}
+#services.sv-folds .sv-fig{align-self:stretch;justify-self:stretch;width:100%}
+#services.sv-folds .sv-ph{flex:1 1 auto;aspect-ratio:auto;overflow:visible;background:none}
+#services.sv-folds .sv-ph img{border-radius:12px}
+/* the hidden face: see-through, a few pixels low, out of the way of the pointer */
+#services.sv-folds .sv-card:not(.sv-b) .sv-xtra,#services.sv-folds .sv-b .sv-fig{opacity:0;transform:translateY(6px);pointer-events:none}
+
+/* ---------- phones and tablets: the button sits just under the photo slot it switches ---------- */
 @media (max-width:999px){
-  #services.sv-folds .sv-card{grid-template-areas:"head" "fig" "lead" "para" "inc" "more" "xtra" "cta"}
-  #services.sv-folds .sv-card.sv-shut{grid-template-areas:"head" "fig" "lead" "para" "inc" "more" "cta"}
-  #services.sv-folds .sv-shut .sv-xtra{display:none}
-  #services.sv-folds .sv-card:not(.sv-shut) .sv-xtra{animation:sv-in var(--dur) var(--ease) both}
+  #services.sv-folds .sv-card{grid-template-areas:"head" "fig" "more" "para" "inc" "cta"}
+  #services.sv-folds .sv-more{justify-self:center;width:auto;max-width:none;min-height:44px;margin:-6px 0 -4px;padding:0 4px;gap:10px;border:0;font-size:15px;color:var(--ink-2)}
+  #services.sv-folds .sv-more i{width:26px;height:26px}
+  #services.sv-folds .sv-more i::before,#services.sv-folds .sv-more i::after{left:7px;right:7px;top:12px}
+  /* the slot keeps one shape on every card, tall enough that the back's text fits; the photo fills it */
+  #services.sv-folds .sv-fig{aspect-ratio:var(--sv-ar,16/25)}
+  #services.sv-folds .sv-xtra{gap:16px;padding:18px 16px}
+  #services.sv-folds .sv-xtra .sv-k{margin-bottom:8px}
+  #services.sv-folds .sv-xtra .sv-fit ul{gap:6px}
+  #services.sv-folds .sv-xtra .sv-appr ol{gap:9px}
+  #services.sv-folds .sv-xtra :is(.sv-fit li,.sv-appr li){line-height:1.42}
 }
-@keyframes sv-in{from{opacity:0;transform:translateY(12px)}}
 
 /* ---------- tablets ---------- */
 @media (min-width:701px) and (max-width:999px){
   #services .sv-card{padding:30px 32px 30px;border-radius:22px}
   #services .sv-ph{aspect-ratio:16/9}
+  #services{--sv-ar:4/3}
   #services .sv-head h3{font-size:1.6rem}
-  #services :is(.sv-inc,.sv-xtra,.sv-more){max-width:520px}
+  #services :is(.sv-inc,.sv-xtra){max-width:520px}
   #services .sv-cta{justify-self:center}
   #services .sv-cta .btn{width:auto}
 }
@@ -142,11 +168,8 @@
   #services.sv-folds .sv-more i{width:26px;height:26px}
   #services.sv-folds .sv-more i::before,#services.sv-folds .sv-more i::after{left:7px;right:7px;top:12px}
 
-  /* the panel lies over the photo, opaque, and fades up when opened */
-  #services.sv-folds .sv-xtra{grid-area:fig;z-index:2;align-self:stretch;justify-self:stretch;margin:0;min-height:0;overflow:auto;
-    gap:22px;align-content:center;padding:24px clamp(22px,2.4vw,34px);border-radius:12px;background:var(--field);
-    box-shadow:inset 0 0 0 1px var(--rule-2)}
-  #services.sv-folds .sv-shut .sv-xtra{visibility:hidden;opacity:0;transform:translateY(10px)}
+  /* the back face fills the photo's side */
+  #services.sv-folds .sv-xtra{min-height:0;gap:22px;padding:24px clamp(24px,2.6vw,38px)}
 }
 
 /* ---------- laptops tall enough for a whole card: sticky stacking cards ----------
@@ -166,18 +189,18 @@
 
 /* ---------- motion: the tile settles and its drawing draws in, once (svc-plus.js adds .sv-live, and .on to each card) ---------- */
 @media (prefers-reduced-motion:no-preference){
+  /* the crossfade: the incoming face fades in and rises 6px while the outgoing one fades out where it is
+     (its 6px drop waits until it is invisible); .sv-snap swaps at once, for a card that is off screen */
+  #services.sv-folds :is(.sv-fig,.sv-xtra){transition:opacity 1s var(--ease),transform 1s var(--ease)}
+  #services.sv-folds .sv-card:not(.sv-b) .sv-xtra,#services.sv-folds .sv-b .sv-fig{transition:opacity 1s var(--ease),transform 0s linear 1s}
+  #services.sv-folds .sv-snap :is(.sv-fig,.sv-xtra){transition:none}
   #services.sv-live .sv-tile{opacity:0;transform:translateY(6px) scale(.94);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease)}
   #services.sv-live .sv-card.on .sv-tile{opacity:1;transform:none}
   #services.sv-live .sv-art path{stroke-dasharray:1 2;stroke-dashoffset:1.05;transition:stroke-dashoffset var(--dur) var(--ease) calc(.25s + var(--d,0) * 1s)}
   #services.sv-live .sv-card.on .sv-art path{stroke-dashoffset:0}
-  @media (min-width:1000px){
-    #services.sv-folds .sv-xtra{transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease),visibility 0s}
-    #services.sv-folds .sv-shut .sv-xtra{transition:opacity .6s var(--ease),transform .6s var(--ease),visibility 0s .6s}
-  }
 }
 @media (prefers-reduced-motion:reduce){
   #services .sv-more i{transition:none}
-  #services.sv-folds .sv-card .sv-xtra{animation:none;transition:none}
 }
 
 /* the lead line repeated the paragraph opening on every card; the paragraph carries it on its own */

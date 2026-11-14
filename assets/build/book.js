@@ -13,7 +13,8 @@
      page in motion, promoted two frames before its turn starts and released when it lands) and .bk-hf / .bk-hb (front or back face out of sight: drawn as nothing, switched instantly
      when a turn ends). The layer is ready before a turn starts, and nothing inside a turning page repaints.
    - once a page has landed and the book is still, its tiles get .bk-on: the drawing draws itself in and plays its one
-     detail. Each plays once.
+     detail (once), then .bk-live keeps it moving gently in a slow loop. Only the landed page loops, only while the book
+     is on the screen and the tab is visible (.bk-run on the section), and it holds still while a page turns.
    Only when motion is allowed (and the browser has the CSS this book was built and tested with); otherwise
    your-build.js runs the plain timeline as before. */
 (function () {
@@ -23,7 +24,22 @@
   if (!tl || !book || items.length < 2) return;
   var tiles = [].slice.call(sec.querySelectorAll('.en-fc')), n = items.length, art = [], pages = [];
   function el(tag, c) { var e = d.createElement(tag); e.className = c; e.setAttribute('aria-hidden', 'true'); return e; }
-  function tile(svg, i) { var t = el('span', 'bk-tile bk-t' + (i + 1)); svg.classList.add('bk-a' + (i + 1)); svg.parentNode.insertBefore(t, svg); t.appendChild(svg); (pages[i] = pages[i] || []).push(t); return t; }
+  /* the part of each drawing that moves (children of the 240x180 drawing, 1-based): the tape blade and its marks, the
+     stamp, the roof truss, the key, the seal's ribbon. It is lifted into its own copy laid over the drawing (.bk-ov, in a box
+     .bk-mo that does the moving), so it moves as a layer and the drawing never repaints; the ribbon's copy goes under, so the seal still covers its top. */
+  var MOVES = [[7, 8], [6, 7, 8], [6, 7], [10, 11, 12], [5]];
+  function tile(svg, i) {
+    var t = el('span', 'bk-tile bk-t' + (i + 1)), f = el('span', 'bk-fig'), mv = MOVES[i] || [], ov = svg.cloneNode(true);
+    svg.parentNode.insertBefore(t, svg); t.appendChild(f); f.appendChild(svg);
+    [].slice.call(svg.children).forEach(function (c, k) { if (mv.indexOf(k + 1) >= 0) svg.removeChild(c); });
+    [].slice.call(ov.children).forEach(function (c, k) { if (mv.indexOf(k + 1) < 0) ov.removeChild(c); });
+    /* the copy moves inside two HTML boxes: .bk-mo plays the one-off detail and .bk-mi the loop. One transform animation per
+       box, on a box rather than the <svg>, so Chrome runs both on the compositor (it runs a transform on an <svg>, or two
+       animations of the same property on one element, on the main thread) */
+    var mo = el('span', 'bk-mo'), mi = el('span', 'bk-mi'); ov.classList.add('bk-ov'); mi.appendChild(ov); mo.appendChild(mi);
+    if (i === 4) f.insertBefore(mo, svg); else f.appendChild(mo);
+    (pages[i] = pages[i] || []).push(t); return t;
+  }
   function verso(i, c) { var p = el('div', 'bk-pg ' + c), a = art[i].cloneNode(true); p.appendChild(a); tile(a, i); return p; }
   /* the stroke gradients: user space of the drawings' 240x180 view box, stop colours from the theme in book.css */
   var defs = d.createElement('div');
@@ -64,10 +80,17 @@
     });
     if (sp) cls(base, 'bk-hb', !(shown === 0 || moving[0]));
   }
-  function draw(k) { if (pages[k]) pages[k].forEach(function (t) { t.classList.add('bk-on'); }); }
+  /* the landed page's drawing draws in (once) and then keeps moving gently (.bk-live); every other page's stops */
+  var live = -1;
+  function draw(k) { if (pages[k]) pages[k].forEach(function (t) { t.classList.add('bk-on'); }); setLive(k); }
+  function setLive(k) {
+    if (k === live) return;
+    if (pages[live]) pages[live].forEach(function (t) { t.classList.remove('bk-live'); });
+    live = k; if (pages[k]) pages[k].forEach(function (t) { t.classList.add('bk-live'); });
+  }
   function move(j, fwd) {
     var it = items[j], tk = token[j] = (token[j] || 0) + 1, ready = !!moving[j];
-    moving[j] = true; sync();
+    moving[j] = true; sync(); setLive(-1);   /* the drawings hold still while a page turns */
     function turn() { if (token[j] !== tk) return; it.classList.remove('bk-pre'); it.classList.add('bk-mv'); cls(it, 'bk-u', !fwd); cls(it, 'bk-t', fwd); }
     /* promoted two frames ahead (.bk-pre: set in place without a transition), so its layer is drawn before it moves; a
        page reversing mid-turn is already a layer and turns back at once */
@@ -108,4 +131,10 @@
     }
   }, { rootMargin: '-50% 0px -49% 0px' });
   marks.forEach(function (m) { io.observe(m); });
+
+  /* the drawing only moves while the book is on the screen and the tab is visible */
+  var seen = false;
+  function run() { cls(sec, 'bk-run', seen && !d.hidden); }
+  new IntersectionObserver(function (es) { seen = es[0].isIntersecting; run(); }).observe(book);
+  d.addEventListener('visibilitychange', run);
 })();
