@@ -182,3 +182,6 @@
 
 /* the lead line repeated the paragraph opening on every card; the paragraph carries it on its own */
 #services .sv-lead{display:none}
+
+/* the owner asked for the 01 to 04 numbers to go; the tile and title carry each card */
+#services .sv-no{display:none}
