@@ -16,7 +16,7 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var IO = 'IntersectionObserver' in window;
   var FRONT = 5000, BACK = 7000, FADE = 1000, STAGGER = 2200;
-  var STACK = matchMedia('(min-width:1000px) and (min-height:800px)');
+  var STACK = matchMedia('(min-width:1000px) and (min-height:700px)');
 
   /* 1. drawings */
   if (!reduce && IO) {

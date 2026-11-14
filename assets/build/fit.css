@@ -1,0 +1,126 @@
+/* fit: "one part per screen" (concept 13 only; linked after book.css, before flair.css, harbour.css and grad.css).
+   The owner's note: each part of the page should fit one laptop screen under the header, like one whole service
+   card with its photo, words and both buttons. Multi-screen sections are split into screen units:
+   services (heading and intro, then one stacking card per screen), sketch (heading, then the tool), projects (heading
+   and the first row of plates, then the second row and the note), people (opener, copy, then the two portraits),
+   contact (opener, the form card with its sketch, then "tell us / what happens next").
+   Layout only: nothing is cut, body text stays 15px or more, and every motion stays as it was. */
+
+/* ========== 1. menu jumps line each part up under the header ==========
+   html already keeps 12px clear under the header (scroll-padding-top). A jump to a section skips the section's own
+   top padding and the double rule, so its heading lands 12px under the header instead of 120px or more of air.
+   The photo openers (process, people, contact) start with their photo, so they land as they are. */
+.sec{--fit-pt:clamp(24px,3.5vw,48px);--fit-wt:clamp(44px,5.5vw,76px);scroll-margin-top:calc(0px - var(--fit-pt) - var(--fit-wt))}
+.sec.en-cover{--fit-pt:0px;--fit-wt:0px}
+@media (min-width:901px) and (max-height:820px){#layers.sec{--fit-pt:16px}}
+/* "Get a quote" and "Talk to us about ..." land the whole enquiry card 16px under the header */
+#quote{scroll-margin-top:4px}
+/* the card is the jump's target before it has revealed: it skips its 16px rise (it still fades in), so it lands
+   where it will rest instead of 16px higher */
+#contact .qc-cardwrap.rv:has(#quote:target){transform:none;transition:opacity 1.2s var(--ease)}
+
+/* ========== 2. short laptop screens (under 800 tall): less air between the parts ========== */
+@media (min-width:761px) and (max-height:799px){
+  .sec{padding-bottom:56px}
+  .sec>.wrap{padding-top:40px}
+  .sec{--fit-wt:40px}
+}
+
+/* ========== 3. services: stacking cards from 700px tall ==========
+   The same opaque CSS sticky cards as on taller laptops (svc-plus.css), with a slimmer pinned heading strip, slimmer
+   strips for the cards underneath (each still shows its tile and title) and a little less padding, so one whole card
+   fits 1280x720 and 1366x768 with a margin under it. svc-plus.js still puts the cards back in flow (.sv-flat) if a
+   card's words would not fit. */
+@media (min-width:1000px) and (min-height:700px) and (max-height:799px){
+  #services{--sv-hh:48px;--sv-row:52px;--sv-pt:12px;--sv-tile:44px;
+    --sv-h:min(560px,calc(100vh - var(--top) - var(--sv-hh) - 3 * var(--sv-row) - 20px))}
+  #services.sv-folds:not(.sv-flat) .sec-head{position:sticky;top:var(--top);z-index:4;display:flex;align-items:center;justify-content:center;height:var(--sv-hh);max-width:none;margin-bottom:24px;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax)}
+  #services.sv-folds:not(.sv-flat) .sec-head h2{font-size:clamp(2rem,3.4vw,3rem)}
+  #services.sv-folds:not(.sv-flat) .sec-head::before{display:none}
+  #services.sv-folds:not(.sv-flat) .sv-list{gap:0}
+  #services.sv-folds:not(.sv-flat) .sv-card{position:sticky;z-index:1;top:calc(var(--top) + var(--sv-hh) + var(--i,0) * var(--sv-row));height:var(--sv-h);min-height:0}
+  #services.sv-folds:not(.sv-flat) .sv-card+.sv-card{margin-top:max(48px,14vh)}
+  #services.sv-folds:not(.sv-flat) .sv-fig{min-height:0}
+  #services.sv-folds:not(.sv-flat) .sv-xtra{contain:size}
+  /* the words column: slightly tighter steps, so the button row sits inside the shorter card */
+  #services.sv-folds:not(.sv-flat) .sv-para{margin-top:8px}
+  #services.sv-folds:not(.sv-flat) .sv-inc{margin-top:14px}
+  #services.sv-folds:not(.sv-flat) .sv-inc .tick{gap:5px}
+  #services.sv-folds:not(.sv-flat) .sv-cta{margin-top:16px}
+  #services.sv-folds:not(.sv-flat) .sv-more{margin-top:16px}
+  html.flair #services.sv-folds:not(.sv-flat){background:none}
+}
+/* the whole section's first screen: the heading, the intro (three lines instead of four) and the first card together */
+@media (min-width:1000px) and (min-height:700px) and (max-height:900px){
+  #services .drop{max-width:960px}
+  #services .sv-list{margin-top:32px}
+}
+/* taller laptops: the last card ends 32px above the bottom of the screen instead of 12px */
+@media (min-width:1000px) and (min-height:800px){
+  #services{--sv-h:min(560px,calc(100vh - var(--top) - var(--sv-hh) - 3 * var(--sv-row) - 32px))}
+}
+
+/* ========== 4. layers: the whole section (heading, intro, sheet and note) is one screen on short laptops ========== */
+@media (min-width:901px) and (max-height:820px){
+  #layers .sec-head::before{margin-bottom:8px}
+  #layers .sec-head .intro{margin-top:6px}
+  #layers .sec-head{margin-bottom:14px}
+  #layers .layers-list li{padding:5px 20px 6px}
+  #layers .layers-model{min-height:min(410px,calc(var(--ly-room) - 2 * var(--ly-pad)))}
+  #layers .layers-note{margin-top:8px}
+}
+
+/* ========== 5. sketch: the tool is one screen ==========
+   The controls column was 779px beside a 530px drawing. On screens up to 900 tall it is no taller than the drawing:
+   the six roof colours in one row, 40px buttons and tighter label gaps. The drawing is capped at the room on screen. */
+@media (min-width:901px) and (max-height:900px){
+  #sketch .sk-ctrl{gap:12px}
+  #sketch .sk-set legend{margin-bottom:6px}
+  #sketch .sk-seg label span{min-height:30px;padding:4px 8px}
+  #sketch .sk-sw{gap:5px;padding:3px 3px 6px;text-align:center}
+  #sketch .sk-chip{height:26px}
+  #sketch .sk-fine{margin-top:6px}
+  #sketch .sk-acts{gap:10px;padding-top:14px}
+  #sketch .sk-btn{min-height:40px}
+  #sketch .sk-box{max-height:calc(100svh - var(--top) - 250px)}
+}
+/* the six colours share one row where the column is wide enough for "Woodland" and "Monument" on one line */
+@media (min-width:1101px) and (max-height:900px){
+  #sketch .sk-sws{grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+  #sketch .sk-swn{font-size:12.5px;line-height:1.2;letter-spacing:-.005em}
+}
+
+/* ========== 6. projects: heading and the first row of plates, then the second row and the note ========== */
+@media (min-width:901px) and (max-height:799px){
+  #projects .sec-head{max-width:820px}
+  #projects .sec-head .intro{max-width:none}
+  #projects .pj-filter{margin-bottom:calc(clamp(30px,3.6vw,48px) / 2)}
+  html:not(.js) #projects .pj-card:nth-child(3n+2),#projects .pj-grid:not([data-n="2"]):not([data-n="4"]) .pj-card.pj-mid{margin-top:0}
+}
+
+/* ========== 7. people: the opener, the copy, then the two portraits, each one screen ========== */
+@media (min-width:761px) and (max-height:799px){
+  #people .en-crew{height:clamp(300px,min(62vh,48vw),700px)}
+  #people .pp-3{margin-top:0}
+  #people .pp-fig .ph{width:min(100%,calc((100svh - var(--top) - 130px) * .8));margin-inline:auto}
+}
+
+/* ========== 8. contact: the opener, then the form card, then "tell us / what happens next" ========== */
+@media (min-width:761px) and (max-height:799px){
+  #contact .en-door{margin-bottom:32px}
+}
+
+/* ========== 9. footer ========== */
+@media (min-width:761px) and (max-height:899px){
+  .foot .foot-body{padding:48px 0 40px}
+  .foot .foot-grid{margin-bottom:32px}
+}
+@media (min-width:761px) and (max-height:799px){
+  .foot .foot-body{padding-bottom:32px}
+  .foot ul{gap:4px}
+  .foot .legal{padding-top:14px;gap:4px}
+}
+/* phones: the room under the footer only has to clear the quick bar */
+@media (max-width:760px){
+  .foot .foot-body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+}

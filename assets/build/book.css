@@ -196,7 +196,7 @@
   }
   @media (max-width:760px){
     .js #process .yb-tl{--bk-low:calc(76px + env(safe-area-inset-bottom));--bk-gap:44px;--bk-max:600px}
-    .js #process{contain-intrinsic-size:auto 4490px}
+    .js #process{contain-intrinsic-size:auto 4486px}
     .js #process .yb-card{padding:18px;column-gap:14px}
     .js #process .yb-card h3{font-size:21px;margin:14px 0 10px}
     .js #process .yb-when{font-size:13px;padding:6px 11px 5px 9px;gap:6px}

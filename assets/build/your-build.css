@@ -246,11 +246,11 @@ html.lite #layers .layers-model{--l3-sway:0}
    #layers (its own fit work). */
 @media (max-width:760px){
   #process{content-visibility:auto;contain-intrinsic-size:auto 3900px}
-  #projects{content-visibility:auto;contain-intrinsic-size:auto 2880px}
-  #people{content-visibility:auto;contain-intrinsic-size:auto 2290px}
-  #faq{content-visibility:auto;contain-intrinsic-size:auto 680px}
+  #projects{content-visibility:auto;contain-intrinsic-size:auto 2881px}
+  #people{content-visibility:auto;contain-intrinsic-size:auto 2294px}
+  #faq{content-visibility:auto;contain-intrinsic-size:auto 674px}
   #sketch,#contact,.foot{content-visibility:auto}
-  #sketch{contain-intrinsic-size:auto 1560px}
-  #contact{contain-intrinsic-size:auto 2000px}
-  .foot{contain-intrinsic-size:auto 970px}
+  #sketch{contain-intrinsic-size:auto 1559px}
+  #contact{contain-intrinsic-size:auto 2016px}
+  .foot{contain-intrinsic-size:auto 902px}
 }
