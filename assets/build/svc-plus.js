@@ -2,7 +2,8 @@
    1. Each card's tile settles and its line drawing draws in once, when the card comes into view (a class change
       from an IntersectionObserver; the motion itself is CSS). Without JS or under reduced motion it shows finished.
    2. The photo slot holds two faces: the photo, and "A good fit if" with "Approvals". They crossfade on their own
-      (photo about 5s, text about 7s, the four cards staggered) while the card is on screen and readable. The loop
+      (photo about 5s, text about 7s, the four cards staggered; on phones the photo shows about 3.5s and the
+      first fade comes about 2s after the photo is on screen) while the card is on screen and readable. The loop
       waits while the pointer is over the card, while keyboard focus is inside it, in hidden tabs, and, on the
       stacking cards, while a later card covers it (only the top card fades). The "Approvals and fit" button
       switches to the text and holds it there until pressed again or the card leaves the screen; Escape goes back
@@ -15,8 +16,12 @@
   var cards = [].slice.call(sec.querySelectorAll('.sv-card')); if (!cards.length) return;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var IO = 'IntersectionObserver' in window;
-  var FRONT = 5000, BACK = 7000, FADE = 1000, STAGGER = 2200;
+  var SMALL = matchMedia('(max-width:700px)').matches;
+  var FRONT = SMALL ? 3500 : 5000, BACK = 7000, FADE = 1000, STAGGER = 2200;
   var STACK = matchMedia('(min-width:1000px) and (min-height:700px)');
+  /* phones: a card is taller than the screen and is read on the way past, so the loop follows the photo slot itself
+     (most of it on screen) and the first fade comes sooner */
+  var FIRST = SMALL ? 1800 : 0;
 
   /* 1. drawings */
   if (!reduce && IO) {
@@ -41,7 +46,7 @@
     b.setAttribute('aria-expanded', 'false'); b.setAttribute('aria-controls', x.id);
     b.innerHTML = '<span>Approvals and fit</span><i aria-hidden="true"></i>';
     x.parentNode.insertBefore(b, x);
-    var s = { c: c, b: b, fig: fig, back: false, busy: false, hold: false, hover: false, focus: false, vis: false, cover: false, left: FRONT + (i % 2) * STAGGER, due: 0, t: 0 };
+    var s = { c: c, b: b, fig: fig, back: false, busy: false, hold: false, hover: false, focus: false, vis: false, cover: false, left: SMALL ? FIRST : FRONT + (i % 2) * STAGGER, due: 0, t: 0 };
     S.push(s);
     b.addEventListener('click', function () {
       s.hold = !s.back;
@@ -94,14 +99,15 @@
        off screen: none of it (a held or turned card resets to the photo) */
     var seen = new IntersectionObserver(function (es) {
       es.forEach(function (e) {
-        var s = S.filter(function (z) { return z.c === e.target; })[0]; if (!s) return;
+        var s = S.filter(function (z) { return z.c === e.target || z.fig === e.target; })[0]; if (!s) return;
         var h = e.intersectionRect.height;
-        s.vis = e.isIntersecting && (h >= e.boundingClientRect.height * .5 || h >= innerHeight * .5);
+        if (SMALL) { if (e.target !== s.fig) return; s.vis = e.isIntersecting && e.intersectionRatio >= .6; }
+        else s.vis = e.isIntersecting && (h >= e.boundingClientRect.height * .5 || h >= innerHeight * .5);
         if (!e.isIntersecting && (s.back || s.hold)) { s.hold = false; turn(s, false, false); }
         sync(s);
       });
     }, { threshold: [0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1] });
-    S.forEach(function (s) { seen.observe(s.c); });
+    S.forEach(function (s) { seen.observe(SMALL ? s.fig : s.c); });
 
     /* stacking cards: a card is covered once a later card overlaps it; covered cards go back to the photo */
     var near = false, pend = false;
