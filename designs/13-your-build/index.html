@@ -266,7 +266,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <link rel="stylesheet" href="../../assets/logo/logo.css?v=5">
 <link rel="stylesheet" href="../../assets/build/harbour.css?v=1">
 <link rel="stylesheet" href="../../assets/build/grad.css?v=1">
-<link rel="stylesheet" href="../../assets/build/stages.css?v=1">
+<link rel="stylesheet" href="../../assets/build/stages.css?v=3">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -400,12 +400,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
     <div class="layers-sheet rv">
     <div class="layers-grid">
       <div class="layers-model lp" data-stage-photos><!-- one real photo per stage: assets/build/stages.css and stages.js -->
-<figure class="lp-f on"><img src="../../img/stage-base-800.webp" srcset="../../img/stage-base-800.webp 800w, ../../img/stage-base-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="Two finished concrete house slabs on residential blocks, with pallets of bricks set out around them" loading="lazy" decoding="async"></figure>
-<figure class="lp-f"><img src="../../img/stage-frame-800.webp" srcset="../../img/stage-frame-800.webp 800w, ../../img/stage-frame-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="Timber wall frames and roof trusses of a single-storey house on its slab, before cladding" loading="lazy" decoding="async"></figure>
-<figure class="lp-f"><img src="../../img/stage-lockup-800.webp" srcset="../../img/stage-lockup-800.webp 800w, ../../img/stage-lockup-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="A two-storey house closed in, with the roof on and windows fitted, before painting and landscaping" loading="lazy" decoding="async"></figure>
-<figure class="lp-f"><img src="../../img/stage-fixing-800.webp" srcset="../../img/stage-fixing-800.webp 800w, ../../img/stage-fixing-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="A hallway during fit-out, with walls lined, doors hung and skirting stacked on the floor" loading="lazy" decoding="async"></figure>
-<figure class="lp-f"><img src="../../img/stage-complete-800.webp" srcset="../../img/stage-complete-800.webp 800w, ../../img/stage-complete-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="A newly finished single-storey home with white cladding, a timber front door and a concrete driveway" loading="lazy" decoding="async"></figure>
-<p class="lp-cap" aria-hidden="true"><b class="lp-n">01</b><span class="lp-t">Base</span></p>
+<div class="lp-deck">
+<figure class="lp-f on" style="--k:0"><img src="../../img/stage-base-800.webp" srcset="../../img/stage-base-800.webp 800w, ../../img/stage-base-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="Two finished concrete house slabs on residential blocks, with pallets of bricks set out around them" loading="lazy" decoding="async"><figcaption class="lp-tag"><b>01</b> Base</figcaption></figure>
+<figure class="lp-f" style="--k:1"><img src="../../img/stage-frame-800.webp" srcset="../../img/stage-frame-800.webp 800w, ../../img/stage-frame-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="Timber wall frames and roof trusses of a single-storey house on its slab, before cladding" loading="lazy" decoding="async"><figcaption class="lp-tag"><b>02</b> Frame</figcaption></figure>
+<figure class="lp-f" style="--k:2"><img src="../../img/stage-lockup-800.webp" srcset="../../img/stage-lockup-800.webp 800w, ../../img/stage-lockup-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="A two-storey house closed in, with the roof on and windows fitted, before painting and landscaping" loading="lazy" decoding="async"><figcaption class="lp-tag"><b>03</b> Lock-up</figcaption></figure>
+<figure class="lp-f" style="--k:3"><img src="../../img/stage-fixing-800.webp" srcset="../../img/stage-fixing-800.webp 800w, ../../img/stage-fixing-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="A hallway during fit-out, with walls lined, doors hung and skirting stacked on the floor" loading="lazy" decoding="async"><figcaption class="lp-tag"><b>04</b> Fixing</figcaption></figure>
+<figure class="lp-f" style="--k:4"><img src="../../img/stage-complete-800.webp" srcset="../../img/stage-complete-800.webp 800w, ../../img/stage-complete-1600.webp 1600w" sizes="(max-width:600px) 94vw, 46vw" width="1600" height="1200" alt="A newly finished single-storey home with white cladding, a timber front door and a concrete driveway" loading="lazy" decoding="async"><figcaption class="lp-tag"><b>05</b> Practical completion</figcaption></figure>
+</div>
 <span class="lp-ill">Illustrative photo</span>
 <span class="lp-bar" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
       </div>
@@ -968,7 +969,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
   else{var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});rv.forEach(function(el){io.observe(el)})}
 })();
 </script>
-<script src="../../assets/build/stages.js?v=1" defer></script>
+<script src="../../assets/build/stages.js?v=2" defer></script>
 <script src="../../assets/build/s-projects.js?v=1" defer></script>
 <script src="../../assets/build/s-people.js?v=1" defer></script>
 <script src="../../assets/build/s-quote.js?v=2" defer></script>
