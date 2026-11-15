@@ -1,4 +1,4 @@
-/* hero-sydney: the hero's Sydney day (concept 13). The first scene is in the markup and is the LCP; this adds the
+/* hero-sydney: the hero's changing scenes of building work (concept 13). The first scene is in the markup and is the LCP; this adds the
    scenes named in .hero-img[data-scenes] once the page has loaded and the browser is idle, then crossfades them
    (opacity only, styles in hero-sydney.css). It runs only while the hero is on screen and the tab is visible.
    Reduced motion or Save-Data: nothing is loaded and the first scene stays. No scroll handlers. */

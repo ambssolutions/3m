@@ -1,18 +1,23 @@
-/* hero-sydney: the hero as a Sydney day (concept 13). Loaded after your-build.css.
-   1. Scenes. The first photo (harbourside homes with the CBD, the Opera House and the Bridge) is in the markup and is
-      the LCP. hero-sydney.js adds three more after load and idle (golden hour, dusk, morning) as stacked layers that
-      crossfade on opacity only, about 4s each with a 1.2s fade, and only while the hero is on screen and the tab is
-      visible. Reduced motion or Save-Data: the first scene only.
-      Photos, all under the Unsplash Licence: Jesper van der Pol (homes and skyline), Aswin (golden hour),
-      Photoholgic (dusk, from Mrs Macquarie's Chair), Dan Freeman (Circular Quay). Crops: img/syd-*.webp.
+/* hero-sydney: the hero as building work in Sydney (concept 13). Loaded after your-build.css.
+   1. Scenes. The first photo (cranes beside new office towers in Parramatta) is in the markup and is the LCP.
+      hero-sydney.js adds three more after load and idle (roof trusses, a CBD high-rise, a house frame in scaffold) as
+      stacked layers that crossfade on opacity only, about 4s each with a 1.2s fade, and only while the hero is on
+      screen and the tab is visible. Reduced motion or Save-Data: the first scene only.
+      Photos, all under the Unsplash Licence (each photo page checked):
+        con-site     Shanjir H / Photo4life AU (@shanjir), Parramatta NSW: unsplash.com/photos/CoflJITfbtI
+        con-trusses  Troy Mortier (@troyscanon), Clyde North VIC: unsplash.com/photos/kkdfOe0iRu8
+        con-tower    Peaky_82 (@peaky_82), Sydney NSW: unsplash.com/photos/PW8qbHg0KfM
+        con-frame    Sandy Millar (@sandym10): unsplash.com/photos/u1KG_wZTnkg
+      Third-party names were retouched out (rooftop signs on con-site, the crane cab on con-tower, the building wrap
+      on con-frame) and the site hoarding is cropped off. Crops: img/con-*.webp.
    2. The heading writes itself once on load: each phrase is revealed left to right by a soft-edged mask, with a thin
       accent pen at the leading edge. The text is in the DOM and painted (faintly) from the first frame, it keeps its
       layout, and the mask comes off when the stroke ends. Reduced motion: the heading shows at once. */
 
 /* ---------- 1. scenes ---------- */
 /* placeholders for the first scene (tiny blurred copies, like the other photos) */
-.hero-img img{background-position:50% 40%;background-image:url(data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoQAAkAA4BaJQBOgMWR32opMrAA/phffVrd+Yne50RP4mNITEL0uGhYV6+JgB8rAJrRv7c0hKmBqJpwBrbQDgHgJgAAAA==)}
-@media (max-width:700px) and (orientation:portrait){.hero-img img{background-image:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoMABIAPu1iqU2ppaOiMAgBMB2JZQAAXFwRvDxBPIPTPcmgAP7v8YjKSHmMCcdQm3Le89Mh+ofCK2itHRu4uLOWJkJEx++ZUReKBER6Gdyq8loe9UvbF31fMmoW9eDDzJYh3pm/eocyAAAA)}}
+.hero-img img{background-position:50% 40%;background-image:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADQAQCdASoQAAkAA4BaJaACdACoQ9NlIAD+pYUoxz7PhxkQyCpyQCNPUaVTrwbSDlXlhMsObv5uvwqSfpG3Awn0WDo+yCnTBmC5/5VQQeOFtHowk9EVgAAA)}
+@media (max-width:700px) and (orientation:portrait){.hero-img img{background-image:url(data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAAAwBACdASoMABIAPu1iqU2ppaOiMAgBMB2JZgCdMoRwABxWQDkA3NY+bYAA+uEg6RLfDIHf0wUJzoS29Qxs23LHlDIkoozrtv04Ttd+Dtqd2rDxrLmSTyg7615bMXRYyMT1xBXOW+wOzX6+doAqSbWhAAA=)}}
 .hero-img .hs-scene{position:absolute;inset:0;opacity:0;transition:opacity 1.2s cubic-bezier(.45,0,.55,1);pointer-events:none}
 .hero-img .hs-scene.on{opacity:1}
 .hero-img .hs-scene picture{position:absolute;inset:0}
