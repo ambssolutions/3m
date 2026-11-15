@@ -21,7 +21,7 @@ if (box && 'IntersectionObserver' in window && 'ResizeObserver' in window) {
       io.disconnect();
       idle(() => {
         if (!hasGL()) return;
-        Promise.all([import('../vendor/three/three.slim.min.js'), import('./s-layers-3d-model.js?v=9')])
+        Promise.all([import('../vendor/three/three.slim.min.js'), import('./s-layers-3d-model.js?v=10')])
           .then(([T, M]) => new Promise((ok, no) => idle(() => { try { ok(M.build(T)); } catch (e) { no(e); } })))
           .catch(() => { box.classList.remove('gl'); });
       });

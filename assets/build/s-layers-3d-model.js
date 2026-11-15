@@ -636,7 +636,7 @@ export function build(T) {
 
   /* fit the current stack (rotation-independent: sampled over the turning range) into the free part of the canvas */
   const tgt = new T.Vector3(), f = new T.Vector3(), rv = new T.Vector3(), uv = new T.Vector3(), pt = new T.Vector3();
-  let vw = 1, vh = 1, labW = 160, labFrac = 0, fitD = 40;
+  let vw = 1, vh = 1, labW = 160, labFrac = 0, fitD = 40, fixD = 0; const fixT = new T.Vector3();
   function fit(el, labShare) {
     let y0 = 1e9, y1 = -1e9;
     layers.forEach(ly => { const y = ly.group.position.y - ly.drop * DROP; y0 = Math.min(y0, ly.y0 + y); y1 = Math.max(y1, ly.y1 + y); });
@@ -685,11 +685,14 @@ export function build(T) {
     if (Math.abs(tLeanX - leanX) + Math.abs(tLeanY - leanY) > .002) moving = true;
     const ex = Math.max(...layers.map(ly => ly.lift)), lv = Math.max(...layers.map(ly => ly.lab));
     const el = rad(22 + 4 * ex) + leanY * rad(-2.5), a = az + leanX * rad(4);
-    labFrac = Math.min(.42, (labW + 30) / vw) * (REAL ? 1 : Math.min(1, lv * 1.4));
-    fitD = fit(el, labFrac);
+    if (!REAL || !fixD) labFrac = Math.min(.42, (labW + 30) / vw) * (REAL ? 1 : Math.min(1, lv * 1.4));
+    /* real look: the camera is framed once for the whole house when the panel is sized, then held, so nothing a
+       stage change does (or a label, a font, a browser bar) can move it */
+    if (REAL) { if (!fixD) { fitD = fit(el, labFrac); fixD = fitD / (vw < 600 ? 1.3 : 1); fixT.copy(tgt); } fitD = fixD; tgt.copy(fixT); }
+    else fitD = fit(el, labFrac);
     /* phones: the fit above leaves room for the whole turning range, which on a small canvas leaves the settled house
        small; come in a little closer once it has settled (eased with the explode). Wider canvases are unchanged. */
-    if (vw < 600) fitD /= 1 + (REAL ? .5 : PHZ) * (1 - ex);
+    if (vw < 600 && !REAL) fitD /= 1 + PHZ * (1 - ex);
     camera.position.set(tgt.x + Math.sin(a) * Math.cos(el) * fitD, tgt.y + Math.sin(el) * fitD, tgt.z + Math.cos(a) * Math.cos(el) * fitD);
     camera.lookAt(tgt);
     /* lens shift: the model sits in the part of the canvas the labels leave free */
@@ -741,6 +744,7 @@ export function build(T) {
   /* ---------- size, visibility, theme ---------- */
   function resize() {
     const w = Math.max(1, box.clientWidth), h = Math.max(1, box.clientHeight);
+    if (Math.abs(w - vw) > 1 || Math.abs(h - vh) > 1) fixD = 0;
     vw = w; vh = h; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
     layers.forEach(ly => { ly.cw = 0; });
     labW = Math.max(...layers.map(ly => ly.chip.offsetWidth || 120)) || 150;
