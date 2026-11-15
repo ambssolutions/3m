@@ -26,8 +26,8 @@
   background:color-mix(in srgb,var(--field) 70%,transparent);opacity:calc(var(--k) * .22);transition:opacity var(--lp-dur) var(--lp-ease)}
 /* the stage tag on each photo */
 #layers .lp-tag{position:absolute;left:12px;top:12px;z-index:1;display:flex;align-items:baseline;gap:7px;padding:5px 10px 6px;border-radius:8px;
-  font:600 14px/1.15 var(--display);color:#fff;background:rgba(12,18,28,.62);opacity:0;transition:opacity .6s ease}
-#layers .lp-f.on .lp-tag{opacity:1;transition-delay:.5s}
+  font:600 14px/1.15 var(--display);color:#fff;background:rgba(12,18,28,.62);opacity:0;visibility:hidden}
+#layers .lp-f.on .lp-tag{opacity:1;visibility:visible;transition:opacity .6s ease .5s,visibility 0s .5s}
 #layers .lp-tag b{font-variant-numeric:lining-nums tabular-nums;opacity:.8;font-weight:600}
 /* leaving: the front photo lifts off towards the viewer and fades, then rejoins the back of the deck unseen */
 #layers .lp-f.out{transform:rotateY(-14deg) rotateX(4deg) translate3d(-14%,6%,180px);opacity:0}
