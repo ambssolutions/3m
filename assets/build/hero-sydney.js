@@ -17,8 +17,8 @@
       var f = d.createElement('div');
       f.className = 'hs-scene';
       f.setAttribute('aria-hidden', 'true');
-      f.innerHTML = '<picture><source media="(max-width:700px) and (orientation:portrait)" srcset="' + dir + n + '-portrait-800.webp 800w, ' + dir + n + '-portrait-1200.webp 1200w, ' + dir + n + '-portrait-1600.webp 1600w" sizes="100vw" width="800" height="1200">' +
-        '<img src="' + dir + n + '-1600.webp" srcset="' + dir + n + '-800.webp 800w, ' + dir + n + '-1600.webp 1600w, ' + dir + n + '-2400.webp 2400w, ' + dir + n + '-3200.webp 3200w" sizes="100vw" width="1600" height="900" alt="" decoding="async"></picture>';
+      f.innerHTML = '<picture><source media="(max-width:700px) and (orientation:portrait)" srcset="' + dir + n + '-portrait-800.webp?v=2 800w, ' + dir + n + '-portrait-1200.webp?v=2 1200w, ' + dir + n + '-portrait-1600.webp?v=2 1600w" sizes="100vw" width="800" height="1200">' +
+        '<img src="' + dir + n + '-1600.webp?v=2" srcset="' + dir + n + '-800.webp?v=2 800w, ' + dir + n + '-1600.webp?v=2 1600w, ' + dir + n + '-2400.webp?v=2 2400w, ' + dir + n + '-3200.webp?v=2 3200w" sizes="100vw" width="1600" height="900" alt="" decoding="async"></picture>';
       box.appendChild(f);
       layers.push(f);
     });
