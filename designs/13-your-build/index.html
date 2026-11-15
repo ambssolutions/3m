@@ -23,8 +23,8 @@
 @font-face{font-family:"Fraunces";font-style:italic;font-weight:600;font-display:swap;src:url(../../assets/fonts/fraunces-600-italic.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:"Work Sans";font-style:normal;font-weight:400 600;font-display:swap;src:url(../../assets/fonts/work-sans.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 </style>
-<link rel="preload" as="image" href="../../img/con-site-portrait-800.webp" media="(max-width:700px) and (orientation:portrait)" fetchpriority="high">
-<link rel="preload" as="image" imagesrcset="../../img/con-site-800.webp 800w, ../../img/con-site-1600.webp 1600w, ../../img/con-site-2400.webp 2400w" imagesizes="100vw" media="not all and (max-width:700px) and (orientation:portrait)" fetchpriority="high">
+<link rel="preload" as="image" imagesrcset="../../img/con-site-portrait-800.webp 800w, ../../img/con-site-portrait-1200.webp 1200w" imagesizes="100vw" media="(max-width:700px) and (orientation:portrait)" fetchpriority="high">
+<link rel="preload" as="image" imagesrcset="../../img/con-site-800.webp 800w, ../../img/con-site-1600.webp 1600w, ../../img/con-site-2400.webp 2400w, ../../img/con-site-3200.webp 3200w" imagesizes="100vw" media="not all and (max-width:700px) and (orientation:portrait)" fetchpriority="high">
 <script>document.documentElement.classList.add('js');if(matchMedia('(pointer:coarse)').matches&&(navigator.hardwareConcurrency||8)<=4)document.documentElement.classList.add('lite')/* low-power phones, set before the first style pass */</script>
 <script src="../../assets/themes.js?v=1"></script>
 <script>if(/^\/(home-2\/?)?$/.test(location.pathname)||/[?&]design=flair\b/.test(location.search))document.documentElement.classList.add('flair')</script>
@@ -267,7 +267,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <link rel="stylesheet" href="../../assets/build/harbour.css?v=1">
 <link rel="stylesheet" href="../../assets/build/grad.css?v=1">
 <link rel="stylesheet" href="../../assets/build/land.css?v=9">
-<script type="module" src="../../assets/build/s-layers-3d.js?v=10" fetchpriority="low"></script>
+<script type="module" src="../../assets/build/s-layers-3d.js?v=12" fetchpriority="low"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -304,8 +304,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
   </svg>
   <!-- building work: this first photo is the LCP; hero-sydney.js adds roof trusses, a high-rise and a house frame after load -->
   <div class="hero-img" data-scenes="con-trusses con-tower con-frame">
-    <picture><source media="(max-width:700px) and (orientation:portrait)" srcset="../../img/con-site-portrait-800.webp" width="800" height="1200">
-    <img src="../../img/con-site-1600.webp" srcset="../../img/con-site-800.webp 800w, ../../img/con-site-1600.webp 1600w, ../../img/con-site-2400.webp 2400w" sizes="100vw" width="1600" height="900" alt="Cranes at work beside new office towers in Parramatta, Sydney" fetchpriority="high" decoding="async"></picture>
+    <picture><source media="(max-width:700px) and (orientation:portrait)" srcset="../../img/con-site-portrait-800.webp 800w, ../../img/con-site-portrait-1200.webp 1200w" sizes="100vw" width="800" height="1200">
+    <img src="../../img/con-site-1600.webp" srcset="../../img/con-site-800.webp 800w, ../../img/con-site-1600.webp 1600w, ../../img/con-site-2400.webp 2400w, ../../img/con-site-3200.webp 3200w" sizes="100vw" width="1600" height="900" alt="Cranes at work beside new office towers in Parramatta, Sydney" fetchpriority="high" decoding="async"></picture>
   </div>
   <p class="hero-note sc">Illustrative photo</p>
   <div class="door">
@@ -1018,7 +1018,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <script src="../../assets/concepts.js?v=6" defer></script>
 <script src="../../assets/build/book.js?v=5" defer></script>
 <script src="../../assets/build/your-build.js?v=6" defer></script>
-<script src="../../assets/build/hero-sydney.js?v=3" defer></script>
+<script src="../../assets/build/hero-sydney.js?v=4" defer></script>
 <script src="../../assets/build/svc-plus.js?v=4" defer></script>
 <script src="../../assets/build/energy.js?v=3" defer></script>
 <script src="../../assets/build/flair.js?v=2" defer></script>

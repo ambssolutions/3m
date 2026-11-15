@@ -11,13 +11,16 @@ export function build(T) {
   const LITE = root.classList.contains('lite');
   const COARSE = matchMedia('(pointer:coarse)').matches;
   const FINE = matchMedia('(pointer:fine)').matches;
-  const EDGES = !LITE;
   /* the idle turn: a page can switch it off (--l3-sway:0 on .layers-model, e.g. on phones); the model then holds a still
      frame and draws only while it explodes, settles or is dragged */
-  const SWAY = !REDUCE && getComputedStyle(box).getPropertyValue('--l3-sway').trim() !== '0';
+  let SWAY = !REDUCE && getComputedStyle(box).getPropertyValue('--l3-sway').trim() !== '0';
   /* real look: a page can ask for the house in real colours and textures on its block of land (--l3-real:1 on
      .layers-model) instead of the theme-tinted drafting model on grid paper */
   const REAL = getComputedStyle(box).getPropertyValue('--l3-real').trim() === '1';
+  /* phones (real look): no idle turn, so the house draws only while a stage changes and scrolling past it costs nothing */
+  if (REAL && COARSE) SWAY = false;
+  /* the drafting edge lines: the real look never shows them, so they are not built (a large part of the build time) */
+  const EDGES = !LITE && !REAL;
   const now = () => performance.now();
   const rad = a => a * Math.PI / 180;
 
@@ -297,12 +300,12 @@ export function build(T) {
   /* ---------- scene ---------- */
   let renderer;
   try { renderer = new T.WebGLRenderer({ antialias: !LITE, alpha: true, powerPreference: 'low-power' }); } catch (e) { return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, REAL && COARSE ? 1.25 : 1.5));
   renderer.debug.checkShaderErrors = false; /* skips the blocking shader-log reads; the shaders are fixed and tested */
   renderer.setClearColor(0x000000, 0);
   if (REAL) { renderer.toneMapping = 4; /* ACES filmic (the slim build does not export the constant) */ renderer.toneMappingExposure = 1.05; }
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = T.PCFSoftShadowMap;
+  renderer.shadowMap.type = REAL && COARSE ? 1 /* PCF: simpler edges, much cheaper on phones */ : T.PCFSoftShadowMap;
   /* the shadow map is redrawn only when a layer, its fade or the sun moves, never for a camera turn alone */
   renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true;
   const cv = renderer.domElement; cv.className = 'l3-cv'; cv.setAttribute('aria-hidden', 'true');
@@ -320,7 +323,9 @@ export function build(T) {
   if (REAL) {
     const tex = (w, h, draw, rep) => { const c = d.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); draw(x, w, h);
       const t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.colorSpace = T.SRGBColorSpace; t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); t.userData = { rep }; return t; };
-    const noise = (x, w, h, lo, hi) => { const im = x.getImageData(0, 0, w, h), q = im.data; for (let i = 0; i < q.length; i += 4) { const n = lo + Math.random() * (hi - lo); q[i] *= n; q[i + 1] *= n; q[i + 2] *= n; } x.putImageData(im, 0, 0); };
+    /* grain: scattered light and dark specks (drawn, so no slow pixel read-back) */
+    const noise = (x, w, h, lo, hi) => { for (let i = 0, m = w * h / 5; i < m; i++) { const n = lo + Math.random() * (hi - lo);
+      x.fillStyle = n < 1 ? `rgba(0,0,0,${(1 - n).toFixed(3)})` : `rgba(255,255,255,${(n - 1).toFixed(3)})`; x.fillRect(Math.random() * w | 0, Math.random() * h | 0, 1, 1); } };
     /* Colorbond roof: ribs every 190 mm, running down the slope */
     TXR.roof = tex(32, 4, (x, w, h) => { const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#d9d9d9'); g.addColorStop(.12, '#ffffff'); g.addColorStop(.22, '#9a9a9a'); g.addColorStop(.3, '#e6e6e6'); g.addColorStop(1, '#eeeeee'); x.fillStyle = g; x.fillRect(0, 0, w, h); }, 'rib');
     /* weatherboards with a faint grain */
@@ -416,7 +421,7 @@ export function build(T) {
   const site = [];
   if (REAL) {
     ground.visible = false; grid.visible = false;
-    const S = 40, N = LITE ? 512 : 1024, k = N / S, gc = d.createElement('canvas'); gc.width = gc.height = N;
+    const S = 40, N = LITE ? 512 : COARSE ? 768 : 1024, k = N / S, gc = d.createElement('canvas'); gc.width = gc.height = N;
     const g = gc.getContext('2d'), X = x => (x + S / 2) * k, Z = z => (z + S / 2) * k;
     const rect = (c, x0, x1, z0, z1) => { g.fillStyle = c; g.fillRect(X(x0), Z(z0), (x1 - x0) * k, (z1 - z0) * k); };
     const LXW = 9, LZB = -8, LZF = 8.4;
@@ -429,7 +434,10 @@ export function build(T) {
     rect('#bdb8ae', -S / 2, S / 2, 12.2, 12.5);                                      /* the kerb */
     g.strokeStyle = 'rgba(70,60,45,.35)'; g.lineWidth = Math.max(1, k * .05); g.strokeRect(X(-LXW), Z(LZB), 2 * LXW * k, (LZF - LZB) * k); /* the boundary */
     /* grass: every pixel a slightly different green, so the lawn has texture rather than flat paint */
-    { const im = g.getImageData(0, 0, N, N), q = im.data; for (let i = 0; i < q.length; i += 4) { const n = .86 + Math.random() * .22, y = .97 + Math.random() * .06; q[i] *= n; q[i + 1] *= n * y; q[i + 2] *= n; } g.putImageData(im, 0, 0); }
+    /* (a small noise tile laid over the whole ground: a fraction of the work of noising every pixel) */
+    { const t = d.createElement('canvas'); t.width = t.height = 96; const tg = t.getContext('2d'), im = tg.createImageData(96, 96), q = im.data;
+      for (let i = 0; i < q.length; i += 4) { const v = Math.random(); q[i] = q[i + 1] = q[i + 2] = v < .5 ? 0 : 255; q[i + 3] = Math.round(Math.abs(v - .5) * 2 * 34); }
+      tg.putImageData(im, 0, 0); g.save(); g.globalCompositeOperation = 'soft-light'; g.fillStyle = g.createPattern(t, 'repeat'); g.fillRect(0, 0, N, N); g.restore(); }
     /* fade the edges out into the panel's ground */
     g.globalCompositeOperation = 'destination-in';
     const rg = g.createRadialGradient(X(0), Z(1.5), 9 * k, X(0), Z(1.5), 19.5 * k); rg.addColorStop(0, '#000'); rg.addColorStop(1, 'rgba(0,0,0,0)');
@@ -464,7 +472,7 @@ export function build(T) {
   const hemi = new T.HemisphereLight(0xffffff, 0xffffff, 2.1); scene.add(hemi);
   const sun = new T.DirectionalLight(0xffffff, 1.35);
   sun.position.set(-6, 20, 14); sun.castShadow = true;
-  const SM = LITE ? 1024 : COARSE ? 1536 : 2048;
+  const SM = LITE || (REAL && COARSE) ? 1024 : COARSE ? 1536 : 2048;
   sun.shadow.mapSize.set(SM, SM);
   Object.assign(sun.shadow.camera, { left: -19, right: 19, top: 19, bottom: -19, near: 1, far: 80 });
   sun.shadow.bias = -.0006; sun.shadow.normalBias = .03;
@@ -659,7 +667,10 @@ export function build(T) {
   let raf = 0, last = 0, onScreen = false, ready = false, sunX = NaN, sunY = NaN, sunZ = NaN;
   const scr = new T.Vector3();
   function proj(v) { scr.copy(v).project(camera); return [(scr.x + 1) / 2 * vw, (1 - scr.y) / 2 * vh]; }
+  let fc = 0;
   function frame() {
+    /* phones (real look): while a stage changes, draw every other frame; the page itself still scrolls at full rate */
+    if (REAL && COARSE && ready && !drag && (++fc & 1)) { raf = requestAnimationFrame(frame); return; }
     const t = now(); raf = 0; const dt = Math.min(50, last ? t - last : 16); last = t;
     let moving = false;
     layers.forEach(ly => { ['lift', 'on', 'dim', 'lab', 'drop', 'grow', 'cut'].forEach(k => { if (step(ly, k, t)) moving = true; }); });

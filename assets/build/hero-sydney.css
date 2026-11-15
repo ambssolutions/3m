@@ -9,7 +9,9 @@
         con-tower    Peaky_82 (@peaky_82), Sydney NSW: unsplash.com/photos/PW8qbHg0KfM
         con-frame    Sandy Millar (@sandym10): unsplash.com/photos/u1KG_wZTnkg
       Third-party names were retouched out (rooftop signs on con-site, the crane cab on con-tower, the building wrap
-      on con-frame) and the site hoarding is cropped off. Crops: img/con-*.webp.
+      on con-frame) and the site hoarding is cropped off. Crops: img/con-*.webp, cut from the 4000px retouched
+      originals at 800/1600/2400/3200 wide (16:9) and 800/1200/1600 wide for phones (2:3), so phones and sharp
+      laptop screens get full resolution.
    2. The heading writes itself once on load: each phrase is revealed left to right by a soft-edged mask, with a thin
       accent pen at the leading edge. The text is in the DOM and painted (faintly) from the first frame, it keeps its
       layout, and the mask comes off when the stroke ends. Reduced motion: the heading shows at once. */
