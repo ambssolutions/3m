@@ -90,7 +90,7 @@ export function build(T) {
 
   /* ---------- geometry buckets: one merged mesh per layer and material, one line set per layer ---------- */
   const NAMES = [...sec.querySelectorAll('.layers-model .lab b')].map(b => b.textContent.trim());
-  const layers = [0, 1, 2, 3, 4].map(i => ({ i, parts: {}, edges: [], anchors: [], lift: 0, on: 0, dim: 1, lab: 0, name: NAMES[i] || '' }));
+  const layers = [0, 1, 2, 3, 4].map(i => ({ i, parts: {}, edges: [], anchors: [], lift: 0, on: 0, dim: 1, lab: 0, drop: 0, name: NAMES[i] || '' }));
   const add = (ly, key, g) => { (ly.parts[key] = ly.parts[key] || []).push(g); return g; };
   const edge = (ly, g) => { if (EDGES) ly.edges.push(new T.EdgesGeometry(g, 30).attributes.position.array); };
   const seg = (ly, pts) => { if (EDGES) ly.edges.push(new Float32Array(pts)); };
@@ -535,10 +535,51 @@ export function build(T) {
     kick();
   }
   const items = [...sec.querySelectorAll('.layers-list li')];
+  /* ---------- build mode (real look): the house goes up on its block one stage at a time ----------
+     Stage s shows layers 0..s in place; the next stage's parts come down into place from just above and fade in.
+     While on screen the stages follow each other (BSTEP each, the finished house held longer, then the block is
+     cleared back to the slab and it starts again). Hover or keyboard focus on a stage in the list, or a tap, shows
+     the house at that stage and holds it. The stage on show carries its label and is marked in the list (.cur). */
+  const DROP = 2.6, BSTEP = 3200, BDONE = 5600;
+  let stage = -1, bT = 0, bHeld = false, bResume = 0;
+  function build(n, fast) {
+    if (n === stage) return; const back = n < stage; stage = n;
+    layers.forEach((ly, i) => {
+      const on = i <= n, d0 = fast || REDUCE || back ? 0 : (i - Math.max(0, n - 1)) * 120;
+      /* at Fixing the outer shell turns see-through, so the work inside (linings, kitchen, stairs) shows */
+      const see = n === 3 && i === 2 ? .28 : 1;
+      tw(ly, 'dim', on ? see : 0, fast ? 0 : on ? 900 : 700, on ? d0 : 0);
+      tw(ly, 'drop', on ? 0 : 1, fast ? 0 : on ? 1300 : 700, on ? d0 : 0, on ? eOut : eIO);
+      tw(ly, 'lab', i === n ? 1 : 0, fast ? 0 : 500, i === n ? 700 : 0);
+    });
+    items.forEach((li, i) => li.classList.toggle('cur', i === n));
+    if (!fast) kick(); /* the first, instant build runs before the frame loop exists */
+  }
+  function bNext() {
+    clearTimeout(bT); bT = 0;
+    if (REDUCE || bHeld) return;
+    if (!onScreen || d.hidden) { bT = setTimeout(bNext, 600); return; }
+    build(stage >= 4 ? 0 : stage + 1);
+    bT = setTimeout(bNext, stage >= 4 ? BDONE : BSTEP);
+  }
+  function bPick(n) { bHeld = true; clearTimeout(bT); clearTimeout(bResume); build(n); }
+  function bLet() { clearTimeout(bResume); bResume = setTimeout(() => { bHeld = false; clearTimeout(bT); bT = setTimeout(bNext, BSTEP); }, 2200); }
+  if (REAL) {
+    layers.forEach(ly => { ly.dim = 0; ly.drop = 1; });
+    build(REDUCE ? 4 : 0, true);
+    if (REDUCE) items.forEach((li, i) => li.classList.toggle('cur', i === 4));
+    items.forEach((li, i) => {
+      li.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') bPick(i); });
+      li.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') bLet(); });
+      li.addEventListener('click', () => { bPick(i); bLet(); });
+      li.addEventListener('focus', () => bPick(i));
+      li.addEventListener('blur', bLet);
+    });
+  }
   const canHover = matchMedia('(hover:hover)').matches;
   let hov = -1, foc = -1;
   const upd = () => setFocus(hov >= 0 ? hov : foc);
-  items.forEach((li, i) => {
+  if (!REAL) items.forEach((li, i) => {
     if (canHover) {
       li.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') { hov = i; upd(); } });
       li.addEventListener('pointerleave', () => { if (hov === i) { hov = -1; upd(); } });
@@ -569,7 +610,7 @@ export function build(T) {
   let vw = 1, vh = 1, labW = 160, labFrac = 0, fitD = 40;
   function fit(el, labShare) {
     let y0 = 1e9, y1 = -1e9;
-    layers.forEach(ly => { const y = ly.group.position.y; y0 = Math.min(y0, ly.y0 + y); y1 = Math.max(y1, ly.y1 + y); });
+    layers.forEach(ly => { const y = ly.group.position.y - ly.drop * DROP; y0 = Math.min(y0, ly.y0 + y); y1 = Math.max(y1, ly.y1 + y); });
     y0 = Math.max(0, y0);
     const cx = (FOOT.min.x + FOOT.max.x) / 2, cz = (FOOT.min.z + FOOT.max.z) / 2, cy = (y0 + y1) / 2;
     const tH = Math.tan(rad(camera.fov / 2)) * camera.aspect * (1 - labShare) * .9, tV = Math.tan(rad(camera.fov / 2)) * .86;
@@ -592,11 +633,11 @@ export function build(T) {
   function frame() {
     const t = now(); raf = 0; const dt = Math.min(50, last ? t - last : 16); last = t;
     let moving = false;
-    layers.forEach(ly => { ['lift', 'on', 'dim', 'lab'].forEach(k => { if (step(ly, k, t)) moving = true; }); });
+    layers.forEach(ly => { ['lift', 'on', 'dim', 'lab', 'drop'].forEach(k => { if (step(ly, k, t)) moving = true; }); });
     const tween = moving;
     /* lifts: a stacked exploded view; a stage in focus rises a little further */
     const k = EXK(), EX = [0, 1.0, 7.9, 14.9, 26.2];
-    layers.forEach((ly, i) => { ly.group.position.y = (EX[i] * ly.lift) * k + ly.on * 1.1; });
+    layers.forEach((ly, i) => { ly.group.position.y = (EX[i] * ly.lift) * k + ly.on * 1.1 + ly.drop * DROP; ly.group.visible = ly.dim > .01; });
     { const top = Math.max(...layers.map(ly => ly.group.position.y + Math.min(ly.y1, Y2T))), ex2 = Math.max(...layers.map(ly => ly.lift));
       guide.geometry.setDrawRange(0, Math.max(0, Math.floor(top / DASH)) * 8); guide.visible = ex2 > .02;
       guide.material.opacity = (P.dark ? .3 : .28) * Math.min(1, ex2 * 1.5); }
@@ -617,7 +658,7 @@ export function build(T) {
     fitD = fit(el, labFrac);
     /* phones: the fit above leaves room for the whole turning range, which on a small canvas leaves the settled house
        small; come in a little closer once it has settled (eased with the explode). Wider canvases are unchanged. */
-    if (vw < 600) fitD /= 1 + PHZ * (1 - ex);
+    if (vw < 600) fitD /= 1 + (REAL ? .5 : PHZ) * (1 - ex);
     camera.position.set(tgt.x + Math.sin(a) * Math.cos(el) * fitD, tgt.y + Math.sin(el) * fitD, tgt.z + Math.cos(a) * Math.cos(el) * fitD);
     camera.lookAt(tgt);
     /* lens shift: the model sits in the part of the canvas the labels leave free */
@@ -680,12 +721,12 @@ export function build(T) {
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(() => { layers.forEach(ly => { ly.cw = 0; }); });
   resize();
   new IntersectionObserver(es => { onScreen = es[es.length - 1].isIntersecting; if (onScreen) kick(); }).observe(box);
-  const iio = new IntersectionObserver(es => { if (es[es.length - 1].isIntersecting && !introDone) { iio.disconnect(); intro(false); kick(); } }, { threshold: .5 });
+  const iio = new IntersectionObserver(es => { if (es[es.length - 1].isIntersecting && !introDone) { iio.disconnect(); if (REAL) { introDone = true; bT = setTimeout(bNext, 900); } else intro(false); kick(); } }, { threshold: .5 });
   d.addEventListener('visibilitychange', () => { if (!d.hidden) kick(); });
   new MutationObserver(() => { recolour(); paint(); if (!raf) frame(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   cv.addEventListener('webglcontextlost', e => { e.preventDefault(); box.classList.remove('gl'); onScreen = false; });
   /* first frame: if the CSS model is mid-explode, start apart and settle; then swap the CSS model out */
-  if (box.classList.contains('apart') && !REDUCE) intro(true);
+  if (box.classList.contains('apart') && !REDUCE && !REAL) intro(true);
   /* the shaders compile in parallel where the browser allows it, and the first frame draws in a later task,
      so the build and the first draw are two shorter pieces of work instead of one long one */
   const first = () => { if (!ready) frame(); };

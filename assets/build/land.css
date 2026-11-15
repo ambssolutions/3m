@@ -27,3 +27,13 @@
 }
 @keyframes cbd-drift{from{transform:translateX(-1.6%)}to{transform:translateX(1.6%)}}
 [data-theme=night] #layers .layers-model{--ld-hz:#3d4f3a;--ld-near:#33472f;--ld-far:#3a4c37}
+
+/* the stage being built is marked in the list, the way hover marks a stage */
+#layers .layers-list li.cur{background:var(--paper)}
+#layers .layers-list li.cur::before{color:var(--rust);border-color:var(--rust)}
+#layers .layers-list li.cur::after{transform:none}
+#layers .layers-list li{cursor:pointer}
+@media (max-width:600px){
+  #layers.layers .layers-list li.cur{background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(150deg,var(--rust),var(--gl,var(--glow)) 50%,var(--rule-2)) border-box}
+  #layers.layers .layers-list li.cur::after{transform:none}
+}
