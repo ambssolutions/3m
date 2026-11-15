@@ -37,3 +37,32 @@
   #layers.layers .layers-list li.cur{background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(150deg,var(--rust),var(--gl,var(--glow)) 50%,var(--rule-2)) border-box}
   #layers.layers .layers-list li.cur::after{transform:none}
 }
+
+/* ========== phones: the house stays pinned and the stage cards stack under it ==========
+   The 3D panel sticks under the header; the five stage cards scroll up beneath it and stick one after another, each
+   leaving its number and title showing (native CSS sticky, opaque cards). The house follows the card on top
+   (s-layers-3d-model.js watches which card is stuck). */
+@media (max-width:600px){
+  #layers{--lp-h:clamp(250px,37svh,330px);--lp-row:44px}
+  /* the grid's content box ends where the stack does, so the house lets go together with the cards */
+  #layers{--lp-stack:calc(10px + 4 * var(--lp-row) + 110px)}
+  #layers .layers-grid{display:block;padding-bottom:var(--lp-stack)}
+  #layers.layers .layers-list{margin-bottom:calc(-1 * var(--lp-stack))}
+  #layers .layers-model{position:sticky;top:calc(var(--top,64px) + 6px);z-index:3;height:var(--lp-h);aspect-ratio:auto}
+  #layers.layers .layers-list{display:block;margin-top:10px;padding-bottom:6px}
+  #layers.layers .layers-list li{position:sticky;z-index:1;top:calc(var(--top,64px) + 6px + var(--lp-h) + 10px + var(--i,0) * var(--lp-row));
+    flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:12px;row-gap:6px;padding:4px 16px 16px;margin:0}
+  /* the scroll room between cards is margin above each card (a stuck card's own margin would cut its stay short),
+     and a spacer after the last card holds the full stack for a moment */
+  #layers.layers .layers-list li+li{margin-top:24svh}
+  #layers.layers .layers-list::after{content:"";display:block;height:16svh}
+  #layers.layers .layers-list li:nth-child(2){--i:1}
+  #layers.layers .layers-list li:nth-child(3){--i:2}
+  #layers.layers .layers-list li:nth-child(4){--i:3}
+  #layers.layers .layers-list li:nth-child(5){--i:4}
+  /* the pinned strip: number badge and title on one line, the words below */
+  #layers.layers .layers-list li::before{width:32px;height:32px;margin:0;font-size:13px;border-radius:10px}
+  #layers.layers .layers-list li b{line-height:var(--lp-row);font-size:1.15rem}
+  #layers.layers .layers-list li span{flex-basis:100%}
+  #layers .layers-tb{display:none}
+}

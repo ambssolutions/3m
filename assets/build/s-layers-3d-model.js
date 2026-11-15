@@ -548,25 +548,47 @@ export function build(T) {
       const on = i <= n, d0 = fast || REDUCE || back ? 0 : (i - Math.max(0, n - 1)) * 120;
       /* at Fixing the outer shell turns see-through, so the work inside (linings, kitchen, stairs) shows */
       const see = n === 3 && i === 2 ? .28 : 1;
-      tw(ly, 'dim', on ? see : 0, fast ? 0 : on ? 900 : 700, on ? d0 : 0);
-      tw(ly, 'drop', on ? 0 : 1, fast ? 0 : on ? 1300 : 700, on ? d0 : 0, on ? eOut : eIO);
-      tw(ly, 'lab', i === n ? 1 : 0, fast ? 0 : 500, i === n ? 700 : 0);
+      tw(ly, 'dim', on ? see : 0, fast ? 0 : on ? 1400 : 1000, on ? d0 : 0, eIO);
+      tw(ly, 'drop', on ? 0 : 1, fast ? 0 : on ? 1600 : 1000, on ? d0 : 0, on ? eOut : eIO);
+      tw(ly, 'lab', i === n ? 1 : 0, fast ? 0 : 600, i === n ? 800 : 0);
     });
     items.forEach((li, i) => li.classList.toggle('cur', i === n));
     if (!fast) kick(); /* the first, instant build runs before the frame loop exists */
   }
+  /* phones: the stage cards stack under the pinned house; the house follows the card on top instead of cycling */
+  const STACK = matchMedia('(max-width:600px)');
+  let sIO = null;
+  function stackWatch() {
+    if (sIO) { sIO.disconnect(); sIO = null; }
+    if (!REAL || !STACK.matches || !('IntersectionObserver' in window)) return;
+    items.forEach((li, i) => {
+      /* a one-pixel line just under the card's own sticky top: the card is on the stack while it crosses it */
+      const top = parseFloat(getComputedStyle(li).top) || 0, line = Math.round(top + 6);
+      li.dataset.line = line;
+      /* the stage is the last card that has reached its line (stuck, or already carried past it as the stack leaves) */
+      const io = new IntersectionObserver(() => {
+        let n = 0; items.forEach((c, j) => { if (c.getBoundingClientRect().top <= +c.dataset.line) n = j; });
+        build(n);
+      }, { rootMargin: `-${line}px 0px -${Math.max(0, innerHeight - line - 1)}px 0px` });
+      io.observe(li);
+      const prev = sIO; sIO = { disconnect() { io.disconnect(); if (prev) prev.disconnect(); } };
+    });
+  }
   function bNext() {
     clearTimeout(bT); bT = 0;
-    if (REDUCE || bHeld) return;
+    if (REDUCE || bHeld || STACK.matches) return;
     if (!onScreen || d.hidden) { bT = setTimeout(bNext, 600); return; }
     build(stage >= 4 ? 0 : stage + 1);
     bT = setTimeout(bNext, stage >= 4 ? BDONE : BSTEP);
   }
-  function bPick(n) { bHeld = true; clearTimeout(bT); clearTimeout(bResume); build(n); }
+  function bPick(n) { if (STACK.matches) return; bHeld = true; clearTimeout(bT); clearTimeout(bResume); build(n); }
   function bLet() { clearTimeout(bResume); bResume = setTimeout(() => { bHeld = false; clearTimeout(bT); bT = setTimeout(bNext, BSTEP); }, 2200); }
   if (REAL) {
     layers.forEach(ly => { ly.dim = 0; ly.drop = 1; });
-    build(REDUCE ? 4 : 0, true);
+    build(REDUCE && !STACK.matches ? 4 : 0, true);
+    stackWatch();
+    let rsT = 0; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(stackWatch, 250); });
+    if (STACK.addEventListener) STACK.addEventListener('change', () => { stackWatch(); if (!STACK.matches && introDone) { clearTimeout(bT); bT = setTimeout(bNext, BSTEP); } });
     if (REDUCE) items.forEach((li, i) => li.classList.toggle('cur', i === 4));
     items.forEach((li, i) => {
       li.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') bPick(i); });
