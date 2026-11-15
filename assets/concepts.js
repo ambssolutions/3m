@@ -115,7 +115,7 @@
     '<a class="arrow" href="' + href(next) + '" aria-label="Next concept: ' + next[1] + '">&#8250;</a>' +
     '<button type="button" class="fav" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.25 4.1 1 5.85L12 16.9l-5.25 2.75 1-5.85L3.5 9.7l5.9-.9z"/></svg></button>' +
     '<div class="menu" role="menu">' +
-    '<a role="menuitem" href="' + base.href + '">All concepts <small>gallery &amp; send your pick</small></a><hr>' +
+    '<a role="menuitem" href="' + base.href + 'gallery">All concepts <small>gallery &amp; send your pick</small></a><hr>' +
     CONCEPTS.map(function (c, k) {
       return '<a role="menuitem" href="' + href(c) + '"' + (k === i ? ' aria-current="page"' : '') + '>' + pad(k) + ' &nbsp;' + c[1] + ' <small>' + c[2] + '</small></a>';
     }).join('') +

@@ -142,6 +142,10 @@
   ],
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/designs/13-your-build/"
+    },
+    {
       "source": "/home",
       "destination": "/designs/13-your-build/"
     },
