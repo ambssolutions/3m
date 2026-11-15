@@ -1,7 +1,7 @@
 /* hero-sydney: the hero as a Sydney day (concept 13). Loaded after your-build.css.
    1. Scenes. The first photo (harbourside homes with the CBD, the Opera House and the Bridge) is in the markup and is
       the LCP. hero-sydney.js adds three more after load and idle (golden hour, dusk, morning) as stacked layers that
-      crossfade on opacity only, about 8s each with a 2s fade, and only while the hero is on screen and the tab is
+      crossfade on opacity only, about 4s each with a 1.2s fade, and only while the hero is on screen and the tab is
       visible. Reduced motion or Save-Data: the first scene only.
       Photos, all under the Unsplash Licence: Jesper van der Pol (homes and skyline), Aswin (golden hour),
       Photoholgic (dusk, from Mrs Macquarie's Chair), Dan Freeman (Circular Quay). Crops: img/syd-*.webp.
@@ -13,7 +13,7 @@
 /* placeholders for the first scene (tiny blurred copies, like the other photos) */
 .hero-img img{background-position:50% 40%;background-image:url(data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoQAAkAA4BaJQBOgMWR32opMrAA/phffVrd+Yne50RP4mNITEL0uGhYV6+JgB8rAJrRv7c0hKmBqJpwBrbQDgHgJgAAAA==)}
 @media (max-width:700px) and (orientation:portrait){.hero-img img{background-image:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoMABIAPu1iqU2ppaOiMAgBMB2JZQAAXFwRvDxBPIPTPcmgAP7v8YjKSHmMCcdQm3Le89Mh+ofCK2itHRu4uLOWJkJEx++ZUReKBER6Gdyq8loe9UvbF31fMmoW9eDDzJYh3pm/eocyAAAA)}}
-.hero-img .hs-scene{position:absolute;inset:0;opacity:0;transition:opacity 2s cubic-bezier(.45,0,.55,1);pointer-events:none}
+.hero-img .hs-scene{position:absolute;inset:0;opacity:0;transition:opacity 1.2s cubic-bezier(.45,0,.55,1);pointer-events:none}
 .hero-img .hs-scene.on{opacity:1}
 .hero-img .hs-scene picture{position:absolute;inset:0}
 .hero-img .hs-scene img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;background:none}

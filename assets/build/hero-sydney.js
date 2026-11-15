@@ -8,7 +8,7 @@
   var calm = matchMedia('(prefers-reduced-motion: reduce)'), net = navigator.connection;
   if (calm.matches || (net && net.saveData)) return;
 
-  var HOLD = 8000, FADE = 2000;
+  var HOLD = 4000, FADE = 1200;
   var src = box.querySelector('img').getAttribute('src'), dir = src.slice(0, src.lastIndexOf('/') + 1);
   var names = box.getAttribute('data-scenes').split(/\s+/), layers = [], k = 0, timer = 0, ready = false, seen = true;
 
