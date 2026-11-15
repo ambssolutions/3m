@@ -1,0 +1,105 @@
+/* cbd: "Built in layers, paid in stages" (designs/13-your-build only, linked after layers-fit.css).
+   1. The model panel gets a Sydney CBD backdrop: a pale sky, the city in three depths (far towers palest, the CBD
+      with Sydney Tower stronger, the Harbour Bridge on its own nearer layer), haze between them and mist at the
+      horizon. The silhouettes live in cbd.svg as symbols with no colour of their own, so every theme fills them from
+      its tokens. The ground under the horizon stays the drawing sheet's grid paper, so the house still stands on a
+      design drawing. The canvas and the CSS model are transparent and sit above all of it; the 3D cost is unchanged.
+      Depth: the layers sit at different depths in one perspective, slightly turned. Where scroll-driven animation is
+      supported (and motion is welcome) the city turns a few degrees as the section passes, so the near layers slide
+      past the far ones. Native CSS on one composited element, no JS, nothing while off screen.
+   2. Phones: the panel and the stage list run almost edge to edge (12px gutter), the panel is taller, and each stage
+      is a raised card: a pressed-in number badge on top, the title and the words centred beneath.
+   Laptops keep layers-fit.css's one-screen layout: nothing here changes a size above 600px. Theme tokens only. */
+
+#layers .layers-model{--hz:46%}
+#layers .cbd{position:absolute;inset:0;overflow:hidden;pointer-events:none;border-radius:inherit;
+  --sky-hi:color-mix(in oklab,var(--paper) 78%,var(--glow));
+  --sky-lo:color-mix(in oklab,var(--field) 92%,var(--glow));
+  --c-far:color-mix(in oklab,color-mix(in oklab,var(--rule) 72%,var(--glow)) 66%,var(--sky-lo));
+  --c-mid:color-mix(in oklab,color-mix(in oklab,var(--rule-2) 80%,var(--rust)) 90%,var(--sky-lo));
+  --c-br:color-mix(in oklab,color-mix(in oklab,var(--rule-2) 62%,var(--ink-3)) 92%,var(--rust));
+  --c-mid-sh:color-mix(in oklab,var(--c-mid) 86%,var(--ink-2));
+  --c-ln:var(--sky-lo);
+  perspective:1100px;perspective-origin:50% var(--hz);
+  background:linear-gradient(180deg,var(--sky-hi) 0%,color-mix(in oklab,var(--sky-hi) 45%,var(--sky-lo)) calc(var(--hz) * .55),var(--sky-lo) var(--hz),transparent var(--hz))}
+[data-theme=night] #layers .cbd{
+  --sky-hi:color-mix(in oklab,var(--deep,#0B0A08) 72%,var(--paper));
+  --sky-lo:color-mix(in oklab,var(--paper) 88%,var(--rust));
+  --c-far:color-mix(in oklab,var(--rule) 70%,var(--sky-lo));
+  --c-mid:color-mix(in oklab,var(--rule) 55%,var(--rule-2));
+  --c-br:color-mix(in oklab,var(--rule-2) 82%,var(--ink-3));
+  --c-mid-sh:color-mix(in oklab,var(--c-mid) 80%,var(--paper));
+  --c-ln:color-mix(in oklab,var(--rule) 60%,var(--sky-hi))}
+#layers .cbd-in{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:50% var(--hz);transform:rotateY(-3deg)}
+
+/* each layer is the full silhouette strip (1300 by 400, the panel is its middle 1000), standing on the horizon,
+   pushed back in depth and scaled up by the same perspective, so at rest it sits exactly where it is drawn */
+#layers .cbd-l,#layers .cbd-haze,#layers .cbd-fog{position:absolute;left:-15%;width:130%;bottom:calc(100% - var(--hz));transform-origin:50% 100%;transform:translateZ(calc(var(--z) * -1px)) scale(calc(1 + var(--z) / 1100))}
+#layers .cbd-l{display:block;height:auto;aspect-ratio:1300/400;overflow:visible}
+#layers .cbd-l use{width:100%;height:100%}
+#layers .cbd-far{--z:520;fill:var(--c-far)}
+#layers .cbd-mid{--z:260;fill:var(--c-mid)}
+#layers .cbd-br{--z:110;fill:var(--c-br)}
+/* the shaded side of each tower, so the city has form rather than a flat cut-out */
+#layers .cbd-sh{fill:var(--c-mid-sh)}
+/* fine lines: facade mullions and floor bands, the Bridge's hangers and lattice, drawn in the sky colour */
+#layers .cbd-ln{stroke:var(--c-ln);stroke-width:.9;opacity:.55}
+#layers .cbd-br .cbd-ln{stroke-width:1.2;opacity:.9}
+/* haze in front of the far city, mist along the horizon in front of everything */
+#layers .cbd-haze{--z:400;height:28%;background:linear-gradient(0deg,var(--sky-lo),color-mix(in srgb,var(--sky-lo) 0%,transparent))}
+#layers .cbd-fog{--z:40;height:9%;background:linear-gradient(0deg,var(--sky-lo) 8%,color-mix(in srgb,var(--sky-lo) 0%,transparent))}
+/* night: a few lit windows in the city, like the footer's harbour */
+#layers .cbd-w{display:none}
+[data-theme=night] #layers .cbd-w{display:inline;fill:var(--glow);opacity:.7}
+[data-theme=night] #layers .cbd-far .cbd-w{opacity:.4}
+
+/* the scroll turn: a few degrees as the section passes (the near layers slide past the far ones) */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    html:not(.lite) #layers .cbd-in{animation:cbd-turn linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+  }
+}
+@keyframes cbd-turn{from{transform:rotateY(-8deg)}to{transform:rotateY(4deg)}}
+
+/* the panel: its own framed view, a rounded window with a gradient rim and an inner hairline, the ground under the
+   horizon on grid paper. On tablets and laptops it sits inside the drawing sheet; the sizes are unchanged there, so
+   layers-fit's one screen holds. */
+#layers .layers-model{--gc:rgba(34,31,26,.07);--gc2:rgba(34,31,26,.03);overflow:hidden;border:1px solid transparent;border-radius:16px;
+  background:linear-gradient(var(--gc) 1px,transparent 1px) -1px -1px/80px 80px padding-box,linear-gradient(90deg,var(--gc) 1px,transparent 1px) -1px -1px/80px 80px padding-box,
+    linear-gradient(var(--gc2) 1px,transparent 1px) -1px -1px/16px 16px padding-box,linear-gradient(90deg,var(--gc2) 1px,transparent 1px) -1px -1px/16px 16px padding-box,
+    linear-gradient(var(--field),var(--field)) padding-box,var(--m-gb,linear-gradient(var(--rule-2),var(--rule-2))) border-box;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,70%),transparent),var(--m-sh1,none)}
+[data-theme=night] #layers .layers-model{--gc:rgba(239,232,218,.06);--gc2:rgba(239,232,218,.025)}
+#layers .layers-model::after{content:"";position:absolute;inset:6px;border:1px solid color-mix(in srgb,var(--rule-2) 60%,transparent);border-radius:11px;pointer-events:none}
+
+/* ========== phones: wider, a taller panel, raised stage cards ========== */
+@media (max-width:600px){
+  #layers .layers-sheet{margin-inline:calc(12px - var(--pad))}
+  #layers .layers-model{--hz:42%;height:clamp(330px,106vw,450px);border-radius:18px;box-shadow:inset 0 1px 0 color-mix(in srgb,#fff var(--m-hi,70%),transparent),var(--en-lift-s,none)}
+  #layers .layers-model::after{border-radius:13px}
+
+  /* the stage list: five raised cards, each a centred stack (badge, title, words) */
+  #layers.layers .layers-list{display:grid;gap:10px;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+  #layers.layers .layers-list li{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 16px 16px;text-align:center;border:1px solid transparent;border-radius:18px;
+    background:linear-gradient(165deg,var(--field) 0%,color-mix(in oklab,var(--paper) 60%,var(--field)) 100%) padding-box,
+      linear-gradient(150deg,color-mix(in srgb,var(--rust) 50%,transparent),color-mix(in srgb,var(--gl,var(--glow)) 34%,transparent) 42%,var(--rule-2) 78%,var(--rule)) border-box;
+    box-shadow:inset 1px 1px 0 color-mix(in srgb,#fff var(--m-hi,80%),transparent),inset -2px -3px 6px color-mix(in srgb,var(--m-shc,#000) 7%,transparent),0 1px 2px color-mix(in srgb,var(--m-shc,#000) 10%,transparent),0 14px 24px -16px color-mix(in srgb,var(--m-shc,#000) 46%,transparent)}
+  #layers.layers .layers-list li+li{border-top:1px solid transparent}
+  /* the number, pressed into the card: a sunken rounded square, the numeral in the label gradient */
+  #layers.layers .layers-list li::before{display:grid;place-items:center;width:36px;height:36px;padding:0;margin-bottom:4px;border:0;border-radius:11px;align-self:center;
+    font:600 14px/1 var(--display);letter-spacing:.02em;font-variant-numeric:lining-nums tabular-nums;color:var(--rust);
+    background:linear-gradient(160deg,color-mix(in oklab,var(--paper-2) 80%,var(--rule)),var(--field));
+    box-shadow:inset 2px 2px 4px color-mix(in srgb,var(--m-shc,#000) 18%,transparent),inset -1px -1px 0 color-mix(in srgb,#fff var(--m-hi,80%),transparent),0 1px 0 color-mix(in srgb,#fff var(--m-hi,70%),transparent)}
+  @supports ((-webkit-background-clip:text) or (background-clip:text)){
+    #layers.layers .layers-list li::before{background:var(--g-label,linear-gradient(var(--rust),var(--rust))),linear-gradient(160deg,color-mix(in oklab,var(--paper-2) 80%,var(--rule)),var(--field));-webkit-background-clip:text,padding-box;background-clip:text,padding-box;color:transparent;-webkit-text-fill-color:transparent}
+  }
+  #layers.layers .layers-list b{font-size:1.22rem;line-height:1.22}
+  #layers.layers .layers-list span{max-width:32em;font-size:15px;line-height:1.5;text-wrap:balance}
+  /* the accent: a short key line along the top of the card in focus, drawn out from the centre */
+  #layers.layers .layers-list li::after{left:50%;right:auto;top:-1px;bottom:auto;width:48px;height:3px;margin-left:-24px;border-radius:0 0 3px 3px;background:var(--m-line,var(--rust));transform:scaleX(0);transform-origin:50% 0}
+  #layers.layers .layers-list li:focus-visible{background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(150deg,var(--rust),var(--gl,var(--glow)) 50%,var(--rule-2)) border-box}
+  #layers.layers .layers-list li:focus-visible::after{transform:none}
+}
+@media (max-width:600px) and (hover:hover){
+  #layers.layers .layers-list li:hover{background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(150deg,var(--rust),var(--gl,var(--glow)) 50%,var(--rule-2)) border-box}
+}
