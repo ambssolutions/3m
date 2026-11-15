@@ -15,6 +15,9 @@ export function build(T) {
   /* the idle turn: a page can switch it off (--l3-sway:0 on .layers-model, e.g. on phones); the model then holds a still
      frame and draws only while it explodes, settles or is dragged */
   const SWAY = !REDUCE && getComputedStyle(box).getPropertyValue('--l3-sway').trim() !== '0';
+  /* real look: a page can ask for the house in real colours and textures on its block of land (--l3-real:1 on
+     .layers-model) instead of the theme-tinted drafting model on grid paper */
+  const REAL = getComputedStyle(box).getPropertyValue('--l3-real').trim() === '1';
   const now = () => performance.now();
   const rad = a => a * Math.PI / 180;
 
@@ -51,6 +54,12 @@ export function build(T) {
     tag: () => P.rust.clone(),
     ring: () => P.glow.clone(),
     path: () => P.dark ? mix('paper-2', 'ink-3', .25) : mix('paper-2', 'rule-2', .5)
+  };
+  /* the real house: concrete slab, pine frame, painted weatherboards, a dark Colorbond roof, white trims */
+  const RC = {
+    slab: '#c3bfb6', rebate: '#a39e94', peg: '#c99a58', frame: '#dcb57c', wall: '#eadfc8', trim: '#f7f5f0',
+    roof: '#3a4757', gutter: '#2b3440', glass: '#86abc6', door: '#8c5a33', lining: '#f2eee7', bench: '#ece6dc',
+    top: '#4b5058', tread: '#b8875a', lit: '#ffd88c', leaf: '#3f7330', soil: '#6a4c35', trunk: '#7b5b3e', path: '#d6cfc2'
   };
   const OPA = { glass: .42 };
   const FLAT = { leaf: 1, trunk: 1 };
@@ -291,6 +300,7 @@ export function build(T) {
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
   renderer.debug.checkShaderErrors = false; /* skips the blocking shader-log reads; the shaders are fixed and tested */
   renderer.setClearColor(0x000000, 0);
+  if (REAL) { renderer.toneMapping = 4; /* ACES filmic (the slim build does not export the constant) */ renderer.toneMappingExposure = 1.05; }
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = T.PCFSoftShadowMap;
   /* the shadow map is redrawn only when a layer, its fade or the sun moves, never for a camera turn alone */
@@ -305,6 +315,32 @@ export function build(T) {
   grd.addColorStop(0, '#ffffff'); grd.addColorStop(.86, '#eceae6'); grd.addColorStop(.87, '#a9a6a0'); grd.addColorStop(.95, '#c9c6c0'); grd.addColorStop(1, '#ffffff');
   tx.fillStyle = grd; tx.fillRect(0, 0, 4, 32);
   const wb = new T.CanvasTexture(tc); wb.wrapS = wb.wrapT = T.RepeatWrapping; wb.colorSpace = T.SRGBColorSpace; wb.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+  /* real look: small generated textures (greyscale, tinted by each material's colour) mapped in metres */
+  const TXR = {};
+  if (REAL) {
+    const tex = (w, h, draw, rep) => { const c = d.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d'); draw(x, w, h);
+      const t = new T.CanvasTexture(c); t.wrapS = t.wrapT = T.RepeatWrapping; t.colorSpace = T.SRGBColorSpace; t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy()); t.userData = { rep }; return t; };
+    const noise = (x, w, h, lo, hi) => { const im = x.getImageData(0, 0, w, h), q = im.data; for (let i = 0; i < q.length; i += 4) { const n = lo + Math.random() * (hi - lo); q[i] *= n; q[i + 1] *= n; q[i + 2] *= n; } x.putImageData(im, 0, 0); };
+    /* Colorbond roof: ribs every 190 mm, running down the slope */
+    TXR.roof = tex(32, 4, (x, w, h) => { const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#d9d9d9'); g.addColorStop(.12, '#ffffff'); g.addColorStop(.22, '#9a9a9a'); g.addColorStop(.3, '#e6e6e6'); g.addColorStop(1, '#eeeeee'); x.fillStyle = g; x.fillRect(0, 0, w, h); }, 'rib');
+    /* weatherboards with a faint grain */
+    TXR.wall = tex(64, 32, (x, w, h) => { x.drawImage(tc, 0, 0, w, h); noise(x, w, h, .93, 1.04); }, 'wall');
+    /* concrete: speckle */
+    TXR.slab = TXR.path = TXR.rebate = tex(128, 128, (x, w, h) => { x.fillStyle = '#f2f2f2'; x.fillRect(0, 0, w, h); noise(x, w, h, .9, 1.04); }, 'top');
+    /* timber: long streaks of grain */
+    TXR.frame = TXR.tread = TXR.trunk = TXR.peg = TXR.door = tex(64, 64, (x, w, h) => { x.fillStyle = '#ffffff'; x.fillRect(0, 0, w, h);
+      for (let i = 0; i < 46; i++) { x.fillStyle = `rgba(110,70,30,${.05 + Math.random() * .12})`; x.fillRect(Math.random() * w, 0, .6 + Math.random() * 1.6, h); } }, 'grain');
+  }
+  function realUV(g, mode) {
+    const p = g.attributes.position, n = g.attributes.normal, uv = g.attributes.uv;
+    for (let k = 0; k < p.count; k++) {
+      const x = p.getX(k), y = p.getY(k), z = p.getZ(k), nx = Math.abs(n.getX(k)), ny = Math.abs(n.getY(k));
+      if (mode === 'rib') uv.setXY(k, x / .19, z);
+      else if (mode === 'top') uv.setXY(k, (ny > .5 ? x : nx > .5 ? z : x) / 2.5, (ny > .5 ? z : y) / 2.5);
+      else if (mode === 'grain') uv.setXY(k, (ny > .5 ? x + z : nx > .5 ? z : x) * 1.5, (ny > .5 ? x - z : y) * .25);
+      else uv.setXY(k, (ny > .5 ? x : x + z) * 2, (ny > .5 ? z : y) / .19);
+    }
+  }
   function worldUV(g) {
     const p = g.attributes.position, n = g.attributes.normal, uv = g.attributes.uv;
     for (let k = 0; k < p.count; k++) {
@@ -315,8 +351,9 @@ export function build(T) {
   function merge(list) {
     const arr = list.map(g => g.index ? g.toNonIndexed() : g); let n = 0; arr.forEach(g => { n += g.attributes.position.count; });
     const pos = new Float32Array(n * 3), nor = new Float32Array(n * 3), uv = new Float32Array(n * 2); let o = 0;
-    arr.forEach(g => { pos.set(g.attributes.position.array, o * 3); nor.set(g.attributes.normal.array, o * 3); if (g.attributes.uv) uv.set(g.attributes.uv.array, o * 2); o += g.attributes.position.count; g.dispose(); });
-    const out = new T.BufferGeometry();
+    const col = arr.every(g => g.attributes.color) ? new Float32Array(n * 3) : null;
+    arr.forEach(g => { pos.set(g.attributes.position.array, o * 3); nor.set(g.attributes.normal.array, o * 3); if (g.attributes.uv) uv.set(g.attributes.uv.array, o * 2); if (col) col.set(g.attributes.color.array, o * 3); o += g.attributes.position.count; g.dispose(); });
+    const out = new T.BufferGeometry(); if (col) out.setAttribute('color', new T.BufferAttribute(col, 3));
     out.setAttribute('position', new T.BufferAttribute(pos, 3)); out.setAttribute('normal', new T.BufferAttribute(nor, 3)); out.setAttribute('uv', new T.BufferAttribute(uv, 2));
     return out;
   }
@@ -325,10 +362,10 @@ export function build(T) {
     ly.group = new T.Group(); model.add(ly.group); ly.mats = [];
     const bb = new T.Box3();
     Object.keys(ly.parts).forEach(key => {
-      const g = merge(ly.parts[key]); if (key === 'wall') worldUV(g);
+      const g = merge(ly.parts[key]); if (REAL && TXR[key]) realUV(g, TXR[key].userData.rep); else if (key === 'wall') worldUV(g);
       g.computeBoundingBox(); bb.union(g.boundingBox);
       const opt = { transparent: true, opacity: 1, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 };
-      const mat = BASIC[key] ? new T.MeshBasicMaterial(opt) : new T.MeshLambertMaterial(Object.assign(opt, { flatShading: !!FLAT[key], map: key === 'wall' ? wb : null }));
+      const mat = BASIC[key] ? new T.MeshBasicMaterial(opt) : new T.MeshLambertMaterial(Object.assign(opt, { flatShading: !!FLAT[key], map: REAL ? TXR[key] || null : key === 'wall' ? wb : null }));
       mat.userData = { key, op: OPA[key] || 1 };
       const mesh = new T.Mesh(g, mat);
       mesh.castShadow = !NOSHADOW[key]; mesh.receiveShadow = !BASIC[key];
@@ -367,6 +404,57 @@ export function build(T) {
   });
   const grid = new T.Mesh(new T.PlaneGeometry(60, 60), gridMat); grid.rotation.x = -Math.PI / 2; grid.position.y = .004; grid.renderOrder = 1; scene.add(grid);
 
+  /* the block of land (real look only): mown lawn, garden beds, the lot's fences, a driveway, the footpath, nature strip
+     and kerb, painted once into one ground texture that fades out at the edges into the panel's own ground colour;
+     a few neighbouring trees. One draw for the ground, one for the fences, one each for trunks and canopies. */
+  const site = [];
+  if (REAL) {
+    ground.visible = false; grid.visible = false;
+    const S = 40, N = LITE ? 512 : 1024, k = N / S, gc = d.createElement('canvas'); gc.width = gc.height = N;
+    const g = gc.getContext('2d'), X = x => (x + S / 2) * k, Z = z => (z + S / 2) * k;
+    const rect = (c, x0, x1, z0, z1) => { g.fillStyle = c; g.fillRect(X(x0), Z(z0), (x1 - x0) * k, (z1 - z0) * k); };
+    const LXW = 9, LZB = -8, LZF = 8.4;
+    rect('#86a85f', -S / 2, S / 2, -S / 2, S / 2);                                   /* neighbours' lawns */
+    for (let x = -LXW, j = 0; x < LXW; x += 1.2, j++) rect(j % 2 ? '#8db263' : '#7fa557', x, Math.min(LXW, x + 1.2), LZB, LZF); /* our lawn, mown */
+    rect('#6d5038', -LXW, LXW, LZB, LZB + .9); rect('#6d5038', -LXW, -LXW + .8, LZB, LZF - 1.4); rect('#6d5038', LXW - .8, LXW, LZB, -1); /* garden beds by the fences */
+    rect('#cfc9bd', 5.7, 8.4, -1.2, 12.4);                                           /* driveway to the kerb */
+    rect('#d9d4ca', -S / 2, S / 2, 9.2, 10.6);                                       /* footpath */
+    rect('#cfc9bd', 5.7, 8.4, 9.2, 10.6);
+    rect('#bdb8ae', -S / 2, S / 2, 12.2, 12.5);                                      /* the kerb */
+    g.strokeStyle = 'rgba(70,60,45,.35)'; g.lineWidth = Math.max(1, k * .05); g.strokeRect(X(-LXW), Z(LZB), 2 * LXW * k, (LZF - LZB) * k); /* the boundary */
+    /* grass: every pixel a slightly different green, so the lawn has texture rather than flat paint */
+    { const im = g.getImageData(0, 0, N, N), q = im.data; for (let i = 0; i < q.length; i += 4) { const n = .86 + Math.random() * .22, y = .97 + Math.random() * .06; q[i] *= n; q[i + 1] *= n * y; q[i + 2] *= n; } g.putImageData(im, 0, 0); }
+    /* fade the edges out into the panel's ground */
+    g.globalCompositeOperation = 'destination-in';
+    const rg = g.createRadialGradient(X(0), Z(1.5), 9 * k, X(0), Z(1.5), 19.5 * k); rg.addColorStop(0, '#000'); rg.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = rg; g.fillRect(0, 0, N, N);
+    const gt = new T.CanvasTexture(gc); gt.colorSpace = T.SRGBColorSpace; gt.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+    const lawn = new T.Mesh(new T.PlaneGeometry(S, S), new T.MeshLambertMaterial({ map: gt, transparent: true, depthWrite: false }));
+    lawn.rotation.x = -Math.PI / 2; lawn.receiveShadow = true; lawn.renderOrder = 0; scene.add(lawn);
+    lawn.material.userData.c = 0xffffff; site.push(lawn.material);
+    /* paling fences down both sides and across the back, with a top rail */
+    const fg = [], fb = (x0, x1, y0, y1, z0, z1) => { const b = new T.BoxGeometry(x1 - x0, y1 - y0, z1 - z0); b.translate((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2); fg.push(b); };
+    fb(-LXW, LXW, 0, 1.6, LZB - .03, LZB + .03); fb(-LXW - .03, -LXW + .03, 0, 1.6, LZB, LZF - 1.2); fb(LXW - .03, LXW + .03, 0, 1.6, LZB, -1.2);
+    fb(-LXW, LXW, 1.6, 1.68, LZB - .05, LZB + .05);
+    const fm = new T.MeshLambertMaterial({ map: TXR.frame }); fm.userData.c = 0xa7845c; site.push(fm);
+    const fence = new T.Mesh(merge(fg), fm); fence.castShadow = fence.receiveShadow = true; scene.add(fence);
+    /* neighbours' trees: rounded, lumpy canopies in varied greens */
+    const tg = [], cg = [];
+    [[-7.6, -6.6, 1.25], [7.4, -6.9, 1.45], [-11.5, -2.5, 1.6], [11.6, -4, 1.3], [-3.5, -10.8, 1.5], [3.8, -11.2, 1.7]].forEach(([x, z, r]) => {
+      const t = new T.CylinderGeometry(r * .07, r * .1, r * 1.6, 6); t.translate(x, r * .8, z); tg.push(t);
+      [[0, 1.8, 0, .85], [.5, 1.5, .3, .62], [-.45, 1.45, -.3, .6], [.2, 1.35, -.5, .55], [-.3, 1.6, .45, .58], [.1, 2.3, .1, .55]].forEach(([dx, y, dz, s]) => {
+        const c = new T.IcosahedronGeometry(r * s, 2), cp = c.attributes.position, col = new Float32Array(cp.count * 3);
+        for (let v = 0; v < cp.count; v++) { const f = .86 + .3 * Math.abs(Math.sin(cp.getX(v) * 7.1 + cp.getY(v) * 5.3 + cp.getZ(v) * 6.7 + x)); cp.setXYZ(v, cp.getX(v) * f, cp.getY(v) * f, cp.getZ(v) * f);
+          const h = Math.sin(cp.getX(v) * 12.9898 + cp.getY(v) * 78.233 + cp.getZ(v) * 37.719) * 43758.5453, t = .74 + .34 * (h - Math.floor(h)); col[v * 3] = .2 * t; col[v * 3 + 1] = .4 * t; col[v * 3 + 2] = .13 * t; }
+        c.setAttribute('color', new T.BufferAttribute(col, 3));
+        { const cn = c.attributes.normal, w = new T.Vector3(); for (let v = 0; v < cp.count; v++) { w.set(cp.getX(v), cp.getY(v), cp.getZ(v)).normalize(); cn.setXYZ(v, w.x, w.y, w.z); } }
+        c.translate(x + dx * r, y * r, z + dz * r); cg.push(c); });
+    });
+    const tm = new T.MeshLambertMaterial(); tm.userData.c = 0x6f5238; site.push(tm);
+    const cm = new T.MeshLambertMaterial({ vertexColors: true }); cm.userData.c = 0xffffff; site.push(cm);
+    [[tg, tm], [cg, cm]].forEach(([l, m]) => { const o = new T.Mesh(merge(l), m); o.castShadow = o.receiveShadow = true; scene.add(o); });
+  }
+
   const hemi = new T.HemisphereLight(0xffffff, 0xffffff, 2.1); scene.add(hemi);
   const sun = new T.DirectionalLight(0xffffff, 1.35);
   sun.position.set(-6, 20, 14); sun.castShadow = true;
@@ -379,7 +467,12 @@ export function build(T) {
   /* ---------- colour ---------- */
   function recolour() {
     readPalette();
-    layers.forEach(ly => ly.mats.forEach(m => { m.userData.base = R[m.userData.key](); }));
+    layers.forEach(ly => ly.mats.forEach(m => { const k = m.userData.key; m.userData.base = REAL && RC[k] ? new T.Color(RC[k]) : R[k](); }));
+    if (REAL) {
+      hemi.color.set(P.dark ? 0x9fb0d0 : 0xeef5ff); hemi.groundColor.set(P.dark ? 0x2e3a2a : 0x9fb383);
+      hemi.intensity = P.dark ? 1.2 : 1.75; sun.color.set(P.dark ? 0xc8d4f0 : 0xfff3df); sun.intensity = P.dark ? .9 : 1.9;
+      site.forEach(m => { m.color.set(m.userData.c); }); dirty = true; return;
+    }
     ground.material.color.copy(P.ink); ground.material.opacity = P.dark ? .38 : .16;
     gridMat.uniforms.uC.value.copy(P.ink); gridMat.uniforms.uA.value = P.dark ? .2 : .16;
     hemi.color.set(0xffffff).lerp(P.field, .25); hemi.groundColor.copy(P.dark ? mix('paper-2', 'ink-3', .5) : P['paper-2']);
@@ -391,11 +484,11 @@ export function build(T) {
       const hl = ly.on, a = ly.dim;
       ly.mats.forEach(m => {
         const u = m.userData; m.color.copy(u.base);
-        if (hl > 0) m.color.lerp(P.rust, hl * (u.key === 'glass' || u.key === 'lit' ? .3 : .62));
+        if (hl > 0) m.color.lerp(P.rust, hl * (u.key === 'glass' || u.key === 'lit' ? .3 : REAL ? .42 : .62));
         m.opacity = u.op * a; m.depthWrite = u.key !== 'glass' && a > .97;
       });
       ly.group.traverse(o => { if (o.isMesh && !NOSHADOW[o.material.userData.key]) o.castShadow = a > .6; });
-      if (ly.lineMat) { ly.lineMat.color.copy(P.ink).lerp(P.rust, hl); ly.lineMat.opacity = (P.dark ? .3 : .34 + .3 * hl) * a; }
+      if (ly.lineMat) { ly.lineMat.color.copy(P.ink).lerp(P.rust, hl); ly.lineMat.opacity = (P.dark ? .3 : .34 + .3 * hl) * a * (REAL ? hl : 1); }
       if (ly.so) { ly.so.color.copy(P.rust); ly.so.opacity = .9 * a; }
     });
     guide.material.color.copy(P.ink);
