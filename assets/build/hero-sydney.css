@@ -1,0 +1,50 @@
+/* hero-sydney: the hero as a Sydney day (concept 13). Loaded after your-build.css.
+   1. Scenes. The first photo (harbourside homes with the CBD, the Opera House and the Bridge) is in the markup and is
+      the LCP. hero-sydney.js adds three more after load and idle (golden hour, dusk, morning) as stacked layers that
+      crossfade on opacity only, about 8s each with a 2s fade, and only while the hero is on screen and the tab is
+      visible. Reduced motion or Save-Data: the first scene only.
+      Photos, all under the Unsplash Licence: Jesper van der Pol (homes and skyline), Aswin (golden hour),
+      Photoholgic (dusk, from Mrs Macquarie's Chair), Dan Freeman (Circular Quay). Crops: img/syd-*.webp.
+   2. The heading writes itself once on load: each phrase is revealed left to right by a soft-edged mask, with a thin
+      accent pen at the leading edge. The text is in the DOM and painted (faintly) from the first frame, it keeps its
+      layout, and the mask comes off when the stroke ends. Reduced motion: the heading shows at once. */
+
+/* ---------- 1. scenes ---------- */
+/* placeholders for the first scene (tiny blurred copies, like the other photos) */
+.hero-img img{background-position:50% 40%;background-image:url(data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAQCdASoQAAkAA4BaJQBOgMWR32opMrAA/phffVrd+Yne50RP4mNITEL0uGhYV6+JgB8rAJrRv7c0hKmBqJpwBrbQDgHgJgAAAA==)}
+@media (max-width:700px) and (orientation:portrait){.hero-img img{background-image:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADwAwCdASoMABIAPu1iqU2ppaOiMAgBMB2JZQAAXFwRvDxBPIPTPcmgAP7v8YjKSHmMCcdQm3Le89Mh+ofCK2itHRu4uLOWJkJEx++ZUReKBER6Gdyq8loe9UvbF31fMmoW9eDDzJYh3pm/eocyAAAA)}}
+.hero-img .hs-scene{position:absolute;inset:0;opacity:0;transition:opacity 2s cubic-bezier(.45,0,.55,1);pointer-events:none}
+.hero-img .hs-scene.on{opacity:1}
+.hero-img .hs-scene picture{position:absolute;inset:0}
+.hero-img .hs-scene img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;background:none}
+@media (prefers-reduced-motion:reduce){.hero-img .hs-scene{display:none}}
+
+/* ---------- 2. the heading, written ---------- */
+/* each phrase is an inline block, padded (and pulled back by the same margin) so the mask also covers the descenders of
+   p, y and the comma (Fraunces reaches about .1em below the 1.04 line box) without moving the layout */
+.hero h1 .hw{position:relative;display:inline-block;padding:0 .08em .11em;margin:0 -.08em -.11em}
+@media (prefers-reduced-motion:no-preference){
+  /* the heading sits still inside the rising card while it is written (no second rise, on /home and /home-2) */
+  .js .hero .hcard>h1{animation:none}
+  /* until its stroke starts, a phrase waits as a faint ghost. Only main-thread properties animate here (colour, mask and
+     background position), so the first frame gets no extra compositor layers. */
+  .js .hero h1 .hw{animation:hs-wait var(--d) step-end,hs-write var(--t) cubic-bezier(.42,.1,.58,.9) var(--d)}
+  .js .hero h1 .hw::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent,var(--rust) 22%,var(--rust) 78%,transparent) -9% 50%/2px 0 no-repeat;animation:hs-pen var(--t) cubic-bezier(.42,.1,.58,.9) var(--d)}
+  .js .hero h1 .w1{--d:.15s;--t:.8s}
+  .js .hero h1 .w2{--d:1.13s;--t:.5s}
+  .js .hero h1 .w3{--d:1.7s;--t:.5s}
+}
+@keyframes hs-wait{from{color:color-mix(in srgb,currentColor 4%,transparent)}}
+/* the mask is three times the phrase wide: solid, a soft edge, then the same faint ghost.
+   From 85.5% to 25% the soft edge travels from the first letter to just past the last. */
+@keyframes hs-write{
+  from{-webkit-mask-image:linear-gradient(90deg,#000 50%,rgba(0,0,0,.03) 58%);mask-image:linear-gradient(90deg,#000 50%,rgba(0,0,0,.03) 58%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:85.5% 0;mask-position:85.5% 0}
+  to{-webkit-mask-image:linear-gradient(90deg,#000 50%,rgba(0,0,0,.03) 58%);mask-image:linear-gradient(90deg,#000 50%,rgba(0,0,0,.03) 58%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:25% 0;mask-position:25% 0}
+}
+/* the pen rides the middle of the soft edge (from just before the first letter to just past the last), then lifts */
+@keyframes hs-pen{
+  0%{background-position:-9% 50%;background-size:2px 0}
+  8%,84%{background-size:2px 64%}
+  100%{background-position:112% 50%;background-size:2px 0}
+}
+
