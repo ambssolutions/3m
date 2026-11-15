@@ -254,3 +254,17 @@ html.lite #layers .layers-model{--l3-sway:0}
   #contact{contain-intrinsic-size:auto 2016px}
   .foot{contain-intrinsic-size:auto 902px}
 }
+
+/* phones: the four promise cards centred as a fan that scales with the screen width (it no longer runs off the left
+   edge on 360px phones), with the icon and label centred inside each card */
+@media (max-width:520px){
+  .fc{--w:min(88px,22.5vw);align-items:center;justify-content:center;text-align:center;padding:10px 6px}
+  .fc b{text-wrap:balance}
+  .fc:nth-child(1){--x:calc(min(124px,31.6vw) * -1)}
+  .fc:nth-child(2){--x:calc(min(42px,10.8vw) * -1)}
+  .fc:nth-child(3){--x:min(42px,10.8vw)}
+  .fc:nth-child(4){--x:min(124px,31.6vw)}
+}
+@media (max-width:820px) and (min-width:521px){
+  .fc{align-items:center;text-align:center}
+}
