@@ -1,0 +1,39 @@
+/* land: "Built in layers, paid in stages" as a real-looking build site (designs/13-your-build only, linked last).
+   The 3D house is drawn in real colours and textures on its block of land (--l3-real tells s-layers-3d-model.js): a
+   pine frame, painted weatherboards, a ribbed Colorbond roof, a mown lawn with fences, a driveway, the footpath and
+   the kerb. Behind it the Sydney CBD stands across the harbour (a real photo) and the land runs up to the water.
+   Colours are fixed (a real place, not a theme tint); night gets the harbour at dusk and darker land.
+   Sizes and motion are unchanged. */
+#layers .layers-model{--l3-real:1;
+  --ld-hz:#a9bf8d;--ld-near:#8fae69;--ld-far:#9db783;
+  background:linear-gradient(180deg,var(--ld-far) 0,var(--ld-far) var(--hz),var(--ld-hz) var(--hz),var(--ld-far) calc(var(--hz) + 10%),var(--ld-near) 100%) padding-box,
+    var(--m-gb,linear-gradient(var(--rule-2),var(--rule-2))) border-box}
+/* the Sydney CBD across the harbour: a real photo (Aswin, Unsplash Licence; night: Photoholgic, from Mrs Macquarie's
+   Chair), cropped at the water so the harbour's edge sits on the horizon. It fills the sky part of the panel, keeps
+   its bottom edge, and drifts a little sideways as the section passes (scroll-driven, native CSS, transform only). */
+#layers .cbd-ph{background:linear-gradient(180deg,#9cb9cf,#d9e2e6 var(--hz),transparent var(--hz))}
+#layers .cbd-pic{position:absolute;left:-3%;top:0;width:106%;max-width:none;height:calc(var(--hz) + 1%);object-fit:cover;object-position:50% 100%}
+#layers .cbd-night{display:none}
+[data-theme=night] #layers .cbd-day{display:none}
+[data-theme=night] #layers .cbd-night{display:block}
+[data-theme=night] #layers .cbd-ph{background:linear-gradient(180deg,#1b2740,#3a4560 var(--hz),transparent var(--hz))}
+/* where the harbour meets the land: a soft edge, so the photo and the lawn read as one view */
+#layers .cbd-blend{position:absolute;left:0;right:0;top:calc(var(--hz) - 2.2%);height:5%;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--ld-hz) 0%,transparent),var(--ld-hz) 48%,color-mix(in srgb,var(--ld-hz) 0%,transparent))}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    html:not(.lite) #layers .cbd-pic{animation:cbd-drift linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+  }
+}
+@keyframes cbd-drift{from{transform:translateX(-1.6%)}to{transform:translateX(1.6%)}}
+[data-theme=night] #layers .layers-model{--ld-hz:#3d4f3a;--ld-near:#33472f;--ld-far:#3a4c37}
+
+/* the stage being built is marked in the list, the way hover marks a stage */
+#layers .layers-list li.cur{background:var(--paper)}
+#layers .layers-list li.cur::before{color:var(--rust);border-color:var(--rust)}
+#layers .layers-list li.cur::after{transform:none}
+#layers .layers-list li{cursor:pointer}
+@media (max-width:600px){
+  #layers.layers .layers-list li.cur{background:linear-gradient(var(--paper),var(--paper)) padding-box,linear-gradient(150deg,var(--rust),var(--gl,var(--glow)) 50%,var(--rule-2)) border-box}
+  #layers.layers .layers-list li.cur::after{transform:none}
+}
