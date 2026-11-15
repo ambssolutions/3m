@@ -4,7 +4,9 @@
    on a stage shows its photo and holds it. The stage in view is marked in the list (.cur) the same way hover marks it.
    A caption names the stage, five short bars show where the cycle is, and the photos carry an "Illustrative photo" label.
    Without JS the first photo shows; reduced motion: no auto cycle and no fade, the list still picks the photo.
-   Photos: Unsplash Licence, credits below; crops in img/stage-*.webp. */
+   Photos (Unsplash Licence; 4:3 crops in img/stage-*.webp): base, Iain (@photoken123); frame, Troy Mortier;
+   lock-up, Divaris Shirichena (makers' print on the door film softened); fixing, Jessica Hearn; complete,
+   GoodLifeConstruction. */
 
 #layers .layers-model.lp{overflow:hidden;background:var(--paper-2)}
 #layers .lp-f{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1.2s cubic-bezier(.45,0,.55,1)}
