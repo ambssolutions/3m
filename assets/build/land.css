@@ -1,17 +1,29 @@
 /* land: "Built in layers, paid in stages" as a real-looking build site (designs/13-your-build only, linked last).
    The 3D house is drawn in real colours and textures on its block of land (--l3-real tells s-layers-3d-model.js): a
    pine frame, painted weatherboards, a ribbed Colorbond roof, a mown lawn with fences, a driveway, the footpath and
-   the kerb. Behind it the Sydney skyline sits under a blue sky, and the land runs back to the horizon in soft greens.
-   Colours are fixed (a real place, not a theme tint); night gets a dusk sky, darker land and the city's lit windows.
+   the kerb. Behind it the Sydney CBD stands across the harbour (a real photo) and the land runs up to the water.
+   Colours are fixed (a real place, not a theme tint); night gets the harbour at dusk and darker land.
    Sizes and motion are unchanged. */
 #layers .layers-model{--l3-real:1;
   --ld-hz:#a9bf8d;--ld-near:#8fae69;--ld-far:#9db783;
   background:linear-gradient(180deg,var(--ld-far) 0,var(--ld-far) var(--hz),var(--ld-hz) var(--hz),var(--ld-far) calc(var(--hz) + 10%),var(--ld-near) 100%) padding-box,
     var(--m-gb,linear-gradient(var(--rule-2),var(--rule-2))) border-box}
-#layers .cbd{--sky-hi:#7fb4df;--sky-lo:#d9e9f3;--c-far:#b3c5d6;--c-mid:#8099b2;--c-mid-sh:#69829b;--c-br:#5b6c7d;--c-ln:#d9e9f3}
-/* a strip of distant trees along the horizon, in front of the city's mist */
-#layers .cbd::after{content:"";position:absolute;left:0;right:0;top:calc(var(--hz) - 1.6%);height:2.6%;
-  background:radial-gradient(10px 7px at 8px 100%,#7c9a68 98%,transparent) 0 0/19px 100% repeat-x,linear-gradient(transparent 55%,#86a36f 55%)}
+/* the Sydney CBD across the harbour: a real photo (Aswin, Unsplash Licence; night: Photoholgic, from Mrs Macquarie's
+   Chair), cropped at the water so the harbour's edge sits on the horizon. It fills the sky part of the panel, keeps
+   its bottom edge, and drifts a little sideways as the section passes (scroll-driven, native CSS, transform only). */
+#layers .cbd-ph{background:linear-gradient(180deg,#9cb9cf,#d9e2e6 var(--hz),transparent var(--hz))}
+#layers .cbd-pic{position:absolute;left:-3%;top:0;width:106%;max-width:none;height:calc(var(--hz) + 1%);object-fit:cover;object-position:50% 100%}
+#layers .cbd-night{display:none}
+[data-theme=night] #layers .cbd-day{display:none}
+[data-theme=night] #layers .cbd-night{display:block}
+[data-theme=night] #layers .cbd-ph{background:linear-gradient(180deg,#1b2740,#3a4560 var(--hz),transparent var(--hz))}
+/* where the harbour meets the land: a soft edge, so the photo and the lawn read as one view */
+#layers .cbd-blend{position:absolute;left:0;right:0;top:calc(var(--hz) - 2.2%);height:5%;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--ld-hz) 0%,transparent),var(--ld-hz) 48%,color-mix(in srgb,var(--ld-hz) 0%,transparent))}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    html:not(.lite) #layers .cbd-pic{animation:cbd-drift linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+  }
+}
+@keyframes cbd-drift{from{transform:translateX(-1.6%)}to{transform:translateX(1.6%)}}
 [data-theme=night] #layers .layers-model{--ld-hz:#3d4f3a;--ld-near:#33472f;--ld-far:#3a4c37}
-[data-theme=night] #layers .cbd{--sky-hi:#16223a;--sky-lo:#4a5878;--c-far:#3d4966;--c-mid:#2c3752;--c-mid-sh:#252e45;--c-br:#3a4560;--c-ln:#4a5878}
-[data-theme=night] #layers .cbd::after{background:radial-gradient(10px 7px at 8px 100%,#2e3d2c 98%,transparent) 0 0/19px 100% repeat-x,linear-gradient(transparent 55%,#33432f 55%)}
