@@ -358,7 +358,12 @@ export function build(T) {
     return out;
   }
   const model = new T.Group(); scene.add(model);
-  layers.forEach(ly => {
+  if (REAL) renderer.localClippingEnabled = true;
+  layers.forEach((ly, i) => {
+    /* real look: each layer is revealed from the ground up by a rising cut (grow), and the closed-in shell can be
+       cut open from the front at Fixing (cut), so every change stays solid: no see-through fades */
+    if (REAL) { ly.cy = { normal: new T.Vector3(0, -1, 0), constant: 0 }; ly.clip = [ly.cy]; ly.grow = 1; ly.cut = 0;
+      if (i === 2) { ly.cz = { normal: new T.Vector3(0, 0, -1), constant: 50 }; ly.clip.push(ly.cz); } }
     ly.group = new T.Group(); model.add(ly.group); ly.mats = [];
     const bb = new T.Box3();
     Object.keys(ly.parts).forEach(key => {
@@ -367,6 +372,7 @@ export function build(T) {
       const opt = { transparent: true, opacity: 1, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 };
       const mat = BASIC[key] ? new T.MeshBasicMaterial(opt) : new T.MeshLambertMaterial(Object.assign(opt, { flatShading: !!FLAT[key], map: REAL ? TXR[key] || null : key === 'wall' ? wb : null }));
       mat.userData = { key, op: OPA[key] || 1 };
+      if (REAL) { mat.clippingPlanes = ly.clip; mat.clipShadows = true; }
       const mesh = new T.Mesh(g, mat);
       mesh.castShadow = !NOSHADOW[key]; mesh.receiveShadow = !BASIC[key];
       mesh.renderOrder = key === 'glass' ? 4 : key === 'lit' ? 5 : 2;
@@ -544,13 +550,14 @@ export function build(T) {
   let stage = -1, bT = 0, bHeld = false, bResume = 0;
   function build(n, fast) {
     if (n === stage) return; const back = n < stage; stage = n;
+    const D1 = 1500;
     layers.forEach((ly, i) => {
-      const on = i <= n, d0 = fast || REDUCE || back ? 0 : (i - Math.max(0, n - 1)) * 120;
-      /* at Fixing the outer shell turns see-through, so the work inside (linings, kitchen, stairs) shows */
-      const see = n === 3 && i === 2 ? .28 : 1;
-      tw(ly, 'dim', on ? see : 0, fast ? 0 : on ? 1400 : 1000, on ? d0 : 0, eIO);
-      tw(ly, 'drop', on ? 0 : 1, fast ? 0 : on ? 1600 : 1000, on ? d0 : 0, on ? eOut : eIO);
-      tw(ly, 'lab', i === n ? 1 : 0, fast ? 0 : 600, i === n ? 800 : 0);
+      const on = i <= n, d0 = fast || REDUCE || back ? 0 : Math.max(0, i - Math.max(0, n - 1)) * 250;
+      /* the stage's parts rise from the ground up; a stage taken away sinks back down */
+      tw(ly, 'grow', on ? 1 : 0, fast ? 0 : D1, on ? d0 : 0, eIO);
+      /* at Fixing the front of the closed-in shell is cut away, so the work inside (linings, kitchen, stairs) shows */
+      if (ly.cz) tw(ly, 'cut', n === 3 ? 1 : 0, fast ? 0 : D1, n === 3 ? 0 : 200, eIO);
+      tw(ly, 'lab', i === n ? 1 : 0, fast ? 0 : 500, i === n ? 600 : 0);
     });
     items.forEach((li, i) => li.classList.toggle('cur', i === n));
     if (!fast) kick(); /* the first, instant build runs before the frame loop exists */
@@ -584,7 +591,7 @@ export function build(T) {
   function bPick(n) { if (STACK.matches) return; bHeld = true; clearTimeout(bT); clearTimeout(bResume); build(n); }
   function bLet() { clearTimeout(bResume); bResume = setTimeout(() => { bHeld = false; clearTimeout(bT); bT = setTimeout(bNext, BSTEP); }, 2200); }
   if (REAL) {
-    layers.forEach(ly => { ly.dim = 0; ly.drop = 1; });
+    layers.forEach(ly => { ly.grow = 0; });
     build(REDUCE && !STACK.matches ? 4 : 0, true);
     stackWatch();
     let rsT = 0; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(stackWatch, 250); });
@@ -655,11 +662,13 @@ export function build(T) {
   function frame() {
     const t = now(); raf = 0; const dt = Math.min(50, last ? t - last : 16); last = t;
     let moving = false;
-    layers.forEach(ly => { ['lift', 'on', 'dim', 'lab', 'drop'].forEach(k => { if (step(ly, k, t)) moving = true; }); });
+    layers.forEach(ly => { ['lift', 'on', 'dim', 'lab', 'drop', 'grow', 'cut'].forEach(k => { if (step(ly, k, t)) moving = true; }); });
     const tween = moving;
     /* lifts: a stacked exploded view; a stage in focus rises a little further */
     const k = EXK(), EX = [0, 1.0, 7.9, 14.9, 26.2];
-    layers.forEach((ly, i) => { ly.group.position.y = (EX[i] * ly.lift) * k + ly.on * 1.1 + ly.drop * DROP; ly.group.visible = ly.dim > .01; });
+    layers.forEach((ly, i) => { ly.group.position.y = (EX[i] * ly.lift) * k + ly.on * 1.1 + ly.drop * DROP; ly.group.visible = ly.dim > .01;
+      if (ly.cy) { const y = ly.group.position.y, top = ly.y1 + .05; ly.cy.constant = y + (ly.y0 - .02) + ly.grow * (top - ly.y0 + .02); ly.group.visible = ly.grow > .002;
+        if (ly.cz) ly.cz.constant = 50 - ly.cut * (50 - .35); } });
     { const top = Math.max(...layers.map(ly => ly.group.position.y + Math.min(ly.y1, Y2T))), ex2 = Math.max(...layers.map(ly => ly.lift));
       guide.geometry.setDrawRange(0, Math.max(0, Math.floor(top / DASH)) * 8); guide.visible = ex2 > .02;
       guide.material.opacity = (P.dark ? .3 : .28) * Math.min(1, ex2 * 1.5); }
@@ -676,7 +685,7 @@ export function build(T) {
     if (Math.abs(tLeanX - leanX) + Math.abs(tLeanY - leanY) > .002) moving = true;
     const ex = Math.max(...layers.map(ly => ly.lift)), lv = Math.max(...layers.map(ly => ly.lab));
     const el = rad(22 + 4 * ex) + leanY * rad(-2.5), a = az + leanX * rad(4);
-    labFrac = Math.min(.42, (labW + 30) / vw) * Math.min(1, lv * 1.4);
+    labFrac = Math.min(.42, (labW + 30) / vw) * (REAL ? 1 : Math.min(1, lv * 1.4));
     fitD = fit(el, labFrac);
     /* phones: the fit above leaves room for the whole turning range, which on a small canvas leaves the settled house
        small; come in a little closer once it has settled (eased with the explode). Wider canvases are unchanged. */
