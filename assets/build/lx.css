@@ -73,9 +73,14 @@
 @media (max-width:700px){
   #layers.lx .layers-model{--hz:38%}
   #layers.lx.lx-on .lx-index{display:none}
-  #layers.lx.lx-on .lx-card{left:12px;right:12px;width:auto;bottom:calc(84px + env(safe-area-inset-bottom,0px));padding:14px 16px 16px}
+  /* the house keeps the top of the screen and the card has its own band below it, so they never overlap */
+  #layers.lx{--lx-cardh:158px;--lx-low:calc(84px + env(safe-area-inset-bottom,0px))}
+  #layers.lx.lx-on .layers-model{bottom:calc(var(--lx-low) + var(--lx-cardh) + 10px)}
+  #layers.lx.lx-on .lx-stage{background:var(--paper)}
+  #layers.lx.lx-on .lx-card{left:12px;right:12px;width:auto;bottom:var(--lx-low);height:var(--lx-cardh);padding:14px 16px 16px;box-sizing:border-box}
+  #layers.lx .lx-cta{position:absolute;right:16px;top:36px;margin:0;min-height:0;padding:8px 14px;font-size:14px}
   #layers.lx .lx-t{font-size:1.35rem}
-  #layers.lx .lx-x{font-size:15px;min-height:4.5em}
+  #layers.lx .lx-x{font-size:15px;min-height:0}
 }
 @media (prefers-reduced-motion:reduce){
   #layers.lx .layers-model::before,#layers.lx .layers-model::after,#layers.lx .cbd-night,#layers.lx .lx-t,#layers.lx .lx-x,#layers.lx .lx-top,#layers.lx .lx-bar i,#layers.lx .lx-index a,#layers.lx .lx-index i{transition:none}
