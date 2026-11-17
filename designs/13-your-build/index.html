@@ -267,7 +267,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <link rel="stylesheet" href="../../assets/build/harbour.css?v=1">
 <link rel="stylesheet" href="../../assets/build/grad.css?v=1">
 <link rel="stylesheet" href="../../assets/build/land.css?v=9">
-<script type="module" src="../../assets/build/s-layers-3d.js?v=12" fetchpriority="low"></script>
+<link rel="stylesheet" href="../../assets/build/lx.css?v=1">
+<script type="module" src="../../assets/build/s-layers-3d.js?v=14" fetchpriority="low"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -395,11 +396,12 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 </section>
 <!-- /@services -->
 <!-- @layers -->
-<section class="sec layers" id="layers" aria-labelledby="layers-h">
+<section class="sec layers lx" id="layers" aria-labelledby="layers-h">
   <div class="wrap">
-    <div class="sec-head rv"><h2 id="layers-h">Built in layers, paid in stages</h2><p class="intro">Most fixed-price home building contracts in Australia are paid in stages like these. Each stage is a finished layer of the house, and you pay for it once it is done.</p></div>
-    <div class="layers-sheet rv">
-    <div class="layers-grid">
+    <div class="sec-head rv"><h2 id="layers-h">Built in layers, paid in stages</h2><p class="intro">Scroll to watch a house go from drawing to keys. Most fixed-price home building contracts in Australia are paid in stages, and each step shows which stage it belongs to.</p></div>
+  </div>
+  <div class="lx-run">
+    <div class="lx-stage">
       <div class="layers-model" aria-hidden="true">
 <div class="cbd cbd-ph"><!-- the Sydney CBD across the harbour, a real photo: assets/build/land.css -->
 <img class="cbd-pic cbd-day" src="../../img/cbd-day-800.webp" srcset="../../img/cbd-day-800.webp 800w, ../../img/cbd-day-1600.webp 1600w" sizes="(max-width:600px) 140vw, 70vw" width="1600" height="589" alt="" loading="lazy" decoding="async">
@@ -450,23 +452,23 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <span class="lab" style="--ly:8px"><b>05 Practical completion</b></span></div>
 </div></div>
       </div>
-      <ol class="layers-list">
-        <li tabindex="0"><b>Base</b><span>Site set out, footings and the slab. Your certifier inspects the footings before the pour.</span></li>
-        <li tabindex="0"><b>Frame</b><span>Wall frames, roof trusses and bracing. The frame is inspected before the walls are lined.</span></li>
-        <li tabindex="0"><b>Lock-up</b><span>Roof, external walls, windows and doors. The house can be locked.</span></li>
-        <li tabindex="0"><b>Fixing</b><span>Linings, cabinetry, wet area waterproofing and tiling, internal doors and trims.</span></li>
-        <li tabindex="0"><b>Practical completion</b><span>Final inspection, a walk-through with you, then the keys.</span></li>
-      </ol>
-      <dl class="layers-tb" aria-hidden="true">
-        <div><dt>Project</dt><dd>Your home</dd></div>
-        <div><dt>Sheet</dt><dd>A-02</dd></div>
-        <div><dt>Stages</dt><dd>5</dd></div>
-        <div><dt>Drawn by</dt><dd>3M Construction</dd></div>
-      </dl>
+      <div class="lx-card" aria-hidden="true"><p class="lx-top"><span class="lx-paid">Paid at: Before the build</span><span class="lx-n">01 / 10</span></p><p class="lx-t">Drawn</p><p class="lx-x">Your plans, engineering and approvals come first. Nothing is built until the drawings are signed off.</p><a class="btn lx-cta" href="#quote" tabindex="-1">Start yours</a><span class="lx-bar"><i></i></span></div>
+      <nav class="lx-index" aria-label="Build steps"><ol><li><a href="#lx-0"><i>01</i><span>Drawn</span></a></li><li><a href="#lx-1"><i>02</i><span>The land</span></a></li><li><a href="#lx-2"><i>03</i><span>Slab</span></a></li><li><a href="#lx-3"><i>04</i><span>Frame</span></a></li><li><a href="#lx-4"><i>05</i><span>Roof</span></a></li><li><a href="#lx-5"><i>06</i><span>Cladding</span></a></li><li><a href="#lx-6"><i>07</i><span>Windows and doors</span></a></li><li><a href="#lx-7"><i>08</i><span>Fixing</span></a></li><li><a href="#lx-8"><i>09</i><span>Landscape</span></a></li><li><a href="#lx-9"><i>10</i><span>Keys</span></a></li></ol></nav>
     </div>
-    </div>
-    <p class="layers-note sc">Stage names and inspection points differ a little by state and contract. We set them out in yours before you sign.</p>
+    <ol class="lx-steps">
+<li id="lx-0" data-pay="Before the build"><h3>Drawn</h3><p>Your plans, engineering and approvals come first. Nothing is built until the drawings are signed off.</p><p class="lx-pay">Paid at: Before the build</p></li>
+<li id="lx-1" data-pay="Before the build"><h3>The land</h3><p>The site is cleared and set out. Pegs and string lines mark exactly where the house will sit.</p><p class="lx-pay">Paid at: Before the build</p></li>
+<li id="lx-2" data-pay="Base"><h3>Slab</h3><p>Footings are dug and inspected, then the slab is poured and left to cure.</p><p class="lx-pay">Paid at: Base</p></li>
+<li id="lx-3" data-pay="Frame"><h3>Frame</h3><p>Wall frames and roof trusses go up. The frame is inspected before anything covers it.</p><p class="lx-pay">Paid at: Frame</p></li>
+<li id="lx-4" data-pay="Lock-up"><h3>Roof</h3><p>The roof goes on, so the house is dry and the work carries on whatever the weather.</p><p class="lx-pay">Paid at: Lock-up</p></li>
+<li id="lx-5" data-pay="Lock-up"><h3>Cladding</h3><p>The outside walls are wrapped and clad.</p><p class="lx-pay">Paid at: Lock-up</p></li>
+<li id="lx-6" data-pay="Lock-up"><h3>Windows and doors</h3><p>Windows and outside doors are fitted. Now the house can be locked.</p><p class="lx-pay">Paid at: Lock-up</p></li>
+<li id="lx-7" data-pay="Fixing"><h3>Fixing</h3><p>Inside, the linings, cabinetry, waterproofing, tiling, doors and trims go in.</p><p class="lx-pay">Paid at: Fixing</p></li>
+<li id="lx-8" data-pay="Practical completion"><h3>Landscape</h3><p>Paths, garden beds and turf go down, where they are part of your contract.</p><p class="lx-pay">Paid at: Practical completion</p></li>
+<li id="lx-9" data-pay="Practical completion"><h3>Keys</h3><p>Final inspection and a walk-through with you, then the keys are yours.</p><p class="lx-pay">Paid at: Practical completion</p></li>
+    </ol>
   </div>
+  <div class="wrap"><p class="layers-note sc">Stage names and inspection points differ a little by state and contract. We set them out in yours before you sign.</p></div>
 </section>
 <!-- /@layers -->
 <!-- @sketch -->
@@ -1020,6 +1022,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--rust);outline-of
 <script src="../../assets/build/your-build.js?v=6" defer></script>
 <script src="../../assets/build/hero-sydney.js?v=5" defer></script>
 <script src="../../assets/build/svc-plus.js?v=5" defer></script>
+<script src="../../assets/build/lx.js?v=1" defer></script>
 <script src="../../assets/build/energy.js?v=3" defer></script>
 <script src="../../assets/build/flair.js?v=2" defer></script>
 <script src="../../assets/build/harbour.js?v=1" defer></script>

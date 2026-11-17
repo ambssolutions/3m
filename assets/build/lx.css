@@ -1,0 +1,82 @@
+/* lx: "Built in layers, paid in stages" as a scroll-through, from a drawing to the keys (designs/13-your-build).
+   A full-width stage pinned with CSS sticky: the 3D house in front of the Sydney CBD, a step card (bottom left) and
+   the step list (right). Ten invisible steps run under it, one per screen of scrolling; lx.js marks the current one.
+   Step 1 is a pencil drawing on paper (the photo and the land fade to paper), step 10 is handover at dusk (the night
+   photo, a darker land, warm windows from the 3D house). Without JS the steps read as a normal list. */
+
+#layers.lx{--lx-h:calc(100svh - var(--top,72px));padding-bottom:0}
+#layers.lx .lx-run{position:relative;margin-top:clamp(18px,3vh,32px)}
+#layers.lx .lx-stage{position:relative;height:min(var(--lx-h),760px);overflow:hidden;isolation:isolate;background:var(--paper-2)}
+#layers.lx.lx-on .lx-stage{position:sticky;top:var(--top,72px);height:var(--lx-h)}
+
+/* the 3D panel fills the stage */
+#layers.lx .layers-model{--l3-steps:1;--hz:42%;position:absolute;inset:0;width:auto;height:auto;min-height:0;max-height:none;margin:0;
+  border:0;border-radius:0;box-shadow:none;aspect-ratio:auto;grid-column:auto;grid-row:auto}
+#layers.lx .l3-cv{z-index:2}
+#layers.lx .l3-labs{display:none}
+#layers.lx .layers-model.gl .lm{display:none}
+/* paper for the drawing, dusk for the keys: two still layers between the photo and the house, faded on opacity */
+#layers.lx .layers-model::before,#layers.lx .layers-model::after{content:"";position:absolute;inset:0;z-index:1;border:0;border-radius:0;pointer-events:none;opacity:0;
+  transition:opacity 1.3s cubic-bezier(.45,0,.55,1)}
+#layers.lx .layers-model::before{background:
+  radial-gradient(120% 90% at 50% 40%,rgba(255,255,255,.55),rgba(255,255,255,0) 70%),
+  repeating-linear-gradient(0deg,rgba(60,50,35,.025) 0 1px,transparent 1px 3px),#efe9dd}
+#layers.lx .layers-model::after{background:linear-gradient(180deg,rgba(14,22,48,.18) 0,rgba(14,22,48,.1) var(--hz),rgba(10,16,30,.5) calc(var(--hz) + 1%),rgba(8,12,24,.62) 100%)}
+#layers.lx[data-step="0"] .layers-model::before{opacity:1}
+#layers.lx[data-step="9"] .layers-model::after{opacity:1}
+/* the CBD: day photo, with the dusk photo laid over it for the keys */
+#layers.lx .cbd-night{display:block;opacity:0;transition:opacity 1.6s cubic-bezier(.45,0,.55,1)}
+#layers.lx[data-step="9"] .cbd-night{opacity:1}
+
+/* the step card */
+#layers.lx .lx-card{display:none}
+#layers.lx.lx-on .lx-card{display:block;position:absolute;z-index:3;left:max(20px,3.2vw);bottom:clamp(18px,4vh,40px);width:min(390px,calc(100% - 40px));
+  padding:16px 20px 18px;border-radius:16px;background:var(--paper);color:var(--ink);text-align:left;
+  box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 18px 40px -18px rgba(10,16,30,.55),0 2px 6px rgba(10,16,30,.12)}
+#layers.lx .lx-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+#layers.lx .lx-n{font-variant-numeric:tabular-nums;color:var(--rust);font-weight:600}
+#layers.lx .lx-t{margin:0;font:600 clamp(1.4rem,2.2vw,1.75rem)/1.15 var(--display);color:var(--ink)}
+#layers.lx .lx-x{margin:6px 0 0;font-size:15.5px;line-height:1.5;color:var(--ink-2);min-height:3em}
+#layers.lx .lx-t,#layers.lx .lx-x,#layers.lx .lx-top{transition:opacity .22s ease,transform .22s ease}
+#layers.lx .lx-card.swap .lx-t,#layers.lx .lx-card.swap .lx-x,#layers.lx .lx-card.swap .lx-top{opacity:0;transform:translateY(4px)}
+#layers.lx .lx-cta{display:none;margin-top:12px}
+#layers.lx[data-step="9"] .lx-cta{display:inline-flex}
+/* progress along the bottom of the card */
+#layers.lx .lx-bar{position:absolute;left:20px;right:20px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:color-mix(in srgb,var(--rule-2) 60%,transparent);overflow:hidden}
+#layers.lx .lx-bar i{position:absolute;inset:0;background:var(--rust);transform-origin:0 50%;transform:scaleX(calc(.1 + var(--lx-p,0) * .9));transition:transform 1s cubic-bezier(.45,0,.55,1)}
+
+/* the step list */
+#layers.lx .lx-index{display:none}
+#layers.lx.lx-on .lx-index{display:block;position:absolute;z-index:3;right:max(18px,2.6vw);top:50%;transform:translateY(-50%);
+  padding:8px;border-radius:14px;background:var(--paper);box-shadow:0 18px 40px -18px rgba(10,16,30,.5),0 2px 6px rgba(10,16,30,.1)}
+#layers.lx .lx-index ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+#layers.lx .lx-index a{display:flex;align-items:center;gap:9px;padding:5px 12px 5px 6px;border-radius:9px;font-size:13.5px;line-height:1.2;color:var(--ink-2);text-decoration:none;white-space:nowrap;
+  transition:background-color .5s ease,color .5s ease}
+#layers.lx .lx-index i{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font:600 10.5px/1 var(--body,system-ui);font-style:normal;font-variant-numeric:tabular-nums;
+  border:1px solid var(--rule-2);color:var(--ink-3);transition:background-color .5s ease,color .5s ease,border-color .5s ease}
+#layers.lx .lx-index a.done i{background:color-mix(in srgb,var(--rust) 16%,var(--paper));border-color:color-mix(in srgb,var(--rust) 45%,transparent);color:var(--rust)}
+#layers.lx .lx-index a[aria-current]{background:var(--ink);color:var(--paper)}
+#layers.lx .lx-index a[aria-current] i{background:var(--rust);border-color:var(--rust);color:#fff}
+@media (hover:hover){#layers.lx .lx-index a:hover:not([aria-current]){background:var(--paper-2);color:var(--ink)}}
+
+/* the steps: one screen of scrolling each, the words kept for screen readers (the card shows them) */
+#layers.lx.lx-on .lx-steps{position:relative;z-index:0;list-style:none;margin:calc(-1 * var(--lx-h)) 0 0;padding:0;pointer-events:none}
+#layers.lx.lx-on .lx-steps>li{height:68svh;scroll-margin-top:calc(var(--top,72px) - 28svh)}
+#layers.lx.lx-on .lx-steps>li:last-child{height:var(--lx-h)}
+#layers.lx.lx-on .lx-steps>li>*{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* without JS: a plain list of the steps under the picture */
+#layers.lx:not(.lx-on) .lx-steps{max-width:44rem;margin:24px auto 0;padding:0 var(--pad)}
+#layers.lx:not(.lx-on) .lx-steps h3{margin:18px 0 4px}
+#layers.lx .layers-note{margin-top:22px}
+
+/* phones: the card along the bottom above the Call / Book bar, no list (the card counts the steps) */
+@media (max-width:700px){
+  #layers.lx .layers-model{--hz:38%}
+  #layers.lx.lx-on .lx-index{display:none}
+  #layers.lx.lx-on .lx-card{left:12px;right:12px;width:auto;bottom:calc(84px + env(safe-area-inset-bottom,0px));padding:14px 16px 16px}
+  #layers.lx .lx-t{font-size:1.35rem}
+  #layers.lx .lx-x{font-size:15px;min-height:4.5em}
+}
+@media (prefers-reduced-motion:reduce){
+  #layers.lx .layers-model::before,#layers.lx .layers-model::after,#layers.lx .cbd-night,#layers.lx .lx-t,#layers.lx .lx-x,#layers.lx .lx-top,#layers.lx .lx-bar i,#layers.lx .lx-index a,#layers.lx .lx-index i{transition:none}
+}
